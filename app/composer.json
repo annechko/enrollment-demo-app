@@ -1,0 +1,11 @@
+{
+    "name": "aborzenko/enrollment-app",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Anna Borzenko"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {}
+}

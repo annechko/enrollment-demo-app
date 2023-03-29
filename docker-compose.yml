@@ -1,0 +1,45 @@
+version: '3'
+
+services:
+
+  enroll-app-php-fpm:
+    container_name: enroll-app-php-fpm
+    environment:
+      PHP_IDE_CONFIG: serverName=Docker
+    build:
+      context: app/.docker/dev/
+      dockerfile: php-fpm.docker
+    volumes:
+      - ./app:/app
+    depends_on:
+      - enroll-app-db
+
+  enroll-app-db:
+    container_name: enroll-app-db
+    environment:
+      - POSTGRES_DB=app
+      - POSTGRES_USER=app
+      - POSTGRES_PASSWORD=secrect
+    build:
+      context: app/.docker/dev/
+      dockerfile: db.docker
+    volumes:
+      - ./app:/app
+      - enroll-app-db-data:/var/lib/postgresql/data:rw
+    ports:
+      - "5432:5432"
+
+  enroll-nginx:
+    container_name: enroll-app-nginx
+    build:
+      context: app/.docker/dev/
+      dockerfile: nginx.docker
+    volumes:
+      - ./app:/app
+    depends_on:
+      - enroll-app-php-fpm
+    ports:
+      - "8080:80"
+
+volumes:
+  enroll-app-db-data:
