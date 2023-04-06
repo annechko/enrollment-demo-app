@@ -10,8 +10,8 @@
             <div class="row">
                 <div class="col-md-2">{{ form_widget(form.id) }}</div>
                 <div class="col-md-2">{{ form_widget(form.name) }}</div>
-                <div class="col-md-2">{{ form_widget(form.status) }}</div>
-                <div class="col-md-2">
+                <div class="col-md-3">{{ form_widget(form.status) }}</div>
+                <div class="col">
                     <button type="submit" class="btn btn-primary">Filter</button>
                     <a href="{{ path('admin_school_list') }}" class="btn btn-outline-secondary">Reset</a>
                 </div>
@@ -43,7 +43,7 @@
 
                             <form action="{{ path('admin_school_confirm', {'id': school.id}) }}" method="post" onsubmit="return confirm('Confirm?')">
                                 <input type="hidden" name="token" value="{{ csrf_token('school_confirm') }}"/>
-                                <button type="submit" class="btn btn-sm btn-active">
+                                <button type="submit" class="btn btn-sm btn-success">
                                     Confirm
                                     <span class="fa fa-plus"></span>
                                 </button>
