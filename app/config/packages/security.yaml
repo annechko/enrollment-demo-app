@@ -40,7 +40,7 @@ security:
                 path: admin_logout
             form_login:
                 provider: admin_user_provider
-                target_path_parameter: app_home
+                default_target_path: admin_school_list
                 login_path: admin_login
                 check_path: admin_login
                 username_parameter: email
