@@ -2,28 +2,72 @@ security:
     # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
     password_hashers:
         Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
+        App\Domain\School\Entity\School\StaffMember:
+            algorithm: auto
     # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
     providers:
-        users_in_memory: { memory: null }
+        # used to reload user from session & other features (e.g. switch_user)
+        admin_user_provider:
+            entity:
+                class: App\Entity\User
+                property: email
+        school_user_provider:
+            entity:
+                class: App\Domain\School\Entity\School\StaffMember
+                property: email.value
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+        school:
+            lazy: true
+            pattern: ^/school/
+            logout:
+                path: school_logout
+                target: school_login
+            form_login:
+                provider: school_user_provider
+                default_target_path: school_home
+                login_path: school_login
+                check_path: school_login
+                username_parameter: email
+                password_parameter: password
+                enable_csrf: true
         main:
             lazy: true
-            provider: users_in_memory
-
-            # activate different ways to authenticate
-            # https://symfony.com/doc/current/security.html#the-firewall
-
-            # https://symfony.com/doc/current/security/impersonating_user.html
-            # switch_user: true
+            pattern: ^/admin/
+            logout:
+                path: admin_logout
+            form_login:
+                provider: admin_user_provider
+                target_path_parameter: app_home
+                login_path: admin_login
+                check_path: admin_login
+                username_parameter: email
+                password_parameter: password
+                enable_csrf: true
 
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
+    role_hierarchy:
+        ROLE_ADMIN:
+            - ROLE_USER
+            - ROLE_SCHOOL_ADMIN
+            - ROLE_SCHOOL_USER
+        ROLE_SCHOOL_ADMIN:
+            - ROLE_SCHOOL_USER
+
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/login, roles: PUBLIC_ACCESS }
+        - { path: ^/school/login, roles: PUBLIC_ACCESS }
+        - { path: ^/admin/login, roles: PUBLIC_ACCESS }
+        - { path: ^/school/register, roles: PUBLIC_ACCESS }
+        - { route: school_member_register, roles: PUBLIC_ACCESS }
+        - { path: ^/school/, roles: ROLE_SCHOOL_USER }
+        - { path: ^/navigation$, roles: PUBLIC_ACCESS }
+        - { path: .*, roles: ROLE_ADMIN }
+    # - { path: ^/admin, roles: ROLE_ADMIN }
+    # - { path: ^/profile, roles: ROLE_USER }
 
 when@test:
     security:

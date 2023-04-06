@@ -1,12 +1,22 @@
 doctrine:
     dbal:
         url: '%env(resolve:DATABASE_URL)%'
+        types:
+            !php/const App\Domain\School\Entity\School\SchoolIdType::NAME: 'App\Domain\School\Entity\School\SchoolIdType'
+            !php/const App\Domain\School\Entity\School\StaffMemberIdType::NAME: 'App\Domain\School\Entity\School\StaffMemberIdType'
+
     orm:
         auto_generate_proxy_classes: true
         enable_lazy_ghost_objects: true
         naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
         auto_mapping: true
         mappings:
+            School:
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Domain/School/Entity'
+                prefix: 'App\Domain\School\Entity'
+                alias: School
+
             App:
                 is_bundle: false
                 dir: '%kernel.project_dir%/src/Entity'

@@ -41,5 +41,10 @@ services:
     ports:
       - "8080:80"
 
+  enroll-mailer:
+    image: mailhog/mailhog
+    ports:
+      - "8082:8025"
+
 volumes:
   enroll-app-db-data:
