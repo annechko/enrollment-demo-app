@@ -11,9 +11,9 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class AdminUserReadModel implements UserInterface, PasswordAuthenticatedUserInterface
 {
     public function __construct(
-        public readonly int $id,
+        public readonly string $id,
         public readonly string $email,
-        public readonly string $password,
+        public readonly string $passwordHash,
         public readonly ?string $name,
         public readonly ?string $surname,
         public readonly string $roles,
@@ -36,6 +36,6 @@ class AdminUserReadModel implements UserInterface, PasswordAuthenticatedUserInte
 
     public function getPassword(): ?string
     {
-        return $this->password;
+        return $this->passwordHash;
     }
 }

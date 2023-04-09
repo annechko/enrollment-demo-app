@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Admin\Entity;
+namespace App\Domain\Admin\Entity\AdminUser;
 
 use App\Domain\School\Common\RoleEnum;
 use App\Repository\AdminUserRepository;
@@ -13,10 +13,9 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\UniqueConstraint('uk_admin_user_email', ['email'])]
 class AdminUser
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
+    #[ORM\Column(type: AdminUserIdType::NAME)]
+    #[ORM\Id()]
+    private AdminUserId $id;
 
     #[ORM\Column(length: 180, unique: true, nullable: false)]
     private string $email;
@@ -34,14 +33,16 @@ class AdminUser
     private ?string $surname = null;
 
     public function __construct(
+        AdminUserId $id,
         string $email,
         string $passwordHash,
     ) {
+        $this->id = $id;
         $this->email = $email;
         $this->passwordHash = $passwordHash;
     }
 
-    public function getId(): ?int
+    public function getId(): AdminUserId
     {
         return $this->id;
     }

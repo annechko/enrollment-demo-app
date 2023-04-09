@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\ReadModel\Admin\AdminUser;
 
-use App\Domain\Admin\Entity\AdminUser;
+use App\Domain\Admin\Entity\AdminUser\AdminUser;
 use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -25,7 +25,7 @@ class AdminUserFetcher
             ->select(
                 'id',
                 'email',
-                'password',
+                'password_hash',
                 'name',
                 'surname',
                 'roles',
@@ -42,7 +42,7 @@ class AdminUserFetcher
         return new AdminUserReadModel(
             $result['id'],
             $result['email'],
-            $result['password'],
+            $result['password_hash'],
             $result['name'],
             $result['surname'],
             $result['roles'],

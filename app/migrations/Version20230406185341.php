@@ -7,9 +7,6 @@ namespace DoctrineMigrations;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
-/**
- * Auto-generated Migration: Please modify to your needs!
- */
 final class Version20230406185341 extends AbstractMigration
 {
     public function getDescription(): string
@@ -31,8 +28,8 @@ final class Version20230406185341 extends AbstractMigration
         $this->addSql('CREATE TABLE school_school (id UUID NOT NULL, admin_id UUID NOT NULL, name VARCHAR(255) NOT NULL, status VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE UNIQUE INDEX uniq_422d977642b8210 ON school_school (admin_id)');
 
-        $this->addSql('CREATE TABLE "user" (id SERIAL, email VARCHAR(180) NOT NULL, roles JSON NOT NULL, password VARCHAR(255) NOT NULL, name VARCHAR(255) DEFAULT NULL, surname VARCHAR(255) DEFAULT NULL, PRIMARY KEY(id))');
-        $this->addSql('CREATE UNIQUE INDEX uniq_8d93d649e7927c74 ON "user" (email)');
+        $this->addSql('CREATE TABLE admin_user (id UUID NOT NULL, email VARCHAR(180) NOT NULL, roles JSON NOT NULL, password_hash VARCHAR(255) NOT NULL, name VARCHAR(255) DEFAULT NULL, surname VARCHAR(255) DEFAULT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE UNIQUE INDEX uk_admin_user_email ON admin_user (email)');
     }
 
     public function down(Schema $schema): void
@@ -47,6 +44,6 @@ final class Version20230406185341 extends AbstractMigration
 
         $this->addSql('DROP TABLE school_school');
 
-        $this->addSql('DROP TABLE "user"');
+        $this->addSql('DROP TABLE admin_user');
     }
 }

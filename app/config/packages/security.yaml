@@ -3,6 +3,8 @@ security:
     password_hashers:
         App\ReadModel\Admin\AdminUser\AdminUserReadModel:
             algorithm: auto
+        App\Domain\Admin\Entity\AdminUser\AdminUser:
+            algorithm: auto
         App\Domain\School\Entity\School\StaffMember:
             algorithm: auto
     # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
