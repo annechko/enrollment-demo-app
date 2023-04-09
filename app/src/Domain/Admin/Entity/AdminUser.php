@@ -7,37 +7,39 @@ namespace App\Domain\Admin\Entity;
 use App\Domain\School\Common\RoleEnum;
 use App\Repository\AdminUserRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: AdminUserRepository::class)]
 #[ORM\Table(name: 'admin_user')]
-#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
-class AdminUser implements UserInterface, PasswordAuthenticatedUserInterface
+#[ORM\UniqueConstraint('uk_admin_user_email', ['email'])]
+class AdminUser
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 180, unique: true)]
-    private ?string $email = null;
+    #[ORM\Column(length: 180, unique: true, nullable: false)]
+    private string $email;
 
     #[ORM\Column]
     private array $roles = [];
 
-    /**
-     * @var string The hashed password
-     */
-    #[ORM\Column]
-    private ?string $password = null;
+    #[ORM\Column(nullable: false)]
+    private string $passwordHash;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $name = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $surname = null;
+
+    public function __construct(
+        string $email,
+        string $passwordHash,
+    ) {
+        $this->email = $email;
+        $this->passwordHash = $passwordHash;
+    }
 
     public function getId(): ?int
     {
@@ -49,26 +51,6 @@ class AdminUser implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->email;
     }
 
-    public function setEmail(string $email): self
-    {
-        $this->email = $email;
-
-        return $this;
-    }
-
-    /**
-     * A visual identifier that represents this user.
-     *
-     * @see UserInterface
-     */
-    public function getUserIdentifier(): string
-    {
-        return (string) $this->email;
-    }
-
-    /**
-     * @see UserInterface
-     */
     public function getRoles(): array
     {
         $roles = $this->roles;
@@ -79,35 +61,16 @@ class AdminUser implements UserInterface, PasswordAuthenticatedUserInterface
         return array_unique($roles);
     }
 
-    public function setRoles(array $roles): self
-    {
-        $this->roles = $roles;
-
-        return $this;
-    }
-
-    /**
-     * @see PasswordAuthenticatedUserInterface
-     */
     public function getPassword(): string
     {
-        return $this->password;
+        return $this->passwordHash;
     }
 
-    public function setPassword(string $password): self
+    public function upgradePasswordHash(string $password): self
     {
-        $this->password = $password;
+        $this->passwordHash = $password;
 
         return $this;
-    }
-
-    /**
-     * @see UserInterface
-     */
-    public function eraseCredentials()
-    {
-        // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword = null;
     }
 
     public function getName(): ?string
@@ -115,22 +78,8 @@ class AdminUser implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->name;
     }
 
-    public function setName(?string $name): self
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
     public function getSurname(): ?string
     {
         return $this->surname;
-    }
-
-    public function setSurname(string $surname): self
-    {
-        $this->surname = $surname;
-
-        return $this;
     }
 }

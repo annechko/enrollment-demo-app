@@ -44,6 +44,7 @@ class AdminUserProvider implements UserProviderInterface, PasswordUpgraderInterf
         if ($user === null) {
             throw new UserNotFoundException();
         }
+
         return $user;
     }
 }

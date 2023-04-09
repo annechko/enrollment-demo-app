@@ -48,7 +48,7 @@ class SchoolController extends AbstractController
     #[Route('/', name: 'school_home')]
     public function index(): Response
     {
-        $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_ADMIN->value);
+        $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
 
         return $this->render('school/index.html.twig', []);
     }

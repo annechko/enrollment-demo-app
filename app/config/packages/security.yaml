@@ -54,13 +54,14 @@ security:
             - ROLE_SCHOOL_USER
         ROLE_SCHOOL_ADMIN:
             - ROLE_SCHOOL_USER
+            - ROLE_USER
 
     access_control:
         - { path: ^/login, roles: PUBLIC_ACCESS }
         - { path: ^/school/login, roles: PUBLIC_ACCESS }
-        - { path: ^/school, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/school/register, roles: PUBLIC_ACCESS }
         - { route: school_member_register, roles: PUBLIC_ACCESS }
+        - { path: ^/school, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/admin/login, roles: PUBLIC_ACCESS }
         - { path: ^/admin, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/navigation$, roles: PUBLIC_ACCESS }

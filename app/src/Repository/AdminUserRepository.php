@@ -53,7 +53,7 @@ class AdminUserRepository extends ServiceEntityRepository implements PasswordUpg
             throw new UnsupportedUserException(sprintf('Instances of "%s" are not supported.', \get_class($user)));
         }
 
-        $user->setPassword($newHashedPassword);
+        $user->upgradePasswordHash($newHashedPassword);
 
         $this->save($user, true);
     }
