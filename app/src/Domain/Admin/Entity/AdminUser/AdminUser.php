@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Domain\Admin\Entity\AdminUser;
 
+use App\Domain\Admin\Repository\AdminUserRepository;
 use App\Domain\School\Common\RoleEnum;
-use App\Repository\AdminUserRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: AdminUserRepository::class)]
