@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace App\Domain\Admin\Entity;
 
 use App\Domain\School\Common\RoleEnum;
-use App\Repository\UserRepository;
+use App\Repository\AdminUserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-#[ORM\Entity(repositoryClass: UserRepository::class)]
+#[ORM\Entity(repositoryClass: AdminUserRepository::class)]
 #[ORM\Table(name: 'admin_user')]
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
 class AdminUser implements UserInterface, PasswordAuthenticatedUserInterface
@@ -73,8 +73,8 @@ class AdminUser implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
-        $roles[] = RoleEnum::USER->name;
-        $roles[] = RoleEnum::ADMIN_USER->name;
+        $roles[] = RoleEnum::USER->value;
+        $roles[] = RoleEnum::ADMIN_USER->value;
 
         return array_unique($roles);
     }
