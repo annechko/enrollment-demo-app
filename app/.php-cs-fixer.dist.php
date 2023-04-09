@@ -10,5 +10,8 @@ return (new PhpCsFixer\Config())
                    '@Symfony' => true,
                    'yoda_style' => false,
                    'concat_space' => false,
+                   'declare_strict_types' => true,
+                   'strict_comparison' => true,
+                   'trailing_comma_in_multiline' => true,
                ])
     ->setFinder($finder);

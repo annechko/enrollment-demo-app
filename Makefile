@@ -29,7 +29,8 @@ app-wait-db:
 
 app-migrations:
 	docker exec -d enroll-app-php-fpm php bin/console doctrine:migrations:migrate --no-interaction
-
+fix:
+	docker exec -it enroll-app-php-fpm vendor/bin/php-cs-fixer fix -v --using-cache=no --allow-risky=yes
 
 bash:
 	docker exec -it enroll-app-php-fpm /bin/bash
