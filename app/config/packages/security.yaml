@@ -9,7 +9,7 @@ security:
         # used to reload user from session & other features (e.g. switch_user)
         admin_user_provider:
             entity:
-                class: App\Entity\User
+                class: App\Domain\Admin\Entity\AdminUser
                 property: email
         school_user_provider:
             entity:

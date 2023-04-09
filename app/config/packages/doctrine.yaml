@@ -16,12 +16,11 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Domain/School/Entity'
                 prefix: 'App\Domain\School\Entity'
                 alias: School
-
-            App:
+            Admin:
                 is_bundle: false
-                dir: '%kernel.project_dir%/src/Entity'
-                prefix: 'App\Entity'
-                alias: App
+                dir: '%kernel.project_dir%/src/Domain/Admin/Entity'
+                prefix: 'App\Domain\Admin\Entity'
+                alias: Admin
 
 when@test:
     doctrine:

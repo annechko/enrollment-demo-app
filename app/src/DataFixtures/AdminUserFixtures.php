@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\DataFixtures;
 
+use App\Domain\Admin\Entity\AdminUser;
 use App\Domain\School\Common\RoleEnum;
-use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -20,7 +20,7 @@ class AdminUserFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
-        $user = new User();
+        $user = new AdminUser();
         $user->setEmail('admin@admin.admin');
         $user->setPassword(
             $this->userPasswordHasher->hashPassword(
@@ -28,7 +28,7 @@ class AdminUserFixtures extends Fixture
                 self::PASSWORD
             )
         );
-        $user->setRoles([RoleEnum::ADMIN->value]);
+        $user->setRoles([RoleEnum::ADMIN_USER->value]);
 
         $manager->persist($user);
         $manager->flush();

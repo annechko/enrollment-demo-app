@@ -24,7 +24,7 @@ class SchoolController extends AbstractController
     #[Route('', name: 'admin_school_list')]
     public function list(Request $request, SchoolFetcher $fetcher): Response
     {
-        $this->denyAccessUnlessGranted(RoleEnum::ADMIN->value);
+        $this->denyAccessUnlessGranted(RoleEnum::ADMIN_USER->value);
         $filter = new Filter\Filter();
 
         $form = $this->createForm(Filter\Form::class, $filter);
@@ -48,7 +48,7 @@ class SchoolController extends AbstractController
     #[Route('/{id}/confirm', name: 'admin_school_confirm', requirements: ['id' => UuidPattern::PATTERN])]
     public function confirm(string $id, Request $request, Handler $handler): Response
     {
-        $this->denyAccessUnlessGranted(RoleEnum::ADMIN->value);
+        $this->denyAccessUnlessGranted(RoleEnum::ADMIN_USER->value);
         if (!$this->isCsrfTokenValid('school_confirm', $request->request->get('token'))) {
             return $this->redirectToRoute('admin_school_list');
         }
