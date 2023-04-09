@@ -7,12 +7,10 @@ namespace App\Domain\School\Entity\School;
 use App\Domain\School\Common\RoleEnum;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use DomainException;
 
 #[ORM\Entity()]
 #[ORM\Table(name: 'school_staff_member')]
-class StaffMember implements \Symfony\Component\Security\Core\User\UserInterface,
-    \Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface
+class StaffMember implements \Symfony\Component\Security\Core\User\UserInterface, \Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface
 {
     private const STATUS_CREATED = 'created';
     private const STATUS_INVITED = 'invited';
@@ -43,7 +41,7 @@ class StaffMember implements \Symfony\Component\Security\Core\User\UserInterface
     #[ORM\Column(options: ['default' => '[]'])]
     private array $roles = [];
 
-    public function __construct(StaffMemberId $id, string $name, string $surname, Email $email,)
+    public function __construct(StaffMemberId $id, string $name, string $surname, Email $email)
     {
         $this->id = $id;
         $this->name = $name;
@@ -71,24 +69,26 @@ class StaffMember implements \Symfony\Component\Security\Core\User\UserInterface
     public function invite(InvitationToken $token): self
     {
         if ($this->status !== self::STATUS_CREATED) {
-            throw new DomainException('Can not be invited.');
+            throw new \DomainException('Can not be invited.');
         }
         $this->status = self::STATUS_INVITED;
         $this->invitationToken = $token;
+
         return $this;
     }
 
     public function confirmAccount(string $passwordHash): self
     {
         if ($this->status !== self::STATUS_INVITED) {
-            throw new DomainException('Can not be confirmed.');
+            throw new \DomainException('Can not be confirmed.');
         }
         if ($this->invitationToken->isExpired()) {
-            throw new DomainException('Token is expired, please ask for a new one.');
+            throw new \DomainException('Token is expired, please ask for a new one.');
         }
         $this->invitationToken = null;
         $this->status = self::STATUS_ACTIVE;
         $this->passwordHash = $passwordHash;
+
         return $this;
     }
 
@@ -100,6 +100,7 @@ class StaffMember implements \Symfony\Component\Security\Core\User\UserInterface
     public function changeRole(RoleEnum $role): self
     {
         $this->roles = [$role->value];
+
         return $this;
     }
 

@@ -11,23 +11,23 @@ use Webmozart\Assert\Assert;
 #[ORM\Embeddable()]
 class Name
 {
-	#[ORM\Column(name: 'name', type: Types::STRING, length: 255)]
-	private readonly string $value;
+    #[ORM\Column(name: 'name', type: Types::STRING, length: 255)]
+    private readonly string $value;
 
-	public function __construct(string $value)
-	{
-		Assert::stringNotEmpty($value);
-		Assert::maxLength($value, 255);
-		$this->value = $value;
-	}
+    public function __construct(string $value)
+    {
+        Assert::stringNotEmpty($value);
+        Assert::maxLength($value, 255);
+        $this->value = $value;
+    }
 
-	public function getValue(): string
-	{
-		return $this->value;
-	}
+    public function getValue(): string
+    {
+        return $this->value;
+    }
 
-	public function __toString(): string
-	{
-		return $this->value;
-	}
+    public function __toString(): string
+    {
+        return $this->value;
+    }
 }

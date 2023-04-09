@@ -53,6 +53,7 @@ class School
         Email $adminEmail,
     ): self {
         $school = new self($id, $schoolName, $adminId, $adminName, $adminLastName, $adminEmail);
+
         return $school;
     }
 

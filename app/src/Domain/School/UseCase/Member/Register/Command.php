@@ -22,7 +22,7 @@ class Command
     #[Assert\NotBlank]
     public $plainPassword;
 
-    public function __construct($schoolId, $invitationToken,)
+    public function __construct($schoolId, $invitationToken)
     {
         $this->schoolId = $schoolId;
         $this->invitationToken = $invitationToken;

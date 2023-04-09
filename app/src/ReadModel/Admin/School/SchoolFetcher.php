@@ -39,7 +39,6 @@ class SchoolFetcher
             ->from('school_school', 's')
             ->innerJoin('s', 'school_staff_member', 'm', 's.admin_id = m.id');
 
-
         if ($filter->name) {
             $qb->andWhere($qb->expr()->like('LOWER(s.name)', ':name'));
             $qb->setParameter('name', '%' . mb_strtolower($filter->name) . '%');

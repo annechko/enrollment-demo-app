@@ -11,25 +11,25 @@ use Webmozart\Assert\Assert;
 #[ORM\Embeddable()]
 class Email
 {
-	#[ORM\Column(name: 'email', type: Types::STRING, length: 320)]
-	private readonly string $value;
+    #[ORM\Column(name: 'email', type: Types::STRING, length: 320)]
+    private readonly string $value;
 
-	public function __construct(string $value)
-	{
-		Assert::stringNotEmpty($value);
-		Assert::email($value);
-		Assert::maxLength($value, 320);
+    public function __construct(string $value)
+    {
+        Assert::stringNotEmpty($value);
+        Assert::email($value);
+        Assert::maxLength($value, 320);
 
-		$this->value = mb_strtolower($value);
-	}
+        $this->value = mb_strtolower($value);
+    }
 
-	public function getValue(): string
-	{
-		return $this->value;
-	}
+    public function getValue(): string
+    {
+        return $this->value;
+    }
 
-	public function __toString(): string
-	{
-		return $this->value;
-	}
+    public function __toString(): string
+    {
+        return $this->value;
+    }
 }

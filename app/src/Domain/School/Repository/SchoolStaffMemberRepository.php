@@ -30,7 +30,7 @@ class SchoolStaffMemberRepository extends ServiceEntityRepository
         if ($entity === null) {
             throw new NotFoundException('Staff Member not found.');
         }
+
         return $entity;
     }
-
 }

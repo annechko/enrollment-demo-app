@@ -11,7 +11,6 @@ use App\Domain\School\UseCase\School\Confirm\Command;
 use App\Domain\School\UseCase\School\Confirm\Handler;
 use App\ReadModel\Admin\School\Filter;
 use App\ReadModel\Admin\School\SchoolFetcher;
-use DomainException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -46,7 +45,7 @@ class SchoolController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/confirm', name: 'admin_school_confirm', requirements: ["id" => UuidPattern::PATTERN])]
+    #[Route('/{id}/confirm', name: 'admin_school_confirm', requirements: ['id' => UuidPattern::PATTERN])]
     public function confirm(string $id, Request $request, Handler $handler): Response
     {
         $this->denyAccessUnlessGranted(RoleEnum::ADMIN->value);
@@ -57,7 +56,7 @@ class SchoolController extends AbstractController
 
         try {
             $handler->handle($command);
-        } catch (DomainException $e) {
+        } catch (\DomainException $e) {
             $this->addFlash('error', $e->getMessage());
         }
 

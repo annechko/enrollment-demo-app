@@ -9,9 +9,7 @@ use App\Domain\School\Entity\School\School;
 use App\Domain\School\Entity\School\StaffMember;
 use App\Domain\School\Repository\SchoolRepository;
 use App\Domain\School\Repository\SchoolStaffMemberRepository;
-use DomainException;
 use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class Handler
 {
@@ -28,7 +26,7 @@ class Handler
         $school = $this->schoolRepository->get($command->schoolId);
         $member = $this->staffMemberRepository->getByInvitationToken($command->invitationToken);
         if (!$this->isMemberFromSchool($member, $school)) {
-            throw new DomainException('Staff member not found.');
+            throw new \DomainException('Staff member not found.');
         }
 
         $member->confirmAccount(

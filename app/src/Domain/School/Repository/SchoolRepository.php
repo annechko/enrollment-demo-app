@@ -40,7 +40,7 @@ class SchoolRepository extends ServiceEntityRepository
         if ($school === null) {
             throw new NotFoundException('School not found.');
         }
+
         return $school;
     }
-
 }

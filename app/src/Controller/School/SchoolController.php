@@ -30,10 +30,10 @@ class SchoolController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             try {
                 $handler->handle($command);
+
                 return $this->render('school/registration/after-register.html.twig', [
                     'schoolName' => $command->name,
                 ]);
-
             } catch (InvalidArgumentException $exception) {
                 $form->addError(new FormError($exception->getMessage()));
                 $this->addFlash('error', $exception->getMessage());
@@ -49,13 +49,14 @@ class SchoolController extends AbstractController
     public function index(): Response
     {
         $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_ADMIN->value);
+
         return $this->render('school/index.html.twig', []);
     }
 
     #[Route('/{schoolId}/invitation/{invitationToken}', name: 'school_member_register',
         requirements: [
-            "schoolId" => UuidPattern::PATTERN,
-            "invitationToken" => UuidPattern::PATTERN,
+            'schoolId' => UuidPattern::PATTERN,
+            'invitationToken' => UuidPattern::PATTERN,
         ])]
     public function memberRegister(
         Request $request,
@@ -72,7 +73,6 @@ class SchoolController extends AbstractController
                 $handler->handle($command);
 
                 return $this->redirectToRoute('school_login');
-
             } catch (InvalidArgumentException $exception) {
                 $form->addError(new FormError($exception->getMessage()));
                 $this->addFlash('error', $exception->getMessage());

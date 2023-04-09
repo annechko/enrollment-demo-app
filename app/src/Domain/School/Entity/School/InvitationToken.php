@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Domain\School\Entity\School;
 
-use DateInterval;
-use DateTimeImmutable;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Webmozart\Assert\Assert;
@@ -19,9 +17,9 @@ class InvitationToken
     private readonly string $value;
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
-    private DateTimeImmutable $createdAt;
+    private \DateTimeImmutable $createdAt;
 
-    public function __construct(string $value, DateTimeImmutable $createdAt)
+    public function __construct(string $value, \DateTimeImmutable $createdAt)
     {
         Assert::stringNotEmpty($value);
         Assert::maxLength($value, 255);
@@ -31,7 +29,8 @@ class InvitationToken
 
     public function isExpired(): bool
     {
-        $now = new DateTimeImmutable();
-        return $now > $this->createdAt->add(new DateInterval(self::MAX_LIFETIME));
+        $now = new \DateTimeImmutable();
+
+        return $now > $this->createdAt->add(new \DateInterval(self::MAX_LIFETIME));
     }
 }

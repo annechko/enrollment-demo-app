@@ -30,5 +30,4 @@ class SchoolConfirmedEmailSender
 
         $this->mailer->send($email);
     }
-
 }

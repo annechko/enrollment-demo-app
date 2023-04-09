@@ -10,7 +10,7 @@ class SchoolId
 {
     public function __construct(private readonly string $value)
     {
-		Assert::stringNotEmpty($this->value);
+        Assert::stringNotEmpty($this->value);
     }
 
     public function getValue(): string

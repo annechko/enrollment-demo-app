@@ -9,7 +9,6 @@ use App\Domain\Core\UuidGenerator;
 use App\Domain\School\Entity\School\InvitationToken;
 use App\Domain\School\Repository\SchoolRepository;
 use App\Domain\School\Service\SchoolConfirmedEmailSender;
-use DateTimeImmutable;
 
 class Handler
 {
@@ -26,7 +25,7 @@ class Handler
         $school = $this->schoolRepository->get($command->id);
         $token = $this->uuidGenerator->generate();
         $school->confirmRegister(
-            new InvitationToken($token, new DateTimeImmutable())
+            new InvitationToken($token, new \DateTimeImmutable())
         );
 
         $admin = $school->getAdmin();
