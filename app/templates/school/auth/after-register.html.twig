@@ -1,0 +1,22 @@
+{% extends 'auth.html.twig' %}
+
+{% block title %}Register as a school!{% endblock %}
+
+{% block body %}
+
+    <div class="bg-light min-vh-100 d-flex flex-row align-items-center">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="card mb-4 mx-4">
+                        <div class="card-body p-4">
+                            <h3>Thank you, {{ schoolName }}!</h3>
+                            <p class="text-medium-emphasis">We are glad to see you joined us as a school!</p>
+                            <p class="text-medium-emphasis">Kindly await an email containing an invitation to register.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

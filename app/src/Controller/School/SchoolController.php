@@ -31,7 +31,7 @@ class SchoolController extends AbstractController
             try {
                 $handler->handle($command);
 
-                return $this->render('school/registration/after-register.html.twig', [
+                return $this->render('school/auth/after-register.html.twig', [
                     'schoolName' => $command->name,
                 ]);
             } catch (InvalidArgumentException $exception) {
@@ -40,7 +40,7 @@ class SchoolController extends AbstractController
             }
         }
 
-        return $this->render('school/registration/register.html.twig', [
+        return $this->render('school/auth/register.html.twig', [
             'form' => $form->createView(),
         ]);
     }
