@@ -10,7 +10,7 @@ It starts NGINX, PHP-FPM, PostgreSQL, and some more Docker containers, builds as
 
 
 App's functionality so far<br>
-[![demo video preview](https://img.youtube.com/vi/TMjZpGKBdP4/0.jpg)](https://youtu.be/TMjZpGKBdP4)
+[![demo video preview](https://img.youtube.com/vi/JGJw2O7mBUA/0.jpg)](https://youtu.be/JGJw2O7mBUA)
 
 You can create registration request as a school on page<br>
 http://localhost:8080/school/register
