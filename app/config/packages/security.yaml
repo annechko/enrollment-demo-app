@@ -41,6 +41,7 @@ security:
             form_login:
                 provider: admin_user_provider
                 default_target_path: admin_school_list
+                always_use_default_target_path: true
                 login_path: admin_login
                 check_path: admin_login
                 username_parameter: email
