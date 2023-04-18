@@ -9,9 +9,7 @@
 import './styles/app.scss';
 
 // start the Stimulus application
-import './bootstrap';
+// import './bootstrap';
 
 import * as coreui from '@coreui/coreui';
 window.coreui = coreui;
-import '@coreui/chartjs';
-import 'simplebar';

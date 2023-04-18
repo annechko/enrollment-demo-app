@@ -50,7 +50,9 @@ services:
     image: node:19.8-alpine3.17
     volumes:
       - ./app:/app
+      - node-cache:/usr/local/share/.cache
     working_dir: /app
 
 volumes:
   enroll-db:
+  node-cache:

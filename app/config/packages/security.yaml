@@ -23,17 +23,10 @@ security:
         school:
             lazy: true
             pattern: ^/school/
+            custom_authenticator: App\Security\SchoolAuthenticator
             logout:
                 path: school_logout
                 target: school_login
-            form_login:
-                provider: school_user_provider
-                default_target_path: school_home
-                login_path: school_login
-                check_path: school_login
-                username_parameter: email
-                password_parameter: password
-                enable_csrf: true
         main:
             lazy: true
             logout:

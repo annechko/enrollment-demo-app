@@ -24,6 +24,11 @@ class SchoolStaffMemberRepository extends ServiceEntityRepository
         parent::__construct($registry, StaffMember::class);
     }
 
+    public function findByEmail(string $email): ?StaffMember
+    {
+        return $this->findOneBy(['email.value' => $email]);
+    }
+
     public function getByInvitationToken($invitationToken): StaffMember
     {
         $entity = $this->findOneBy(['invitationToken.value' => $invitationToken]);
