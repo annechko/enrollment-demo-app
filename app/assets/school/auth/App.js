@@ -9,14 +9,17 @@ const loading = (
 		<div className="sk-spinner sk-spinner-pulse"></div>
 	</div>
 )
+const urlLogin = window.abeApp.URL_LOGIN
+const urlRegister = window.abeApp.URL_REGISTER
+
 class App extends Component {
 	render() {
 		return (
 			<BrowserRouter>
 				<Suspense fallback={loading}>
 					<Routes>
-						<Route exact path={window.abeApp.URL_LOGIN} name="Login Page" element={<LoginContainer/>}/>
-						<Route exact path={window.abeApp.URL_REGISTER} name="Register Page" element={<RegisterContainer/>}/>
+						<Route exact path={urlLogin} name="Login Page" element={<LoginContainer/>}/>
+						<Route exact path={urlRegister} name="Register Page" element={<RegisterContainer/>}/>
 					</Routes>
 				</Suspense>
 			</BrowserRouter>
