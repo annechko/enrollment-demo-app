@@ -8,20 +8,17 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class Command
 {
-    /**
-     * @Assert\NotBlank()
-     */
+    #[Assert\NotBlank]
+    #[Assert\Length(min: 2, minMessage: 'School name is too short. It should have {{ limit }} characters or more.')]
     public $name;
-    /**
-     * @Assert\NotBlank()
-     */
+
+    #[Assert\NotBlank]
     public $adminName;
-    /**
-     * @Assert\NotBlank()
-     */
+
+    #[Assert\NotBlank]
     public $adminSurname;
-    /**
-     * @Assert\NotBlank()
-     */
+
+    #[Assert\NotBlank]
+    #[Assert\Email]
     public $adminEmail;
 }

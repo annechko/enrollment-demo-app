@@ -18,6 +18,7 @@ class Name
     {
         Assert::stringNotEmpty($value);
         Assert::maxLength($value, 255);
+        Assert::minLength($value, 2);
         $this->value = $value;
     }
 

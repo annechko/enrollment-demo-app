@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom'
 import ReactDOM from 'react-dom/client';
 import './styles/login.scss';
 import CIcon from '@coreui/icons-react'
-import {cilLockLocked, cilUser} from '@coreui/icons'
+import {cilLockLocked, cilUser, cilSchool} from '@coreui/icons'
 import {BrowserRouter, Route, Routes} from 'react-router-dom'
 
 const axios = require('axios');
@@ -31,7 +31,7 @@ const loading = (
 const URL_LOGIN = '/school/login'
 const URL_REGISTER = '/school/register'
 
-function runLogin(event, state, setState)
+function submitForm({event, state, setState, url, formName, onSuccess, headers})
 {
 	event.preventDefault()
 	if (state.loading)
@@ -43,8 +43,8 @@ function runLogin(event, state, setState)
 		loading: true,
 		error: null
 	})
-	axios.post(URL_LOGIN, document.getElementById('form-name'), {
-		headers: {
+	axios.post(url, document.getElementById(formName), {
+		headers: headers || {
 			'Content-Type': 'application/json'
 		}
 	})
@@ -54,7 +54,10 @@ function runLogin(event, state, setState)
 				loading: false,
 				error: null
 			})
-			window.location.href = response.data?.redirect || '/'
+			if (onSuccess)
+			{
+				onSuccess(response)
+			}
 		})
 		.catch((error) =>
 		{
@@ -72,9 +75,21 @@ const Login = () =>
 		error: null
 	}
 	const [state, setState] = React.useState(initialState)
-	const test = (e) =>
+
+	const onSuccess = (response) =>
 	{
-		runLogin(e, state, setState)
+		window.location.href = response.data?.redirect || '/'
+	}
+	const onLogin = (event) =>
+	{
+		submitForm({
+			event,
+			state,
+			setState,
+			url: URL_LOGIN,
+			formName: 'login-form',
+			onSuccess: onSuccess
+		})
 	}
 
 	return (
@@ -85,7 +100,7 @@ const Login = () =>
 						<CCardGroup>
 							<CCard className="p-4">
 								<CCardBody>
-									<CForm method="post" id="form-name" onSubmit={test}>
+									<CForm method="post" id="login-form" onSubmit={onLogin}>
 										<h1>Login</h1>
 										<p className="text-medium-emphasis">Sign In to your account</p>
 										{
@@ -110,7 +125,7 @@ const Login = () =>
 											<CInputGroupText>
 												<CIcon icon={cilLockLocked}/>
 											</CInputGroupText>
-											<CFormInput
+											<CFormInput placeholder="Password"
 												type="password"
 												name="password"
 												autoComplete="current-password" required
@@ -150,6 +165,28 @@ const Login = () =>
 }
 const Register = () =>
 {
+	const initialState = {
+		loading: false,
+		error: null,
+		registered: false
+	}
+	const [state, setState] = React.useState(initialState)
+	const onSuccess = (response) =>
+	{
+		setState({
+			loading: false,
+			error: null,
+			registered: true
+		})
+	}
+	const onRegister = (event) =>
+	{
+		submitForm({
+			event, state, setState, url: URL_REGISTER, formName: 'register-form',
+			onSuccess: onSuccess,
+			headers: {'Content-Type': 'multipart/form-data'}
+		})
+	}
 	return (
 		<div className="bg-light min-vh-100 d-flex flex-row align-items-center">
 			<CContainer>
@@ -157,48 +194,82 @@ const Register = () =>
 					<CCol md={9} lg={7} xl={6}>
 						<CCard className="mx-4">
 							<CCardBody className="p-4">
-								<CForm>
-									<h1>Register</h1>
-									<p className="text-medium-emphasis">Create your account</p>
-									<CInputGroup className="mb-3">
-										<CInputGroupText>
-											<CIcon icon={cilUser}/>
-										</CInputGroupText>
-										<CFormInput placeholder="Username" autoComplete="username"/>
-									</CInputGroup>
-									<CInputGroup className="mb-3">
-										<CInputGroupText>@</CInputGroupText>
-										<CFormInput placeholder="Email" autoComplete="email"/>
-									</CInputGroup>
-									<CInputGroup className="mb-3">
-										<CInputGroupText>
-											<CIcon icon={cilLockLocked}/>
-										</CInputGroupText>
-										<CFormInput
-											type="password"
-											placeholder="Password"
-											autoComplete="new-password"
-										/>
-									</CInputGroup>
-									<CInputGroup className="mb-4">
-										<CInputGroupText>
-											<CIcon icon={cilLockLocked}/>
-										</CInputGroupText>
-										<CFormInput
-											type="password"
-											placeholder="Repeat password"
-											autoComplete="new-password"
-										/>
-									</CInputGroup>
-									<div className="d-grid">
-										<CButton color="success">Create Account</CButton>
-									</div>
-									<Link to={URL_LOGIN}>
-										<div className="text-center m-1">
-											Already have an account?
-										</div>
-									</Link>
-								</CForm>
+								{
+									state.registered === true ? (
+											<>
+												<h3>Thank you!</h3>
+												<p className="text-medium-emphasis">We are glad to see you joined us as a school!</p>
+												<p className="text-medium-emphasis">Kindly await an email containing an invitation to register.</p>
+
+											</>) :
+										(
+											<>
+												<h1>Register</h1>
+												<p className="text-medium-emphasis">Set up your school account</p>
+												<CForm method="post" id="register-form" onSubmit={onRegister}>
+
+													{
+														state.error !== null ? (
+															<div className="alert alert-danger">
+																{state.error}
+															</div>
+														) : ''
+													}
+													<CInputGroup className="mb-3">
+														<CInputGroupText>
+															<CIcon icon={cilSchool}/>
+														</CInputGroupText>
+														<CFormInput placeholder="School name"
+															name="register[name]"
+															minLength="2"
+															required={true}
+														/>
+													</CInputGroup>
+													<CInputGroup className="mb-3">
+														<CInputGroupText>@</CInputGroupText>
+														<CFormInput placeholder="Email address of account's owner"
+															name="register[adminEmail]"
+															type="email"
+															required={true}
+														/>
+													</CInputGroup>
+													<CInputGroup className="mb-3">
+														<CInputGroupText>
+															<CIcon icon={cilUser}/>
+														</CInputGroupText>
+														<CFormInput
+															name="register[adminName]"
+															placeholder="Admin name"
+															required={true}
+														/>
+													</CInputGroup>
+													<CInputGroup className="mb-4">
+														<CInputGroupText>
+															<CIcon icon={cilUser}/>
+														</CInputGroupText>
+														<CFormInput
+															name="register[adminSurname]"
+															placeholder="Admin surname"
+															required={true}
+														/>
+													</CInputGroup>
+													<div className="d-grid">
+														<CButton color="success" className="px-4"
+															disabled={state.loading}
+															type="submit">
+															Create Account
+														</CButton>
+													</div>
+													<Link to={URL_LOGIN}>
+														<div className="text-center m-1">
+															Already have an account?
+														</div>
+													</Link>
+												</CForm>
+											</>
+										)
+								}
+
 							</CCardBody>
 						</CCard>
 					</CCol>

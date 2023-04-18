@@ -10,6 +10,7 @@ use App\Domain\School\UseCase\Member;
 use App\Domain\School\UseCase\School\Register;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -27,16 +28,29 @@ class SchoolController extends AbstractController
         $form = $this->createForm(Register\Form::class, $command);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted()) {
+            if (!$form->isValid()) {
+                $violationList = $form->getErrors(true);
+                $error = 'Invalid data.';
+                foreach ($violationList as $violation) {
+                    if ($violation instanceof FormError) {
+                        $error = $violation->getMessage();
+                        break;
+                    }
+                }
+
+                return new JsonResponse([
+                    'error' => $error,
+                ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
+            }
             try {
                 $handler->handle($command);
 
-                return $this->render('school/auth/after-register.html.twig', [
-                    'schoolName' => $command->name,
-                ]);
+                return new JsonResponse([]);
             } catch (InvalidArgumentException $exception) {
-                $form->addError(new FormError($exception->getMessage()));
-                $this->addFlash('error', $exception->getMessage());
+                return new JsonResponse([
+                    'error' => $exception->getMessage(),
+                ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
             }
         }
 

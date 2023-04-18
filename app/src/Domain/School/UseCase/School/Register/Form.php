@@ -25,7 +25,13 @@ class Form extends AbstractType
         $resolver->setDefaults(
             [
                 'data_class' => Command::class,
+                'csrf_protection' => false,
             ]
         );
+    }
+
+    public function getBlockPrefix(): string
+    {
+        return 'register';
     }
 }
