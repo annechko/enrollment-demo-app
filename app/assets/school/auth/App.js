@@ -1,4 +1,4 @@
-import React, { Component, Suspense } from 'react'
+import React, { Suspense } from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import './App.scss'
 const LoginContainer = React.lazy(() => import('./LoginContainer'))
@@ -12,7 +12,7 @@ const loading = (
 const urlLogin = window.abeApp.URL_LOGIN
 const urlRegister = window.abeApp.URL_REGISTER
 
-class App extends Component {
+class App extends React.Component {
 	render() {
 		return (
 			<BrowserRouter>
