@@ -17,30 +17,8 @@ import {
 } from '@coreui/react'
 import {submitForm} from "./SubmitForm";
 
-const Login = () =>
+const Login = ({onSubmit, state, urlRegister, formName}) =>
 {
-	const initialState = {
-		loading: false,
-		error: null
-	}
-	const [state, setState] = React.useState(initialState)
-
-	const onSuccess = (response) =>
-	{
-		window.location.href = response.data?.redirect || '/'
-	}
-	const onLogin = (event) =>
-	{
-		submitForm({
-			event,
-			state,
-			setState,
-			url: URL_LOGIN,
-			formName: 'login-form',
-			onSuccess: onSuccess
-		})
-	}
-
 	return (
 		<div className="bg-light min-vh-100 d-flex flex-row align-items-center">
 			<CContainer>
@@ -49,7 +27,7 @@ const Login = () =>
 						<CCardGroup>
 							<CCard className="p-4">
 								<CCardBody>
-									<CForm method="post" id="login-form" onSubmit={onLogin}>
+									<CForm method="post" id={formName} onSubmit={onSubmit}>
 										<h1>Login</h1>
 										<p className="text-medium-emphasis">Sign In to your account</p>
 										{
@@ -97,7 +75,7 @@ const Login = () =>
 									<div>
 										<h2>Sign up</h2>
 										<p>Our user-friendly platform simplifies the application process and makes it easy for your staff to manage and process applications.</p>
-										<Link to={URL_REGISTER}>
+										<Link to={urlRegister}>
 											<CButton color="primary" className="mt-3" active tabIndex={-1}>
 												Register Now!
 											</CButton>
@@ -112,5 +90,36 @@ const Login = () =>
 		</div>
 	)
 }
+const LoginContainer = () =>
+{
+	const initialState = {
+		loading: false,
+		error: null
+	}
+	const [state, setState] = React.useState(initialState)
 
-export default Login
+	const onSuccess = (response) =>
+	{
+		window.location.href = response.data?.redirect || '/'
+	}
+	const formName = 'login-form'
+	const onSubmit = (event) =>
+	{
+		submitForm({
+			event,
+			state,
+			setState,
+			url: URL_LOGIN,
+			formName: formName,
+			onSuccess: onSuccess
+		})
+	}
+
+	return <Login
+		onSubmit={onSubmit}
+		state={state}
+		urlRegister={URL_REGISTER}
+		formName={formName}/>
+}
+
+export default LoginContainer

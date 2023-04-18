@@ -1,9 +1,8 @@
 import React, { Component, Suspense } from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import './App.scss'
-
-const Login = React.lazy(() => import('./Login'))
-const Register = React.lazy(() => import('./Register'))
+const LoginContainer = React.lazy(() => import('./LoginContainer'))
+const RegisterContainer = React.lazy(() => import('./RegisterContainer'))
 
 const loading = (
 	<div className="pt-3 text-center">
@@ -16,8 +15,8 @@ class App extends Component {
 			<BrowserRouter>
 				<Suspense fallback={loading}>
 					<Routes>
-						<Route exact path={URL_LOGIN} name="Login Page" element={<Login/>}/>
-						<Route exact path={URL_REGISTER} name="Register Page" element={<Register/>}/>
+						<Route exact path={URL_LOGIN} name="Login Page" element={<LoginContainer/>}/>
+						<Route exact path={URL_REGISTER} name="Register Page" element={<RegisterContainer/>}/>
 					</Routes>
 				</Suspense>
 			</BrowserRouter>
