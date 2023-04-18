@@ -2,50 +2,8 @@
 
 {% block title %}Register as a school!{% endblock %}
 
-{% block body %}
-
-    <div class="bg-light min-vh-100 d-flex flex-row align-items-center">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-md-6">
-                    <div class="card mb-4 mx-4">
-                        {{ form_start(form) }}
-                        <div class="card-body p-4">
-                            <h1>Register</h1>
-                            <p class="text-medium-emphasis">Set up your school account</p>
-                            <div class="input-group mb-3">
-                                <span class="input-group-text">
-                                    <i class="cil-school icon"></i>
-                                </span>
-                                {{ form_widget(form.name, {'attr': {'placeholder': 'School name'}}) }}
-                            </div>
-                            <div class="input-group mb-3">
-                                <span class="input-group-text">
-                                    <i class="cil-envelope-open icon"></i>
-                                </span>
-                                {{ form_widget(form.adminEmail,
-                                    {'attr': {'placeholder': 'Email address of account\'s owner'}}) }}
-                            </div>
-                            <div class="input-group mb-3">
-                                <span class="input-group-text">
-                                    <i class="cil-user icon"></i>
-                                </span>
-                                {{ form_widget(form.adminName, {'attr': {'placeholder': 'Admin name'}}) }}
-
-                            </div>
-                            <div class="input-group mb-4">
-                                <span class="input-group-text">
-                                    <i class="cil-user icon"></i>
-                                </span>
-                                {{ form_widget(form.adminSurname, {'attr': {'placeholder': 'Admin surname'}}) }}
-
-                            </div>
-                            <button class="btn btn-block btn-success" type="submit">Create Account</button>
-                        </div>
-                        {{ form_end(form) }}
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+{% block resources %}
+    {% set componentName = 'school_auth' %}
+    {{ parent() }}
 {% endblock %}
+

@@ -2,7 +2,7 @@ import React, {Suspense} from 'react'
 
 import {Link} from 'react-router-dom'
 import ReactDOM from 'react-dom/client';
-import './styles/login.scss';
+import './login.scss';
 import CIcon from '@coreui/icons-react'
 import {cilLockLocked, cilUser, cilSchool} from '@coreui/icons'
 import {BrowserRouter, Route, Routes} from 'react-router-dom'
