@@ -15,8 +15,8 @@ class App extends Component {
 			<BrowserRouter>
 				<Suspense fallback={loading}>
 					<Routes>
-						<Route exact path={URL_LOGIN} name="Login Page" element={<LoginContainer/>}/>
-						<Route exact path={URL_REGISTER} name="Register Page" element={<RegisterContainer/>}/>
+						<Route exact path={window.abeApp.URL_LOGIN} name="Login Page" element={<LoginContainer/>}/>
+						<Route exact path={window.abeApp.URL_REGISTER} name="Register Page" element={<RegisterContainer/>}/>
 					</Routes>
 				</Suspense>
 			</BrowserRouter>

@@ -110,6 +110,7 @@ const Register = ({onSubmit, state, urlLogin, formId}) =>
 									: <RegisterForm
 										onSubmit={onSubmit}
 										urlLogin={urlLogin}
+										state={state}
 										formId={formId}/>}
 							</CCardBody>
 						</CCard>
@@ -142,12 +143,12 @@ const RegisterContainer = () =>
 			event,
 			state,
 			setState,
-			url: URL_REGISTER,
+			url: window.abeApp.URL_REGISTER,
 			formId: formId,
 			onSuccess: onSuccess,
 			headers: {'Content-Type': 'multipart/form-data'}
 		})
 	}
-	return <Register urlLogin={URL_LOGIN} state={state} onSubmit={onSubmit} formId={formId}/>
+	return <Register urlLogin={window.abeApp.URL_LOGIN} state={state} onSubmit={onSubmit} formId={formId}/>
 }
 export default RegisterContainer

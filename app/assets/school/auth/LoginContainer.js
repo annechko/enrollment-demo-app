@@ -109,7 +109,7 @@ const LoginContainer = () =>
 			event,
 			state,
 			setState,
-			url: URL_LOGIN,
+			url: window.abeApp.URL_LOGIN,
 			formName: formName,
 			onSuccess: onSuccess
 		})
@@ -118,7 +118,7 @@ const LoginContainer = () =>
 	return <Login
 		onSubmit={onSubmit}
 		state={state}
-		urlRegister={URL_REGISTER}
+		urlRegister={window.abeApp.URL_REGISTER}
 		formName={formName}/>
 }
 

@@ -40,3 +40,5 @@ admin:
 
 watch:
 	docker-compose run --rm enroll-node yarn watch
+lint:
+	docker-compose run --rm enroll-node ./node_modules/.bin/eslint assets
