@@ -7,8 +7,9 @@ namespace App\Domain\School\Entity\School;
 use App\Domain\School\Common\RoleEnum;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use DomainException;
 
-#[ORM\Entity()]
+#[ORM\Entity]
 #[ORM\Table(name: 'school_school')]
 class School
 {
@@ -16,7 +17,7 @@ class School
     public const STATUS_ACTIVE = 'ACTIVE';
 
     #[ORM\Column(type: SchoolIdType::NAME)]
-    #[ORM\Id()]
+    #[ORM\Id]
     private SchoolId $id;
 
     #[ORM\Embedded(class: Name::class, columnPrefix: false)]
@@ -33,14 +34,13 @@ class School
         SchoolId $id,
         Name $name,
         StaffMemberId $adminId,
-        string $adminName,
-        string $adminLastName,
+        StaffMemberName $adminName,
         Email $adminEmail,
     ) {
         $this->id = $id;
         $this->name = $name;
         $this->status = self::STATUS_NEW;
-        $this->admin = new StaffMember($adminId, $adminName, $adminLastName, $adminEmail);
+        $this->admin = new StaffMember($adminId, $adminName, $adminEmail);
         $this->admin->changeRole(RoleEnum::SCHOOL_ADMIN);
     }
 
@@ -48,29 +48,23 @@ class School
         SchoolId $id,
         Name $schoolName,
         StaffMemberId $adminId,
-        string $adminName,
-        string $adminLastName,
+        StaffMemberName $adminName,
         Email $adminEmail,
     ): self {
-        $school = new self($id, $schoolName, $adminId, $adminName, $adminLastName, $adminEmail);
-
-        return $school;
+        return new self($id, $schoolName, $adminId, $adminName, $adminEmail);
     }
 
     public function confirmRegister(
         InvitationToken $token
     ): void {
         if ($this->status !== self::STATUS_NEW) {
-            throw new \DomainException('School can not be confirmed.');
+            throw new DomainException('School can not be confirmed.');
         }
         $this->status = self::STATUS_ACTIVE;
         $this->admin->invite($token);
     }
 
-    /**
-     * @return StaffMember
-     */
-    public function getAdmin()
+    public function getAdmin(): StaffMember
     {
         return $this->admin;
     }

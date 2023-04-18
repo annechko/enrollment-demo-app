@@ -41,11 +41,11 @@ class StaffMember implements \Symfony\Component\Security\Core\User\UserInterface
     #[ORM\Column(options: ['default' => '[]'])]
     private array $roles = [];
 
-    public function __construct(StaffMemberId $id, string $name, string $surname, Email $email)
+    public function __construct(StaffMemberId $id, StaffMemberName $name, Email $email)
     {
         $this->id = $id;
-        $this->name = $name;
-        $this->surname = $surname;
+        $this->name = $name->getFirstName();
+        $this->surname = $name->getLastName();
         $this->email = $email;
         $this->status = self::STATUS_CREATED;
         $this->roles = [RoleEnum::SCHOOL_USER->value];

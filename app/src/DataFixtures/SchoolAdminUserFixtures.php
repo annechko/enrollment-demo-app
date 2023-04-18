@@ -12,6 +12,7 @@ use App\Domain\School\Entity\School\School;
 use App\Domain\School\Entity\School\SchoolId;
 use App\Domain\School\Entity\School\StaffMember;
 use App\Domain\School\Entity\School\StaffMemberId;
+use App\Domain\School\Entity\School\StaffMemberName;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
@@ -33,8 +34,7 @@ class SchoolAdminUserFixtures extends Fixture
             new SchoolId($this->uuidGenerator->generate()),
             new Name('default school'),
             new StaffMemberId($this->uuidGenerator->generate()),
-            'school admin name',
-            'school admin lastname',
+            new StaffMemberName('school admin name', 'school admin lastname'),
             new Email(self::EMAIL)
         );
         $school->confirmRegister(

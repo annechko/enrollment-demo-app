@@ -11,6 +11,7 @@ use App\Domain\School\Entity\School\Name;
 use App\Domain\School\Entity\School\School;
 use App\Domain\School\Entity\School\SchoolId;
 use App\Domain\School\Entity\School\StaffMemberId;
+use App\Domain\School\Entity\School\StaffMemberName;
 use App\Domain\School\Repository\SchoolRepository;
 
 class Handler
@@ -28,8 +29,7 @@ class Handler
             new SchoolId($this->uuidGenerator->generate()),
             new Name($command->name),
             new StaffMemberId($this->uuidGenerator->generate()),
-            $command->adminName,
-            $command->adminSurname,
+            new StaffMemberName($command->adminName, $command->adminSurname),
             new Email($command->adminEmail),
         );
 
