@@ -120,7 +120,7 @@ const Register = ({onSubmit, state, urlLogin, formId}) =>
 		</div>
 	)
 }
-const RegisterContainer = () =>
+const RegisterContainer = ({urls}) =>
 {
 	const initialState = {
 		loading: false,
@@ -143,12 +143,12 @@ const RegisterContainer = () =>
 			event,
 			state,
 			setState,
-			url: window.abeApp.URL_REGISTER,
+			url: urls.register,
 			formId: formId,
 			onSuccess: onSuccess,
 			headers: {'Content-Type': 'multipart/form-data'}
 		})
 	}
-	return <Register urlLogin={window.abeApp.URL_LOGIN} state={state} onSubmit={onSubmit} formId={formId}/>
+	return <Register urlLogin={urls.login} state={state} onSubmit={onSubmit} formId={formId}/>
 }
 export default RegisterContainer

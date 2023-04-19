@@ -90,7 +90,7 @@ const Login = ({onSubmit, state, urlRegister, formName}) =>
 		</div>
 	)
 }
-const LoginContainer = () =>
+const LoginContainer = ({urls}) =>
 {
 	const initialState = {
 		loading: false,
@@ -109,7 +109,7 @@ const LoginContainer = () =>
 			event,
 			state,
 			setState,
-			url: window.abeApp.URL_LOGIN,
+			url: urls.login,
 			formName: formName,
 			onSuccess: onSuccess
 		})
@@ -118,7 +118,7 @@ const LoginContainer = () =>
 	return <Login
 		onSubmit={onSubmit}
 		state={state}
-		urlRegister={window.abeApp.URL_REGISTER}
+		urlRegister={urls.register}
 		formName={formName}/>
 }
 

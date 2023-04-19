@@ -9,8 +9,10 @@ const loading = (
 		<div className="sk-spinner sk-spinner-pulse"></div>
 	</div>
 )
-const urlLogin = window.abeApp.URL_LOGIN
-const urlRegister = window.abeApp.URL_REGISTER
+const urls = {
+	login: window.abeApp.URL_LOGIN,
+	register: window.abeApp.URL_REGISTER,
+}
 
 class App extends React.Component {
 	render() {
@@ -18,8 +20,8 @@ class App extends React.Component {
 			<BrowserRouter>
 				<Suspense fallback={loading}>
 					<Routes>
-						<Route exact path={urlLogin} name="Login Page" element={<LoginContainer/>}/>
-						<Route exact path={urlRegister} name="Register Page" element={<RegisterContainer/>}/>
+						<Route exact path={urls.login} name="Login Page" element={<LoginContainer urls={urls}/>}/>
+						<Route exact path={urls.register} name="Register Page" element={<RegisterContainer urls={urls}/>}/>
 					</Routes>
 				</Suspense>
 			</BrowserRouter>
