@@ -14,7 +14,7 @@ import {
 	CInputGroupText,
 	CRow,
 } from '@coreui/react'
-import {submitForm} from "./SubmitForm";
+import {submitForm} from "./helper/SubmitForm";
 
 const AfterRegisterMessage = () =>
 {

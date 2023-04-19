@@ -15,7 +15,7 @@ import {
 	CInputGroupText,
 	CRow,
 } from '@coreui/react'
-import {submitForm} from "./SubmitForm";
+import {submitForm} from "./helper/SubmitForm";
 
 const Login = ({onSubmit, state, urlRegister, formName}) =>
 {
