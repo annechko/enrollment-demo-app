@@ -1,6 +1,8 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
 import CIcon from '@coreui/icons-react'
+import { useNavigate } from "react-router-dom";
+
 import {cilLockLocked, cilUser} from '@coreui/icons'
 import {
 	CButton,
@@ -98,9 +100,10 @@ const LoginContainer = ({urls}) =>
 	}
 	const [state, setState] = React.useState(initialState)
 
+	const navigate = useNavigate();
 	const onSuccess = (response) =>
 	{
-		window.location.href = response.data?.redirect || '/'
+		navigate(response.data?.redirect || '/');
 	}
 	const formName = 'login-form'
 	const onSubmit = (event) =>
@@ -109,7 +112,7 @@ const LoginContainer = ({urls}) =>
 			event,
 			state,
 			setState,
-			url: urls.login,
+			url: urls.LOGIN,
 			formName: formName,
 			onSuccess: onSuccess
 		})
@@ -118,7 +121,7 @@ const LoginContainer = ({urls}) =>
 	return <Login
 		onSubmit={onSubmit}
 		state={state}
-		urlRegister={urls.register}
+		urlRegister={urls.REGISTER}
 		formName={formName}/>
 }
 

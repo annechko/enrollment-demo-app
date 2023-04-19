@@ -48,4 +48,9 @@ class CampusRepository extends ServiceEntityRepository
     {
         return $this->count(['name' => $name]) > 0;
     }
+
+    public function findByName($name): ?Campus
+    {
+        return $this->findOneBy(['name' => $name]);
+    }
 }

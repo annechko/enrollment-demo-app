@@ -46,4 +46,13 @@ class Campus
     {
         return $this->address;
     }
+
+    public function edit(
+        string $name,
+        ?string $address = null,
+    ): self {
+        $this->name = $name;
+        $this->address = $address;
+        return $this;
+    }
 }

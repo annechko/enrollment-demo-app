@@ -22,4 +22,9 @@ class CampusId
     {
         return $this->value;
     }
+
+    public function isSameValue(string $value): bool
+    {
+        return $this->value === $value;
+    }
 }

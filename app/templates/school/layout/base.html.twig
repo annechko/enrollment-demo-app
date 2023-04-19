@@ -7,11 +7,23 @@
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
         {% block resources %}
             <script>
-                const abeApp = {
-					URL_LOGIN: '{{ path('school_login') }}',
-                    URL_REGISTER: '{{ path('school_register') }}'
+              const abeApp = {
+                urls: {
+                  LOGIN: '{{ path('school_login') }}',
+                  REGISTER: '{{ path('school_register') }}',
+                  CAMPUSES: '{{ path('school_campus_list_show') }}',
+                  CAMPUSES_ADD: '{{ path('school_campus_add') }}',
+                  CAMPUSES_EDIT: '{{ path('school_campus_edit', {'campusId': ':id'}) }}',
+                  api: {
+                    GET_SIDEBAR: '{{ path('api_school_sidebar') }}',
+                    CAMPUSES_GET: '{{ path('api_school_campus_list') }}',
+                    CAMPUSES_GET_ONE: '{{ path('api_school_campus', {'campusId': ':id'}) }}',
+                    CAMPUSES_ADD: '{{ path('api_school_campus_add') }}',
+                    CAMPUSES_EDIT: '{{ path('api_school_campus_edit',{'campusId': ':id'}) }}',
+                  },
                 }
-				window.abeApp = abeApp
+              }
+              window.abeApp = abeApp
             </script>
             {% set componentName = componentName|default('app') %}
             {% block stylesheets %}

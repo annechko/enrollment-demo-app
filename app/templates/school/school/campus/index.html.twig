@@ -1,0 +1,37 @@
+{% extends 'school/layout/base.html.twig' %}
+
+{% block title %}Campuses{% endblock %}
+
+{% block resources %}
+    {% set componentName = 'school' %}
+    {{ parent() }}
+{% endblock %}
+{#{% block body %}#}
+{#    <div class="row">#}
+{#        <div class="col-12">#}
+{#            <div class="card mb-4">#}
+{#                <div class="card-header">#}
+{#                    <strong>{{ 'campus.title'|trans({}, 'school') }}</strong>#}
+{#                </div>#}
+{#                <div class="card-body">#}
+{#                    {{ form_start(form) }}#}
+{#                    <div class="p-3">#}
+{#                        <div class="mb-3">#}
+{#                            <label class="form-label" for="campusName"#}
+{#                            >{{ 'campus.name'|trans({}, 'school') }}</label>#}
+{#                            {{ form_widget(form.name, {'attr': {'id': 'campusName'}}) }}#}
+{#                        </div>#}
+{#                        <div class="mb-3">#}
+{#                            <label class="form-label" for="campusAddress"#}
+{#                            >{{ 'campus.address'|trans({}, 'school') }}</label>#}
+{#                            {{ form_widget(form.address, {'attr': {'id': 'campusAddress'}}) }}#}
+{#                        </div>#}
+{#                    </div>#}
+{#                    {{ form_end(form) }}#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}
+
+
+{#{% endblock %}#}

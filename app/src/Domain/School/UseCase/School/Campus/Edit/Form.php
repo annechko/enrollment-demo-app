@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\School\UseCase\School\Campus\Add;
+namespace App\Domain\School\UseCase\School\Campus\Edit;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
