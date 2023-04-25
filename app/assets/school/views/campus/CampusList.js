@@ -10,16 +10,22 @@ import {
   CTableDataCell,
   CTableHead,
   CTableHeaderCell,
-  CTableRow,
+  CTableRow, CSpinner,
 } from '@coreui/react'
 import {Link} from "react-router-dom";
 import PropTypes from "prop-types";
 import React from "react";
 
-const CampusList = ({items}) => {
+const CampusList = ({dataState}) => {
+  const items = dataState.data
   let rows = []
   let key = 0
-  if (items !== null) {
+  if (dataState.error !== null) {
+    return (<div>
+      Error: {dataState.error}
+    </div>)
+  }
+  if (dataState.loaded === true) {
     items.forEach((item) => {
       rows.push((
         <CTableRow key={key++}>
@@ -38,7 +44,7 @@ const CampusList = ({items}) => {
   } else {
     rows.push((
       <CTableRow key={key++} className="rows-loading">
-        <CTableHeaderCell scope="row">Loading, please wait...</CTableHeaderCell>
+        <CTableHeaderCell scope="row"><CSpinner color="primary" size="lg"/></CTableHeaderCell>
         <CTableDataCell></CTableDataCell>
         <CTableDataCell></CTableDataCell>
       </CTableRow>
@@ -78,12 +84,18 @@ const CampusList = ({items}) => {
   )
 }
 CampusList.propTypes = {
-  items: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      address: PropTypes.string
-    })
+  dataState: PropTypes.shape({
+      data: PropTypes.arrayOf(
+        PropTypes.shape({
+          id: PropTypes.string.isRequired,
+          name: PropTypes.string.isRequired,
+          address: PropTypes.string
+        })
+      ),
+      loading: PropTypes.bool,
+      loaded: PropTypes.bool,
+      error: PropTypes.string,
+    }
   ),
 }
 export default CampusList
