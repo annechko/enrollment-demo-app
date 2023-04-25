@@ -13,7 +13,7 @@ import {
 } from '@coreui/react'
 import axios from "axios";
 import {Link, useNavigate, useParams} from "react-router-dom";
-import {submitForm} from "../../pages/auth/helper/_submitForm";
+import {submitForm} from "../../pages/helper/_submitForm";
 
 
 const CampusesEdit = () => {
