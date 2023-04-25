@@ -75,14 +75,14 @@ const CampusesEdit = () => {
   const onSuccess = (response) => {
     navigate(response.data?.redirect || '/');
   }
-  const formName = 'campus'
+  const formId = 'campus'
   const onSubmit = (event) => {
     debugger
     submitForm({
       event,
       state,
       setState,
-      formName,
+      formId,
       onSuccess,
       url: window.abeApp.urls.api.CAMPUSES_ADD,
       headers: {'Content-Type': 'multipart/form-data'}
@@ -101,11 +101,11 @@ const CampusesEdit = () => {
           <strong>Lets create new campus!</strong>
         </CCardHeader>
         <CCardBody>
-          <CForm method="post" onSubmit={onSubmit} id={formName}>
+          <CForm method="post" onSubmit={onSubmit} id={formId}>
             <div className="mb-3">
               <CFormLabel htmlFor="exampleFormControlInput1">Campus name</CFormLabel>
               <CFormInput
-                name={formName + "[name]"}
+                name={formId + "[name]"}
                 type="text"
                 id="exampleFormControlInput1"
               />
@@ -113,7 +113,7 @@ const CampusesEdit = () => {
             <div className="mb-3">
               <CFormLabel htmlFor="exampleFormControlTextarea1">Campus address</CFormLabel>
               <CFormTextarea id="exampleFormControlTextarea1" rows="3"
-                name={formName + "[address]"}></CFormTextarea>
+                name={formId + "[address]"}></CFormTextarea>
             </div>
             <CButton color="success" className="px-4"
               disabled={state.loading}

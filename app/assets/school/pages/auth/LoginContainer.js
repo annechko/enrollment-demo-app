@@ -19,7 +19,7 @@ import {
 } from '@coreui/react'
 import {submitForm} from "./helper/_submitForm";
 
-const Login = ({onSubmit, state, urlRegister, formName}) =>
+const Login = ({onSubmit, state, urlRegister, formId}) =>
 {
 	return (
 		<div className="bg-light min-vh-100 d-flex flex-row align-items-center">
@@ -29,7 +29,7 @@ const Login = ({onSubmit, state, urlRegister, formName}) =>
 						<CCardGroup>
 							<CCard className="p-4">
 								<CCardBody>
-									<CForm method="post" id={formName} onSubmit={onSubmit}>
+									<CForm method="post" id={formId} onSubmit={onSubmit}>
 										<h1>Login</h1>
 										<p className="text-medium-emphasis">Sign In to your account</p>
 										{
@@ -105,15 +105,15 @@ const LoginContainer = ({urls}) =>
 	{
 		navigate(response.data?.redirect || '/');
 	}
-	const formName = 'login-form'
+	const formId = 'login-form'
 	const onSubmit = (event) =>
 	{
 		submitForm({
 			event,
 			state,
 			setState,
+      formId,
 			url: urls.LOGIN,
-			formName: formName,
 			onSuccess: onSuccess
 		})
 	}
@@ -122,7 +122,7 @@ const LoginContainer = ({urls}) =>
 		onSubmit={onSubmit}
 		state={state}
 		urlRegister={urls.REGISTER}
-		formName={formName}/>
+    formId={formId}/>
 }
 
 export default LoginContainer

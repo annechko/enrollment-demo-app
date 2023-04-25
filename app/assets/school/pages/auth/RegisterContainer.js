@@ -143,8 +143,8 @@ const RegisterContainer = ({urls}) =>
 			event,
 			state,
 			setState,
+			formId,
 			url: urls.REGISTER,
-			formId: formId,
 			onSuccess: onSuccess,
 			headers: {'Content-Type': 'multipart/form-data'}
 		})

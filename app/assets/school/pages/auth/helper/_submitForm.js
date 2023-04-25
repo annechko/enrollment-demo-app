@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export function submitForm({event, state, setState, url, formName, onSuccess, headers})
+export function submitForm({event, state, setState, url, formId, onSuccess, headers})
 {
 	event.preventDefault()
 	if (state.loading)
@@ -12,7 +12,7 @@ export function submitForm({event, state, setState, url, formName, onSuccess, he
 		loading: true,
 		error: null
 	})
-	axios.post(url, document.getElementById(formName), {
+	axios.post(url, document.getElementById(formId), {
 		headers: headers || {
 			'Content-Type': 'application/json'
 		}

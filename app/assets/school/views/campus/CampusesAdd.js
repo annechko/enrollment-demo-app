@@ -67,7 +67,7 @@ const CampusesAdd = () => {
   const onSuccess = (responseS) => {
     navigate(responseS.data?.redirect || '/');
   }
-  const formName = 'campus'
+  const formId = 'campus'
   const onSubmit = (event) => {
     debugger
     let url = window.abeApp.urls.api.CAMPUSES_ADD
@@ -78,7 +78,7 @@ const CampusesAdd = () => {
       event,
       state,
       setState,
-      formName,
+      formId,
       onSuccess,
       url: url,
       headers: {'Content-Type': 'multipart/form-data'}//todo should be json
@@ -105,11 +105,11 @@ const CampusesAdd = () => {
           </strong>
         </CCardHeader>
         <CCardBody>
-          <CForm method="post" onSubmit={onSubmit} id={formName}>
+          <CForm method="post" onSubmit={onSubmit} id={formId}>
             <div className="mb-3">
               <CFormLabel htmlFor="exampleFormControlInput1">Campus name</CFormLabel>
               <CFormInput
-                name={formName + "[name]"}
+                name={formId + "[name]"}
                 defaultValue={isUpdate ? itemState.item.name : ''}
                 type="text"
                 id="exampleFormControlInput1"
@@ -120,7 +120,7 @@ const CampusesAdd = () => {
               <CFormTextarea id="exampleFormControlTextarea1"
                 defaultValue={isUpdate ? itemState.item.address : ''}
                 rows="3"
-                name={formName + "[address]"}></CFormTextarea>
+                name={formId + "[address]"}></CFormTextarea>
             </div>
             <CButton color="success" className="px-4"
               disabled={state.loading}
