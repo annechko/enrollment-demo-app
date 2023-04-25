@@ -1,4 +1,3 @@
-import React, {useState} from 'react'
 import {
   CCard,
   CCardBody,
@@ -11,24 +10,30 @@ import {
   CTableDataCell,
   CTableHead,
   CTableHeaderCell,
-  CTableRow,
+  CTableRow, CSpinner,
 } from '@coreui/react'
-import axios from "axios";
 import {Link} from "react-router-dom";
+import PropTypes from "prop-types";
+import React from "react";
+import AppErrorMessage from "../../components/AppErrorMessage";
 
-const CourseTable = ({state}) => {
+const CourseList = ({dataState}) => {
+  const items = dataState.data
   let rows = []
-  if (state.items !== null) {
-    state.items.forEach((item) => {
+  let key = 0
+  if (dataState.error !== null) {
+    return <AppErrorMessage error={dataState.error}/>
+  }
+  if (dataState.loaded === true) {
+    items.forEach((item) => {
       rows.push((
-        <CTableRow>
-          <CTableDataCell scope="row">{item.id.substr(0, 8) + '...'}</CTableDataCell>
-          <CTableDataCell scope="row">{item.name}</CTableDataCell>
-          <CTableDataCell>{item.campuses}</CTableDataCell>
-          <CTableDataCell>{item.startDates}</CTableDataCell>
+        <CTableRow key={key++}>
+          <CTableDataCell scope="row">{item.id.substring(0, 8) + '...'}</CTableDataCell>
+          <CTableDataCell>{item.name}</CTableDataCell>
+          <CTableDataCell>{item.description}</CTableDataCell>
           <CTableDataCell>
             <Link to={window.abeApp.urls.school_course_edit.replace(':id', item.id)}>
-              <CButton color="primary" role="button" className="mb-3">
+              <CButton color="primary" role="button" className="mb-3" size="sm" variant="outline">
                 Edit
               </CButton>
             </Link>
@@ -38,74 +43,14 @@ const CourseTable = ({state}) => {
     })
   } else {
     rows.push((
-      <CTableRow className="rows-loading">
-        <CTableHeaderCell scope="row">Loading, please wait...</CTableHeaderCell>
-        <CTableDataCell></CTableDataCell>
+      <CTableRow key={key++} className="rows-loading">
+        <CTableHeaderCell scope="row"><CSpinner color="primary"/></CTableHeaderCell>
         <CTableDataCell></CTableDataCell>
         <CTableDataCell></CTableDataCell>
         <CTableDataCell></CTableDataCell>
       </CTableRow>
     ))
   }
-  return (
-    <CTable hover bordered>
-      <CTableHead>
-        <CTableRow>
-          <CTableHeaderCell scope="col">Id</CTableHeaderCell>
-          <CTableHeaderCell scope="col">Name</CTableHeaderCell>
-          <CTableHeaderCell scope="col">Campuses</CTableHeaderCell>
-          <CTableHeaderCell scope="col">Start dates</CTableHeaderCell>
-          <CTableHeaderCell scope="col">Actions</CTableHeaderCell>
-        </CTableRow>
-      </CTableHead>
-      <CTableBody>
-        {rows}
-      </CTableBody>
-    </CTable>
-  )
-}
-const CourseList = () => {
-return <div>in progress</div>;
-  const [itemsState, setItemsState] = useState({
-    items: null,
-    loading: false,
-    loaded: false,
-    error: null
-  })
-  const onLoad = (response) => {
-    setItemsState({
-      items: response.data,
-      loading: false,
-      loaded: true,
-      error: null
-    })
-  }
-  const onError = (error) => {
-    setItemsState({
-      items: null,
-      loading: false,
-      loaded: false,
-      error: error.response?.data?.error || 'Something went wrong'
-    })
-  }
-  const loadNavItems = () => {
-    setItemsState({
-      items: null,
-      loading: true,
-      loaded: false,
-      error: null
-    })
-    const urls = window.abeApp.urls
-
-    axios.get(urls.api_school_course_list)
-      .then(onLoad)
-      .catch(onError)
-  }
-  React.useEffect(() => {
-    if (!itemsState.loaded && !itemsState.loading && itemsState.error === null) {
-      loadNavItems()
-    }
-  }, [itemsState.loaded, itemsState.loading, itemsState.error])
 
   return (
     <CRow>
@@ -115,18 +60,44 @@ return <div>in progress</div>;
             <strong>School courses</strong>
           </CCardHeader>
           <CCardBody>
-            <p>sdsdsd</p>
+            <p>The course catalogue includes on-site and online courses.</p>
             <Link to={window.abeApp.urls.school_course_add}>
               <CButton color="primary" role="button" className="mb-3">
                 New
               </CButton>
             </Link>
-            <CourseTable state={itemsState}/>
+            <CTable hover bordered>
+              <CTableHead>
+                <CTableRow key={key++}>
+                  <CTableHeaderCell scope="col">Id</CTableHeaderCell>
+                  <CTableHeaderCell scope="col">Name</CTableHeaderCell>
+                  <CTableHeaderCell scope="col">Description</CTableHeaderCell>
+                  <CTableHeaderCell scope="col">Actions</CTableHeaderCell>
+                </CTableRow>
+              </CTableHead>
+              <CTableBody>
+                {rows}
+              </CTableBody>
+            </CTable>
           </CCardBody>
         </CCard>
       </CCol>
     </CRow>
   )
 }
-
+CourseList.propTypes = {
+  dataState: PropTypes.shape({
+      data: PropTypes.arrayOf(
+        PropTypes.shape({
+          id: PropTypes.string.isRequired,
+          name: PropTypes.string.isRequired,
+          description: PropTypes.string
+        })
+      ),
+      loading: PropTypes.bool,
+      loaded: PropTypes.bool,
+      error: PropTypes.string,
+    }
+  ),
+}
 export default CourseList

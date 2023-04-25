@@ -6,6 +6,7 @@ doctrine:
             !php/const App\Domain\Admin\Entity\AdminUser\AdminUserIdType::NAME: 'App\Domain\Admin\Entity\AdminUser\AdminUserIdType'
             !php/const App\Domain\School\Entity\School\StaffMemberIdType::NAME: 'App\Domain\School\Entity\School\StaffMemberIdType'
             !php/const App\Domain\School\Entity\Campus\CampusIdType::NAME: 'App\Domain\School\Entity\Campus\CampusIdType'
+            !php/const App\Domain\School\Entity\Course\CourseIdType::NAME: 'App\Domain\School\Entity\Course\CourseIdType'
 
     orm:
         auto_generate_proxy_classes: true

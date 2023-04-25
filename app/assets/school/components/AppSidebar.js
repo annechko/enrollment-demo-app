@@ -5,7 +5,6 @@ import {AppSidebarNav} from './AppSidebarNav'
 import SimpleBar from 'simplebar-react'
 import './AppSidebar.scss'
 
-// import navigation from './_nav'
 import {cilBaby, cilSpeedometer, cilInstitution, cilPeople, cilEducation} from "@coreui/icons";
 import axios from "axios";
 

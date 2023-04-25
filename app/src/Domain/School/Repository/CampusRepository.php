@@ -36,12 +36,12 @@ class CampusRepository extends ServiceEntityRepository
 
     public function get(string $id): Campus
     {
-        $Campus = $this->find($id);
-        if ($Campus === null) {
+        $campus = $this->find($id);
+        if ($campus === null) {
             throw new NotFoundException('Campus not found.');
         }
 
-        return $Campus;
+        return $campus;
     }
 
     public function hasByName($name): bool
