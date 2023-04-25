@@ -17,7 +17,7 @@ import {
   CInputGroupText,
   CRow,
 } from '@coreui/react'
-import {submitForm} from "./helper/_submitForm";
+import {submitForm} from "./../helper/_submitForm";
 
 const Login = ({onSubmit, state, urlRegister, formId}) => {
   return (
@@ -91,7 +91,7 @@ const Login = ({onSubmit, state, urlRegister, formId}) => {
     </div>
   )
 }
-const LoginContainer = ({urls}) => {
+const LoginPage = ({urls}) => {
   const initialState = {
     loading: false,
     error: null
@@ -121,4 +121,4 @@ const LoginContainer = ({urls}) => {
     formId={formId}/>
 }
 
-export default LoginContainer
+export default LoginPage

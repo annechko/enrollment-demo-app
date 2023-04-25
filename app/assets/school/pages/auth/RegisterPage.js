@@ -14,7 +14,7 @@ import {
   CInputGroupText,
   CRow,
 } from '@coreui/react'
-import {submitForm} from "./helper/_submitForm";
+import {submitForm} from "../helper/_submitForm";
 
 const AfterRegisterMessage = () => {
   return (
@@ -117,7 +117,7 @@ const Register = ({onSubmit, state, urlLogin, formId}) => {
     </div>
   )
 }
-const RegisterContainer = ({urls}) => {
+const RegisterPage = ({urls}) => {
   const initialState = {
     loading: false,
     error: null,
@@ -145,4 +145,4 @@ const RegisterContainer = ({urls}) => {
   }
   return <Register urlLogin={urls.school_login} state={state} onSubmit={onSubmit} formId={formId}/>
 }
-export default RegisterContainer
+export default RegisterPage
