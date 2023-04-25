@@ -53,7 +53,7 @@ const CampusesEdit = () => {
     })
     const urls = window.abeApp.urls
 
-    axios.get(urls.api.CAMPUSES_GET_ONE.replace(':id', params.id))
+    axios.get(urls.api_school_campus.replace(':id', params.id))
       .then(onLoad)
       .catch(onError)
   }
@@ -84,13 +84,13 @@ const CampusesEdit = () => {
       setState,
       formId,
       onSuccess,
-      url: window.abeApp.urls.api.CAMPUSES_ADD,
+      url: window.abeApp.urls.api_school_campus_add,
       headers: {'Content-Type': 'multipart/form-data'}
     })
   }
   return (
     <>
-      <Link to={window.abeApp.urls.CAMPUSES}>
+      <Link to={window.abeApp.urls.school_campus_list_show}>
         <CButton color="primary" role="button" className="mb-3">
           Go back to list
         </CButton>

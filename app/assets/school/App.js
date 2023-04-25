@@ -29,8 +29,8 @@ class App extends Component {
       <BrowserRouter>
         <Suspense fallback={loading}>
           <Routes>
-            <Route exact path={urls.LOGIN} name="Login Page" element={<Login urls={urls}/>}/>
-            <Route exact path={urls.REGISTER} name="Register Page" element={
+            <Route exact path={urls.school_login} name="Login Page" element={<Login urls={urls}/>}/>
+            <Route exact path={urls.school_register} name="Register Page" element={
               <Register urls={urls}/>}/>
             {/*<Route exact path="/404" name="Page 404" element={<Page404 />} />*/}
             {/*<Route exact path="/500" name="Page 500" element={<Page500 />} />*/}

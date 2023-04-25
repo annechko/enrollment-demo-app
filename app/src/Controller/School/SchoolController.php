@@ -70,6 +70,15 @@ class SchoolController extends AbstractController
             'title' => 'School dashboard',
         ]);
     }
+    #[Route('/school/students', name: 'school_student_list_show', methods: ['GET'])]
+    public function studentListShow(): Response
+    {
+        $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
+
+        return $this->render('school/index.html.twig', [
+            'title' => 'School dashboard',
+        ]);
+    }
 
     #[Route('/school/courses', name: 'school_course_list_show', methods: ['GET'])]
     public function courseListShow(): Response
@@ -360,7 +369,7 @@ class SchoolController extends AbstractController
                 ],
                 [
                     'title' => 'Students',
-                    'to' => $this->generateUrl('school_campus_list_show'),
+                    'to' => $this->generateUrl('school_student_list_show'),
                     'type' => 'students',
                 ],
             ],

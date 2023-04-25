@@ -138,11 +138,11 @@ const RegisterContainer = ({urls}) => {
       state,
       setState,
       formId,
-      url: urls.REGISTER,
+      url: urls.school_register,
       onSuccess: onSuccess,
       headers: {'Content-Type': 'multipart/form-data'}
     })
   }
-  return <Register urlLogin={urls.LOGIN} state={state} onSubmit={onSubmit} formId={formId}/>
+  return <Register urlLogin={urls.school_login} state={state} onSubmit={onSubmit} formId={formId}/>
 }
 export default RegisterContainer

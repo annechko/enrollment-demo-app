@@ -9,21 +9,22 @@ const CourseAdd = React.lazy(() => import('./../views/course/CourseAdd'))
 // const CampusesEdit = React.lazy(() => import('./../views/campus/CampusesEdit'))
 
 const AppContent = () => {
+  const urls = window.abeApp.urls
   return (
     <CContainer lg>
       <Suspense fallback={<CSpinner color="primary"/>}>
         <Routes>
-          <Route exact path={window.abeApp.urls.COURSES} name="Courses Page" element={
+          <Route exact path={urls.school_course_list_show} name="Courses Page" element={
             <CourseList/>}/>
-          <Route exact path={window.abeApp.urls.COURSE_ADD} name="Add new course" element={
+          <Route exact path={urls.school_course_add} name="Add new course" element={
             <CourseAdd/>}/>
-          <Route exact path={window.abeApp.urls.CAMPUSES} name="Campuses Page" element={
+          <Route exact path={urls.school_campus_list_show} name="Campuses Page" element={
             <Campuses/>}/>
-          <Route exact path={window.abeApp.urls.CAMPUSES_ADD} name="Add new campus" element={
+          <Route exact path={urls.school_campus_add} name="Add new campus" element={
             <CampusesAdd/>}/>
-          <Route exact path={window.abeApp.urls.CAMPUSES_EDIT} name="Edit campus" element={
+          <Route exact path={urls.school_campus_edit} name="Edit campus" element={
             <CampusesAdd/>}/>
-          <Route exact path="school/" name="Home" element={<div>dashboard</div>}/>
+          <Route exact path={urls.school_home} name="Home" element={<div>dashboard</div>}/>
           <Route path="/" element={<Navigate to="dashboard" replace/>}/>
         </Routes>
       </Suspense>

@@ -18,14 +18,15 @@ import {Link} from "react-router-dom";
 
 const CampusesTable = ({state}) => {
   let rows = []
+  let key = 0
   if (state.items !== null) {
     state.items.forEach((item) => {
       rows.push((
-        <CTableRow>
+        <CTableRow key={key++}>
           <CTableDataCell scope="row">{item.name}</CTableDataCell>
           <CTableDataCell>{item.address}</CTableDataCell>
           <CTableDataCell>
-            <Link to={window.abeApp.urls.CAMPUSES_EDIT.replace(':id', item.id)}>
+            <Link to={window.abeApp.urls.school_campus_edit.replace(':id', item.id)}>
               <CButton color="primary" role="button" className="mb-3">
                 Edit
               </CButton>
@@ -36,7 +37,7 @@ const CampusesTable = ({state}) => {
     })
   } else {
     rows.push((
-      <CTableRow className="rows-loading">
+      <CTableRow key={key++} className="rows-loading">
         <CTableHeaderCell scope="row">Loading, please wait...</CTableHeaderCell>
         <CTableDataCell></CTableDataCell>
         <CTableDataCell></CTableDataCell>
@@ -46,7 +47,7 @@ const CampusesTable = ({state}) => {
   return (
     <CTable hover bordered>
       <CTableHead>
-        <CTableRow>
+        <CTableRow key={key++}>
           <CTableHeaderCell scope="col">Name</CTableHeaderCell>
           <CTableHeaderCell scope="col">Address</CTableHeaderCell>
           <CTableHeaderCell scope="col">Actions</CTableHeaderCell>
@@ -91,7 +92,7 @@ const Campuses = () => {
     })
     const urls = window.abeApp.urls
 
-    axios.get(urls.api.CAMPUSES_GET)
+    axios.get(urls.api_school_campus_list)
       .then(onLoad)
       .catch(onError)
   }
@@ -110,7 +111,7 @@ const Campuses = () => {
           </CCardHeader>
           <CCardBody>
             <p>The buildings, structures, and outdoor areas available for use by children attending the school.</p>
-            <Link to={window.abeApp.urls.CAMPUSES_ADD}>
+            <Link to={window.abeApp.urls.school_campus_add}>
               <CButton color="primary" role="button" className="mb-3">
                 New
               </CButton>

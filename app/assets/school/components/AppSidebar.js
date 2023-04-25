@@ -42,7 +42,7 @@ const AppSidebar = () => {
     })
     const urls = window.abeApp.urls
 
-    axios.get(urls.api.GET_SIDEBAR)
+    axios.get(urls.api_school_sidebar)
       .then(onLoad)
       .catch(onError)
   }

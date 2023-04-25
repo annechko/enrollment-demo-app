@@ -109,7 +109,7 @@ const LoginContainer = ({urls}) => {
       state,
       setState,
       formId,
-      url: urls.LOGIN,
+      url: urls.school_login,
       onSuccess: onSuccess
     })
   }
@@ -117,7 +117,7 @@ const LoginContainer = ({urls}) => {
   return <Login
     onSubmit={onSubmit}
     state={state}
-    urlRegister={urls.REGISTER}
+    urlRegister={urls.school_register}
     formId={formId}/>
 }
 

@@ -53,7 +53,7 @@ const CampusesAdd = () => {
 
     const urls = window.abeApp.urls
 
-    axios.get(urls.api.CAMPUSES_GET_ONE.replace(':id', params.id))
+    axios.get(urls.api_school_campus.replace(':id', params.id))
       .then(onLoad)
       .catch(onError)
   }
@@ -70,9 +70,9 @@ const CampusesAdd = () => {
   const formId = 'campus'
   const onSubmit = (event) => {
     debugger
-    let url = window.abeApp.urls.api.CAMPUSES_ADD
+    let url = window.abeApp.urls.api_school_campus_add
     if (isUpdate) {
-      url = window.abeApp.urls.api.CAMPUSES_EDIT.replace(':id', params.id)
+      url = window.abeApp.urls.api_school_campus_edit.replace(':id', params.id)
     }
     submitForm({
       event,
@@ -91,7 +91,7 @@ const CampusesAdd = () => {
 
   return (
     <>
-      <Link to={window.abeApp.urls.CAMPUSES}>
+      <Link to={window.abeApp.urls.school_campus_list_show}>
         <CButton color="primary" role="button" className="mb-3">
           Go back to list
         </CButton>

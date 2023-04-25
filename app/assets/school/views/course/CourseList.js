@@ -16,7 +16,7 @@ import {
 import axios from "axios";
 import {Link} from "react-router-dom";
 
-const CampusesTable = ({state}) => {
+const CourseTable = ({state}) => {
   let rows = []
   if (state.items !== null) {
     state.items.forEach((item) => {
@@ -27,7 +27,7 @@ const CampusesTable = ({state}) => {
           <CTableDataCell>{item.campuses}</CTableDataCell>
           <CTableDataCell>{item.startDates}</CTableDataCell>
           <CTableDataCell>
-            <Link to={window.abeApp.urls.COURSE_EDIT.replace(':id', item.id)}>
+            <Link to={window.abeApp.urls.school_course_edit.replace(':id', item.id)}>
               <CButton color="primary" role="button" className="mb-3">
                 Edit
               </CButton>
@@ -65,7 +65,7 @@ const CampusesTable = ({state}) => {
   )
 }
 const CourseList = () => {
-
+return <div>in progress</div>;
   const [itemsState, setItemsState] = useState({
     items: null,
     loading: false,
@@ -97,7 +97,7 @@ const CourseList = () => {
     })
     const urls = window.abeApp.urls
 
-    axios.get(urls.api.COURSES_GET)
+    axios.get(urls.api_school_course_list)
       .then(onLoad)
       .catch(onError)
   }
@@ -116,12 +116,12 @@ const CourseList = () => {
           </CCardHeader>
           <CCardBody>
             <p>sdsdsd</p>
-            <Link to={window.abeApp.urls.COURSE_ADD}>
+            <Link to={window.abeApp.urls.school_course_add}>
               <CButton color="primary" role="button" className="mb-3">
                 New
               </CButton>
             </Link>
-            <CampusesTable state={itemsState}/>
+            <CourseTable state={itemsState}/>
           </CCardBody>
         </CCard>
       </CCol>
