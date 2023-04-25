@@ -82,7 +82,7 @@ CampusList.propTypes = {
     PropTypes.shape({
       id: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
-      address: PropTypes.string.isRequired
+      address: PropTypes.string
     })
   ),
 }

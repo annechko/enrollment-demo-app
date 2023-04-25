@@ -4,17 +4,15 @@ import {
   CCard,
   CCardBody,
   CCardHeader,
-  CCol,
   CForm,
   CFormInput,
   CFormLabel,
   CFormTextarea,
-  CRow,
 } from '@coreui/react'
 import axios from "axios";
-import {Link, useNavigate, useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {submitForm} from "../../pages/helper/_submitForm";
-
+import AppBackButton from "../../components/AppBackButton";
 
 const CourseAdd = () => {
   const params = useParams()
@@ -90,11 +88,7 @@ const CourseAdd = () => {
 
   return (
     <>
-      <Link to={window.abeApp.urls.school_course_list_show}>
-        <CButton color="primary" role="button" className="mb-3">
-          Go back to list
-        </CButton>
-      </Link>
+      <AppBackButton/>
       <br/>
       <CCard className="mb-4">
         <CCardHeader>
