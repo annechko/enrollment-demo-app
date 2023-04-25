@@ -11,8 +11,11 @@ import {
 } from '@coreui/react'
 import PropTypes from "prop-types";
 import AppBackButton from "../../components/AppBackButton";
+import AppErrorMessage from "../../components/AppErrorMessage";
 
-const CampusForm = ({onSubmit, formId, isLoading = false, item = null, isUpdate = false}) => {
+const CampusForm = ({onSubmit, formId, dataState, isSubmitted, submitError, isUpdate = false}) => {
+  const item = dataState?.data || null
+  const error = submitError || dataState?.error || null
   if (isUpdate && item === null) {
     return (
       <>
@@ -31,6 +34,7 @@ const CampusForm = ({onSubmit, formId, isLoading = false, item = null, isUpdate 
           </strong>
         </CCardHeader>
         <CCardBody>
+          <AppErrorMessage error={error}/>
           <CForm method="post" onSubmit={onSubmit} id={formId}>
             <div className="mb-3">
               <CFormLabel htmlFor="exampleFormControlInput1">Campus name</CFormLabel>
@@ -48,8 +52,9 @@ const CampusForm = ({onSubmit, formId, isLoading = false, item = null, isUpdate 
                 rows="3"
                 name={formId + "[address]"}></CFormTextarea>
             </div>
-            <CButton color="success" className="px-4"
-              disabled={isLoading}
+            <CButton color="success"
+              className={'px-4' + (isSubmitted ? ' disabled' : '')}
+              disabled={isSubmitted === true}
               type="submit">
               Save
             </CButton>
@@ -60,13 +65,22 @@ const CampusForm = ({onSubmit, formId, isLoading = false, item = null, isUpdate 
   )
 }
 CampusForm.propTypes = {
+  isUpdate: PropTypes.bool,
   onSubmit: PropTypes.func.isRequired,
   formId: PropTypes.string.isRequired,
-  isLoading: PropTypes.bool,
-  isUpdate: PropTypes.bool,
-  item: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    address: PropTypes.string
-  })
+  isSubmitted: PropTypes.bool,
+  submitError: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.oneOf([null]),
+  ]),
+  dataState: PropTypes.shape({
+    data: PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      address: PropTypes.string
+    }),
+    loading: PropTypes.bool,
+    loaded: PropTypes.bool,
+    error: PropTypes.string,
+  }),
 }
 export default CampusForm

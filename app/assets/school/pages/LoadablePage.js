@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import axios from "axios";
 import PropTypes from "prop-types";
 
-const LoadablePage = ({Component, url}) => {
+const LoadablePage = ({Component, url, ...options}) => {
   const [dataState, setDataState] = useState({
     data: null,
     loading: false,
@@ -43,7 +43,7 @@ const LoadablePage = ({Component, url}) => {
     }
   }, [dataState.loaded, dataState.loading, dataState.error])
 
-  return <Component dataState={dataState}/>
+  return <Component dataState={dataState} {...options}/>
 }
 LoadablePage.propTypes = {
   Component: PropTypes.elementType.isRequired,

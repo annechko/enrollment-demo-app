@@ -33,7 +33,7 @@ const CampusList = ({dataState}) => {
           <CTableDataCell>{item.address}</CTableDataCell>
           <CTableDataCell>
             <Link to={window.abeApp.urls.school_campus_edit.replace(':id', item.id)}>
-              <CButton color="primary" role="button" className="mb-3">
+              <CButton color="primary" role="button" className="mb-3" size="sm" variant="outline">
                 Edit
               </CButton>
             </Link>
@@ -44,7 +44,7 @@ const CampusList = ({dataState}) => {
   } else {
     rows.push((
       <CTableRow key={key++} className="rows-loading">
-        <CTableHeaderCell scope="row"><CSpinner color="primary" size="lg"/></CTableHeaderCell>
+        <CTableHeaderCell scope="row"><CSpinner color="primary"/></CTableHeaderCell>
         <CTableDataCell></CTableDataCell>
         <CTableDataCell></CTableDataCell>
       </CTableRow>

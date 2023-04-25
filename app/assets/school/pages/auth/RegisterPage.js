@@ -15,6 +15,7 @@ import {
   CRow,
 } from '@coreui/react'
 import {submitForm} from "../helper/_submitForm";
+import AppErrorMessage from "../../components/AppErrorMessage";
 
 const AfterRegisterMessage = () => {
   return (
@@ -32,14 +33,7 @@ const RegisterForm = ({onSubmit, state, urlLogin, formId}) => {
       <p className="text-medium-emphasis">Set up your school account</p>
 
       <CForm method="post" id={formId} onSubmit={onSubmit}>
-
-        {
-          state.error !== null ? (
-            <div className="alert alert-danger">
-              {state.error}
-            </div>
-          ) : ''
-        }
+        <AppErrorMessage error={state.error}/>
         <CInputGroup className="mb-3">
           <CInputGroupText>
             <CIcon icon={cilSchool}/>

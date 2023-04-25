@@ -17,7 +17,8 @@ import {
   CInputGroupText,
   CRow,
 } from '@coreui/react'
-import {submitForm} from "./../helper/_submitForm";
+import {submitForm} from "../helper/_submitForm";
+import AppErrorMessage from "../../components/AppErrorMessage";
 
 const Login = ({onSubmit, state, urlRegister, formId}) => {
   return (
@@ -31,13 +32,7 @@ const Login = ({onSubmit, state, urlRegister, formId}) => {
                   <CForm method="post" id={formId} onSubmit={onSubmit}>
                     <h1>Login</h1>
                     <p className="text-medium-emphasis">Sign In to your account</p>
-                    {
-                      state.error !== null ? (
-                        <div className="alert alert-danger">
-                          {state.error}
-                        </div>
-                      ) : ''
-                    }
+                    <AppErrorMessage error={state.error}/>
                     <CInputGroup className="mb-3">
                       <CInputGroupText>
                         <CIcon icon={cilUser}/>

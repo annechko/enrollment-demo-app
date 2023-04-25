@@ -6,11 +6,10 @@ import CampusForm from "../../views/campus/CampusForm";
 const CampusAddPage = () => {
 
   const navigate = useNavigate();
-  const initialState = {
+  const [state, setState] = useState({
     loading: false,
     error: null
-  }
-  const [state, setState] = useState(initialState)
+  })
 
   const onSuccess = (response) => {navigate(-1)}
   const formId = 'campus'
@@ -26,7 +25,10 @@ const CampusAddPage = () => {
     })
   }
 
-  return <CampusForm formId={formId} onSubmit={onSubmit}/>
+  return <CampusForm formId={formId} onSubmit={onSubmit}
+    submitError={state.error}
+    isSubmitted={state.loading}
+  />
 }
 
 export default CampusAddPage
