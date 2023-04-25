@@ -71,8 +71,29 @@ class SchoolController extends AbstractController
         ]);
     }
 
+    #[Route('/school/courses', name: 'school_course_list_show', methods: ['GET'])]
+    public function courseListShow(): Response
+    {
+        $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
+
+        return $this->render('school/index.html.twig', [
+            'title' => 'School dashboard',
+        ]);
+    }
+
     #[Route('/school/campuses/add', name: 'school_campus_add', methods: ['GET'])]
     public function campusAddShow(): Response
+    {
+        $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
+
+        return $this->render('school/index.html.twig', [
+            'title' => 'School dashboard',
+        ]);
+    }
+
+
+    #[Route('/school/courses/add', name: 'school_course_add', methods: ['GET'])]
+    public function courseAddShow(): Response
     {
         $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
 
@@ -90,6 +111,18 @@ class SchoolController extends AbstractController
 
         return $this->render('school/index.html.twig', [
             'title' => 'Edit campus',
+        ]);
+    }
+
+    #[Route('/school/courses/{courseId}/edit', name: 'school_course_edit',
+        requirements: ['courseId' => UuidPattern::PATTERN_WITH_TEMPLATE,],
+        methods: ['GET'])]
+    public function courseEditShow(string $courseId): Response
+    {
+        $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
+
+        return $this->render('school/index.html.twig', [
+            'title' => 'Edit course',
         ]);
     }
 
@@ -186,6 +219,45 @@ class SchoolController extends AbstractController
         return new JsonResponse([]);
     }
 
+    #[Route('/api/school/courses', name: 'api_school_course_add', methods: ['POST'])]
+    public function courseAdd(
+        Request $request,
+        Add\Handler $handler
+    ): Response {
+        //todo
+        $command = new Add\Command();
+        $form = $this->createForm(Add\Form::class, $command);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted()) {
+            if (!$form->isValid()) {
+                $violationList = $form->getErrors(true);
+                $error = 'Invalid data.';
+                foreach ($violationList as $violation) {
+                    if ($violation instanceof FormError) {
+                        $error = $violation->getMessage();
+                        break;
+                    }
+                }
+
+                return new JsonResponse([
+                    'error' => $error,
+                ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
+            }
+            try {
+                $handler->handle($command);
+
+                return new JsonResponse();
+            } catch (InvalidArgumentException $exception) {
+                return new JsonResponse([
+                    'error' => $exception->getMessage(),
+                ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
+            }
+        }
+
+        return new JsonResponse([]);
+    }
+
     #[Route('/api/school/campuses', name: 'api_school_campus_list', methods: ['GET'])]
     public function campusListGet(CampusRepository $repository): Response
     {
@@ -199,6 +271,28 @@ class SchoolController extends AbstractController
             ];
         }
         return new JsonResponse($res);
+    }
+
+    #[Route('/api/school/courses', name: 'api_school_course_list', methods: ['GET'])]
+    public function courseListGet(): Response
+    {
+        //$c = $repository->findAll();
+        //$res = [];
+        //foreach ($c as $item) {
+        //    $res[] = [
+        //        'id' => $item->getId()->getValue(),
+        //        'name' => $item->getName(),
+        //        'address' => $item->getAddress(),
+        //    ];
+        //}
+        return new JsonResponse([
+            [
+                'id' => (new UuidGenerator())->generate(),
+                'name' => 'test',
+                'campuses' => 'campuses',
+                'startDates' => 'startDates',
+            ]
+        ]);
     }
 
     #[Route('/api/school/campuses/{campusId}', name: 'api_school_campus',
@@ -219,6 +313,31 @@ class SchoolController extends AbstractController
         ]);
     }
 
+    #[Route('/api/school/courses/{courseId}', name: 'api_school_course',
+        requirements: ['courseId' => UuidPattern::PATTERN_WITH_TEMPLATE,],
+        methods: ['GET'])]
+    public function courseGet(CampusRepository $repository, string $courseId): Response
+    {
+        //try {
+        //    $course = $repository->get($courseId);
+        //} catch (NotFoundException $exception) {
+        //    return new JsonResponse([], Response::HTTP_NOT_FOUND);
+        //}
+
+        //return new JsonResponse([
+        //    'id' => $course->getId()->getValue(),
+        //    'name' => $course->getName(),
+        //    'campuses' => $course->getAddress(),
+        //    'startDates' => $course->getAddress(),
+        //]);
+        return new JsonResponse([
+            'id' => (new UuidGenerator())->generate(),
+            'name' => '$course->getName()',
+            'campuses' => '$course->getAddress()',
+            'startDates' => '$course->getAddress()',
+        ]);
+    }
+
     #[Route('/api/school/sidebar', name: 'api_school_sidebar', methods: ['GET'])]
     public function getSidebar(): Response
     {
@@ -230,9 +349,19 @@ class SchoolController extends AbstractController
                     'type' => 'home',
                 ],
                 [
+                    'title' => 'Courses',
+                    'to' => $this->generateUrl('school_course_list_show'),
+                    'type' => 'courses',
+                ],
+                [
                     'title' => 'Campuses',
                     'to' => $this->generateUrl('school_campus_list_show'),
                     'type' => 'campuses',
+                ],
+                [
+                    'title' => 'Students',
+                    'to' => $this->generateUrl('school_campus_list_show'),
+                    'type' => 'students',
                 ],
             ],
         ]);
@@ -270,7 +399,7 @@ class SchoolController extends AbstractController
 
     #[Route('/api/school/courses/{courseId}', name: 'api_school_course_edit',
         requirements: [
-            'courseId' => UuidPattern::PATTERN,
+            'courseId' => UuidPattern::PATTERN_WITH_TEMPLATE,
         ])]
     public function courseEdit(
         Request $request,

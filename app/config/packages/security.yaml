@@ -22,7 +22,7 @@ security:
             security: false
         school:
             lazy: true
-            pattern: ^/school/
+            pattern: ^/(api\/)?school
             custom_authenticator: App\Security\SchoolAuthenticator
             logout:
                 path: school_logout

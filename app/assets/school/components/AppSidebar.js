@@ -6,7 +6,7 @@ import SimpleBar from 'simplebar-react'
 import './AppSidebar.scss'
 
 // import navigation from './_nav'
-import {cilBaby, cilSpeedometer, cilAddressBook} from "@coreui/icons";
+import {cilBaby, cilSpeedometer, cilInstitution, cilPeople, cilEducation} from "@coreui/icons";
 import axios from "axios";
 
 const AppSidebar = () =>
@@ -88,7 +88,25 @@ const AppSidebar = () =>
 					component: CNavItem,
 					name: navItem.title,
 					to: navItem.to,
-					icon: <CIcon icon={cilAddressBook} customClassName="nav-icon"/>
+					icon: <CIcon icon={cilInstitution} customClassName="nav-icon"/>
+				})
+			}
+			else if (navItem.type === 'courses')
+			{
+				navigation.push({
+					component: CNavItem,
+					name: navItem.title,
+					to: navItem.to,
+					icon: <CIcon icon={cilEducation} customClassName="nav-icon"/>
+				})
+			}
+			else if (navItem.type === 'students')
+			{
+				navigation.push({
+					component: CNavItem,
+					name: navItem.title,
+					to: navItem.to,
+					icon: <CIcon icon={cilPeople} customClassName="nav-icon"/>
 				})
 			}
 		})
