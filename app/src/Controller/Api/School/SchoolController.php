@@ -26,43 +26,15 @@ class SchoolController extends AbstractController
     #[Route('/campuses/{campusId}/edit', name: 'api_school_campus_edit',
         requirements: ['campusId' => UuidPattern::PATTERN_WITH_TEMPLATE,],
         methods: ['POST'])]
-    public function campusEdit(Request $request, string $campusId, Campus\Edit\Handler $handler): Response
-    {
+    public function campusEdit(
+        Request $request,
+        string $campusId,
+        Campus\Edit\Handler $handler
+    ): Response {
         $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
 
         $command = new Campus\Edit\Command($campusId);
-        $form = $this->createForm(Campus\Edit\Form::class, $command);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted()) {
-            if (!$form->isValid()) {
-                $violationList = $form->getErrors(true);
-                $error = 'Invalid data.';
-                foreach ($violationList as $violation) {
-                    if ($violation instanceof FormError) {
-                        $error = $violation->getMessage();
-                        break;
-                    }
-                }
-
-                return new JsonResponse([
-                    'error' => $error,
-                ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
-            }
-            try {
-                $handler->handle($command);
-
-                return new JsonResponse(
-                    ['redirect' => $this->generateUrl('school_campus_list_show')]
-                );
-            } catch (InvalidArgumentException $exception) {
-                return new JsonResponse([
-                    'error' => $exception->getMessage(),
-                ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
-            }
-        }
-
-        return new JsonResponse([]);
+        return $this->handle($command, Campus\Edit\Form::class, $handler, $request);
     }
 
     #[Route('/campuses', name: 'api_school_campus_add', methods: ['POST'])]
@@ -70,40 +42,10 @@ class SchoolController extends AbstractController
         Request $request,
         Campus\Add\Handler $handler
     ): Response {
-        //todo
+        $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
+
         $command = new Campus\Add\Command();
-        $form = $this->createForm(Campus\Add\Form::class, $command);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted()) {
-            if (!$form->isValid()) {
-                $violationList = $form->getErrors(true);
-                $error = 'Invalid data.';
-                foreach ($violationList as $violation) {
-                    if ($violation instanceof FormError) {
-                        $error = $violation->getMessage();
-                        break;
-                    }
-                }
-
-                return new JsonResponse([
-                    'error' => $error,
-                ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
-            }
-            try {
-                $handler->handle($command);
-
-                return new JsonResponse(
-                    ['redirect' => $this->generateUrl('school_campus_list_show')]
-                );
-            } catch (InvalidArgumentException $exception) {
-                return new JsonResponse([
-                    'error' => $exception->getMessage(),
-                ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
-            }
-        }
-
-        return new JsonResponse([]);
+        return $this->handle($command, Campus\Add\Form::class, $handler, $request);
     }
 
     #[Route('/courses', name: 'api_school_course_add', methods: ['POST'])]
@@ -111,40 +53,10 @@ class SchoolController extends AbstractController
         Request $request,
         Course\Add\Handler $handler
     ): Response {
-        //todo
+        $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
+
         $command = new Course\Add\Command();
-        $form = $this->createForm(Course\Add\Form::class, $command);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted()) {
-            if (!$form->isValid()) {
-                $violationList = $form->getErrors(true);
-                $error = 'Invalid data.';
-                foreach ($violationList as $violation) {
-                    if ($violation instanceof FormError) {
-                        $error = $violation->getMessage();
-                        break;
-                    }
-                }
-
-                return new JsonResponse([
-                    'error' => $error,
-                ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
-            }
-            try {
-                $handler->handle($command);
-
-                return new JsonResponse(
-                    ['redirect' => $this->generateUrl('school_campus_list_show')]
-                );
-            } catch (InvalidArgumentException $exception) {
-                return new JsonResponse([
-                    'error' => $exception->getMessage(),
-                ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
-            }
-        }
-
-        return new JsonResponse([]);
+        return $this->handle($command, Course\Add\Form::class, $handler, $request);
     }
 
     #[Route('/campuses', name: 'api_school_campus_list', methods: ['GET'])]
@@ -227,36 +139,8 @@ class SchoolController extends AbstractController
         $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
 
         $command = new Course\Edit\Command($courseId);
-        $form = $this->createForm(Course\Edit\Form::class, $command);
-        $form->handleRequest($request);
 
-        if ($form->isSubmitted()) {
-            if (!$form->isValid()) {
-                $violationList = $form->getErrors(true);
-                $error = 'Invalid data.';
-                foreach ($violationList as $violation) {
-                    if ($violation instanceof FormError) {
-                        $error = $violation->getMessage();
-                        break;
-                    }
-                }
-
-                return new JsonResponse([
-                    'error' => $error,
-                ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
-            }
-            try {
-                $handler->handle($command);
-
-                return new JsonResponse();
-            } catch (InvalidArgumentException $exception) {
-                return new JsonResponse([
-                    'error' => $exception->getMessage(),
-                ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
-            }
-        }
-
-        return new JsonResponse([]);
+        return $this->handle($command, Course\Edit\Form::class, $handler, $request);
     }
 
     #[Route('/sidebar', name: 'api_school_sidebar', methods: ['GET'])]
@@ -317,4 +201,41 @@ class SchoolController extends AbstractController
     //        'pagination' => $courses,
     //    ]);
     //}
+    private function handle(
+        object $command,
+        string $class,
+        object $handler,
+        Request $request,
+    ): JsonResponse {
+        $form = $this->createForm($class, $command);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted()) {
+            if (!$form->isValid()) {
+                $violationList = $form->getErrors(true);
+                $error = 'Invalid data.';
+                foreach ($violationList as $violation) {
+                    if ($violation instanceof FormError) {
+                        $error = $violation->getMessage();
+                        break;
+                    }
+                }
+
+                return new JsonResponse([
+                    'error' => $error,
+                ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
+            }
+            try {
+                $handler->handle($command);
+
+                return new JsonResponse();
+            } catch (InvalidArgumentException $exception) {
+                return new JsonResponse([
+                    'error' => $exception->getMessage(),
+                ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
+            }
+        }
+
+        return new JsonResponse([]);
+    }
 }
