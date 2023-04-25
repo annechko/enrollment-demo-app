@@ -22,7 +22,7 @@ const CampusesTable = ({state}) => {
     state.items.forEach((item) => {
       rows.push((
         <CTableRow>
-          <CTableDataCell scope="row">{item.id.substr(0,8)+'...'}</CTableDataCell>
+          <CTableDataCell scope="row">{item.id.substr(0, 8) + '...'}</CTableDataCell>
           <CTableDataCell scope="row">{item.name}</CTableDataCell>
           <CTableDataCell>{item.campuses}</CTableDataCell>
           <CTableDataCell>{item.startDates}</CTableDataCell>

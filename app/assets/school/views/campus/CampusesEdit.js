@@ -28,40 +28,40 @@ const CampusesEdit = () => {
   })
 
 
-    const onLoad = (response) => {
-      setItemState({
-        item: response.data,
-        loading: false,
-        loaded: true,
-        error: null
-      })
-    }
-    const onError = (error) => {
-      setItemState({
-        item: null,
-        loading: false,
-        loaded: false,
-        error: error.response?.data?.error || 'Something went wrong'
-      })
-    }
-    const loadNavItems = () => {
-      setItemState({
-        item: null,
-        loading: true,
-        loaded: false,
-        error: null
-      })
-      const urls = window.abeApp.urls
+  const onLoad = (response) => {
+    setItemState({
+      item: response.data,
+      loading: false,
+      loaded: true,
+      error: null
+    })
+  }
+  const onError = (error) => {
+    setItemState({
+      item: null,
+      loading: false,
+      loaded: false,
+      error: error.response?.data?.error || 'Something went wrong'
+    })
+  }
+  const loadNavItems = () => {
+    setItemState({
+      item: null,
+      loading: true,
+      loaded: false,
+      error: null
+    })
+    const urls = window.abeApp.urls
 
-      axios.get(urls.api.CAMPUSES_GET_ONE.replace(':id', params.id))
-        .then(onLoad)
-        .catch(onError)
+    axios.get(urls.api.CAMPUSES_GET_ONE.replace(':id', params.id))
+      .then(onLoad)
+      .catch(onError)
+  }
+  React.useEffect(() => {
+    if (!itemState.loaded && !itemState.loading && itemState.error === null) {
+      loadNavItems()
     }
-    React.useEffect(() => {
-      if (!itemState.loaded && !itemState.loading && itemState.error === null) {
-        loadNavItems()
-      }
-    }, [itemState.loaded, itemState.loading, itemState.error, params.id])
+  }, [itemState.loaded, itemState.loading, itemState.error, params.id])
   if (itemState.loading) {
     return (<div>Loading...</div>)
   }

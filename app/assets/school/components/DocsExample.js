@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types'
 import React from 'react'
-import { CNav, CNavItem, CNavLink, CTabContent, CTabPane } from '@coreui/react'
+import {CNav, CNavItem, CNavLink, CTabContent, CTabPane} from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-import { cilCode, cilMediaPlay } from '@coreui/icons'
+import {cilCode, cilMediaPlay} from '@coreui/icons'
 
 const DocsExample = (props) => {
-  const { children, href } = props
+  const {children, href} = props
 
   const _href = `https://coreui.io/react/docs/${href}`
 
@@ -14,13 +14,13 @@ const DocsExample = (props) => {
       <CNav variant="tabs">
         <CNavItem>
           <CNavLink href="#" active>
-            <CIcon icon={cilMediaPlay} className="me-2" />
+            <CIcon icon={cilMediaPlay} className="me-2"/>
             Preview
           </CNavLink>
         </CNavItem>
         <CNavItem>
           <CNavLink href={_href} target="_blank">
-            <CIcon icon={cilCode} className="me-2" />
+            <CIcon icon={cilCode} className="me-2"/>
             Code
           </CNavLink>
         </CNavItem>

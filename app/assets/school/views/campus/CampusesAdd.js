@@ -33,36 +33,36 @@ const CampusesAdd = () => {
     error: null
   })
 
-    const onLoad = (response) => {
-      setItemState({
-        item: response.data,
-        loading: false,
-        loaded: true,
-        error: null
-      })
-    }
-    const onError = (error) => {
-      setItemState({
-        item: null,
-        loading: false,
-        loaded: false,
-        error: error.response?.data?.error || 'Something went wrong'
-      })
-    }
-    const loadItem = () => {
+  const onLoad = (response) => {
+    setItemState({
+      item: response.data,
+      loading: false,
+      loaded: true,
+      error: null
+    })
+  }
+  const onError = (error) => {
+    setItemState({
+      item: null,
+      loading: false,
+      loaded: false,
+      error: error.response?.data?.error || 'Something went wrong'
+    })
+  }
+  const loadItem = () => {
 
-      const urls = window.abeApp.urls
+    const urls = window.abeApp.urls
 
-      axios.get(urls.api.CAMPUSES_GET_ONE.replace(':id', params.id))
-        .then(onLoad)
-        .catch(onError)
+    axios.get(urls.api.CAMPUSES_GET_ONE.replace(':id', params.id))
+      .then(onLoad)
+      .catch(onError)
+  }
+  React.useEffect(() => {
+    debugger
+    if (!itemState.loaded && !itemState.loading && itemState.error === null) {
+      loadItem()
     }
-    React.useEffect(() => {
-      debugger
-      if (!itemState.loaded && !itemState.loading && itemState.error === null) {
-        loadItem()
-      }
-    }, [itemState.loaded, itemState.loading, itemState.error, isUpdate, params.id])
+  }, [itemState.loaded, itemState.loading, itemState.error, isUpdate, params.id])
 
   const onSuccess = (responseS) => {
     navigate(responseS.data?.redirect || '/');
@@ -84,10 +84,9 @@ const CampusesAdd = () => {
       headers: {'Content-Type': 'multipart/form-data'}//todo should be json
     })
   }
-  if (isUpdate && itemState.item===null) {
+  if (isUpdate && itemState.item === null) {
     return (<div>Loading...</div>)
   }
-
 
 
   return (
@@ -101,7 +100,7 @@ const CampusesAdd = () => {
       <CCard className="mb-4">
         <CCardHeader>
           <strong>
-            {isUpdate?'Update campus':'Lets create new campus!'}
+            {isUpdate ? 'Update campus' : 'Lets create new campus!'}
           </strong>
         </CCardHeader>
         <CCardBody>
