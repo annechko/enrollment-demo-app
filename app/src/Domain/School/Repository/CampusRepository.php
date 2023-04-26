@@ -55,7 +55,6 @@ class CampusRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param array $campusIds
      * @return Campus[]
      */
     public function findAllByIds(array $campusIds): array

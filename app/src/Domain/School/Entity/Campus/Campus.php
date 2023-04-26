@@ -53,6 +53,7 @@ class Campus
     ): self {
         $this->name = $name;
         $this->address = $address;
+
         return $this;
     }
 }

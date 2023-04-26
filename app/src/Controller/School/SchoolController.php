@@ -65,6 +65,7 @@ class SchoolController extends AbstractController
             'title' => 'School dashboard',
         ]);
     }
+
     #[Route('/school/students', name: 'school_student_list_show', methods: ['GET'])]
     public function studentListShow(): Response
     {
@@ -95,7 +96,6 @@ class SchoolController extends AbstractController
         ]);
     }
 
-
     #[Route('/school/courses/add', name: 'school_course_add', methods: ['GET'])]
     public function courseAddShow(): Response
     {
@@ -107,7 +107,7 @@ class SchoolController extends AbstractController
     }
 
     #[Route('/school/campuses/{campusId}/edit', name: 'school_campus_edit',
-        requirements: ['campusId' => UuidPattern::PATTERN_WITH_TEMPLATE,],
+        requirements: ['campusId' => UuidPattern::PATTERN_WITH_TEMPLATE],
         methods: ['GET'])]
     public function campusEditShow(string $campusId): Response
     {
@@ -119,7 +119,7 @@ class SchoolController extends AbstractController
     }
 
     #[Route('/school/courses/{courseId}/edit', name: 'school_course_edit',
-        requirements: ['courseId' => UuidPattern::PATTERN_WITH_TEMPLATE,],
+        requirements: ['courseId' => UuidPattern::PATTERN_WITH_TEMPLATE],
         methods: ['GET'])]
     public function courseEditShow(string $courseId): Response
     {

@@ -1,20 +1,21 @@
 import {
+  CButton,
   CCard,
   CCardBody,
   CCardHeader,
   CCol,
   CRow,
+  CSpinner,
   CTable,
   CTableBody,
-  CButton,
   CTableDataCell,
   CTableHead,
   CTableHeaderCell,
-  CTableRow, CSpinner,
+  CTableRow,
 } from '@coreui/react'
-import {Link} from "react-router-dom";
 import PropTypes from "prop-types";
 import React from "react";
+import {Link} from "react-router-dom";
 
 const CampusList = ({dataState}) => {
   const items = dataState.data
@@ -43,7 +44,7 @@ const CampusList = ({dataState}) => {
     })
   } else {
     rows.push((
-      <CTableRow key={key++} className="rows-loading">
+      <CTableRow key={key++} className="app-loading">
         <CTableHeaderCell scope="row"><CSpinner color="primary"/></CTableHeaderCell>
         <CTableDataCell></CTableDataCell>
         <CTableDataCell></CTableDataCell>

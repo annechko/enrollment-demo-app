@@ -75,6 +75,7 @@ class SchoolAuthenticator extends AbstractLoginFormAuthenticator
                 Response::HTTP_UNAUTHORIZED
             );
         }
+
         return new JsonResponse(
             [
                 'error' => $exception->getMessageKey(),

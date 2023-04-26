@@ -6,7 +6,6 @@ namespace App\Domain\School\UseCase\School\Campus\Edit;
 
 use App\Domain\Core\Flusher;
 use App\Domain\School\Repository\CampusRepository;
-use DomainException;
 
 class Handler
 {
@@ -23,7 +22,7 @@ class Handler
 
         $campusWithSameName = $this->campusRepository->findByName($command->name);
         if ($campusWithSameName && !$campusWithSameName->getId()->isSameValue($command->id)) {
-            throw new DomainException("Campus with the name \"$command->name\" already exists.");
+            throw new \DomainException("Campus with the name \"$command->name\" already exists.");
         }
         $this->flusher->flush();
     }

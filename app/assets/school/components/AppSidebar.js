@@ -1,12 +1,26 @@
-import React, {useEffect, useState, memo} from 'react'
-import {CNavItem, CSidebar, CSidebarBrand, CSidebarNav, CSidebarToggler} from '@coreui/react'
+import {
+  cilBaby,
+  cilEducation,
+  cilInstitution,
+  cilPeople,
+  cilSpeedometer
+} from "@coreui/icons";
 import CIcon from '@coreui/icons-react'
-import {AppSidebarNav} from './AppSidebarNav'
+import {
+  CNavItem,
+  CSidebar,
+  CSidebarBrand,
+  CSidebarNav,
+  CSidebarToggler
+} from '@coreui/react'
+import axios from "axios";
+import React, {
+  memo,
+  useState
+} from 'react'
 import SimpleBar from 'simplebar-react'
 import './AppSidebar.scss'
-
-import {cilBaby, cilSpeedometer, cilInstitution, cilPeople, cilEducation} from "@coreui/icons";
-import axios from "axios";
+import {AppSidebarNav} from './AppSidebarNav'
 
 const AppSidebar = () => {
   const [unfoldable, toogleUnfoldable] = useState(false)

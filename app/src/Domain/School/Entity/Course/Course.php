@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Domain\School\Entity\Course;
 
 use App\Domain\School\Entity\Campus\Campus;
-use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -26,7 +25,7 @@ class Course
     private ?string $description;
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: false)]
-    private DateTimeImmutable $createdAt;
+    private \DateTimeImmutable $createdAt;
 
     /**
      * @var Collection<int, Campus>
@@ -45,12 +44,12 @@ class Course
         string $name,
         ?string $description = null,
         array $campuses = [],
-        ?DateTimeImmutable $createdAt = null,
+        ?\DateTimeImmutable $createdAt = null,
     ) {
         $this->id = $id;
         $this->name = $name;
         $this->description = $description;
-        $this->createdAt = $createdAt ?? new DateTimeImmutable();
+        $this->createdAt = $createdAt ?? new \DateTimeImmutable();
         $this->setCampuses($campuses);
     }
 
@@ -94,6 +93,7 @@ class Course
                 $this->campuses->add($campus);
             }
         }
+
         return $this;
     }
 
@@ -111,6 +111,7 @@ class Course
         foreach ($campuses as $campus) {
             $this->campuses->add($campus);
         }
+
         return $this;
     }
 }

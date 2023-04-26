@@ -29,7 +29,7 @@ const CampusOptions = ({formId, isLoading, campuses, setCampusValue, campusValue
         onChange={onChange}
         multiple
         name={formId + "[campuses][]"}
-        className={isLoading ? 'app-loading' : ''}>>
+        className={isLoading ? 'app-loading' : ''}>
       </CFormSelect>
     </>
   )

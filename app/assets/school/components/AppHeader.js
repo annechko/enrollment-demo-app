@@ -1,17 +1,17 @@
-import React from 'react'
-import {NavLink} from 'react-router-dom'
+import {
+  cilBell,
+  cilEnvelopeOpen,
+  cilList
+} from '@coreui/icons'
+import CIcon from '@coreui/icons-react'
 import {
   CContainer,
   CHeader,
-  CHeaderBrand,
-  CHeaderDivider,
   CHeaderNav,
-  CHeaderToggler,
-  CNavLink,
   CNavItem,
+  CNavLink,
 } from '@coreui/react'
-import CIcon from '@coreui/icons-react'
-import {cilBell, cilEnvelopeOpen, cilList, cilMenu} from '@coreui/icons'
+import React from 'react'
 
 // import { AppBreadcrumb } from './index'
 import {AppHeaderDropdown} from './header/index'

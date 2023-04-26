@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import {useNavigate} from "react-router-dom";
-import {submitForm} from "../helper/_submitForm";
 import CampusForm from "../../views/campus/CampusForm";
+import {submitForm} from "../helper/_submitForm";
 
 const CampusAddPage = () => {
 
@@ -11,7 +11,9 @@ const CampusAddPage = () => {
     error: null
   })
 
-  const onSuccess = (response) => {navigate(-1)}
+  const onSuccess = (response) => {
+    navigate(-1)
+  }
   const formId = 'campus'
   const onSubmit = (event) => {
     submitForm({

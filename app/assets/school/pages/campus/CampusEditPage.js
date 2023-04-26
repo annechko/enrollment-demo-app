@@ -1,8 +1,11 @@
 import React from 'react'
-import {useNavigate, useParams} from "react-router-dom";
-import {submitForm} from "../helper/_submitForm";
+import {
+  useNavigate,
+  useParams
+} from "react-router-dom";
 import CampusForm from "../../views/campus/CampusForm";
-import LoadablePage from "../LoadablePage";
+import {submitForm} from "../helper/_submitForm";
+import Loadable from "../Loadable";
 
 const CampusEditPage = () => {
   const params = useParams()
@@ -28,7 +31,7 @@ const CampusEditPage = () => {
     })
   }
 
-  return <LoadablePage
+  return <Loadable
     Component={CampusForm}
     url={window.abeApp.urls.api_school_campus.replace(':id', params.id)}
     formId={formId}

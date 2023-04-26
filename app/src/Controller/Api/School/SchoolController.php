@@ -9,7 +9,6 @@ use App\Domain\Core\UuidPattern;
 use App\Domain\School\Common\RoleEnum;
 use App\Domain\School\Repository\CampusRepository;
 use App\Domain\School\Repository\CourseRepository;
-use App\Domain\School\UseCase\Member;
 use App\Domain\School\UseCase\School\Campus;
 use App\Domain\School\UseCase\School\Course;
 use App\ReadModel\School\CampusFetcher;
@@ -27,7 +26,7 @@ use Webmozart\Assert\InvalidArgumentException;
 class SchoolController extends AbstractController
 {
     #[Route('/campuses/{campusId}/edit', name: 'api_school_campus_edit',
-        requirements: ['campusId' => UuidPattern::PATTERN_WITH_TEMPLATE,],
+        requirements: ['campusId' => UuidPattern::PATTERN_WITH_TEMPLATE],
         methods: ['POST'])]
     public function campusEdit(
         Request $request,
@@ -37,6 +36,7 @@ class SchoolController extends AbstractController
         $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
 
         $command = new Campus\Edit\Command($campusId);
+
         return $this->handle($command, Campus\Edit\Form::class, $handler, $request);
     }
 
@@ -48,6 +48,7 @@ class SchoolController extends AbstractController
         $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
 
         $command = new Campus\Add\Command();
+
         return $this->handle($command, Campus\Add\Form::class, $handler, $request);
     }
 
@@ -63,11 +64,12 @@ class SchoolController extends AbstractController
                 'address' => $item->getAddress(),
             ];
         }
+
         return new JsonResponse($res);
     }
 
     #[Route('/campuses/{campusId}', name: 'api_school_campus',
-        requirements: ['campusId' => UuidPattern::PATTERN_WITH_TEMPLATE,],
+        requirements: ['campusId' => UuidPattern::PATTERN_WITH_TEMPLATE],
         methods: ['GET'])]
     public function campusGet(CampusRepository $repository, string $campusId): Response
     {
@@ -96,6 +98,7 @@ class SchoolController extends AbstractController
                 'description' => $item->getDescription(),
             ];
         }
+
         return new JsonResponse($res);
     }
 
@@ -107,6 +110,7 @@ class SchoolController extends AbstractController
         $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
 
         $command = new Course\Add\Command();
+
         return $this->handle($command, Course\Add\Form::class, $handler, $request);
     }
 
@@ -129,6 +133,7 @@ class SchoolController extends AbstractController
                 foreach ($violations as $violation) {
                     $errors[] = $violation->getMessage();
                 }
+
                 return new JsonResponse(['error' => implode(';', $errors)],
                     Response::HTTP_UNPROCESSABLE_ENTITY);
             }
@@ -202,8 +207,8 @@ class SchoolController extends AbstractController
         ]);
     }
 
-    //public function index(): Response
-    //{
+    // public function index(): Response
+    // {
     //    $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
     //
     //    $courses = [
@@ -230,7 +235,7 @@ class SchoolController extends AbstractController
     //    return $this->render('school/index.html.twig', [
     //        'pagination' => $courses,
     //    ]);
-    //}
+    // }
     private function handle(
         object $command,
         string $class,

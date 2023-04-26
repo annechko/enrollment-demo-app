@@ -15,7 +15,7 @@ class Command
     public $description;
 
     #[Assert\All([
-        new Assert\NotBlank,
+        new Assert\NotBlank(),
         new Assert\Regex(pattern: UuidPattern::PATTERN_REG_EXP),
     ])]
     public $campuses;

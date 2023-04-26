@@ -7,7 +7,6 @@ namespace App\Domain\School\Entity\School;
 use App\Domain\School\Common\RoleEnum;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use DomainException;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'school_school')]
@@ -58,7 +57,7 @@ class School
         InvitationToken $token
     ): void {
         if ($this->status !== self::STATUS_NEW) {
-            throw new DomainException('School can not be confirmed.');
+            throw new \DomainException('School can not be confirmed.');
         }
         $this->status = self::STATUS_ACTIVE;
         $this->admin->invite($token);

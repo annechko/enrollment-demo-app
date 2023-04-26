@@ -1,6 +1,13 @@
+import {
+  CContainer,
+  CSpinner
+} from '@coreui/react'
 import React, {Suspense} from 'react'
-import {Navigate, Route, Routes} from 'react-router-dom'
-import {CContainer, CSpinner} from '@coreui/react'
+import {
+  Navigate,
+  Route,
+  Routes
+} from 'react-router-dom'
 
 const CampusListPage = React.lazy(() => import('./../pages/campus/CampusListPage'))
 const CampusAddPage = React.lazy(() => import('./../pages/campus/CampusAddPage'))

@@ -8,7 +8,6 @@ use App\Domain\Core\Flusher;
 use App\Domain\School\Entity\Campus\CampusId;
 use App\Domain\School\Repository\CampusRepository;
 use App\Domain\School\Repository\CourseRepository;
-use DomainException;
 
 class Handler
 {

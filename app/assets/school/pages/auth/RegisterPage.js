@@ -1,7 +1,8 @@
-import React from 'react'
-import {Link} from 'react-router-dom'
+import {
+  cilSchool,
+  cilUser
+} from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
-import {cilSchool, cilUser} from '@coreui/icons'
 import {
   CButton,
   CCard,
@@ -14,8 +15,10 @@ import {
   CInputGroupText,
   CRow,
 } from '@coreui/react'
-import {submitForm} from "../helper/_submitForm";
+import React from 'react'
+import {Link} from 'react-router-dom'
 import AppErrorMessage from "../../components/AppErrorMessage";
+import {submitForm} from "../helper/_submitForm";
 
 const AfterRegisterMessage = () => {
   return (

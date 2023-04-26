@@ -1,18 +1,7 @@
-import React from 'react'
-import {
-  CAvatar,
-  CBadge,
-  CDropdown,
-  CDropdownDivider,
-  CDropdownHeader,
-  CDropdownItem,
-  CDropdownMenu,
-  CDropdownToggle,
-} from '@coreui/react'
 import {
   cilBell,
-  cilCreditCard,
   cilCommentSquare,
+  cilCreditCard,
   cilEnvelopeOpen,
   cilFile,
   cilLockLocked,
@@ -21,6 +10,16 @@ import {
   cilUser,
 } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
+import {
+  CBadge,
+  CDropdown,
+  CDropdownDivider,
+  CDropdownHeader,
+  CDropdownItem,
+  CDropdownMenu,
+  CDropdownToggle,
+} from '@coreui/react'
+import React from 'react'
 
 const AppHeaderDropdown = () => {
   return (
