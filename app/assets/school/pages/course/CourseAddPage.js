@@ -1,7 +1,8 @@
 import React, {useState} from 'react'
 import {useNavigate} from "react-router-dom";
-import {submitForm} from "../helper/_submitForm";
 import CourseForm from "../../views/course/CourseForm";
+import {submitForm} from "../helper/_submitForm";
+import Loadable from "../Loadable";
 
 const CourseAddPage = () => {
 
@@ -10,8 +11,11 @@ const CourseAddPage = () => {
     loading: false,
     error: null
   })
+  const [campusValue, setCampusValue] = React.useState(null)
 
-  const onSuccess = (response) => {navigate(-1)}
+  const onSuccess = (response) => {
+    navigate(-1)
+  }
   const formId = 'course'
   const onSubmit = (event) => {
     submitForm({
@@ -24,10 +28,16 @@ const CourseAddPage = () => {
       headers: {'Content-Type': 'multipart/form-data'}//todo should be json
     })
   }
-
-  return <CourseForm formId={formId} onSubmit={onSubmit}
-    submitError={state.error}
+  return <Loadable
+    Component={CourseForm}
+    url={window.abeApp.urls.api_school_course}
+    formId={formId}
+    onSubmit={onSubmit}
     isSubmitted={state.loading}
+    submitError={state.error}
+
+    setCampusValue={setCampusValue}
+    campusValue={campusValue}
   />
 }
 

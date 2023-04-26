@@ -1,10 +1,10 @@
 import React from 'react'
+import Loadable from "../Loadable";
 import CourseList from "./../../views/course/CourseList";
-import LoadablePage from "../LoadablePage";
 
 const CourseListPage = () => {
 
-  return <LoadablePage
+  return <Loadable
     Component={CourseList}
     url={window.abeApp.urls.api_school_course_list}/>
 }

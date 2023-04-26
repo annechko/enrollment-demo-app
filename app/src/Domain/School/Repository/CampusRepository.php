@@ -53,4 +53,26 @@ class CampusRepository extends ServiceEntityRepository
     {
         return $this->findOneBy(['name' => $name]);
     }
+
+    /**
+     * @param array $campusIds
+     * @return Campus[]
+     */
+    public function findAllByIds(array $campusIds): array
+    {
+        return $this->findBy([
+            'id' => $campusIds,
+        ]);
+    }
+
+    /**
+     * @return Campus[]
+     */
+    public function findAllOrderedByName(): array
+    {
+        return $this->createQueryBuilder('c')
+            ->orderBy('LOWER(c.name)')
+            ->getQuery()
+            ->execute();
+    }
 }

@@ -9,10 +9,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class Command
 {
-    private const PATTERN = '#' . UuidPattern::PATTERN . '#';
-
     #[Assert\NotBlank]
-    #[Assert\Regex(pattern: self::PATTERN)]
+    #[Assert\Regex(pattern: UuidPattern::PATTERN_REG_EXP)]
     public $id;
 
     #[Assert\NotBlank]

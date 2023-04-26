@@ -1,4 +1,3 @@
-import React from 'react'
 import {
   CButton,
   CCard,
@@ -10,13 +9,27 @@ import {
   CFormTextarea,
 } from '@coreui/react'
 import PropTypes from "prop-types";
+import React from 'react'
 import AppBackButton from "../../components/AppBackButton";
 import AppErrorMessage from "../../components/AppErrorMessage";
+import CampusOptions from "./CampusOptions";
 
-const CourseForm = ({onSubmit, formId, dataState, isSubmitted, submitError, isUpdate = false}) => {
+const CourseForm = ({
+                      onSubmit,
+                      setCampusValue,
+                      formId,
+                      dataState,
+                      campusValue,
+                      isSubmitted,
+                      submitError,
+                      isUpdate = false
+                    }) => {
   const item = dataState?.data || null
   const error = submitError || dataState?.error || null
   if (isUpdate && item === null) {
+    if (error) {
+      return <AppErrorMessage error={error}/>
+    }
     return (
       <>
         <AppBackButton/>
@@ -24,6 +37,7 @@ const CourseForm = ({onSubmit, formId, dataState, isSubmitted, submitError, isUp
       </>
     )
   }
+
   return (
     <>
       <AppBackButton/>
@@ -52,6 +66,13 @@ const CourseForm = ({onSubmit, formId, dataState, isSubmitted, submitError, isUp
                 rows="3"
                 name={formId + "[description]"}></CFormTextarea>
             </div>
+            <div className="mb-3">
+              <CampusOptions formId={formId}
+                campusValue={campusValue === null ? item?.selectedCampuses || [] : campusValue}
+                isLoading={dataState.loading}
+                campuses={item?.campuses || []}
+                setCampusValue={setCampusValue}/>
+            </div>
             <CButton color="success"
               className={'px-4' + (isSubmitted ? ' disabled' : '')}
               disabled={isSubmitted === true}
@@ -66,17 +87,34 @@ const CourseForm = ({onSubmit, formId, dataState, isSubmitted, submitError, isUp
 }
 CourseForm.propTypes = {
   isUpdate: PropTypes.bool,
+  setCampusValue: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   formId: PropTypes.string.isRequired,
   isSubmitted: PropTypes.bool,
+  campusValue: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.arrayOf(
+      PropTypes.string.isRequired
+    ),
+    PropTypes.oneOf([null]),
+  ]),
   submitError: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.oneOf([null]),
   ]),
   dataState: PropTypes.shape({
     data: PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      description: PropTypes.string
+      name: PropTypes.string,
+      description: PropTypes.string,
+      selectedCampuses: PropTypes.arrayOf(
+        PropTypes.string.isRequired
+      ),
+      campuses: PropTypes.arrayOf(
+        PropTypes.shape({
+          id: PropTypes.string.isRequired,
+          name: PropTypes.string.isRequired,
+        })
+      ).isRequired,
     }),
     loading: PropTypes.bool,
     loaded: PropTypes.bool,

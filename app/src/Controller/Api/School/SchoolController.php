@@ -12,12 +12,15 @@ use App\Domain\School\Repository\CourseRepository;
 use App\Domain\School\UseCase\Member;
 use App\Domain\School\UseCase\School\Campus;
 use App\Domain\School\UseCase\School\Course;
+use App\ReadModel\School\CampusFetcher;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Constraints;
+use Symfony\Component\Validator\Validation;
 use Webmozart\Assert\InvalidArgumentException;
 
 #[Route('/api/school')]
@@ -48,42 +51,16 @@ class SchoolController extends AbstractController
         return $this->handle($command, Campus\Add\Form::class, $handler, $request);
     }
 
-    #[Route('/courses', name: 'api_school_course_add', methods: ['POST'])]
-    public function courseAdd(
-        Request $request,
-        Course\Add\Handler $handler
-    ): Response {
-        $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
-
-        $command = new Course\Add\Command();
-        return $this->handle($command, Course\Add\Form::class, $handler, $request);
-    }
-
     #[Route('/campuses', name: 'api_school_campus_list', methods: ['GET'])]
     public function campusListGet(CampusRepository $repository): Response
     {
-        $c = $repository->findAll();
+        $c = $repository->findAllOrderedByName();
         $res = [];
         foreach ($c as $item) {
             $res[] = [
                 'id' => $item->getId()->getValue(),
                 'name' => $item->getName(),
                 'address' => $item->getAddress(),
-            ];
-        }
-        return new JsonResponse($res);
-    }
-
-    #[Route('/courses', name: 'api_school_course_list', methods: ['GET'])]
-    public function courseListGet(CourseRepository $repository): Response
-    {
-        $items = $repository->findAll();
-        $res = [];
-        foreach ($items as $item) {
-            $res[] = [
-                'id' => $item->getId()->getValue(),
-                'name' => $item->getName(),
-                'description' => $item->getDescription(),
             ];
         }
         return new JsonResponse($res);
@@ -107,24 +84,77 @@ class SchoolController extends AbstractController
         ]);
     }
 
-    #[Route('/courses/{courseId}', name: 'api_school_course',
-        requirements: ['courseId' => UuidPattern::PATTERN_WITH_TEMPLATE,],
-        methods: ['GET'])]
-    public function courseGet(CourseRepository $repository, string $courseId): Response
+    #[Route('/courses', name: 'api_school_course_list', methods: ['GET'])]
+    public function courseListGet(CourseRepository $repository): Response
     {
-        try {
-            $course = $repository->get($courseId);
-        } catch (NotFoundException $e) {
-            return new JsonResponse([], Response::HTTP_NOT_FOUND);
+        $items = $repository->findAll();
+        $res = [];
+        foreach ($items as $item) {
+            $res[] = [
+                'id' => $item->getId()->getValue(),
+                'name' => $item->getName(),
+                'description' => $item->getDescription(),
+            ];
+        }
+        return new JsonResponse($res);
+    }
+
+    #[Route('/courses', name: 'api_school_course_add', methods: ['POST'])]
+    public function courseAdd(
+        Request $request,
+        Course\Add\Handler $handler
+    ): Response {
+        $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
+
+        $command = new Course\Add\Command();
+        return $this->handle($command, Course\Add\Form::class, $handler, $request);
+    }
+
+    #[Route('/courses/courseData', name: 'api_school_course', methods: ['GET'])]
+    public function courseGet(
+        CourseRepository $repository,
+        CampusFetcher $campusFetcher,
+        Request $request
+    ): Response {
+        $result = [];
+
+        $courseId = $request->get('courseId', null);
+        if ($courseId !== null) {
+            $validator = Validation::createValidator();
+            $violations = $validator->validate($courseId, [
+                new Constraints\Regex(UuidPattern::PATTERN_REG_EXP),
+            ]);
+            if (count($violations) > 0) {
+                $errors = [];
+                foreach ($violations as $violation) {
+                    $errors[] = $violation->getMessage();
+                }
+                return new JsonResponse(['error' => implode(';', $errors)],
+                    Response::HTTP_UNPROCESSABLE_ENTITY);
+            }
+            try {
+                $course = $repository->get($courseId);
+            } catch (NotFoundException $e) {
+                return new JsonResponse([], Response::HTTP_NOT_FOUND);
+            }
+
+            $result['id'] = $course->getId()->getValue();
+            $result['name'] = $course->getName();
+            $result['description'] = $course->getDescription();
+            foreach ($course->getCampuses() as $campus) {
+                $result['selectedCampuses'][] = $campus->getId()->getValue();
+            }
         }
 
-        return new JsonResponse([
-            'id' => $course->getId()->getValue(),
-            'name' => $course->getName(),
-            'description' => $course->getDescription(),
-            'campuses' => [],
-            'startDates' => [],
-        ]);
+        $campuses = $campusFetcher->getCampusesIdToName();
+        foreach ($campuses as $id => $name) {
+            $result['campuses'][] = [
+                'id' => $id,
+                'name' => $name,
+            ];
+        }
+
+        return new JsonResponse($result);
     }
 
     #[Route('/courses/{courseId}', name: 'api_school_course_edit',
