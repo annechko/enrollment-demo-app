@@ -31,8 +31,8 @@ class Course
      * @var Collection<int, Campus>
      */
     #[ORM\JoinTable(name: 'school_course_to_campus')]
-    #[ORM\JoinColumn(name: 'campus_id', referencedColumnName: 'id')]
-    #[ORM\InverseJoinColumn(name: 'course_id', referencedColumnName: 'id')]
+    #[ORM\JoinColumn(name: 'course_id', referencedColumnName: 'id')]
+    #[ORM\InverseJoinColumn(name: 'campus_id', referencedColumnName: 'id')]
     #[ORM\ManyToMany(targetEntity: Campus::class)]
     private Collection $campuses;
 
