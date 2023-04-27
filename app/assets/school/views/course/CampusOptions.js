@@ -59,7 +59,7 @@ const CampusOptions = ({
   return (
     <>
       <CFormLabel htmlFor="campusesList">Campuses</CFormLabel>
-      <CButton size="sm" className="ms-1 py-0" color="primary"
+      <CButton variant="outline" size="sm" className="ms-1 py-0" color="primary"
         onClick={() => setVisible(!visible)}>+</CButton>
       <CModal visible={visible} onClose={() => setVisible(false)}>
         <CModalHeader onClose={() => setVisible(false)}>
