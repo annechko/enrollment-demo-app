@@ -1,8 +1,5 @@
 import {
   CButton,
-  CCard,
-  CCardBody,
-  CCardHeader,
   CForm,
   CFormInput,
   CFormLabel,
@@ -14,7 +11,15 @@ import React from 'react'
 import AppBackButton from "../../components/AppBackButton";
 import AppErrorMessage from "../../components/AppErrorMessage";
 
-const CampusForm = ({onSubmit, formId, dataState, isSubmitted, submitError, isUpdate = false}) => {
+const CampusForm = ({
+                      onSubmit,
+                      formId,
+                      isSubmitted,
+                      submitError,
+                      dataState,
+                      isUpdate = false,
+                      showSubmitBtn = true
+                    }) => {
   const item = dataState?.data || null
   const error = submitError || dataState?.error || null
   if (isUpdate && item === null) {
@@ -27,47 +32,40 @@ const CampusForm = ({onSubmit, formId, dataState, isSubmitted, submitError, isUp
   }
   return (
     <>
-      <AppBackButton/>
-      <CCard className="mb-4">
-        <CCardHeader>
-          <strong>
-            {isUpdate ? 'Update campus' : 'Lets create new campus!'}
-          </strong>
-        </CCardHeader>
-        <CCardBody>
-          <AppErrorMessage error={error}/>
-          <CForm method="post" onSubmit={onSubmit} id={formId}>
-            <div className="mb-3">
-              <CFormLabel htmlFor="exampleFormControlInput1">Campus name</CFormLabel>
-              <CFormInput
-                name={formId + "[name]"}
-                defaultValue={isUpdate ? item.name : ''}
-                type="text"
-                id="exampleFormControlInput1"
-              />
-            </div>
-            <div className="mb-3">
-              <CFormLabel htmlFor="exampleFormControlTextarea1">Campus address</CFormLabel>
-              <CFormTextarea id="exampleFormControlTextarea1"
-                defaultValue={isUpdate ? item.address : ''}
-                rows="3"
-                name={formId + "[address]"}></CFormTextarea>
-            </div>
-            <CButton color="success"
-              className={'px-4' + (isSubmitted ? ' disabled' : '')}
-              disabled={isSubmitted === true}
-              type="submit">
-              {isSubmitted && <CSpinner className="me-1" component="span" size="sm" aria-hidden="true"/>}
-              Save
-            </CButton>
-          </CForm>
-        </CCardBody>
-      </CCard>
+      <CForm method="post" onSubmit={onSubmit} id={formId}>
+        <AppErrorMessage error={error}/>
+        <div className="mb-3">
+          <CFormLabel htmlFor="exampleFormControlInput1">Campus name</CFormLabel>
+          <CFormInput
+            name={formId + "[name]"}
+            defaultValue={isUpdate ? item.name : ''}
+            type="text"
+            id="exampleFormControlInput1"
+          />
+        </div>
+        <div className="mb-3">
+          <CFormLabel htmlFor="exampleFormControlTextarea1">Campus address</CFormLabel>
+          <CFormTextarea id="exampleFormControlTextarea1"
+            defaultValue={isUpdate ? item.address : ''}
+            rows="3"
+            name={formId + "[address]"}></CFormTextarea>
+        </div>
+        {showSubmitBtn && (
+          <CButton color="success"
+            className={'px-4' + (isSubmitted ? ' disabled' : '')}
+            disabled={isSubmitted === true}
+            type="submit">
+            {isSubmitted && <CSpinner className="me-1" component="span" size="sm" aria-hidden="true"/>}
+            Save
+          </CButton>)
+        }
+      </CForm>
     </>
   )
 }
 CampusForm.propTypes = {
   isUpdate: PropTypes.bool,
+  showSubmitBtn: PropTypes.bool,
   onSubmit: PropTypes.func.isRequired,
   formId: PropTypes.string.isRequired,
   isSubmitted: PropTypes.bool,

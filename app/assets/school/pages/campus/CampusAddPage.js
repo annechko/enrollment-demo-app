@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import {useNavigate} from "react-router-dom";
-import CampusForm from "../../views/campus/CampusForm";
+import CampusView from "../../views/campus/CampusView";
 import {submitForm} from "../helper/_submitForm";
 
 const CampusAddPage = () => {
@@ -27,7 +27,7 @@ const CampusAddPage = () => {
     })
   }
 
-  return <CampusForm formId={formId} onSubmit={onSubmit}
+  return <CampusView formId={formId} onSubmit={onSubmit}
     submitError={state.error}
     isSubmitted={state.loading}
   />

@@ -17,6 +17,10 @@ import CampusOptions from "./CampusOptions";
 
 const CourseForm = ({
                       onSubmit,
+                      campusAddState,
+                      setCampusAddState,
+                      onCampusAdd,
+                      reload,
                       setCampusValue,
                       formId,
                       dataState,
@@ -69,7 +73,11 @@ const CourseForm = ({
             </div>
             <div className="mb-3">
               <CampusOptions formId={formId}
-                campusValue={campusValue === null ? item?.selectedCampuses || [] : campusValue}
+                onCampusAdd={onCampusAdd}
+                reload={reload}
+                setCampusAddState={setCampusAddState}
+                campusAddState={campusAddState}
+                campusValue={campusValue !== null ? campusValue : item?.selectedCampuses || []}
                 isLoading={dataState.loading}
                 campuses={item?.campuses || []}
                 setCampusValue={setCampusValue}/>
@@ -90,6 +98,7 @@ const CourseForm = ({
 CourseForm.propTypes = {
   isUpdate: PropTypes.bool,
   setCampusValue: PropTypes.func.isRequired,
+  onCampusAdd: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   formId: PropTypes.string.isRequired,
   isSubmitted: PropTypes.bool,
@@ -104,6 +113,12 @@ CourseForm.propTypes = {
     PropTypes.string,
     PropTypes.oneOf([null]),
   ]),
+  campusAddState: PropTypes.shape({
+    loading: PropTypes.bool,
+    error: PropTypes.string,
+  }),
+  reload: PropTypes.func.isRequired,
+  setCampusAddState: PropTypes.func.isRequired,
   dataState: PropTypes.shape({
     data: PropTypes.shape({
       name: PropTypes.string,

@@ -10,6 +10,9 @@ const Loadable = ({Component, url, customOnLoad, config, ...options}) => {
     error: null
   })
 
+  const reload = () => {
+    loadData()
+  }
   const onLoad = (response) => {
     if (customOnLoad) {
       customOnLoad(response.data)
@@ -46,7 +49,7 @@ const Loadable = ({Component, url, customOnLoad, config, ...options}) => {
     }
   }, [dataState.loaded, dataState.loading, dataState.error, Component])
 
-  return <Component dataState={dataState} {...options}/>
+  return <Component dataState={dataState} reload={reload} {...options}/>
 }
 Loadable.propTypes = {
   Component: PropTypes.elementType.isRequired,

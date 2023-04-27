@@ -3,7 +3,7 @@ import {
   useNavigate,
   useParams
 } from "react-router-dom";
-import CampusForm from "../../views/campus/CampusForm";
+import CampusView from "../../views/campus/CampusView";
 import {submitForm} from "../helper/_submitForm";
 import Loadable from "../Loadable";
 
@@ -32,7 +32,7 @@ const CampusEditPage = () => {
   }
 
   return <Loadable
-    Component={CampusForm}
+    Component={CampusView}
     url={window.abeApp.urls.api_school_campus.replace(':id', params.id)}
     formId={formId}
     onSubmit={onSubmit}
