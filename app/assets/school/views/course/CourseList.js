@@ -31,15 +31,16 @@ const CourseList = ({dataState}) => {
     items.forEach((item) => {
       rows.push((
         <CTableRow key={key++}>
-          <CTableDataCell scope="row">{item.id.substring(0, 8) + '...'}</CTableDataCell>
+          <CTableDataCell scope="row">{item.id.substring(32)}</CTableDataCell>
           <CTableDataCell>{item.name}</CTableDataCell>
           <CTableDataCell>{item.description}</CTableDataCell>
+          <CTableDataCell>{item.campuses.map((c, index) => c.name).join(', ')}</CTableDataCell>
           <CTableDataCell>
             <Link to={window.abeApp.urls.school_course_edit.replace(':id', item.id)}>
               <CButton color="primary" role="button"
                 className="pb-0 pt-0 pl-1 pr-1"
                 size="sm" variant="outline">
-                <CIcon icon={cilPencil} />
+                <CIcon icon={cilPencil}/>
               </CButton>
             </Link>
           </CTableDataCell>
@@ -50,6 +51,7 @@ const CourseList = ({dataState}) => {
     rows.push((
       <CTableRow key={key++} className="app-loading">
         <CTableHeaderCell scope="row"><CSpinner color="primary"/></CTableHeaderCell>
+        <CTableDataCell></CTableDataCell>
         <CTableDataCell></CTableDataCell>
         <CTableDataCell></CTableDataCell>
         <CTableDataCell></CTableDataCell>
@@ -77,6 +79,7 @@ const CourseList = ({dataState}) => {
                   <CTableHeaderCell scope="col">Id</CTableHeaderCell>
                   <CTableHeaderCell scope="col">Name</CTableHeaderCell>
                   <CTableHeaderCell scope="col">Description</CTableHeaderCell>
+                  <CTableHeaderCell scope="col">Campuses</CTableHeaderCell>
                   <CTableHeaderCell scope="col">Actions</CTableHeaderCell>
                 </CTableRow>
               </CTableHead>
@@ -96,7 +99,12 @@ CourseList.propTypes = {
         PropTypes.shape({
           id: PropTypes.string.isRequired,
           name: PropTypes.string.isRequired,
-          description: PropTypes.string
+          description: PropTypes.string,
+          campuses: PropTypes.arrayOf(
+            PropTypes.shape({
+              name: PropTypes.string.isRequired,
+            })
+          ),
         })
       ),
       loading: PropTypes.bool,

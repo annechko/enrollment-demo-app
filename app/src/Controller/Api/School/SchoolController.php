@@ -7,9 +7,9 @@ namespace App\Controller\Api\School;
 use App\Domain\Core\NotFoundException;
 use App\Domain\Core\UuidPattern;
 use App\Domain\School\Common\RoleEnum;
+use App\Domain\School\Entity\Campus\Campus;
 use App\Domain\School\Repository\CampusRepository;
 use App\Domain\School\Repository\CourseRepository;
-use App\Domain\School\UseCase\School\Campus;
 use App\Domain\School\UseCase\School\Course;
 use App\ReadModel\School\CampusFetcher;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -89,13 +89,19 @@ class SchoolController extends AbstractController
     #[Route('/courses', name: 'api_school_course_list', methods: ['GET'])]
     public function courseListGet(CourseRepository $repository): Response
     {
-        $items = $repository->findAll();
+        $courses = $repository->findAll();
         $res = [];
-        foreach ($items as $item) {
+        foreach ($courses as $course) {
             $res[] = [
-                'id' => $item->getId()->getValue(),
-                'name' => $item->getName(),
-                'description' => $item->getDescription(),
+                'id' => $course->getId()->getValue(),
+                'name' => $course->getName(),
+                'description' => $course->getDescription(),
+                'campuses' => array_map(
+                    fn (Campus $campus) => [
+                        'name' => $campus->getName(),
+                    ],
+                    $course->getCampuses()->toArray()
+                ),
             ];
         }
 
