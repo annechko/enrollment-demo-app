@@ -17,6 +17,8 @@ import PropTypes from "prop-types";
 import React from "react";
 import {Link} from "react-router-dom";
 import AppErrorMessage from "../../components/AppErrorMessage";
+import CIcon from "@coreui/icons-react";
+import {cilPencil} from "@coreui/icons";
 
 const CourseList = ({dataState}) => {
   const items = dataState.data
@@ -34,8 +36,10 @@ const CourseList = ({dataState}) => {
           <CTableDataCell>{item.description}</CTableDataCell>
           <CTableDataCell>
             <Link to={window.abeApp.urls.school_course_edit.replace(':id', item.id)}>
-              <CButton color="primary" role="button" className="mb-3" size="sm" variant="outline">
-                Edit
+              <CButton color="primary" role="button"
+                className="pb-0 pt-0 pl-1 pr-1"
+                size="sm" variant="outline">
+                <CIcon icon={cilPencil} />
               </CButton>
             </Link>
           </CTableDataCell>

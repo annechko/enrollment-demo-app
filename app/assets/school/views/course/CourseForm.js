@@ -7,6 +7,7 @@ import {
   CFormInput,
   CFormLabel,
   CFormTextarea,
+  CSpinner,
 } from '@coreui/react'
 import PropTypes from "prop-types";
 import React from 'react'
@@ -77,6 +78,7 @@ const CourseForm = ({
               className={'px-4' + (isSubmitted ? ' disabled' : '')}
               disabled={isSubmitted === true}
               type="submit">
+              {isSubmitted && <CSpinner className="me-1" component="span" size="sm" aria-hidden="true"/>}
               Save
             </CButton>
           </CForm>
