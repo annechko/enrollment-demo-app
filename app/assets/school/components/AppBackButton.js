@@ -8,7 +8,7 @@ const AppBackButton = () => {
   const navigate = useNavigate();
   return (
     <>
-      <CButton color="dark" role="button" className="mb-3"
+      <CButton color="dark" role="button" className="py-0 mb-2"
         variant="outline"
         onClick={() => navigate(-1)}>
         <CIcon icon={cilArrowLeft} />

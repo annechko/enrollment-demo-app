@@ -35,17 +35,17 @@ const CampusForm = ({
       <CForm method="post" onSubmit={onSubmit} id={formId}>
         <AppErrorMessage error={error}/>
         <div className="mb-3">
-          <CFormLabel htmlFor="exampleFormControlInput1">Campus name</CFormLabel>
+          <CFormLabel htmlFor="campusName">Campus name</CFormLabel>
           <CFormInput
             name={formId + "[name]"}
             defaultValue={isUpdate ? item.name : ''}
             type="text"
-            id="exampleFormControlInput1"
+            id="campusName"
           />
         </div>
         <div className="mb-3">
-          <CFormLabel htmlFor="exampleFormControlTextarea1">Campus address</CFormLabel>
-          <CFormTextarea id="exampleFormControlTextarea1"
+          <CFormLabel htmlFor="campusAddress">Campus address</CFormLabel>
+          <CFormTextarea id="campusAddress"
             defaultValue={isUpdate ? item.address : ''}
             rows="3"
             name={formId + "[address]"}></CFormTextarea>
