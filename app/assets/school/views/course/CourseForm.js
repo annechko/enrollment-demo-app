@@ -10,10 +10,15 @@ import {
   CSpinner,
 } from '@coreui/react'
 import PropTypes from "prop-types";
-import React from 'react'
+import React, {
+  useEffect,
+  useState
+} from 'react'
 import AppBackButton from "../../components/AppBackButton";
 import AppErrorMessage from "../../components/AppErrorMessage";
 import CampusOptions from "./CampusOptions";
+import CIcon from "@coreui/icons-react";
+import {cilX} from "@coreui/icons";
 
 const CourseForm = ({
                       onSubmit,
@@ -31,6 +36,17 @@ const CourseForm = ({
                     }) => {
   const item = dataState?.data || null
   const error = submitError || dataState?.error || null
+
+  const [startDatesState, setStartDatesState] = useState([null])
+  useEffect(() => {
+    if (isUpdate && dataState.loaded) {
+      if (item?.startDates > 0) {
+        setStartDatesState(Array.from(item?.startDates || [null]))
+      }
+    }
+  }, [isUpdate, dataState.loaded])
+
+
   if (isUpdate && item === null) {
     if (error) {
       return <AppErrorMessage error={error}/>
@@ -42,7 +58,19 @@ const CourseForm = ({
       </>
     )
   }
-
+  const addStartDate = () => {
+    let updated = Array.from(startDatesState)
+    updated.push(null)
+    setStartDatesState(updated)
+  }
+  const deleteStartDate = (dateIndex) => {
+    if (startDatesState.length <= 1) {
+      return;
+    }
+    let updated = Array.from(startDatesState)
+    updated.splice(dateIndex, 1)
+    setStartDatesState(updated)
+  }
   return (
     <>
       <AppBackButton/>
@@ -56,17 +84,17 @@ const CourseForm = ({
           <AppErrorMessage error={error}/>
           <CForm method="post" onSubmit={onSubmit} id={formId}>
             <div className="mb-3">
-              <CFormLabel htmlFor="exampleFormControlInput1">Course name</CFormLabel>
+              <CFormLabel htmlFor="courseName">Course name</CFormLabel>
               <CFormInput
+                id="courseName"
                 name={formId + "[name]"}
                 defaultValue={isUpdate ? item.name : ''}
                 type="text"
-                id="exampleFormControlInput1"
               />
             </div>
             <div className="mb-3">
-              <CFormLabel htmlFor="exampleFormControlTextarea1">Course description</CFormLabel>
-              <CFormTextarea id="exampleFormControlTextarea1"
+              <CFormLabel htmlFor="campusDescr">Course description</CFormLabel>
+              <CFormTextarea id="campusDescr"
                 defaultValue={isUpdate ? item.description : ''}
                 rows="3"
                 name={formId + "[description]"}></CFormTextarea>
@@ -81,6 +109,28 @@ const CourseForm = ({
                 isLoading={dataState.loading}
                 campuses={item?.campuses || []}
                 setCampusValue={setCampusValue}/>
+            </div>
+            <div className="mb-3">
+              <CFormLabel>Start dates</CFormLabel>
+              <CButton variant="outline" size="sm" className="ms-1 py-0" color="primary"
+                onClick={addStartDate}>+</CButton>
+              {startDatesState.map((dateValue, dateIndex) => {
+                return (
+                  <div className="my-1 d-flex" key={dateIndex}>
+                    <div className="align-self-center d-flex app-clickable">
+                      <CIcon
+                        icon={cilX} className="me-2" onClick={(e) => {
+                        deleteStartDate(dateIndex)
+                      }}/>
+                    </div>
+                    <CFormInput
+                      name={formId + "[startDates][" + dateIndex + "]"}
+                      defaultValue={dateValue}
+                      type="date"
+                    />
+                  </div>
+                )
+              })}
             </div>
             <CButton color="success"
               className={'px-4' + (isSubmitted ? ' disabled' : '')}
@@ -124,6 +174,9 @@ CourseForm.propTypes = {
       name: PropTypes.string,
       description: PropTypes.string,
       selectedCampuses: PropTypes.arrayOf(
+        PropTypes.string.isRequired
+      ),
+      startDates: PropTypes.arrayOf(
         PropTypes.string.isRequired
       ),
       campuses: PropTypes.arrayOf(

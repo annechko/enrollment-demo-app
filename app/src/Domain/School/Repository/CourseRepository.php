@@ -53,4 +53,15 @@ class CourseRepository extends ServiceEntityRepository
     {
         return $this->findOneBy(['name' => $name]);
     }
+
+    /**
+     * @return Course[]
+     */
+    public function findAllOrderedByName(): array
+    {
+        return $this->createQueryBuilder('c')
+            ->orderBy('LOWER(c.name)')
+            ->getQuery()
+            ->execute();
+    }
 }

@@ -37,13 +37,22 @@ class Course
     private Collection $campuses;
 
     /**
+     * @var Collection<int, CourseDate>
+     */
+    #[ORM\OneToMany(mappedBy: 'course', targetEntity: CourseDate::class,
+        cascade: ['persist'], orphanRemoval: true)]
+    private Collection $dates;
+
+    /**
      * @param array<Campus> $campuses
+     * @param array<\DateTimeImmutable> $dates
      */
     public function __construct(
         CourseId $id,
         string $name,
         ?string $description = null,
         array $campuses = [],
+        array $dates = [],
         ?\DateTimeImmutable $createdAt = null,
     ) {
         $this->id = $id;
@@ -51,6 +60,10 @@ class Course
         $this->description = $description;
         $this->createdAt = $createdAt ?? new \DateTimeImmutable();
         $this->setCampuses($campuses);
+        $this->dates = new ArrayCollection();
+        foreach ($dates as $startDate) {
+            $this->dates->add(new CourseDate($this, $startDate));
+        }
     }
 
     public function getId(): CourseId
@@ -68,10 +81,15 @@ class Course
         return $this->description;
     }
 
+    /**
+     * @param array<Campus> $campuses
+     * @param array<\DateTimeImmutable> $startDates
+     */
     public function edit(
         string $name,
         ?string $description = null,
-        array $campuses = []
+        array $campuses = [],
+        array $startDates = [],
     ): self {
         $this->name = $name;
         $this->description = $description;
@@ -94,6 +112,27 @@ class Course
             }
         }
 
+        $updatedStartDatesKeys = array_map(
+            fn (\DateTimeImmutable $d) => $d->format('Ymd'),
+            $startDates
+        );
+        $currentStartDatesKeys = array_map(
+            fn (CourseDate $d) => $d->getStartDate()->format('Ymd'),
+            $this->dates->toArray()
+        );
+        // remove
+        foreach ($this->dates as $date) {
+            if (!in_array($date->getStartDate()->format('Ymd'), $updatedStartDatesKeys, true)) {
+                $this->dates->removeElement($date);
+            }
+        }
+        // add new
+        foreach ($startDates as $date) {
+            if (!in_array($date->format('Ymd'), $currentStartDatesKeys, true)) {
+                $this->dates->add(new CourseDate($this, $date));
+            }
+        }
+
         return $this;
     }
 
@@ -113,5 +152,13 @@ class Course
         }
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, CourseDate>
+     */
+    public function getDates(): Collection
+    {
+        return $this->dates;
     }
 }

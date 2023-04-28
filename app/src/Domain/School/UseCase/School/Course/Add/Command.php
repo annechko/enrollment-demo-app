@@ -14,9 +14,17 @@ class Command
     public $name;
     public $description;
 
+    #[Assert\NotBlank]
     #[Assert\All([
         new Assert\NotBlank(),
         new Assert\Regex(pattern: UuidPattern::PATTERN_REG_EXP),
     ])]
     public $campuses;
+
+    #[Assert\NotBlank(message: 'Start dates should not be blank.')]
+    #[Assert\All([
+        new Assert\Type(\DateTimeImmutable::class),
+        new Assert\NotBlank(message: 'Start dates should not be blank.'),
+    ])]
+    public $startDates;
 }

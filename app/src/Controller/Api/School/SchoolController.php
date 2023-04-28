@@ -8,9 +8,10 @@ use App\Domain\Core\NotFoundException;
 use App\Domain\Core\UuidPattern;
 use App\Domain\School\Common\RoleEnum;
 use App\Domain\School\Entity\Campus\Campus;
+use App\Domain\School\Entity\Course\CourseDate;
 use App\Domain\School\Repository\CampusRepository;
 use App\Domain\School\Repository\CourseRepository;
-use App\Domain\School\UseCase\School\Course;
+use App\Domain\School\UseCase\School;
 use App\ReadModel\School\CampusFetcher;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
@@ -31,25 +32,25 @@ class SchoolController extends AbstractController
     public function campusEdit(
         Request $request,
         string $campusId,
-        Campus\Edit\Handler $handler
+        School\Campus\Edit\Handler $handler
     ): Response {
         $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
 
-        $command = new Campus\Edit\Command($campusId);
+        $command = new School\Campus\Edit\Command($campusId);
 
-        return $this->handle($command, Campus\Edit\Form::class, $handler, $request);
+        return $this->handle($command, School\Campus\Edit\Form::class, $handler, $request);
     }
 
     #[Route('/campuses', name: 'api_school_campus_add', methods: ['POST'])]
     public function campusAdd(
         Request $request,
-        Campus\Add\Handler $handler
+        School\Campus\Add\Handler $handler
     ): Response {
         $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
 
-        $command = new Campus\Add\Command();
+        $command = new School\Campus\Add\Command();
 
-        return $this->handle($command, Campus\Add\Form::class, $handler, $request);
+        return $this->handle($command, School\Campus\Add\Form::class, $handler, $request);
     }
 
     #[Route('/campuses', name: 'api_school_campus_list', methods: ['GET'])]
@@ -89,7 +90,7 @@ class SchoolController extends AbstractController
     #[Route('/courses', name: 'api_school_course_list', methods: ['GET'])]
     public function courseListGet(CourseRepository $repository): Response
     {
-        $courses = $repository->findAll();
+        $courses = $repository->findAllOrderedByName();
         $res = [];
         foreach ($courses as $course) {
             $res[] = [
@@ -102,6 +103,10 @@ class SchoolController extends AbstractController
                     ],
                     $course->getCampuses()->toArray()
                 ),
+                'startDates' => array_map(
+                    fn (CourseDate $d) => $d->getStartDate()->format('Y-m-d'),
+                    $course->getDates()->toArray()
+                ),
             ];
         }
 
@@ -111,13 +116,13 @@ class SchoolController extends AbstractController
     #[Route('/courses', name: 'api_school_course_add', methods: ['POST'])]
     public function courseAdd(
         Request $request,
-        Course\Add\Handler $handler
+        School\Course\Add\Handler $handler
     ): Response {
         $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
 
-        $command = new Course\Add\Command();
+        $command = new School\Course\Add\Command();
 
-        return $this->handle($command, Course\Add\Form::class, $handler, $request);
+        return $this->handle($command, School\Course\Add\Form::class, $handler, $request);
     }
 
     #[Route('/courses/courseData', name: 'api_school_course', methods: ['GET'])]
@@ -155,6 +160,10 @@ class SchoolController extends AbstractController
             foreach ($course->getCampuses() as $campus) {
                 $result['selectedCampuses'][] = $campus->getId()->getValue();
             }
+            $result['startDates'] = [];
+            foreach ($course->getDates() as $startDate) {
+                $result['startDates'][] = $startDate->getStartDate()->format('Y-m-d');
+            }
         }
 
         $campuses = $campusFetcher->getCampusesIdToName();
@@ -175,13 +184,13 @@ class SchoolController extends AbstractController
     public function courseEdit(
         Request $request,
         string $courseId,
-        Course\Edit\Handler $handler,
+        School\Course\Edit\Handler $handler,
     ): Response {
         $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
 
-        $command = new Course\Edit\Command($courseId);
+        $command = new School\Course\Edit\Command($courseId);
 
-        return $this->handle($command, Course\Edit\Form::class, $handler, $request);
+        return $this->handle($command, School\Course\Edit\Form::class, $handler, $request);
     }
 
     #[Route('/sidebar', name: 'api_school_sidebar', methods: ['GET'])]

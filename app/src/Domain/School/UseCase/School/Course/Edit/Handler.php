@@ -28,7 +28,7 @@ class Handler
         }
 
         $course = $this->courseRepository->get($command->id);
-        $course->edit($command->name, $command->description, $campuses);
+        $course->edit($command->name, $command->description, $campuses, $command->startDates);
 
         $this->flusher->flush();
     }

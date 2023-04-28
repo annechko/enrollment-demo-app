@@ -28,11 +28,14 @@ class Handler
             array_map(fn ($id) => new CampusId($id), $command->campuses)
         );
 
+        $command->startDates = array_filter($command->startDates);
+
         $course = new Course(
             new CourseId($this->uuidGenerator->generate()),
             $command->name,
             $command->description,
-            $campuses
+            $campuses,
+            $command->startDates
         );
 
         $this->courseRepository->add($course);

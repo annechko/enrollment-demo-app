@@ -29,6 +29,16 @@ class Form extends AbstractType
                 'choice_loader' => new CallbackChoiceLoader(function () {
                     return array_flip($this->campusFetcher->getCampusesIdToName());
                 }),
+            ])
+            ->add('startDates', Type\CollectionType::class, [
+                'allow_add' => true,
+                'allow_extra_fields' => true,
+                'delete_empty' => true,
+                'entry_type' => Type\DateType::class,
+                'entry_options' => [
+                    'input' => 'datetime_immutable',
+                    'widget' => 'single_text',
+                ],
             ]);
     }
 

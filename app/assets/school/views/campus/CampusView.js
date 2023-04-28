@@ -1,18 +1,13 @@
 import {
-  CButton,
   CCard,
   CCardBody,
   CCardHeader,
-  CForm,
-  CFormInput,
-  CFormLabel,
-  CFormTextarea,
-  CSpinner,
 } from '@coreui/react'
 import PropTypes from "prop-types";
 import React from 'react'
 import AppBackButton from "../../components/AppBackButton";
 import AppErrorMessage from "../../components/AppErrorMessage";
+import CampusForm from "./CampusForm";
 
 const CampusView = ({onSubmit, formId, dataState, isSubmitted, submitError, isUpdate = false}) => {
   const item = dataState?.data || null
@@ -36,31 +31,9 @@ const CampusView = ({onSubmit, formId, dataState, isSubmitted, submitError, isUp
         </CCardHeader>
         <CCardBody>
           <AppErrorMessage error={error}/>
-          <CForm method="post" onSubmit={onSubmit} id={formId}>
-            <div className="mb-3">
-              <CFormLabel htmlFor="exampleFormControlInput1">Campus name</CFormLabel>
-              <CFormInput
-                name={formId + "[name]"}
-                defaultValue={isUpdate ? item.name : ''}
-                type="text"
-                id="exampleFormControlInput1"
-              />
-            </div>
-            <div className="mb-3">
-              <CFormLabel htmlFor="exampleFormControlTextarea1">Campus address</CFormLabel>
-              <CFormTextarea id="exampleFormControlTextarea1"
-                defaultValue={isUpdate ? item.address : ''}
-                rows="3"
-                name={formId + "[address]"}></CFormTextarea>
-            </div>
-            <CButton color="success"
-              className={'px-4' + (isSubmitted ? ' disabled' : '')}
-              disabled={isSubmitted === true}
-              type="submit">
-              {isSubmitted && <CSpinner className="me-1" component="span" size="sm" aria-hidden="true"/>}
-              Save
-            </CButton>
-          </CForm>
+          <CampusForm formId={formId} onSubmit={onSubmit} isSubmitted={isSubmitted}
+            submitError={submitError} isUpdate={isUpdate} dataState={dataState}
+          />
         </CCardBody>
       </CCard>
     </>
