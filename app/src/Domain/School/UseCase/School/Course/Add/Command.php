@@ -9,12 +9,12 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class Command
 {
-    #[Assert\NotBlank]
+    #[Assert\NotBlank(message: 'Name should not be blank.')]
     #[Assert\Length(min: 2, minMessage: 'Course name is too short. It should have {{ limit }} characters or more.')]
     public $name;
     public $description;
 
-    #[Assert\NotBlank]
+    #[Assert\NotBlank(message: 'Campuses should not be blank.')]
     #[Assert\All([
         new Assert\NotBlank(),
         new Assert\Regex(pattern: UuidPattern::PATTERN_REG_EXP),
