@@ -28,3 +28,9 @@ http://localhost:8080/admin/school
 
 After every confirmation an email is sent to the school's email address with an invitation link to set up their password and activate an account.<br>
 Invitation link gets expired in 5 days.
+
+
+### During the development
+
+Run `make watch` to start yarn watch. That way you may instantly (-ish) see the result when you change js, scss, etc. files. 
+
