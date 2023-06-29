@@ -27,7 +27,7 @@ const CampusOptions = ({
                          onCampusAdd
                        }) => {
   let campusOptions = [{
-    value: '...',
+    value: '',
     label: isLoading ? 'Loading...' : '',
   }];
 
@@ -51,7 +51,7 @@ const CampusOptions = ({
       })
       reload()
     }
-  }, [campusAddState])
+  }, [campusAddState.success])
 
   const onCampusAddClick = (e) => {
     onCampusAdd(e)
@@ -117,4 +117,4 @@ CampusOptions.propTypes = {
     })
   ),
 }
-export default CampusOptions
+export default React.memo(CampusOptions)

@@ -57,4 +57,4 @@ Loadable.propTypes = {
   config: PropTypes.object,
   customOnLoad: PropTypes.func,
 }
-export default Loadable
+export default React.memo(Loadable)

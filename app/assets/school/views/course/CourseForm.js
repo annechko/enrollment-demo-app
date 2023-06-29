@@ -37,11 +37,15 @@ const CourseForm = ({
   const item = dataState?.data || null
   const error = submitError || dataState?.error || null
 
-  const [startDatesState, setStartDatesState] = useState([null])
+  const [startDatesState, setStartDatesState] = useState({0: null}) // for one empty date suggestion
   useEffect(() => {
     if (isUpdate && dataState.loaded) {
-      if (item?.startDates > 0) {
-        setStartDatesState(Array.from(item?.startDates || [null]))
+      if (item?.startDates?.length > 0) {
+        let n = {}
+        for (let i = 0; i < item.startDates.length; i++) {
+          n[i] = item.startDates[i]
+        }
+        setStartDatesState(n)
       }
     }
   }, [isUpdate, dataState.loaded])
@@ -59,18 +63,36 @@ const CourseForm = ({
     )
   }
   const addStartDate = () => {
-    let updated = Array.from(startDatesState)
-    updated.push(null)
+    let updated = {...startDatesState}
+    updated[Math.max(...Object.keys(updated)) + 1] = null
     setStartDatesState(updated)
   }
   const deleteStartDate = (dateIndex) => {
-    if (startDatesState.length <= 1) {
+    if (Object.keys(startDatesState).length <= 1) {
       return;
     }
-    let updated = Array.from(startDatesState)
-    updated.splice(dateIndex, 1)
+    let updated = {...startDatesState}
+    delete updated[dateIndex]
     setStartDatesState(updated)
   }
+  let dates = [];
+  Object.keys(startDatesState).forEach(function (dateIndex, index) {
+    dates.push(
+      <div className="my-1 d-flex" key={dateIndex}>
+        <div className="align-self-center d-flex app-clickable">
+          <CIcon
+            icon={cilX} className="me-2" onClick={(e) => {
+            deleteStartDate(dateIndex)
+          }}/>
+        </div>
+        <CFormInput
+          name={formId + "[startDates][" + dateIndex + "]"}
+          defaultValue={startDatesState[dateIndex]}
+          type="date"
+        />
+      </div>
+    )
+  })
   return (
     <>
       <AppBackButton/>
@@ -114,23 +136,7 @@ const CourseForm = ({
               <CFormLabel>Start dates</CFormLabel>
               <CButton variant="outline" size="sm" className="ms-1 py-0" color="primary"
                 onClick={addStartDate}>+</CButton>
-              {startDatesState.map((dateValue, dateIndex) => {
-                return (
-                  <div className="my-1 d-flex" key={dateIndex}>
-                    <div className="align-self-center d-flex app-clickable">
-                      <CIcon
-                        icon={cilX} className="me-2" onClick={(e) => {
-                        deleteStartDate(dateIndex)
-                      }}/>
-                    </div>
-                    <CFormInput
-                      name={formId + "[startDates][" + dateIndex + "]"}
-                      defaultValue={dateValue}
-                      type="date"
-                    />
-                  </div>
-                )
-              })}
+              {dates}
             </div>
             <CButton color="success"
               className={'px-4' + (isSubmitted ? ' disabled' : '')}
@@ -191,4 +197,4 @@ CourseForm.propTypes = {
     error: PropTypes.string,
   }),
 }
-export default CourseForm
+export default React.memo(CourseForm)

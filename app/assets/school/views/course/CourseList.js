@@ -119,4 +119,4 @@ CourseList.propTypes = {
     }
   ),
 }
-export default CourseList
+export default React.memo(CourseList)
