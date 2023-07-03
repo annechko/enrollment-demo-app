@@ -16,42 +16,20 @@ import React, {
 } from 'react'
 import AppBackButton from "../../components/AppBackButton";
 import AppErrorMessage from "../../components/AppErrorMessage";
-import CampusOptions from "./CampusOptions";
-import CIcon from "@coreui/icons-react";
-import {cilX} from "@coreui/icons";
+import Intakes from "./Intakes";
 
 const CourseForm = ({
                       onSubmit,
-                      campusAddState,
-                      setCampusAddState,
-                      onCampusAdd,
-                      reload,
-                      setCampusValue,
                       formId,
                       dataState,
-                      campusValue,
                       isSubmitted,
                       submitError,
                       isUpdate = false
                     }) => {
-  const item = dataState?.data || null
+  const course = dataState?.data || null
   const error = submitError || dataState?.error || null
 
-  const [startDatesState, setStartDatesState] = useState({0: null}) // for one empty date suggestion
-  useEffect(() => {
-    if (isUpdate && dataState.loaded) {
-      if (item?.startDates?.length > 0) {
-        let n = {}
-        for (let i = 0; i < item.startDates.length; i++) {
-          n[i] = item.startDates[i]
-        }
-        setStartDatesState(n)
-      }
-    }
-  }, [isUpdate, dataState.loaded])
-
-
-  if (isUpdate && item === null) {
+  if (isUpdate && course === null) {
     if (error) {
       return <AppErrorMessage error={error}/>
     }
@@ -62,37 +40,6 @@ const CourseForm = ({
       </>
     )
   }
-  const addStartDate = () => {
-    let updated = {...startDatesState}
-    updated[Math.max(...Object.keys(updated)) + 1] = null
-    setStartDatesState(updated)
-  }
-  const deleteStartDate = (dateIndex) => {
-    if (Object.keys(startDatesState).length <= 1) {
-      return;
-    }
-    let updated = {...startDatesState}
-    delete updated[dateIndex]
-    setStartDatesState(updated)
-  }
-  let dates = [];
-  Object.keys(startDatesState).forEach(function (dateIndex, index) {
-    dates.push(
-      <div className="my-1 d-flex" key={dateIndex}>
-        <div className="align-self-center d-flex app-clickable">
-          <CIcon
-            icon={cilX} className="me-2" onClick={(e) => {
-            deleteStartDate(dateIndex)
-          }}/>
-        </div>
-        <CFormInput
-          name={formId + "[startDates][" + dateIndex + "]"}
-          defaultValue={startDatesState[dateIndex]}
-          type="date"
-        />
-      </div>
-    )
-  })
   return (
     <>
       <AppBackButton/>
@@ -106,45 +53,38 @@ const CourseForm = ({
           <AppErrorMessage error={error}/>
           <CForm method="post" onSubmit={onSubmit} id={formId}>
             <div className="mb-3">
-              <CFormLabel htmlFor="courseName">Course name</CFormLabel>
+              <CFormLabel className="mb-0" htmlFor="courseName">Course name</CFormLabel>
               <CFormInput
                 id="courseName"
                 name={formId + "[name]"}
-                defaultValue={isUpdate ? item.name : ''}
+                defaultValue={isUpdate ? course.name : ''}
                 type="text"
               />
             </div>
             <div className="mb-3">
-              <CFormLabel htmlFor="campusDescr">Course description</CFormLabel>
+              <CFormLabel className="mb-0" htmlFor="campusDescr">Course description</CFormLabel>
               <CFormTextarea id="campusDescr"
-                defaultValue={isUpdate ? item.description : ''}
+                defaultValue={isUpdate ? course.description : ''}
                 rows="3"
                 name={formId + "[description]"}></CFormTextarea>
             </div>
-            <div className="mb-3">
-              <CampusOptions formId={formId}
-                onCampusAdd={onCampusAdd}
-                reload={reload}
-                setCampusAddState={setCampusAddState}
-                campusAddState={campusAddState}
-                campusValue={campusValue !== null ? campusValue : item?.selectedCampuses || []}
-                isLoading={dataState.loading}
-                campuses={item?.campuses || []}
-                setCampusValue={setCampusValue}/>
+
+            <Intakes formId={formId}
+              isLoading={dataState.loading}
+              campuses={course?.campuses || []}
+              intakes={course?.intakes || []}
+            />
+            <div className="mb-2 mt-3">
+              <CButton color="success"
+                key={crypto.randomUUID()}
+                className={'px-4' + (isSubmitted ? ' disabled' : '')}
+                disabled={isSubmitted === true}
+                type="submit">
+                {isSubmitted && <CSpinner className="me-1" component="span" size="sm" aria-hidden="true"/>}
+                Save
+              </CButton>
             </div>
-            <div className="mb-3">
-              <CFormLabel>Start dates</CFormLabel>
-              <CButton variant="outline" size="sm" className="ms-1 py-0" color="primary"
-                onClick={addStartDate}>+</CButton>
-              {dates}
-            </div>
-            <CButton color="success"
-              className={'px-4' + (isSubmitted ? ' disabled' : '')}
-              disabled={isSubmitted === true}
-              type="submit">
-              {isSubmitted && <CSpinner className="me-1" component="span" size="sm" aria-hidden="true"/>}
-              Save
-            </CButton>
+
           </CForm>
         </CCardBody>
       </CCard>
@@ -153,44 +93,32 @@ const CourseForm = ({
 }
 CourseForm.propTypes = {
   isUpdate: PropTypes.bool,
-  setCampusValue: PropTypes.func.isRequired,
-  onCampusAdd: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   formId: PropTypes.string.isRequired,
   isSubmitted: PropTypes.bool,
-  campusValue: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.arrayOf(
-      PropTypes.string.isRequired
-    ),
-    PropTypes.oneOf([null]),
-  ]),
   submitError: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.oneOf([null]),
   ]),
-  campusAddState: PropTypes.shape({
-    loading: PropTypes.bool,
-    error: PropTypes.string,
-  }),
-  reload: PropTypes.func.isRequired,
-  setCampusAddState: PropTypes.func.isRequired,
   dataState: PropTypes.shape({
     data: PropTypes.shape({
       name: PropTypes.string,
       description: PropTypes.string,
-      selectedCampuses: PropTypes.arrayOf(
-        PropTypes.string.isRequired
-      ),
-      startDates: PropTypes.arrayOf(
-        PropTypes.string.isRequired
-      ),
       campuses: PropTypes.arrayOf(
         PropTypes.shape({
           id: PropTypes.string.isRequired,
           name: PropTypes.string.isRequired,
         })
       ).isRequired,
+      intakes: PropTypes.arrayOf(
+        PropTypes.shape({
+          name: PropTypes.string,
+          classSize: PropTypes.number,
+          startDate: PropTypes.string,
+          endDate: PropTypes.string,
+          campus: PropTypes.string,
+        })
+      ),
     }),
     loading: PropTypes.bool,
     loaded: PropTypes.bool,
