@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Domain\School\UseCase\School\Campus\Edit;
 
 use App\Domain\Core\Flusher;
+use App\Domain\School\Entity\Campus\CampusId;
 use App\Domain\School\Repository\CampusRepository;
 
 class Handler
@@ -17,7 +18,7 @@ class Handler
 
     public function handle(Command $command): void
     {
-        $campus = $this->campusRepository->get($command->id);
+        $campus = $this->campusRepository->get(new CampusId($command->id));
         $campus->edit($command->name, $command->address);
 
         $campusWithSameName = $this->campusRepository->findByName($command->name);

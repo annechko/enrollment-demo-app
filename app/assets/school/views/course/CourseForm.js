@@ -25,7 +25,6 @@ const CourseForm = ({
                     }) => {
   const data = dataState?.data || null
   const course = data?.course || null
-  const campuses = data?.campuses || []
   const error = submitError || dataState?.error || null
 
   if (isUpdate && course === null) {
@@ -82,10 +81,7 @@ const CourseForm = ({
           </CForm>
         </CCardBody>
       </CCard>
-      {isUpdate && <IntakeList
-        campuses={campuses || []}
-        intakes={course?.intakes || []}
-      />}
+      {isUpdate && <IntakeList courseId={course.id}/>}
     </>
   )
 }
@@ -101,25 +97,10 @@ CourseForm.propTypes = {
   dataState: PropTypes.shape({
     data: PropTypes.shape({
       course: PropTypes.shape({
+        id: PropTypes.string,
         name: PropTypes.string,
         description: PropTypes.string,
-        intakes: PropTypes.arrayOf(
-          PropTypes.shape({
-            id: PropTypes.string,
-            name: PropTypes.string,
-            classSize: PropTypes.number,
-            campus: PropTypes.string,
-            startDate: PropTypes.string,
-            endDate: PropTypes.string,
-          })
-        ),
       }),
-      campuses: PropTypes.arrayOf(
-        PropTypes.shape({
-          id: PropTypes.string.isRequired,
-          name: PropTypes.string.isRequired,
-        })
-      ).isRequired,
     }),
     loading: PropTypes.bool,
     loaded: PropTypes.bool,

@@ -117,7 +117,7 @@ const AppSidebar = () => {
       unfoldable={unfoldable}
       visible={true}
     >
-      <CSidebarBrand className="d-none d-md-flex" to="/">
+      <CSidebarBrand className="d-md-flex" to="/">
         <CIcon className="sidebar-brand-full" icon={cilBaby} height={35}/>
       </CSidebarBrand>
       <CSidebarNav>

@@ -3,6 +3,7 @@ import {
   CCard,
   CCardBody,
   CCardHeader,
+  CSpinner,
   CTable,
   CTableBody,
   CTableDataCell,
@@ -11,49 +12,39 @@ import {
   CTableRow,
 } from '@coreui/react'
 import PropTypes from "prop-types";
-import React, {useState} from 'react'
+import React from 'react'
 import {Link} from "react-router-dom";
 import CIcon from "@coreui/icons-react";
 import {cilPencil} from "@coreui/icons";
+import Loadable from "../../pages/Loadable";
+import AppErrorMessage from "../../components/AppErrorMessage";
 
-const IntakeList = ({
-                   intakes,
-                   campuses,
-                 }) => {
-  let campusOptions = [{
-    value: '',
-    label: 'Select a campus',
-  }];
-
-  campuses.forEach((item) => {
-    campusOptions.push({
-      value: item.id,
-      label: item.name,
-    })
-  })
-
-  const [intakesState, setIntakesState] = useState(intakes)
-
-  const addIntake = () => {
-    let updated = Array.from(intakesState)
-    updated.push({
-      id: null,
-      name: null,
-      campus: null,
-      startDate: null,
-      endDate: null,
-      classSize: null,
-    })
-    setIntakesState(updated)
-  }
-  const deleteIntake = (index) => {
-    let updated = Array.from(intakesState)
-    updated.splice(index, 1)
-    setIntakesState(updated)
-  }
-
+const IntakeList = ({courseId = ''}) => {
+  return (
+    <CCard className="mb-4">
+      <CCardHeader>
+        <strong>Intakes</strong>
+      </CCardHeader>
+      <CCardBody>
+        <Loadable
+          Component={IntakesRows}
+          url={window.abeApp.urls.api_school_course_intake_list.replace(':id', courseId)}/>
+      </CCardBody>
+    </CCard>
+  )
+}
+const IntakesRows = ({dataState, reload}) => {
+  const intakes = dataState.data
   let key = 0
-  const intakesRows = intakes.map((item) =>
+  if (dataState.error !== null) {
+    return <AppErrorMessage error={dataState.error}/>
+  }
+  if (dataState.loaded === false) {
+    return <CSpinner color="primary"/>
+  }
+  let intakesRows = []
+
+  intakesRows = intakes.map((item) =>
     <CTableRow key={key++}>
       <CTableDataCell scope="row">{item.id.substring(32)}</CTableDataCell>
       <CTableDataCell>{item.name}</CTableDataCell>
@@ -72,55 +63,56 @@ const IntakeList = ({
       </CTableDataCell>
     </CTableRow>
   )
-
-  return (
-    <CCard className="mb-4">
-      <CCardHeader>
-        <strong>Intakes</strong>
-      </CCardHeader>
-      <CCardBody>
-        {intakesRows.length > 0 && <CTable hover bordered>
-          <CTableHead>
-            <CTableRow key={key++}>
-              <CTableHeaderCell scope="col">Id</CTableHeaderCell>
-              <CTableHeaderCell scope="col">Name</CTableHeaderCell>
-              <CTableHeaderCell scope="col">startDate</CTableHeaderCell>
-              <CTableHeaderCell scope="col">endDate</CTableHeaderCell>
-              <CTableHeaderCell scope="col">classSize</CTableHeaderCell>
-              <CTableHeaderCell scope="col">campus</CTableHeaderCell>
-              <CTableHeaderCell scope="col">Actions</CTableHeaderCell>
-            </CTableRow>
-          </CTableHead>
-          <CTableBody>
-            {intakesRows}
-          </CTableBody>
-        </CTable>}
-        <Link to={window.abeApp.urls.school_course_add}>
-          <CButton color="primary" role="button" size="sm" >
-            New
-          </CButton>
-        </Link>
-
-      </CCardBody>
-    </CCard>
-  )
+  const onAddClick = () => {
+  }
+  return <>
+    {intakesRows.length > 0
+      &&
+      <CTable hover bordered>
+        <CTableHead>
+          <CTableRow key={key++}>
+            <CTableHeaderCell scope="col">Id</CTableHeaderCell>
+            <CTableHeaderCell scope="col">Name</CTableHeaderCell>
+            <CTableHeaderCell scope="col">startDate</CTableHeaderCell>
+            <CTableHeaderCell scope="col">endDate</CTableHeaderCell>
+            <CTableHeaderCell scope="col">classSize</CTableHeaderCell>
+            <CTableHeaderCell scope="col">campus</CTableHeaderCell>
+            <CTableHeaderCell scope="col">Actions</CTableHeaderCell>
+          </CTableRow>
+        </CTableHead>
+        <CTableBody>
+          {intakesRows}
+        </CTableBody>
+      </CTable>}
+    <Link to={window.abeApp.urls.school_course_add}>
+      <CButton color="primary" role="button" size="sm"
+        onClick={onAddClick}
+      >
+        New
+      </CButton>
+    </Link>
+  </>
 }
+
 IntakeList.propTypes = {
-  intakes: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string,
-      name: PropTypes.string,
-      campus: PropTypes.string,
-      startDate: PropTypes.string,
-      endDate: PropTypes.string,
-      classSize: PropTypes.number,
-    })
-  ),
-  campuses: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-    })
+  courseId: PropTypes.string,
+}
+IntakesRows.propTypes = {
+  dataState: PropTypes.shape({
+      data: PropTypes.arrayOf(
+        PropTypes.shape({
+          id: PropTypes.string,
+          name: PropTypes.string,
+          campus: PropTypes.string,
+          startDate: PropTypes.string,
+          endDate: PropTypes.string,
+          classSize: PropTypes.number,
+        })
+      ),
+      loading: PropTypes.bool,
+      loaded: PropTypes.bool,
+      error: PropTypes.string,
+    }
   ),
 }
 export default React.memo(IntakeList)

@@ -6,40 +6,30 @@ namespace App\Domain\School\UseCase\School\Course\Add;
 
 use App\Domain\Core\Flusher;
 use App\Domain\Core\UuidGenerator;
-use App\Domain\School\Entity\Campus\CampusId;
 use App\Domain\School\Entity\Course\Course;
 use App\Domain\School\Entity\Course\CourseId;
-use App\Domain\School\Repository\CampusRepository;
 use App\Domain\School\Repository\CourseRepository;
 
 class Handler
 {
     public function __construct(
         private readonly CourseRepository $courseRepository,
-        private readonly CampusRepository $campusRepository,
         private readonly Flusher $flusher,
         private readonly UuidGenerator $uuidGenerator,
     ) {
     }
 
-    public function handle(Command $command): void
+    public function handle(Command $command): CourseId
     {
-        $campuses = $this->campusRepository->findAllByIds(
-            array_map(fn ($id) => new CampusId($id), $command->campuses)
-        );
-
-        $command->startDates = array_filter($command->startDates);
-
         $course = new Course(
             new CourseId($this->uuidGenerator->generate()),
             $command->name,
             $command->description,
-            $campuses,
-            $command->startDates
         );
 
         $this->courseRepository->add($course);
 
         $this->flusher->flush();
+        return $course->getId();
     }
 }

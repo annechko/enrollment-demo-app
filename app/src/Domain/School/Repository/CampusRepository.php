@@ -6,6 +6,7 @@ namespace App\Domain\School\Repository;
 
 use App\Domain\Core\NotFoundException;
 use App\Domain\School\Entity\Campus\Campus;
+use App\Domain\School\Entity\Campus\CampusId;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -34,7 +35,7 @@ class CampusRepository extends ServiceEntityRepository
         $this->getEntityManager()->remove($entity);
     }
 
-    public function get(string $id): Campus
+    public function get(CampusId $id): Campus
     {
         $campus = $this->find($id);
         if ($campus === null) {

@@ -7,12 +7,10 @@ namespace App\Controller\Api\School;
 use App\Domain\Core\NotFoundException;
 use App\Domain\Core\UuidPattern;
 use App\Domain\School\Common\RoleEnum;
-use App\Domain\School\Entity\Campus\Campus;
-use App\Domain\School\Entity\Course\CourseDate;
+use App\Domain\School\Entity\Course\CourseId;
 use App\Domain\School\Repository\CampusRepository;
 use App\Domain\School\Repository\CourseRepository;
 use App\Domain\School\UseCase\School;
-use App\ReadModel\School\CampusFetcher;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -51,6 +49,32 @@ class SchoolController extends AbstractController
         $command = new School\Campus\Add\Command();
 
         return $this->handle($command, School\Campus\Add\Form::class, $handler, $request);
+    }
+
+    #[Route('/courses/{courseId}/intakes', name: 'api_school_course_intake_list',
+        requirements: [
+            'courseId' => UuidPattern::PATTERN_WITH_TEMPLATE,
+        ],
+        methods: ['GET'],
+    )]
+    public function intakeListGet(
+        string $courseId,
+        CourseRepository $repository,
+    ): Response {
+        $c = $repository->get(new CourseId($courseId));
+        $res = [];
+        foreach ($c->getIntakes() as $intake) {
+            $res[] = [
+                'id' => $intake->getId()->getValue(),
+                'name' => $intake->getName(),
+                'classSize' => $intake->getClassSize(),
+                'campus' => $intake->getCampus()->getName(),
+                'startDate' => $intake->getStartDate()->format('Y-m-d'),
+                'endDate' => $intake->getEndDate()->format('Y-m-d'),
+            ];
+        }
+
+        return new JsonResponse($res);
     }
 
     #[Route('/campuses', name: 'api_school_campus_list', methods: ['GET'])]
@@ -97,16 +121,6 @@ class SchoolController extends AbstractController
                 'id' => $course->getId()->getValue(),
                 'name' => $course->getName(),
                 'description' => $course->getDescription(),
-                'campuses' => array_map(
-                    fn (Campus $campus) => [
-                        'name' => $campus->getName(),
-                    ],
-                    $course->getCampuses()->toArray()
-                ),
-                'startDates' => array_map(
-                    fn (CourseDate $d) => $d->getStartDate()->format('Y-m-d'),
-                    $course->getDates()->toArray()
-                ),
             ];
         }
 
@@ -122,16 +136,21 @@ class SchoolController extends AbstractController
 
         $command = new School\Course\Add\Command();
 
-        return $this->handle($command, School\Course\Add\Form::class, $handler, $request);
+        return $this->handle(
+            $command,
+            School\Course\Add\Form::class,
+            $handler,
+            $request,
+            fn (CourseId $result) => ['id' => $result->getValue()]
+        );
     }
 
     #[Route('/courses/courseData', name: 'api_school_course', methods: ['GET'])]
     public function courseGet(
         CourseRepository $repository,
-        CampusFetcher $campusFetcher,
         Request $request
     ): Response {
-        $result = [];
+        $result = ['course' => null];
 
         $courseId = $request->get('courseId', null);
         if ($courseId !== null) {
@@ -149,29 +168,14 @@ class SchoolController extends AbstractController
                     Response::HTTP_UNPROCESSABLE_ENTITY);
             }
             try {
-                $course = $repository->get($courseId);
+                $course = $repository->get(new CourseId($courseId));
             } catch (NotFoundException $e) {
                 return new JsonResponse([], Response::HTTP_NOT_FOUND);
             }
 
-            $result['id'] = $course->getId()->getValue();
-            $result['name'] = $course->getName();
-            $result['description'] = $course->getDescription();
-            foreach ($course->getCampuses() as $campus) {
-                $result['selectedCampuses'][] = $campus->getId()->getValue();
-            }
-            $result['startDates'] = [];
-            foreach ($course->getDates() as $startDate) {
-                $result['startDates'][] = $startDate->getStartDate()->format('Y-m-d');
-            }
-        }
-
-        $campuses = $campusFetcher->getCampusesIdToName();
-        foreach ($campuses as $id => $name) {
-            $result['campuses'][] = [
-                'id' => $id,
-                'name' => $name,
-            ];
+            $result['course']['id'] = $course->getId()->getValue();
+            $result['course']['name'] = $course->getName();
+            $result['course']['description'] = $course->getDescription();
         }
 
         return new JsonResponse($result);
@@ -256,6 +260,7 @@ class SchoolController extends AbstractController
         string $class,
         object $handler,
         Request $request,
+        callable $responseSuccessBuilder = null
     ): JsonResponse {
         $form = $this->createForm($class, $command);
         $form->handleRequest($request);
@@ -276,9 +281,9 @@ class SchoolController extends AbstractController
                 ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
             }
             try {
-                $handler->handle($command);
-
-                return new JsonResponse();
+                $result = $handler->handle($command);
+                $response = $responseSuccessBuilder ? $responseSuccessBuilder($result) : null;
+                return new JsonResponse($response);
             } catch (InvalidArgumentException $exception) {
                 return new JsonResponse([
                     'error' => $exception->getMessage(),

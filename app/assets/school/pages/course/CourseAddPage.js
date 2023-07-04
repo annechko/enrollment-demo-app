@@ -13,7 +13,7 @@ const CourseAddPage = () => {
   })
 
   const onSuccess = (response) => {
-    navigate(-1)
+    navigate(window.abeApp.urls.school_course_edit.replace(':id', response.data.id))
   }
   const formId = 'course'
   const onSubmit = (event) => {

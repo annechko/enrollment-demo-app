@@ -1,6 +1,9 @@
 import axios from "axios";
 import PropTypes from "prop-types";
-import React, {useState} from 'react'
+import React, {
+  useEffect,
+  useState
+} from 'react'
 
 const Loadable = ({Component, url, customOnLoad, config, ...options}) => {
   const [dataState, setDataState] = useState({
@@ -10,10 +13,16 @@ const Loadable = ({Component, url, customOnLoad, config, ...options}) => {
     error: null
   })
 
+  useEffect(() => {
+    if (!dataState.loaded && !dataState.loading && dataState.error === null) {
+      loadData()
+    }
+  }, [dataState.loaded, dataState.loading, dataState.error, Component])
+
   const reload = () => {
     loadData()
   }
-  const onLoad = (response) => {
+  const onSuccess = (response) => {
     if (customOnLoad) {
       customOnLoad(response.data)
     }
@@ -40,14 +49,9 @@ const Loadable = ({Component, url, customOnLoad, config, ...options}) => {
       error: null
     })
     axios.get(url, config || {})
-      .then(onLoad)
+      .then(onSuccess)
       .catch(onError)
   }
-  React.useEffect(() => {
-    if (!dataState.loaded && !dataState.loading && dataState.error === null) {
-      loadData()
-    }
-  }, [dataState.loaded, dataState.loading, dataState.error, Component])
 
   return <Component dataState={dataState} reload={reload} {...options}/>
 }
