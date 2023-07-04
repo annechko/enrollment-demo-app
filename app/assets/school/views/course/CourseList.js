@@ -34,8 +34,6 @@ const CourseList = ({dataState}) => {
           <CTableDataCell scope="row">{item.id.substring(32)}</CTableDataCell>
           <CTableDataCell>{item.name}</CTableDataCell>
           <CTableDataCell>{item.description}</CTableDataCell>
-          <CTableDataCell>{item.campuses.map((c) => c.name).join(', ')}</CTableDataCell>
-          <CTableDataCell>{item.startDates.map((d) => d).join(', ')}</CTableDataCell>
           <CTableDataCell>
             <Link to={window.abeApp.urls.school_course_edit.replace(':id', item.id)}>
               <CButton color="primary" role="button"
@@ -52,8 +50,6 @@ const CourseList = ({dataState}) => {
     rows.push((
       <CTableRow key={key++} className="app-loading">
         <CTableHeaderCell scope="row"><CSpinner color="primary"/></CTableHeaderCell>
-        <CTableDataCell></CTableDataCell>
-        <CTableDataCell></CTableDataCell>
         <CTableDataCell></CTableDataCell>
         <CTableDataCell></CTableDataCell>
         <CTableDataCell></CTableDataCell>
@@ -81,8 +77,6 @@ const CourseList = ({dataState}) => {
                   <CTableHeaderCell scope="col">Id</CTableHeaderCell>
                   <CTableHeaderCell scope="col">Name</CTableHeaderCell>
                   <CTableHeaderCell scope="col">Description</CTableHeaderCell>
-                  <CTableHeaderCell scope="col">Campuses</CTableHeaderCell>
-                  <CTableHeaderCell scope="col">Start dates</CTableHeaderCell>
                   <CTableHeaderCell scope="col">Actions</CTableHeaderCell>
                 </CTableRow>
               </CTableHead>
@@ -103,14 +97,6 @@ CourseList.propTypes = {
           id: PropTypes.string.isRequired,
           name: PropTypes.string.isRequired,
           description: PropTypes.string,
-          campuses: PropTypes.arrayOf(
-            PropTypes.shape({
-              name: PropTypes.string.isRequired,
-            })
-          ),
-          startDates: PropTypes.arrayOf(
-            PropTypes.string.isRequired,
-          ),
         })
       ),
       loading: PropTypes.bool,
