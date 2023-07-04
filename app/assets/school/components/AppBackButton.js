@@ -9,6 +9,7 @@ const AppBackButton = () => {
   return (
     <>
       <CButton color="dark" role="button" className="py-0 mb-2"
+        size="sm"
         variant="outline"
         onClick={() => navigate(-1)}>
         <CIcon icon={cilArrowLeft} />

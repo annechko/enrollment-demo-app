@@ -13,14 +13,12 @@ import {
 } from '@coreui/react'
 import React from 'react'
 
-// import { AppBreadcrumb } from './index'
 import {AppHeaderDropdown} from './header/index'
-// import { logo } from 'src/assets/brand/logo'
 
 const AppHeader = () => {
 
   return (
-    <CHeader position="sticky" className="mb-4">
+    <CHeader position="sticky" className="mb-2">
       <CContainer fluid className="header-items-right">
         <CHeaderNav>
           <CNavItem>
@@ -43,10 +41,6 @@ const AppHeader = () => {
           <AppHeaderDropdown/>
         </CHeaderNav>
       </CContainer>
-      {/*<CHeaderDivider />*/}
-      {/*<CContainer fluid>*/}
-      {/*<AppBreadcrumb />*/}
-      {/*</CContainer>*/}
     </CHeader>
   )
 }
