@@ -8,6 +8,7 @@ use App\Domain\School\Entity\Campus\Campus;
 use App\Domain\School\Entity\Course\Course;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Webmozart\Assert\Assert;
 
 #[ORM\Entity()]
 #[ORM\Table(name: 'school_course_intake')]
@@ -49,6 +50,13 @@ class Intake
         ?Campus $campus,
         ?\DateTimeImmutable $createdAt = null,
     ) {
+        Assert::nullOrGreaterThanEq($classSize, 0);
+        Assert::greaterThanEq(
+            $endDate,
+            $startDate,
+            'Start date should be greater than or equal to end date.'
+        );
+
         $this->course = $course;
         $this->id = $id;
         $this->startDate = $startDate;

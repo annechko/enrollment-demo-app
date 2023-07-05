@@ -51,32 +51,6 @@ class SchoolController extends AbstractController
         return $this->handle($command, School\Campus\Add\Form::class, $handler, $request);
     }
 
-    #[Route('/courses/{courseId}/intakes', name: 'api_school_course_intake_list',
-        requirements: [
-            'courseId' => UuidPattern::PATTERN_WITH_TEMPLATE,
-        ],
-        methods: ['GET'],
-    )]
-    public function intakeListGet(
-        string $courseId,
-        CourseRepository $repository,
-    ): Response {
-        $c = $repository->get(new CourseId($courseId));
-        $res = [];
-        foreach ($c->getIntakes() as $intake) {
-            $res[] = [
-                'id' => $intake->getId()->getValue(),
-                'name' => $intake->getName(),
-                'classSize' => $intake->getClassSize(),
-                'campus' => $intake->getCampus()->getName(),
-                'startDate' => $intake->getStartDate()->format('Y-m-d'),
-                'endDate' => $intake->getEndDate()->format('Y-m-d'),
-            ];
-        }
-
-        return new JsonResponse($res);
-    }
-
     #[Route('/campuses', name: 'api_school_campus_list', methods: ['GET'])]
     public function campusListGet(CampusRepository $repository): Response
     {
@@ -142,6 +116,53 @@ class SchoolController extends AbstractController
             $handler,
             $request,
             fn (CourseId $result) => ['id' => $result->getValue()]
+        );
+    }
+    #[Route('/courses/{courseId}/intakes', name: 'api_school_course_intake_list',
+        requirements: [
+            'courseId' => UuidPattern::PATTERN_WITH_TEMPLATE,
+        ],
+        methods: ['GET'],
+    )]
+    public function intakeListGet(
+        string $courseId,
+        CourseRepository $repository,
+    ): Response {
+        $c = $repository->get(new CourseId($courseId));
+        $res = [];
+        foreach ($c->getIntakes() as $intake) {
+            $res[] = [
+                'id' => $intake->getId()->getValue(),
+                'name' => $intake->getName(),
+                'classSize' => $intake->getClassSize(),
+                'campus' => $intake->getCampus()?->getName(),
+                'startDate' => $intake->getStartDate()->format('Y-m-d'),
+                'endDate' => $intake->getEndDate()->format('Y-m-d'),
+            ];
+        }
+
+        return new JsonResponse($res);
+    }
+
+    #[Route('/courses/{courseId}/intakes', name: 'api_school_course_intake_add',
+        requirements: [
+            'courseId' => UuidPattern::PATTERN_WITH_TEMPLATE,
+        ],
+        methods: ['POST'])]
+    public function courseIntakeAdd(
+        Request $request,
+        string $courseId,
+        School\Course\Intake\Add\Handler $handler
+    ): Response {
+        $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
+
+        $command = new School\Course\Intake\Add\Command($courseId);
+
+        return $this->handle(
+            $command,
+            School\Course\Intake\Add\Form::class,
+            $handler,
+            $request,
         );
     }
 

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Domain\School\UseCase\School\Course\Intake\Add;
 
-use App\Domain\School\Entity\Campus\Campus;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use App\ReadModel\School\CampusFetcher;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\ChoiceList\Loader\CallbackChoiceLoader;
 use Symfony\Component\Form\Extension\Core\Type;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -14,6 +14,10 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class Form extends AbstractType
 {
     public const NAME = 'intake';
+
+    public function __construct(private readonly CampusFetcher $campusFetcher)
+    {
+    }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -28,9 +32,11 @@ class Form extends AbstractType
                 'widget' => 'single_text',
             ])
             ->add('classSize')
-            ->add('campus', EntityType::class, [
+            ->add('campusId', Type\ChoiceType::class, [
                 'multiple' => false,
-                'class' => Campus::class,
+                'choice_loader' => new CallbackChoiceLoader(function () {
+                    return array_flip($this->campusFetcher->getCampusesIdToName());
+                }),
             ]);
     }
 

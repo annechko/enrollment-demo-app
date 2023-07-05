@@ -25,7 +25,10 @@ class Handler
     public function handle(Command $command): void
     {
         $course = $this->courseRepository->get(new CourseId($command->courseId));
-        $campus = $this->campusRepository->get(new CampusId($command->campusId));
+        $campus = null;
+        if (!empty($command->campusId)) {
+            $campus = $this->campusRepository->get(new CampusId($command->campusId));
+        }
         $course->addIntake(
             new IntakeId($this->uuidGenerator->generate()),
             $command->startDate,

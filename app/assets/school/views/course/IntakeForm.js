@@ -3,32 +3,51 @@ import {
   CForm,
   CFormInput,
   CFormLabel,
-  CFormTextarea,
+  CFormSelect,
   CSpinner,
 } from '@coreui/react'
 import PropTypes from "prop-types";
 import React from 'react'
-import AppBackButton from "../../components/AppBackButton";
 import AppErrorMessage from "../../components/AppErrorMessage";
+import {submitForm} from "../../pages/helper/_submitForm";
 
 const IntakeForm = ({
-                      onSubmit,
                       formId,
-                      isSubmitted,
-                      submitError,
                       dataState,
+                      campusOptions,
+                      onSuccess,
+                      courseId,
                       isUpdate = false,
                       showSubmitBtn = true
                     }) => {
+  const [state, setState] = React.useState({
+    loading: false,
+    error: null
+  })
+  const isSubmitted = state.loading
   const item = dataState?.data || null
-  const error = submitError || dataState?.error || null
+  const error = state.error || dataState?.error || null
   if (isUpdate && item === null) {
+    if (error !== null) {
+      return <AppErrorMessage error={error}/>
+    }
     return (
       <>
-        <AppBackButton/>
         <div>Loading...</div>
       </>
     )
+  }
+  const url = isUpdate ? '' : window.abeApp.urls.api_school_course_intake_add.replace(':id', courseId)
+  const onSubmit = (event) => {
+    submitForm({
+      event,
+      state,
+      setState,
+      formId,
+      onSuccess,
+      url: url,
+      headers: {'Content-Type': 'multipart/form-data'}
+    })
   }
   return (
     <>
@@ -62,10 +81,12 @@ const IntakeForm = ({
 
         <div className="mb-3">
           <CFormLabel htmlFor="campus">Main campus</CFormLabel>
-          <CFormTextarea id="campus"
-            defaultValue={isUpdate ? item.campus : ''}
-            rows="3"
-            name={formId + "[campus]"}></CFormTextarea>
+          <CFormSelect id="campus" aria-label="Choose campus"
+            defaultValue={isUpdate ? item.campus : null}
+            options={campusOptions}
+            name={formId + "[campusId]"}
+          >
+          </CFormSelect>
         </div>
         <div className="mb-3">
           <CFormLabel htmlFor="classSize">Class size</CFormLabel>
@@ -91,13 +112,15 @@ const IntakeForm = ({
 IntakeForm.propTypes = {
   isUpdate: PropTypes.bool,
   showSubmitBtn: PropTypes.bool,
-  onSubmit: PropTypes.func.isRequired,
+  courseId: PropTypes.string.isRequired,
   formId: PropTypes.string.isRequired,
-  isSubmitted: PropTypes.bool,
-  submitError: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.oneOf([null]),
-  ]),
+  onSuccess: PropTypes.func,
+  campusOptions: PropTypes.arrayOf(
+    PropTypes.shape({
+      value: PropTypes.string.isRequired,
+      label: PropTypes.string.isRequired,
+    })
+  ),
   dataState: PropTypes.shape({
     data: PropTypes.shape({
       id: PropTypes.string,

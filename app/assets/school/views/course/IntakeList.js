@@ -3,6 +3,10 @@ import {
   CCard,
   CCardBody,
   CCardHeader,
+  CModal,
+  CModalBody,
+  CModalHeader,
+  CModalTitle,
   CSpinner,
   CTable,
   CTableBody,
@@ -18,8 +22,56 @@ import CIcon from "@coreui/icons-react";
 import {cilPencil} from "@coreui/icons";
 import Loadable from "../../pages/Loadable";
 import AppErrorMessage from "../../components/AppErrorMessage";
+import IntakeForm from "./IntakeForm";
 
-const IntakeList = ({courseId = ''}) => {
+const IntakeAdd = ({dataState, courseId, reloadAfterAdd}) => {
+  const [visible, setVisible] = React.useState(false)
+  const [intakeAddState, setIntakeAddState] = React.useState({
+    loading: false,
+    error: null,
+  })
+
+  let campusOptions = [{
+    value: '',
+    label: dataState.loading ? 'Loading...' : '',
+  }];
+
+  if (dataState.error !== null) {
+    return <AppErrorMessage error={dataState.error}/>
+  }
+  if (dataState.loaded === true) {
+    dataState.data.forEach((item) => {
+      campusOptions.push({
+        value: item.id,
+        label: item.name,
+      })
+    })
+  }
+  const formId = 'intake'
+  const onAdded = () => {
+    setVisible(false)
+    reloadAfterAdd()
+  }
+  return <>
+    <CButton color="primary" role="button" size="sm"
+      onClick={() => setVisible(!visible)}>New</CButton>
+    <CModal visible={visible} onClose={() => setVisible(false)}>
+      <CModalHeader onClose={() => setVisible(false)}>
+        <CModalTitle>Add new intake</CModalTitle>
+      </CModalHeader>
+      <CModalBody>
+        <IntakeForm formId={formId}
+          showSubmitBtn
+          courseId={courseId}
+          campusOptions={campusOptions}
+          onSuccess={onAdded}
+        />
+      </CModalBody>
+
+    </CModal>
+  </>
+}
+const IntakeList = ({courseId}) => {
   return (
     <CCard className="mb-4">
       <CCardHeader>
@@ -28,13 +80,16 @@ const IntakeList = ({courseId = ''}) => {
       <CCardBody>
         <Loadable
           Component={IntakesRows}
-          url={window.abeApp.urls.api_school_course_intake_list.replace(':id', courseId)}/>
+          url={window.abeApp.urls.api_school_course_intake_list.replace(':id', courseId)}
+          courseId={courseId}
+        />
       </CCardBody>
     </CCard>
   )
 }
-const IntakesRows = ({dataState, reload}) => {
+const IntakesRows = ({dataState, reload, courseId}) => {
   const intakes = dataState.data
+
   let key = 0
   if (dataState.error !== null) {
     return <AppErrorMessage error={dataState.error}/>
@@ -63,8 +118,7 @@ const IntakesRows = ({dataState, reload}) => {
       </CTableDataCell>
     </CTableRow>
   )
-  const onAddClick = () => {
-  }
+
   return <>
     {intakesRows.length > 0
       &&
@@ -84,35 +138,49 @@ const IntakesRows = ({dataState, reload}) => {
           {intakesRows}
         </CTableBody>
       </CTable>}
-    <Link to={window.abeApp.urls.school_course_add}>
-      <CButton color="primary" role="button" size="sm"
-        onClick={onAddClick}
-      >
-        New
-      </CButton>
-    </Link>
+    <Loadable
+      Component={IntakeAdd}
+      url={window.abeApp.urls.api_school_campus_list}
+      courseId={courseId}
+      reloadAfterAdd={reload}
+    />
   </>
 }
 
 IntakeList.propTypes = {
-  courseId: PropTypes.string,
+  courseId: PropTypes.string.isRequired,
+}
+IntakeAdd.propTypes = {
+  courseId: PropTypes.string.isRequired,
+  // reload: PropTypes.func.isRequired,
+  dataState: PropTypes.shape({
+    data: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
+      })
+    ),
+    loading: PropTypes.bool,
+    loaded: PropTypes.bool,
+    error: PropTypes.string,
+  }),
 }
 IntakesRows.propTypes = {
+  courseId: PropTypes.string.isRequired,
   dataState: PropTypes.shape({
-      data: PropTypes.arrayOf(
-        PropTypes.shape({
-          id: PropTypes.string,
-          name: PropTypes.string,
-          campus: PropTypes.string,
-          startDate: PropTypes.string,
-          endDate: PropTypes.string,
-          classSize: PropTypes.number,
-        })
-      ),
-      loading: PropTypes.bool,
-      loaded: PropTypes.bool,
-      error: PropTypes.string,
-    }
-  ),
+    data: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.string,
+        name: PropTypes.string,
+        campus: PropTypes.string,
+        startDate: PropTypes.string,
+        endDate: PropTypes.string,
+        classSize: PropTypes.number,
+      })
+    ),
+    loading: PropTypes.bool,
+    loaded: PropTypes.bool,
+    error: PropTypes.string,
+  }),
 }
 export default React.memo(IntakeList)

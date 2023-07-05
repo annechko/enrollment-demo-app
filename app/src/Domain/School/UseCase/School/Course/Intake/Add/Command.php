@@ -20,7 +20,7 @@ class Command
     public $endDate;
 
     #[Assert\Type('integer')]
-    #[Assert\Positive()]
+    #[Assert\PositiveOrZero(message: 'Class size should be positive.')]
     public $classSize;
 
     #[Assert\Regex(pattern: UuidPattern::PATTERN_REG_EXP)]
@@ -28,4 +28,9 @@ class Command
 
     #[Assert\Regex(pattern: UuidPattern::PATTERN_REG_EXP)]
     public $courseId;
+
+    public function __construct($courseId)
+    {
+        $this->courseId = $courseId;
+    }
 }

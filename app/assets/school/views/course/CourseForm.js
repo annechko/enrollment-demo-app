@@ -68,7 +68,6 @@ const CourseForm = ({
             </div>
             <div>
               <CButton color="success"
-                key={crypto.randomUUID()}
                 size="sm"
                 className={isSubmitted ? 'disabled' : ''}
                 disabled={isSubmitted === true}
@@ -77,7 +76,6 @@ const CourseForm = ({
                 Save
               </CButton>
             </div>
-
           </CForm>
         </CCardBody>
       </CCard>
