@@ -16,7 +16,7 @@ class SchoolIdType extends GuidType
         return static::NAME;
     }
 
-    public function convertToDatabaseValue($value, AbstractPlatform $platform): string
+    public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string
     {
         return $value instanceof SchoolId ? $value->getValue() : $value;
     }

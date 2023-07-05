@@ -16,9 +16,9 @@ class CampusIdType extends GuidType
         return static::NAME;
     }
 
-    public function convertToDatabaseValue($value, AbstractPlatform $platform): string
+    public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string
     {
-        return $value instanceof CampusId ? $value->getValue() : $value;
+        return $value instanceof CampusId ? $value->getValue() : null;
     }
 
     public function convertToPHPValue($value, AbstractPlatform $platform): ?CampusId
