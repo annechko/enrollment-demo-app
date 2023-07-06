@@ -218,6 +218,31 @@ class SchoolController extends AbstractController
         return new JsonResponse($res);
     }
 
+    #[Route('/courses/{courseId}/intakes/{intakeId}', name: 'api_school_course_intake_remove',
+        requirements: [
+            'courseId' => UuidPattern::PATTERN_WITH_TEMPLATE,
+            'intakeId' => UuidPattern::PATTERN_WITH_TEMPLATE,
+        ],
+        methods: ['DELETE'])]
+    public function courseIntakeRemove(
+        string $courseId,
+        string $intakeId,
+        School\Course\Intake\Remove\Handler $handler
+    ): Response {
+        $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
+
+        try {
+            $command = new School\Course\Intake\Remove\Command($intakeId, $courseId);
+            $handler->handle($command);
+        } catch (InvalidArgumentException $exception) {
+            return new JsonResponse([
+                'error' => $exception->getMessage(),
+            ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+        return new JsonResponse();
+    }
+
     #[Route('/courses/courseData', name: 'api_school_course', methods: ['GET'])]
     public function courseGet(
         CourseRepository $repository,
@@ -299,35 +324,6 @@ class SchoolController extends AbstractController
         ]);
     }
 
-    // public function index(): Response
-    // {
-    //    $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
-    //
-    //    $courses = [
-    //        [
-    //            'id' => (new UuidGenerator())->generate(),
-    //            'name' => 'Inf Tech in hhsdfm ',
-    //            'campuses' => ['Ackland drive', 'Wellington main'],
-    //            'startDates' => [
-    //                new \DateTimeImmutable('2022-01-01'),
-    //                new \DateTimeImmutable('2022-07-01'),
-    //            ],
-    //        ],
-    //        [
-    //            'id' => (new UuidGenerator())->generate(),
-    //            'name' => 'Inf Tech in hhsdfm dfvdfvdf ef efv ef (df dfg sdfsdsdfsdf)',
-    //            'campuses' => ['Ackland drive sfdfsdfsdfsdfs', 'Wellington sdfsd sdmain'],
-    //            'startDates' => [
-    //                new \DateTimeImmutable('2022-01-01'),
-    //                new \DateTimeImmutable('2022-07-01'),
-    //            ],
-    //        ],
-    //    ];
-    //
-    //    return $this->render('school/index.html.twig', [
-    //        'pagination' => $courses,
-    //    ]);
-    // }
     private function handle(
         object $command,
         string $class,

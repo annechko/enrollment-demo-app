@@ -100,6 +100,12 @@ class Course
         return $this;
     }
 
+    public function removeIntake(IntakeId $id): self
+    {
+        $this->intakes->remove($id->getValue());
+        return $this;
+    }
+
     public function editIntake(
         IntakeId $id,
         \DateTimeImmutable $startDate,

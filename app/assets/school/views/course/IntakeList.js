@@ -5,6 +5,7 @@ import {
   CCardHeader,
   CModal,
   CModalBody,
+  CModalFooter,
   CModalHeader,
   CModalTitle,
   CSpinner,
@@ -20,7 +21,10 @@ import React, {
   useState
 } from 'react'
 import CIcon from "@coreui/icons-react";
-import {cilPencil} from "@coreui/icons";
+import {
+  cilPencil,
+  cilX
+} from "@coreui/icons";
 import Loadable from "../../pages/Loadable";
 import AppErrorMessage from "../../components/AppErrorMessage";
 import IntakeForm from "./IntakeForm";
@@ -28,7 +32,13 @@ import axios from "axios";
 import PropTypes from "prop-types";
 
 const IntakeList = ({courseId}) => {
-  const [intakeModalState, setIntakeModalState] = React.useState({id: null, visible: false})
+  const [newIntakeModalState, setNewIntakeModalState] = React.useState({id: null, visible: false})
+  const [removeIntakeState, setRemoveIntakeState] = React.useState({modalVisible: false, intake: {}})
+  const [removeIntakeRequestState, setRemoveIntakeRequestState] = useState({
+    loading: false,
+    loaded: false,
+    error: null
+  })
   // -------------
   const [campusListState, setCampusListState] = useState({
     data: null,
@@ -122,10 +132,40 @@ const IntakeList = ({courseId}) => {
       })
     })
   }
-  const closeModal = () => setIntakeModalState({id: null, visible: false})
-  const onModalExecuted = () => {
-    closeModal();
+  const closeNewIntakeModal = () => setNewIntakeModalState({id: null, visible: false})
+  const onNewIntakeModalExecuted = () => {
+    closeNewIntakeModal();
     loadIntakes()
+  }
+  const intakeToRemove = removeIntakeState.intake
+  const removeIntake = (intakeId) => {
+    return () => {
+      const url = window.abeApp.urls.api_school_course_intake_remove.replace(':courseId', courseId)
+        .replace(':intakeId', intakeId)
+      setRemoveIntakeRequestState({
+        loading: true,
+        loaded: false,
+        error: null
+      })
+      axios.delete(url, {headers: {'Content-Type': 'multipart/form-data'}})
+        .then(response => {
+          setRemoveIntakeRequestState({
+            loading: false,
+            loaded: true,
+            error: null
+          })
+          loadIntakes()
+          // todo add success alert
+          setRemoveIntakeState({modalVisible: false, intake: {}})
+        })
+        .catch((error) => {
+          setRemoveIntakeRequestState({
+            loading: false,
+            loaded: false,
+            error: error.response?.data?.error || 'Something went wrong'
+          })
+        });
+    }
   }
   return (
     <CCard className="mb-4">
@@ -135,42 +175,79 @@ const IntakeList = ({courseId}) => {
       <CCardBody>
         <IntakesRows
           intakesState={intakesState}
-          setIntakeModalState={setIntakeModalState}
-          intakeModalState={intakeModalState}
+          setNewIntakeModalState={setNewIntakeModalState}
+          newIntakeModalState={newIntakeModalState}
+          setRemoveIntakeState={setRemoveIntakeState}
         />
-        <CModal visible={intakeModalState.visible} onClose={closeModal}>
-          <CModalHeader onClose={closeModal}>
-            <CModalTitle>{intakeModalState.id === null ? 'Add new intake' : 'Edit intake'}</CModalTitle>
+        <CModal visible={newIntakeModalState.visible} onClose={closeNewIntakeModal}>
+          <CModalHeader onClose={closeNewIntakeModal}>
+            <CModalTitle>{newIntakeModalState.id === null ? 'Add new intake' : 'Edit intake'}</CModalTitle>
           </CModalHeader>
           <CModalBody>
-
-            {intakeModalState.id === null
+            {newIntakeModalState.id === null
               ?
               <IntakeForm formId={formId}
                 showSubmitBtn
                 courseId={courseId}
                 campusOptions={campusOptions}
-                onSuccess={onModalExecuted}
+                onSuccess={onNewIntakeModalExecuted}
               />
               :
               <Loadable component={IntakeForm}
                 url={window.abeApp.urls.api_school_course_intake
-                  .replace(':courseId', courseId).replace(':intakeId', intakeModalState.id)}
+                  .replace(':courseId', courseId).replace(':intakeId', newIntakeModalState.id)}
                 isUpdate
                 formId={formId}
                 showSubmitBtn
                 courseId={courseId}
                 campusOptions={campusOptions}
-                onSuccess={onModalExecuted}
+                onSuccess={onNewIntakeModalExecuted}
               />
             }
           </CModalBody>
         </CModal>
+
+        <CModal visible={removeIntakeState.modalVisible}
+          onClose={() => {
+            setRemoveIntakeState({modalVisible: false, intake: {}})
+          }}>
+          <CModalHeader onClose={() => {
+            setRemoveIntakeState({modalVisible: false, intake: {}})
+          }}>
+            <CModalTitle>Remove intake</CModalTitle>
+          </CModalHeader>
+          <CModalBody>
+            {removeIntakeRequestState.error !== null && <AppErrorMessage error={removeIntakeRequestState.error}/>}
+            Are you sure you want to remove intake "{intakeToRemove.name}"?
+            Dates: {intakeToRemove.start} - {intakeToRemove.end}
+          </CModalBody>
+          <CModalFooter>
+            <CButton color="secondary" size="sm" onClick={() => setRemoveIntakeState({
+              modalVisible: false,
+              intake: {}
+            })}>
+              Close
+            </CButton>
+            <CButton color="danger" size="sm"
+              disabled={removeIntakeRequestState.loading === true}
+              onClick={removeIntake(intakeToRemove.id)}>
+              {removeIntakeRequestState.loading === true
+                && <CSpinner className="me-1" component="span" size="sm" aria-hidden="true"/>}
+
+              Remove</CButton>
+          </CModalFooter>
+        </CModal>
+
       </CCardBody>
     </CCard>
   )
 }
-const IntakesRows = ({intakesState, setIntakeModalState, intakeModalState,}) => {
+const IntakesRows = ({
+                       intakesState,
+                       setNewIntakeModalState,
+                       setRemoveIntakeState,
+                       newIntakeModalState,
+                     }) => {
   const intakes = intakesState.data
 
   let key = 0
@@ -191,14 +268,27 @@ const IntakesRows = ({intakesState, setIntakeModalState, intakeModalState,}) => 
       <CTableDataCell>{item.classSize}</CTableDataCell>
       <CTableDataCell>{item.campus}</CTableDataCell>
       <CTableDataCell>
-        <CButton color="primary" role="button"
-          className="pb-0 pt-0 pl-1 pr-1"
-          onClick={() => {
-            setIntakeModalState({id: item.id, visible: true});
-          }}
-          size="sm" variant="outline">
-          <CIcon icon={cilPencil}/>
-        </CButton>
+        <div className="d-flex">
+          <CButton color="primary" role="button"
+            className="py-0 me-1"
+            onClick={() => {
+              setNewIntakeModalState({id: item.id, visible: true});
+            }}
+            size="sm" variant="outline">
+            <CIcon icon={cilPencil}/>
+          </CButton>
+          <CButton color="danger" role="button"
+            className="py-0"
+            onClick={() => {
+              setRemoveIntakeState({
+                modalVisible: true,
+                intake: {name: item.name, id: item.id, start: item.startDate, end: item.endDate}
+              });
+            }}
+            size="sm" variant="outline">
+            <CIcon icon={cilX}/>
+          </CButton>
+        </div>
       </CTableDataCell>
     </CTableRow>
   )
@@ -223,7 +313,7 @@ const IntakesRows = ({intakesState, setIntakeModalState, intakeModalState,}) => 
         </CTableBody>
       </CTable>}
     <CButton color="primary" role="button" size="sm"
-      onClick={() => setIntakeModalState({id: null, visible: !intakeModalState.visible})}
+      onClick={() => setNewIntakeModalState({id: null, visible: !newIntakeModalState.visible})}
     >New</CButton>
   </>
 }
@@ -232,8 +322,9 @@ IntakeList.propTypes = {
   courseId: PropTypes.string.isRequired,
 }
 IntakesRows.propTypes = {
-  setIntakeModalState: PropTypes.func.isRequired,
-  intakeModalState: PropTypes.shape({
+  setNewIntakeModalState: PropTypes.func.isRequired,
+  setRemoveIntakeState: PropTypes.func.isRequired,
+  newIntakeModalState: PropTypes.shape({
     id: PropTypes.string,
     visible: PropTypes.bool,
   }),
