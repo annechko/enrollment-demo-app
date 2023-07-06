@@ -1,14 +1,15 @@
 import React, {useState} from 'react'
-import {
-  useNavigate,
-  useParams
-} from "react-router-dom";
+import {useParams} from "react-router-dom";
 import CourseForm from "../../views/course/CourseForm";
 import {submitForm} from "../helper/_submitForm";
 import Loadable from "../Loadable";
+import {
+  CToast,
+  CToastBody,
+  CToaster
+} from "@coreui/react";
 
 const CourseEditPage = () => {
-  const navigate = useNavigate();
   const params = useParams()
 
   const [state, setState] = useState({
@@ -17,7 +18,13 @@ const CourseEditPage = () => {
   })
 
   const onSuccess = (response) => {
-    navigate(-1)
+    setState({...state, showSuccess: true})
+    setTimeout(() => {
+      setState({
+        loading: false,
+        error: null
+      })
+    }, 1000)
   }
   const formId = 'course'
   const onSubmit = (event) => {
@@ -32,16 +39,24 @@ const CourseEditPage = () => {
     })
   }
 
-  return <Loadable
-    component={CourseForm}
-    url={window.abeApp.urls.api_school_course}
-    config={{params: {'courseId': params.id}}}
-    formId={formId}
-    onSubmit={onSubmit}
-    isSubmitted={state.loading}
-    submitError={state.error}
-    isUpdate
-  />
+  return <>
+    <CToaster push={state?.showSuccess === true &&
+      <CToast autohide visible color="success">
+        <CToastBody>Course was updated!</CToastBody>
+      </CToast>
+    } placement="top-end"/>
+
+    <Loadable
+      component={CourseForm}
+      url={window.abeApp.urls.api_school_course}
+      config={{params: {'courseId': params.id}}}
+      formId={formId}
+      onSubmit={onSubmit}
+      isSubmitted={state.loading}
+      submitError={state.error}
+      isUpdate
+    />
+  </>
 }
 
 export default CourseEditPage
