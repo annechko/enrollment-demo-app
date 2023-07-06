@@ -37,7 +37,12 @@ const IntakeForm = ({
       </>
     )
   }
-  const url = isUpdate ? '' : window.abeApp.urls.api_school_course_intake_add.replace(':id', courseId)
+  const url = isUpdate
+    ? window.abeApp.urls.api_school_course_intake_edit
+      .replace(':courseId', courseId)
+      .replace(':intakeId', item.id)
+    : window.abeApp.urls.api_school_course_intake_add
+      .replace(':id', courseId)
   const onSubmit = (event) => {
     submitForm({
       event,

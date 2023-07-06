@@ -15,86 +15,169 @@ import {
   CTableHeaderCell,
   CTableRow,
 } from '@coreui/react'
-import PropTypes from "prop-types";
-import React from 'react'
-import {Link} from "react-router-dom";
+import React, {
+  useEffect,
+  useState
+} from 'react'
 import CIcon from "@coreui/icons-react";
 import {cilPencil} from "@coreui/icons";
 import Loadable from "../../pages/Loadable";
 import AppErrorMessage from "../../components/AppErrorMessage";
 import IntakeForm from "./IntakeForm";
+import axios from "axios";
+import PropTypes from "prop-types";
 
-const IntakeAdd = ({dataState, courseId, reloadAfterAdd}) => {
-  const [visible, setVisible] = React.useState(false)
-  const [intakeAddState, setIntakeAddState] = React.useState({
+const IntakeList = ({courseId}) => {
+  const [intakeModalState, setIntakeModalState] = React.useState({id: null, visible: false})
+  // -------------
+  const [campusListState, setCampusListState] = useState({
+    data: null,
     loading: false,
-    error: null,
+    loaded: false,
+    error: null
   })
+  const loadCampusList = () => {
+    setCampusListState({
+      data: null,
+      loading: true,
+      loaded: false,
+      error: null
+    })
+    axios.get(window.abeApp.urls.api_school_campus_list)
+      .then((response) => {
+        setCampusListState({
+          data: response.data,
+          loading: false,
+          loaded: true,
+          error: null
+        })
+      })
+      .catch((error) => {
+        setCampusListState({
+          data: null,
+          loading: false,
+          loaded: false,
+          error: error.response?.data?.error || 'Something went wrong'
+        })
+      })
+  }
+  useEffect(() => {
+    if (!campusListState.loaded && !campusListState.loading && campusListState.error === null) {
+      loadCampusList()
+    }
+  }, [campusListState])
+  // -------------
+  const [intakesState, setIntakesState] = useState({
+    data: null,
+    loading: false,
+    loaded: false,
+    error: null
+  })
+  const loadIntakes = () => {
+    setIntakesState({
+      data: null,
+      loading: true,
+      loaded: false,
+      error: null
+    })
+    axios.get(window.abeApp.urls.api_school_course_intake_list.replace(':id', courseId))
+      .then((response) => {
+        setIntakesState({
+          data: response.data,
+          loading: false,
+          loaded: true,
+          error: null
+        })
+      })
+      .catch((error) => {
+        setIntakesState({
+          data: null,
+          loading: false,
+          loaded: false,
+          error: error.response?.data?.error || 'Something went wrong'
+        })
+      })
+  }
+  useEffect(() => {
+    if (!intakesState.loaded && !intakesState.loading && intakesState.error === null) {
+      loadIntakes()
+    }
+  }, [intakesState])
+  // -------------
 
   let campusOptions = [{
     value: '',
-    label: dataState.loading ? 'Loading...' : '',
+    label: campusListState.loading ? 'Loading...' : '',
   }];
 
-  if (dataState.error !== null) {
-    return <AppErrorMessage error={dataState.error}/>
+  if (campusListState.error !== null || intakesState.error !== null) {
+    return <AppErrorMessage error={campusListState.error}/>
   }
-  if (dataState.loaded === true) {
-    dataState.data.forEach((item) => {
+  const formId = 'intake'
+  if (campusListState.loaded === true) {
+    campusListState.data.forEach((item) => {
       campusOptions.push({
         value: item.id,
         label: item.name,
       })
     })
   }
-  const formId = 'intake'
-  const onAdded = () => {
-    setVisible(false)
-    reloadAfterAdd()
+  const closeModal = () => setIntakeModalState({id: null, visible: false})
+  const onModalExecuted = () => {
+    closeModal();
+    loadIntakes()
   }
-  return <>
-    <CButton color="primary" role="button" size="sm"
-      onClick={() => setVisible(!visible)}>New</CButton>
-    <CModal visible={visible} onClose={() => setVisible(false)}>
-      <CModalHeader onClose={() => setVisible(false)}>
-        <CModalTitle>Add new intake</CModalTitle>
-      </CModalHeader>
-      <CModalBody>
-        <IntakeForm formId={formId}
-          showSubmitBtn
-          courseId={courseId}
-          campusOptions={campusOptions}
-          onSuccess={onAdded}
-        />
-      </CModalBody>
-
-    </CModal>
-  </>
-}
-const IntakeList = ({courseId}) => {
   return (
     <CCard className="mb-4">
       <CCardHeader>
         <strong>Intakes</strong>
       </CCardHeader>
       <CCardBody>
-        <Loadable
-          Component={IntakesRows}
-          url={window.abeApp.urls.api_school_course_intake_list.replace(':id', courseId)}
-          courseId={courseId}
+        <IntakesRows
+          intakesState={intakesState}
+          setIntakeModalState={setIntakeModalState}
+          intakeModalState={intakeModalState}
         />
+        <CModal visible={intakeModalState.visible} onClose={closeModal}>
+          <CModalHeader onClose={closeModal}>
+            <CModalTitle>{intakeModalState.id === null ? 'Add new intake' : 'Edit intake'}</CModalTitle>
+          </CModalHeader>
+          <CModalBody>
+
+            {intakeModalState.id === null
+              ?
+              <IntakeForm formId={formId}
+                showSubmitBtn
+                courseId={courseId}
+                campusOptions={campusOptions}
+                onSuccess={onModalExecuted}
+              />
+              :
+              <Loadable component={IntakeForm}
+                url={window.abeApp.urls.api_school_course_intake
+                  .replace(':courseId', courseId).replace(':intakeId', intakeModalState.id)}
+                isUpdate
+                formId={formId}
+                showSubmitBtn
+                courseId={courseId}
+                campusOptions={campusOptions}
+                onSuccess={onModalExecuted}
+              />
+            }
+          </CModalBody>
+        </CModal>
       </CCardBody>
     </CCard>
   )
 }
-const IntakesRows = ({dataState, reload, courseId}) => {
-  const intakes = dataState.data
+const IntakesRows = ({intakesState, setIntakeModalState, intakeModalState,}) => {
+  const intakes = intakesState.data
 
   let key = 0
-  if (dataState.error !== null) {
-    return <AppErrorMessage error={dataState.error}/>
+  if (intakesState.error !== null) {
+    return <AppErrorMessage error={intakesState.error}/>
   }
-  if (dataState.loaded === false) {
+  if (intakesState.loaded === false) {
     return <CSpinner color="primary"/>
   }
   let intakesRows = []
@@ -108,13 +191,14 @@ const IntakesRows = ({dataState, reload, courseId}) => {
       <CTableDataCell>{item.classSize}</CTableDataCell>
       <CTableDataCell>{item.campus}</CTableDataCell>
       <CTableDataCell>
-        <Link to={window.abeApp.urls.school_course_edit.replace(':id', item.id)}>
-          <CButton color="primary" role="button"
-            className="pb-0 pt-0 pl-1 pr-1"
-            size="sm" variant="outline">
-            <CIcon icon={cilPencil}/>
-          </CButton>
-        </Link>
+        <CButton color="primary" role="button"
+          className="pb-0 pt-0 pl-1 pr-1"
+          onClick={() => {
+            setIntakeModalState({id: item.id, visible: true});
+          }}
+          size="sm" variant="outline">
+          <CIcon icon={cilPencil}/>
+        </CButton>
       </CTableDataCell>
     </CTableRow>
   )
@@ -138,36 +222,22 @@ const IntakesRows = ({dataState, reload, courseId}) => {
           {intakesRows}
         </CTableBody>
       </CTable>}
-    <Loadable
-      Component={IntakeAdd}
-      url={window.abeApp.urls.api_school_campus_list}
-      courseId={courseId}
-      reloadAfterAdd={reload}
-    />
+    <CButton color="primary" role="button" size="sm"
+      onClick={() => setIntakeModalState({id: null, visible: !intakeModalState.visible})}
+    >New</CButton>
   </>
 }
 
 IntakeList.propTypes = {
   courseId: PropTypes.string.isRequired,
 }
-IntakeAdd.propTypes = {
-  courseId: PropTypes.string.isRequired,
-  // reload: PropTypes.func.isRequired,
-  dataState: PropTypes.shape({
-    data: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired,
-      })
-    ),
-    loading: PropTypes.bool,
-    loaded: PropTypes.bool,
-    error: PropTypes.string,
-  }),
-}
 IntakesRows.propTypes = {
-  courseId: PropTypes.string.isRequired,
-  dataState: PropTypes.shape({
+  setIntakeModalState: PropTypes.func.isRequired,
+  intakeModalState: PropTypes.shape({
+    id: PropTypes.string,
+    visible: PropTypes.bool,
+  }),
+  intakesState: PropTypes.shape({
     data: PropTypes.arrayOf(
       PropTypes.shape({
         id: PropTypes.string,
@@ -178,9 +248,6 @@ IntakesRows.propTypes = {
         classSize: PropTypes.number,
       })
     ),
-    loading: PropTypes.bool,
-    loaded: PropTypes.bool,
-    error: PropTypes.string,
   }),
 }
 export default React.memo(IntakeList)

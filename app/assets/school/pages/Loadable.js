@@ -5,7 +5,7 @@ import React, {
   useState
 } from 'react'
 
-const Loadable = ({Component, url, customOnLoad, config, ...options}) => {
+const Loadable = ({component, url, customOnLoad, config, ...options}) => {
   const [dataState, setDataState] = useState({
     data: null,
     loading: false,
@@ -17,7 +17,7 @@ const Loadable = ({Component, url, customOnLoad, config, ...options}) => {
     if (!dataState.loaded && !dataState.loading && dataState.error === null) {
       loadData()
     }
-  }, [dataState.loaded, dataState.loading, dataState.error, Component])
+  }, [dataState.loaded, dataState.loading, dataState.error, component])
 
   const reload = () => {
     loadData()
@@ -52,11 +52,12 @@ const Loadable = ({Component, url, customOnLoad, config, ...options}) => {
       .then(onSuccess)
       .catch(onError)
   }
+  const ComponentToRender = component
 
-  return <Component dataState={dataState} reload={reload} {...options}/>
+  return <ComponentToRender dataState={dataState} reload={reload} {...options}/>
 }
 Loadable.propTypes = {
-  Component: PropTypes.elementType.isRequired,
+  component: PropTypes.elementType.isRequired,
   url: PropTypes.string.isRequired,
   config: PropTypes.object,
   customOnLoad: PropTypes.func,

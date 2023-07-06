@@ -33,7 +33,7 @@ const CourseEditPage = () => {
   }
 
   return <Loadable
-    Component={CourseForm}
+    component={CourseForm}
     url={window.abeApp.urls.api_school_course}
     config={{params: {'courseId': params.id}}}
     formId={formId}

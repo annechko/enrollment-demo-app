@@ -32,7 +32,7 @@ const CampusEditPage = () => {
   }
 
   return <Loadable
-    Component={CampusView}
+    component={CampusView}
     url={window.abeApp.urls.api_school_campus.replace(':id', params.id)}
     formId={formId}
     onSubmit={onSubmit}

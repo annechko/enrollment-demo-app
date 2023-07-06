@@ -5,7 +5,7 @@ import CampusList from "./../../views/campus/CampusList";
 const CampusListPage = () => {
 
   return <Loadable
-    Component={CampusList}
+    component={CampusList}
     url={window.abeApp.urls.api_school_campus_list}/>
 }
 

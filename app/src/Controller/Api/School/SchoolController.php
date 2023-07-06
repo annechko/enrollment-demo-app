@@ -8,6 +8,7 @@ use App\Domain\Core\NotFoundException;
 use App\Domain\Core\UuidPattern;
 use App\Domain\School\Common\RoleEnum;
 use App\Domain\School\Entity\Course\CourseId;
+use App\Domain\School\Entity\Course\Intake\IntakeId;
 use App\Domain\School\Repository\CampusRepository;
 use App\Domain\School\Repository\CourseRepository;
 use App\Domain\School\UseCase\School;
@@ -24,7 +25,7 @@ use Webmozart\Assert\InvalidArgumentException;
 #[Route('/api/school')]
 class SchoolController extends AbstractController
 {
-    #[Route('/campuses/{campusId}/edit', name: 'api_school_campus_edit',
+    #[Route('/campuses/{campusId}', name: 'api_school_campus_edit',
         requirements: ['campusId' => UuidPattern::PATTERN_WITH_TEMPLATE],
         methods: ['POST'])]
     public function campusEdit(
@@ -118,6 +119,7 @@ class SchoolController extends AbstractController
             fn (CourseId $result) => ['id' => $result->getValue()]
         );
     }
+
     #[Route('/courses/{courseId}/intakes', name: 'api_school_course_intake_list',
         requirements: [
             'courseId' => UuidPattern::PATTERN_WITH_TEMPLATE,
@@ -164,6 +166,56 @@ class SchoolController extends AbstractController
             $handler,
             $request,
         );
+    }
+
+    #[Route('/courses/{courseId}/intakes/{intakeId}', name: 'api_school_course_intake_edit',
+        requirements: [
+            'courseId' => UuidPattern::PATTERN_WITH_TEMPLATE,
+            'intakeId' => UuidPattern::PATTERN_WITH_TEMPLATE,
+        ],
+        methods: ['POST'])]
+    public function courseIntakeEdit(
+        Request $request,
+        string $courseId,
+        string $intakeId,
+        School\Course\Intake\Edit\Handler $handler
+    ): Response {
+        $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
+
+        $command = new School\Course\Intake\Edit\Command($intakeId, $courseId);
+
+        return $this->handle(
+            $command,
+            School\Course\Intake\Edit\Form::class,
+            $handler,
+            $request,
+        );
+    }
+
+    #[Route('/courses/{courseId}/intakes/{intakeId}', name: 'api_school_course_intake',
+        requirements: [
+            'courseId' => UuidPattern::PATTERN_WITH_TEMPLATE,
+            'intakeId' => UuidPattern::PATTERN_WITH_TEMPLATE,
+        ],
+        methods: ['GET'])]
+    public function courseIntakeGet(
+        string $courseId,
+        string $intakeId,
+        CourseRepository $repository,
+    ): Response {
+        $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
+        $course = $repository->get(new CourseId($courseId));
+        $intake = $course->getIntake(new IntakeId($intakeId));
+        $res = [
+            'id' => $intake->getId()->getValue(),
+            'name' => $intake->getName(),
+            'classSize' => $intake->getClassSize(),
+            'campus' => $intake->getCampus()?->getId()->getValue(),
+            'startDate' => $intake->getStartDate()->format('Y-m-d'),
+            'endDate' => $intake->getEndDate()->format('Y-m-d'),
+        ];
+
+        return new JsonResponse($res);
     }
 
     #[Route('/courses/courseData', name: 'api_school_course', methods: ['GET'])]

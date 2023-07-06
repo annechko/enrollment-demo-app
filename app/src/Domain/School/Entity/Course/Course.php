@@ -11,6 +11,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Webmozart\Assert\Assert;
 
 #[ORM\Entity()]
 #[ORM\Table(name: 'school_course')]
@@ -30,7 +31,9 @@ class Course
      * @var Collection<int, Intake>
      */
     #[ORM\OneToMany(mappedBy: 'course', targetEntity: Intake::class,
-        cascade: ['persist'], orphanRemoval: true)]
+        cascade: ['persist'],
+        orphanRemoval: true,
+        indexBy: 'id')]
     private Collection $intakes;
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: false)]
@@ -97,11 +100,39 @@ class Course
         return $this;
     }
 
+    public function editIntake(
+        IntakeId $id,
+        \DateTimeImmutable $startDate,
+        \DateTimeImmutable $endDate,
+        ?string $name,
+        ?int $classSize,
+        ?Campus $campus,
+    ): self {
+        $intake = $this->getIntake($id);
+
+        $intake->edit(
+            $startDate,
+            $endDate,
+            $name,
+            $classSize,
+            $campus,
+        );
+
+        return $this;
+    }
+
     /**
      * @return array<Intake>
      */
     public function getIntakes(): array
     {
         return $this->intakes->toArray();
+    }
+
+    public function getIntake(IntakeId $id): Intake
+    {
+        $intake = $this->intakes->get($id->getValue());
+        Assert::notNull($intake);
+        return $intake;
     }
 }
