@@ -12,6 +12,12 @@ import CampusForm from "./CampusForm";
 const CampusView = ({onSubmit, formId, dataState, isSubmitted, submitError, isUpdate = false}) => {
   const item = dataState?.data || null
   const error = submitError || dataState?.error || null
+  if (dataState?.error !== null) {
+    return <>
+      <AppBackButton/>
+      <AppErrorMessage error={error}/>
+    </>
+  }
   if (isUpdate && item === null) {
     return (
       <>
