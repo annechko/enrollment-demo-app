@@ -7,6 +7,7 @@ namespace App\Controller\Api\School;
 use App\Domain\Core\NotFoundException;
 use App\Domain\Core\UuidPattern;
 use App\Domain\School\Common\RoleEnum;
+use App\Domain\School\Entity\Campus\CampusId;
 use App\Domain\School\Entity\Course\CourseId;
 use App\Domain\School\Entity\Course\Intake\IntakeId;
 use App\Domain\School\Repository\CampusRepository;
@@ -74,7 +75,7 @@ class SchoolController extends AbstractController
     public function campusGet(CampusRepository $repository, string $campusId): Response
     {
         try {
-            $campus = $repository->get($campusId);
+            $campus = $repository->get(new CampusId($campusId));
         } catch (NotFoundException $exception) {
             return new JsonResponse([], Response::HTTP_NOT_FOUND);
         }
