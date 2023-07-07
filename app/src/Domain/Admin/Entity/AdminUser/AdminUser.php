@@ -20,6 +20,7 @@ class AdminUser
     #[ORM\Column(length: 180, unique: true, nullable: false)]
     private string $email;
 
+    /** @var array<int, string> */
     #[ORM\Column]
     private array $roles = [];
 
@@ -52,6 +53,9 @@ class AdminUser
         return $this->email;
     }
 
+    /**
+     * @return array<int, string>
+     */
     public function getRoles(): array
     {
         $roles = $this->roles;

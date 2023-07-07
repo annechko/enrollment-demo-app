@@ -29,7 +29,7 @@ class SchoolStaffMemberRepository extends ServiceEntityRepository
         return $this->findOneBy(['email.value' => $email]);
     }
 
-    public function getByInvitationToken($invitationToken): StaffMember
+    public function getByInvitationToken(string $invitationToken): StaffMember
     {
         $entity = $this->findOneBy(['invitationToken.value' => $invitationToken]);
         if ($entity === null) {

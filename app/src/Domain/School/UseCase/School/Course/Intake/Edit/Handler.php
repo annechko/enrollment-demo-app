@@ -28,11 +28,11 @@ class Handler
             $campus = $this->campusRepository->get(new CampusId($command->campusId));
         }
         $course->editIntake(
-            new IntakeId($command->id),
+            new IntakeId($command->intakeId),
             $command->startDate,
             $command->endDate,
             $command->name,
-            $command->classSize,
+            (int) $command->classSize,
             $campus
         );
 

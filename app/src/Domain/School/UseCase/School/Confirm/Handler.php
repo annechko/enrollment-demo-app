@@ -7,6 +7,7 @@ namespace App\Domain\School\UseCase\School\Confirm;
 use App\Domain\Core\Flusher;
 use App\Domain\Core\UuidGenerator;
 use App\Domain\School\Entity\School\InvitationToken;
+use App\Domain\School\Entity\School\SchoolId;
 use App\Domain\School\Repository\SchoolRepository;
 use App\Domain\School\Service\SchoolConfirmedEmailSender;
 
@@ -22,7 +23,7 @@ class Handler
 
     public function handle(Command $command): void
     {
-        $school = $this->schoolRepository->get($command->id);
+        $school = $this->schoolRepository->get(new SchoolId($command->id));
         $token = $this->uuidGenerator->generate();
         $school->confirmRegister(
             new InvitationToken($token, new \DateTimeImmutable())

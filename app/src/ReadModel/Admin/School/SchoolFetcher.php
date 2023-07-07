@@ -6,7 +6,6 @@ namespace App\ReadModel\Admin\School;
 
 use App\ReadModel\Admin\School\Filter\Filter;
 use Doctrine\DBAL\Connection;
-use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
 
@@ -14,11 +13,18 @@ class SchoolFetcher
 {
     public function __construct(
         private readonly Connection $connection,
-        EntityManagerInterface $em,
         private readonly PaginatorInterface $paginator,
     ) {
     }
 
+    /**
+     * @param Filter $filter
+     * @param int $page
+     * @param int $size
+     * @param string $sort
+     * @param string $direction
+     * @return PaginationInterface<int, mixed>
+     */
     public function fetch(
         Filter $filter,
         int $page,

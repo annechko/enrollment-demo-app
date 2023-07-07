@@ -28,7 +28,7 @@ class Course
     private ?string $description;
 
     /**
-     * @var Collection<int, Intake>
+     * @var Collection<string, Intake>
      */
     #[ORM\OneToMany(mappedBy: 'course', targetEntity: Intake::class,
         cascade: ['persist'],
@@ -37,6 +37,10 @@ class Course
     private Collection $intakes;
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: false)]
+    /**
+     * @phpstan-ignore property.onlyWritten
+     * @phpstan-ignore-next-line
+     */
     private \DateTimeImmutable $createdAt;
 
     public function __construct(

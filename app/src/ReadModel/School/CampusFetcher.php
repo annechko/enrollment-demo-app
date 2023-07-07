@@ -19,6 +19,10 @@ class CampusFetcher
         $this->campusTableName = $em->getClassMetadata(Campus::class)->getTableName();
     }
 
+    /**
+     * @return array<string, string>
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function getCampusesIdToName(): array
     {
         $res = $this->connection->createQueryBuilder()

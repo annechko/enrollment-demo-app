@@ -35,9 +35,17 @@ class Intake
 
     #[ORM\ManyToOne(targetEntity: Course::class, inversedBy: 'intakes')]
     #[ORM\JoinColumn(nullable: false)]
+    /**
+     * @phpstan-ignore property.onlyWritten
+     * @phpstan-ignore-next-line
+     */
     private Course $course;
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: false)]
+    /**
+     * @phpstan-ignore property.onlyWritten
+     * @phpstan-ignore-next-line
+     */
     private \DateTimeImmutable $createdAt;
 
     public function __construct(

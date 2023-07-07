@@ -6,6 +6,7 @@ namespace App\Domain\School\UseCase\Member\Register;
 
 use App\Domain\Core\Flusher;
 use App\Domain\School\Entity\School\School;
+use App\Domain\School\Entity\School\SchoolId;
 use App\Domain\School\Entity\School\StaffMember;
 use App\Domain\School\Repository\SchoolRepository;
 use App\Domain\School\Repository\SchoolStaffMemberRepository;
@@ -23,7 +24,7 @@ class Handler
 
     public function handle(Command $command): void
     {
-        $school = $this->schoolRepository->get($command->schoolId);
+        $school = $this->schoolRepository->get(new SchoolId($command->schoolId));
         $member = $this->staffMemberRepository->getByInvitationToken($command->invitationToken);
         if (!$this->isMemberFromSchool($member, $school)) {
             throw new \DomainException('Staff member not found.');

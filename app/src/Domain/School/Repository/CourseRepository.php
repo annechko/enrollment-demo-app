@@ -45,16 +45,6 @@ class CourseRepository extends ServiceEntityRepository
         return $course;
     }
 
-    public function hasByName($name): bool
-    {
-        return $this->count(['name' => $name]) > 0;
-    }
-
-    public function findByName($name): ?Course
-    {
-        return $this->findOneBy(['name' => $name]);
-    }
-
     /**
      * @return Course[]
      */

@@ -14,6 +14,10 @@ class InvitationToken
     private const MAX_LIFETIME = 'P5D';
 
     #[ORM\Column(type: Types::STRING, length: 36, nullable: true)]
+    /**
+     * @phpstan-ignore property.onlyWritten
+     * @phpstan-ignore-next-line
+     */
     private readonly string $value;
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]

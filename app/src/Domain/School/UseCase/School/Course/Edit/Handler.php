@@ -18,7 +18,7 @@ class Handler
 
     public function handle(Command $command): void
     {
-        $course = $this->courseRepository->get(new CourseId($command->id));
+        $course = $this->courseRepository->get(new CourseId($command->courseId));
         $course->edit($command->name, $command->description);
 
         $this->flusher->flush();

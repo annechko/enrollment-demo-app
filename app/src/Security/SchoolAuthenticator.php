@@ -32,6 +32,10 @@ class SchoolAuthenticator extends AbstractLoginFormAuthenticator
     ) {
     }
 
+    /**
+     * @param Request $request
+     * @return array<string, string>
+     */
     private function getCredentials(Request $request): array
     {
         $data = \json_decode($request->getContent(), true) ?? [];

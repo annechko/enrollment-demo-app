@@ -38,6 +38,7 @@ class StaffMember implements \Symfony\Component\Security\Core\User\UserInterface
     #[ORM\Column(type: Types::STRING, nullable: true)]
     private ?string $passwordHash;
 
+    /** @var array<int, string> */
     #[ORM\Column(options: ['default' => '[]'])]
     private array $roles = [];
 
@@ -109,7 +110,7 @@ class StaffMember implements \Symfony\Component\Security\Core\User\UserInterface
         return $this->roles;
     }
 
-    public function eraseCredentials()
+    public function eraseCredentials(): void
     {
     }
 

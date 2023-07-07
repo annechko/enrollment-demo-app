@@ -45,17 +45,18 @@ class CampusRepository extends ServiceEntityRepository
         return $campus;
     }
 
-    public function hasByName($name): bool
+    public function hasByName(string $name): bool
     {
         return $this->count(['name' => $name]) > 0;
     }
 
-    public function findByName($name): ?Campus
+    public function findByName(string $name): ?Campus
     {
         return $this->findOneBy(['name' => $name]);
     }
 
     /**
+     * @param array<integer> $campusIds
      * @return Campus[]
      */
     public function findAllByIds(array $campusIds): array

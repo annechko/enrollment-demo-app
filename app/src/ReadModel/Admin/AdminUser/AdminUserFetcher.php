@@ -35,7 +35,7 @@ class AdminUserFetcher
             ->setParameter('email', $email)
             ->fetchAssociative();
 
-        if ($result === null) {
+        if (count($result) === 0) {
             return null;
         }
 
