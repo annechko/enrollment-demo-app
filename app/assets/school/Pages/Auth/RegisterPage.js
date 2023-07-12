@@ -50,7 +50,7 @@ const RegisterForm = ({onSubmit, state, urlLogin, formId}) => {
         </CInputGroup>
         <CInputGroup className="mb-3">
           <CInputGroupText>@</CInputGroupText>
-          <CFormInput placeholder="Email address of account's owner"
+          <CFormInput placeholder="Email address of account owner"
             name="register[adminEmail]"
             type="email"
             required={true}
