@@ -20,13 +20,13 @@ const IntakeForm = ({
                       isUpdate = false,
                       showSubmitBtn = true
                     }) => {
-  const [state, setState] = React.useState({
+  const [submitState, setSubmitState] = React.useState({
     loading: false,
     error: null
   })
-  const isSubmitted = state.loading
+  const isSubmitted = submitState.loading
   const item = dataState?.data || null
-  const error = state.error || dataState?.error || null
+  const error = submitState.error || dataState?.error || null
   if (isUpdate && item === null) {
     if (error !== null) {
       return <AppErrorMessage error={error}/>
@@ -46,8 +46,8 @@ const IntakeForm = ({
   const onSubmit = (event) => {
     submitForm({
       event,
-      state,
-      setState,
+      submitState,
+      setSubmitState,
       formId,
       onSuccess,
       url: url,

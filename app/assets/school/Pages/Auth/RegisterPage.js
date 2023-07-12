@@ -19,6 +19,7 @@ import React from 'react'
 import {Link} from 'react-router-dom'
 import AppErrorMessage from "../../Common/AppErrorMessage";
 import {submitForm} from "../../Helper/SubmitForm";
+import * as LoadState from "../../Helper/LoadState";
 
 const AfterRegisterMessage = () => {
   return (
@@ -115,18 +116,9 @@ const Register = ({onSubmit, state, urlLogin, formId}) => {
   )
 }
 const RegisterPage = ({urls}) => {
-  const initialState = {
-    loading: false,
-    error: null,
-    registered: false
-  }
-  const [state, setState] = React.useState(initialState)
+  const [state, setState] = React.useState(LoadState.initialize())
   const onSuccess = (response) => {
-    setState({
-      loading: false,
-      error: null,
-      registered: true
-    })
+    setState({...LoadState.finishLoading(), registered: true})
   }
   const formId = 'register-form';
   const onSubmit = (event) => {

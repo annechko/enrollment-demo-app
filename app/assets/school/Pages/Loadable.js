@@ -4,20 +4,16 @@ import React, {
   useEffect,
   useState
 } from 'react'
+import * as LoadState from "../Helper/LoadState";
 
 const Loadable = ({component, url, customOnLoad, config, ...options}) => {
-  const [dataState, setDataState] = useState({
-    data: null,
-    loading: false,
-    loaded: false,
-    error: null
-  })
+  const [dataState, setDataState] = useState(LoadState.initialize())
 
   useEffect(() => {
-    if (!dataState.loaded && !dataState.loading && dataState.error === null) {
+    if (LoadState.needLoading()) {
       loadData()
     }
-  }, [dataState.loaded, dataState.loading, dataState.error, component])
+  }, [dataState, component])
 
   const reload = () => {
     loadData()
@@ -26,28 +22,13 @@ const Loadable = ({component, url, customOnLoad, config, ...options}) => {
     if (customOnLoad) {
       customOnLoad(response.data)
     }
-    setDataState({
-      data: response.data,
-      loading: false,
-      loaded: true,
-      error: null
-    })
+    setDataState(LoadState.finishLoading(response.data))
   }
   const onError = (error) => {
-    setDataState({
-      data: null,
-      loading: false,
-      loaded: false,
-      error: error.response?.data?.error || 'Something went wrong'
-    })
+    setDataState(LoadState.error(error.response?.data?.error))
   }
   const loadData = () => {
-    setDataState({
-      data: null,
-      loading: true,
-      loaded: false,
-      error: null
-    })
+    setDataState(LoadState.startLoading())
     axios.get(url, config || {})
       .then(onSuccess)
       .catch(onError)

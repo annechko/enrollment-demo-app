@@ -1,3 +1,7 @@
+export function needLoading(state) {
+  return !state.loaded && !state.loading && state.error === null;
+}
+
 export function error(message = null) {
   return {
     data: null,

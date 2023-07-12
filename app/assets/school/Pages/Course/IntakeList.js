@@ -31,62 +31,41 @@ import IntakeForm from "./IntakeForm";
 import axios from "axios";
 import PropTypes from "prop-types";
 import * as LoadState from "../../Helper/LoadState";
+import * as Api from "../../Helper/Api";
 
 const IntakeList = ({courseId}) => {
   const [newIntakeModalState, setNewIntakeModalState] = React.useState({id: null, visible: false})
   const [removeIntakeState, setRemoveIntakeState] = React.useState({modalVisible: false, intake: {}})
-  const [removeIntakeRequestState, setRemoveIntakeRequestState] = useState({
-    loading: false,
-    loaded: false,
-    error: null
-  })
-  // -------------
-  const [campusListState, setCampusListState] = useState(LoadState.initialize())
-  const loadCampusList = () => {
-    setCampusListState(LoadState.startLoading())
-    axios.get(window.abeApp.urls.api_school_campus_list)
-      .then((response) => {
-        setCampusListState(LoadState.finishLoading(response.data))
-      })
-      .catch((error) => {
-        setCampusListState(LoadState.error(error.response?.data?.error))
-      })
-  }
+  const [removeIntakeRequestState, setRemoveIntakeRequestState] = useState(LoadState.initialize)
+
+  const [campusesState, setCampusesState] = useState(LoadState.initialize())
+  const loadCampusList = Api.loadData(window.abeApp.urls.api_school_campus_list, setCampusesState)
   useEffect(() => {
-    if (!campusListState.loaded && !campusListState.loading && campusListState.error === null) {
+    if (LoadState.needLoading(campusesState)) {
       loadCampusList()
     }
-  }, [campusListState])
-  // -------------
+  }, [campusesState])
+
   const [intakesState, setIntakesState] = useState(LoadState.initialize())
-  const loadIntakes = () => {
-    setIntakesState(LoadState.startLoading())
-    axios.get(window.abeApp.urls.api_school_course_intake_list.replace(':id', courseId))
-      .then((response) => {
-        setIntakesState(LoadState.finishLoading(response.data))
-      })
-      .catch((error) => {
-        setIntakesState(LoadState.error(error.response?.data?.error))
-      })
-  }
+  const intakesUrl = window.abeApp.urls.api_school_course_intake_list.replace(':id', courseId)
+  const loadIntakes = Api.loadData(intakesUrl, setIntakesState)
   useEffect(() => {
-    if (!intakesState.loaded && !intakesState.loading && intakesState.error === null) {
+    if (LoadState.needLoading(intakesState)) {
       loadIntakes()
     }
   }, [intakesState])
-  // -------------
 
   let campusOptions = [{
     value: '',
-    label: campusListState.loading ? 'Loading...' : '',
+    label: campusesState.loading ? 'Loading...' : '',
   }];
 
-  if (campusListState.error !== null || intakesState.error !== null) {
-    return <AppErrorMessage error={campusListState.error}/>
+  if (campusesState.error !== null || intakesState.error !== null) {
+    return <AppErrorMessage error={campusesState.error}/>
   }
   const formId = 'intake'
-  if (campusListState.loaded === true) {
-    campusListState.data.forEach((item) => {
+  if (campusesState.loaded === true) {
+    campusesState.data.forEach((item) => {
       campusOptions.push({
         value: item.id,
         label: item.name,
