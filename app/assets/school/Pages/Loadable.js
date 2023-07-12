@@ -10,7 +10,7 @@ const Loadable = ({component, url, customOnLoad, config, ...options}) => {
   const [dataState, setDataState] = useState(LoadState.initialize())
 
   useEffect(() => {
-    if (LoadState.needLoading()) {
+    if (LoadState.needLoading(dataState)) {
       loadData()
     }
   }, [dataState, component])
