@@ -30,6 +30,7 @@ import AppErrorMessage from "../../Common/AppErrorMessage";
 import IntakeForm from "./IntakeForm";
 import axios from "axios";
 import PropTypes from "prop-types";
+import * as LoadState from "../../Helper/LoadState";
 
 const IntakeList = ({courseId}) => {
   const [newIntakeModalState, setNewIntakeModalState] = React.useState({id: null, visible: false})
@@ -40,35 +41,15 @@ const IntakeList = ({courseId}) => {
     error: null
   })
   // -------------
-  const [campusListState, setCampusListState] = useState({
-    data: null,
-    loading: false,
-    loaded: false,
-    error: null
-  })
+  const [campusListState, setCampusListState] = useState(LoadState.initialize())
   const loadCampusList = () => {
-    setCampusListState({
-      data: null,
-      loading: true,
-      loaded: false,
-      error: null
-    })
+    setCampusListState(LoadState.startLoading())
     axios.get(window.abeApp.urls.api_school_campus_list)
       .then((response) => {
-        setCampusListState({
-          data: response.data,
-          loading: false,
-          loaded: true,
-          error: null
-        })
+        setCampusListState(LoadState.finishLoading(response.data))
       })
       .catch((error) => {
-        setCampusListState({
-          data: null,
-          loading: false,
-          loaded: false,
-          error: error.response?.data?.error || 'Something went wrong'
-        })
+        setCampusListState(LoadState.error(error.response?.data?.error))
       })
   }
   useEffect(() => {
@@ -77,35 +58,15 @@ const IntakeList = ({courseId}) => {
     }
   }, [campusListState])
   // -------------
-  const [intakesState, setIntakesState] = useState({
-    data: null,
-    loading: false,
-    loaded: false,
-    error: null
-  })
+  const [intakesState, setIntakesState] = useState(LoadState.initialize())
   const loadIntakes = () => {
-    setIntakesState({
-      data: null,
-      loading: true,
-      loaded: false,
-      error: null
-    })
+    setIntakesState(LoadState.startLoading())
     axios.get(window.abeApp.urls.api_school_course_intake_list.replace(':id', courseId))
       .then((response) => {
-        setIntakesState({
-          data: response.data,
-          loading: false,
-          loaded: true,
-          error: null
-        })
+        setIntakesState(LoadState.finishLoading(response.data))
       })
       .catch((error) => {
-        setIntakesState({
-          data: null,
-          loading: false,
-          loaded: false,
-          error: error.response?.data?.error || 'Something went wrong'
-        })
+        setIntakesState(LoadState.error(error.response?.data?.error))
       })
   }
   useEffect(() => {
@@ -142,28 +103,16 @@ const IntakeList = ({courseId}) => {
     return () => {
       const url = window.abeApp.urls.api_school_course_intake_remove.replace(':courseId', courseId)
         .replace(':intakeId', intakeId)
-      setRemoveIntakeRequestState({
-        loading: true,
-        loaded: false,
-        error: null
-      })
+      setRemoveIntakeRequestState(LoadState.startLoading())
       axios.delete(url, {headers: {'Content-Type': 'multipart/form-data'}})
         .then(response => {
-          setRemoveIntakeRequestState({
-            loading: false,
-            loaded: true,
-            error: null
-          })
+          setRemoveIntakeRequestState(LoadState.finishLoading())
           loadIntakes()
           // todo add success alert
           setRemoveIntakeState({modalVisible: false, intake: {}})
         })
         .catch((error) => {
-          setRemoveIntakeRequestState({
-            loading: false,
-            loaded: false,
-            error: error.response?.data?.error || 'Something went wrong'
-          })
+          setRemoveIntakeRequestState(LoadState.error(error.response?.data?.error))
         });
     }
   }
