@@ -2,7 +2,6 @@ import React, {useState} from 'react'
 import {useNavigate} from "react-router-dom";
 import CourseForm from "../CourseForm";
 import {submitForm} from "../../../Helper/SubmitForm";
-import Loadable from "../../Loadable";
 
 const CourseAddPage = () => {
 
@@ -28,9 +27,7 @@ const CourseAddPage = () => {
     })
   }
 
-  return <Loadable
-    component={CourseForm}
-    url={window.abeApp.urls.api_school_course}
+  return <CourseForm
     formId={formId}
     onSubmit={onSubmit}
     isSubmitted={state.loading}
