@@ -5,26 +5,28 @@ import {
 } from '@coreui/react'
 import PropTypes from "prop-types";
 import React from 'react'
-import AppBackButton from "../../components/AppBackButton";
-import AppErrorMessage from "../../components/AppErrorMessage";
+import AppBackButton from "../../Common/AppBackButton";
+import AppErrorMessage from "../../Common/AppErrorMessage";
 import CampusForm from "./CampusForm";
 
 const CampusView = ({onSubmit, formId, dataState, isSubmitted, submitError, isUpdate = false}) => {
   const item = dataState?.data || null
   const error = submitError || dataState?.error || null
-  if (dataState?.error !== null) {
-    return <>
-      <AppBackButton/>
-      <AppErrorMessage error={error}/>
-    </>
-  }
-  if (isUpdate && item === null) {
-    return (
-      <>
+  if (isUpdate) {
+    if (dataState?.error !== null) {
+      return <>
         <AppBackButton/>
-        <div>Loading...</div>
+        <AppErrorMessage error={dataState?.error}/>
       </>
-    )
+    }
+    if (item === null) {
+      return (
+        <>
+          <AppBackButton/>
+          <div>Loading...</div>
+        </>
+      )
+    }
   }
   return (
     <>

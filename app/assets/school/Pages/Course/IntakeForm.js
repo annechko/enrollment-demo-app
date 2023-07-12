@@ -8,8 +8,8 @@ import {
 } from '@coreui/react'
 import PropTypes from "prop-types";
 import React from 'react'
-import AppErrorMessage from "../../components/AppErrorMessage";
-import {submitForm} from "../../pages/helper/_submitForm";
+import AppErrorMessage from "../../Common/AppErrorMessage";
+import {submitForm} from "../../Helper/SubmitForm";
 
 const IntakeForm = ({
                       formId,

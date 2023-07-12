@@ -21,8 +21,8 @@ import {
   Link,
   useNavigate
 } from 'react-router-dom'
-import AppErrorMessage from "../../components/AppErrorMessage";
-import {submitForm} from "../helper/_submitForm";
+import AppErrorMessage from "../../Common/AppErrorMessage";
+import {submitForm} from "../../Helper/SubmitForm";
 
 const Login = ({onSubmit, state, urlRegister, formId}) => {
   return (

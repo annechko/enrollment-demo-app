@@ -1,6 +1,6 @@
 import React from 'react'
-import Loadable from "../Loadable";
-import CampusList from "./../../views/campus/CampusList";
+import Loadable from "../../Loadable";
+import CampusList from "./CampusList";
 
 const CampusListPage = () => {
 

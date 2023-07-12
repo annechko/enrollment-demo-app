@@ -15,19 +15,14 @@ const loading = (
   </div>
 )
 
-// Containers
-const DefaultLayout = React.lazy(() => import('./layout/DefaultLayout'))
+const DefaultLayout = React.lazy(() => import('./Layout/DefaultLayout'))
 
-// Pages
-const LoginPage = React.lazy(() => import('./pages/auth/LoginPage'))
-const RegisterPage = React.lazy(() => import('./pages/auth/RegisterPage'))
-// const Page404 = React.lazy(() => import('./views/pages/page404/Page404'))
-// const Page500 = React.lazy(() => import('./views/pages/page500/Page500'))
+const LoginPage = React.lazy(() => import('./Pages/Auth/LoginPage'))
+const RegisterPage = React.lazy(() => import('./Pages/Auth/RegisterPage'))
 
 class App extends Component {
   constructor(props) {
     super(props);
-
   }
 
   render() {
@@ -38,8 +33,6 @@ class App extends Component {
           <Routes>
             <Route exact path={urls.school_login} name="Login" element={<LoginPage urls={urls}/>}/>
             <Route exact path={urls.school_register} name="Register" element={<RegisterPage urls={urls}/>}/>
-            {/*<Route exact path="/404" name="Page 404" element={<Page404 />} />*/}
-            {/*<Route exact path="/500" name="Page 500" element={<Page500 />} />*/}
             <Route path="*" name="Home" element={<DefaultLayout/>}/>
           </Routes>
         </Suspense>

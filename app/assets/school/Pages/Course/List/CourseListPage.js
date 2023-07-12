@@ -1,6 +1,6 @@
 import React from 'react'
-import Loadable from "../Loadable";
-import CourseList from "./../../views/course/CourseList";
+import Loadable from "../../Loadable";
+import CourseList from "./CourseList";
 
 const CourseListPage = () => {
 

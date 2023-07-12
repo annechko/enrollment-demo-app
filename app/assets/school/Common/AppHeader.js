@@ -13,7 +13,7 @@ import {
 } from '@coreui/react'
 import React from 'react'
 
-import {AppHeaderDropdown} from './header/index'
+import {AppHeaderDropdown} from './Header/index'
 
 const AppHeader = () => {
 

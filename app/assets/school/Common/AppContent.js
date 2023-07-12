@@ -9,12 +9,12 @@ import {
   Routes
 } from 'react-router-dom'
 
-const CampusListPage = React.lazy(() => import('./../pages/campus/CampusListPage'))
-const CampusAddPage = React.lazy(() => import('./../pages/campus/CampusAddPage'))
-const CampusEditPage = React.lazy(() => import('./../pages/campus/CampusEditPage'))
-const CourseListPage = React.lazy(() => import('./../pages/course/CourseListPage'))
-const CourseAddPage = React.lazy(() => import('./../pages/course/CourseAddPage'))
-const CourseEditPage = React.lazy(() => import('./../pages/course/CourseEditPage'))
+const CampusListPage = React.lazy(() => import('../Pages/Campus/List/CampusListPage'))
+const CampusAddPage = React.lazy(() => import('../Pages/Campus/Add/CampusAddPage'))
+const CampusEditPage = React.lazy(() => import('../Pages/Campus/Edit/CampusEditPage'))
+const CourseListPage = React.lazy(() => import('../Pages/Course/List/CourseListPage'))
+const CourseAddPage = React.lazy(() => import('../Pages/Course/Add/CourseAddPage'))
+const CourseEditPage = React.lazy(() => import('../Pages/Course/Edit/CourseEditPage'))
 
 const AppContent = () => {
   const urls = window.abeApp.urls

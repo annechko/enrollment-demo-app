@@ -3,9 +3,9 @@ import {
   useNavigate,
   useParams
 } from "react-router-dom";
-import CampusView from "../../views/campus/CampusView";
-import {submitForm} from "../helper/_submitForm";
-import Loadable from "../Loadable";
+import CampusView from "../CampusView";
+import {submitForm} from "../../../Helper/SubmitForm";
+import Loadable from "../../Loadable";
 
 const CampusEditPage = () => {
   const params = useParams()

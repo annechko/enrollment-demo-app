@@ -4,7 +4,7 @@ import {
   AppFooter,
   AppHeader,
   AppSidebar
-} from '../components/index'
+} from '../Common/index'
 
 const DefaultLayout = () => {
   return (

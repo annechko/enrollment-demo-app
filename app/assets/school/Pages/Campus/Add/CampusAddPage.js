@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import {useNavigate} from "react-router-dom";
-import CampusView from "../../views/campus/CampusView";
-import {submitForm} from "../helper/_submitForm";
+import CampusView from "../CampusView";
+import {submitForm} from "../../../Helper/SubmitForm";
 
 const CampusAddPage = () => {
 
@@ -26,7 +26,6 @@ const CampusAddPage = () => {
       headers: {'Content-Type': 'multipart/form-data'}//todo should be json
     })
   }
-
   return <CampusView formId={formId} onSubmit={onSubmit}
     submitError={state.error}
     isSubmitted={state.loading}

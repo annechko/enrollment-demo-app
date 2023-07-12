@@ -8,8 +8,8 @@ import {
 } from '@coreui/react'
 import PropTypes from "prop-types";
 import React from 'react'
-import AppBackButton from "../../components/AppBackButton";
-import AppErrorMessage from "../../components/AppErrorMessage";
+import AppBackButton from "../../Common/AppBackButton";
+import AppErrorMessage from "../../Common/AppErrorMessage";
 
 const CampusForm = ({
                       onSubmit,
