@@ -1,10 +1,10 @@
 import {
+  cilAccountLogout,
   cilBell,
   cilCommentSquare,
   cilCreditCard,
   cilEnvelopeOpen,
   cilFile,
-  cilLockLocked,
   cilSettings,
   cilTask,
   cilUser,
@@ -19,16 +19,44 @@ import {
   CDropdownMenu,
   CDropdownToggle,
 } from '@coreui/react'
-import React from 'react'
+import React, {useContext} from 'react'
+import {UserContext} from "../../Helper/UserContext";
+import {OtherAccounts} from "../../Helper/OtherAccountsContext";
 
+const OtherProfiles = () => {
+  const otherAccounts = useContext(OtherAccounts)
+  if (otherAccounts.length === 0) {
+    return <></>
+  }
+  return <>
+    <CDropdownHeader className="bg-light fw-semibold py-2">Other Accounts</CDropdownHeader>
+    {
+      otherAccounts.map((account) =>
+        <CDropdownItem href={account.home}>
+          <CIcon icon={cilUser} className="me-2"/>
+          {account.email}
+        </CDropdownItem>
+      )
+    }
+  </>
+}
 const AppHeaderDropdown = () => {
+  const user = useContext(UserContext)
   return (
     <CDropdown variant="nav-item">
       <CDropdownToggle placement="bottom-end" className="py-0" caret={false}>
         <div className="fake-avatar avatar-img"></div>
       </CDropdownToggle>
       <CDropdownMenu className="pt-0" placement="bottom-end">
-        <CDropdownHeader className="bg-light fw-semibold py-2">Account</CDropdownHeader>
+        <CDropdownHeader className="bg-light fw-semibold py-2">Logged in as</CDropdownHeader>
+        <CDropdownItem href="#">
+          <CIcon icon={cilUser} className="me-2"/>
+          {user.email}
+        </CDropdownItem>
+
+        <OtherProfiles></OtherProfiles>
+
+        <CDropdownHeader className="bg-light fw-semibold py-2">Activity</CDropdownHeader>
         <CDropdownItem href="#">
           <CIcon icon={cilBell} className="me-2"/>
           Updates
@@ -66,24 +94,10 @@ const AppHeaderDropdown = () => {
           <CIcon icon={cilSettings} className="me-2"/>
           Settings
         </CDropdownItem>
-        <CDropdownItem href="#">
-          <CIcon icon={cilCreditCard} className="me-2"/>
-          Payments
-          <CBadge color="secondary" className="ms-2">
-            42
-          </CBadge>
-        </CDropdownItem>
-        <CDropdownItem href="#">
-          <CIcon icon={cilFile} className="me-2"/>
-          Projects
-          <CBadge color="primary" className="ms-2">
-            42
-          </CBadge>
-        </CDropdownItem>
         <CDropdownDivider/>
-        <CDropdownItem href="#">
-          <CIcon icon={cilLockLocked} className="me-2"/>
-          Lock Account
+        <CDropdownItem href={window.abeApp.urls.school_logout}>
+          <CIcon icon={cilAccountLogout} className="me-2"/>
+          Logout
         </CDropdownItem>
       </CDropdownMenu>
     </CDropdown>

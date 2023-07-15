@@ -8,8 +8,8 @@ import {
 } from '@coreui/react'
 import PropTypes from "prop-types";
 import React from 'react'
-import AppErrorMessage from "../../Common/AppErrorMessage";
-import {submitForm} from "../../Helper/SubmitForm";
+import AppErrorMessage from "../../../Common/AppErrorMessage";
+import {submitForm} from "../../../Helper/SubmitForm";
 
 const IntakeForm = ({
                       formId,
@@ -42,8 +42,9 @@ const IntakeForm = ({
       .replace(':courseId', courseId)
       .replace(':intakeId', item.id)
     : window.abeApp.urls.api_school_course_intake_add
-      .replace(':id', courseId)
+      .replace(':courseId', courseId)
   const onSubmit = (event) => {
+    debugger
     submitForm({
       event,
       submitState,

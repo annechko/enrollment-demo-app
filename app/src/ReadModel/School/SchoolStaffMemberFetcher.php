@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\ReadModel\Admin\AdminUser;
+namespace App\ReadModel\School;
 
-use App\Domain\Admin\Entity\AdminUser\AdminUser;
+use App\Domain\School\Entity\School\StaffMember;
 use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManagerInterface;
 
-class AdminUserFetcher
+class SchoolStaffMemberFetcher
 {
     private Connection $connection;
     private string $adminUserTableName;
@@ -16,7 +16,7 @@ class AdminUserFetcher
     public function __construct(Connection $connection, EntityManagerInterface $em)
     {
         $this->connection = $connection;
-        $this->adminUserTableName = $em->getClassMetadata(AdminUser::class)->getTableName();
+        $this->adminUserTableName = $em->getClassMetadata(StaffMember::class)->getTableName();
     }
 
     public function findByEmail(string $email): array

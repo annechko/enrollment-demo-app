@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Security;
 
-use App\Domain\School\Repository\SchoolStaffMemberRepository;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,15 +19,17 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Credentials\PasswordC
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
 
-class SchoolAuthenticator extends AbstractLoginFormAuthenticator
+class SchoolStaffMemberAuthenticator extends AbstractLoginFormAuthenticator
 {
     use TargetPathTrait;
 
     private const LOGIN_ROUTE = 'school_login';
+    private const AFTER_LOGIN_ROUTE = 'school_home';
+
 
     public function __construct(
-        private UrlGeneratorInterface $urlGenerator,
-        private SchoolStaffMemberRepository $memberRepository,
+        private readonly UrlGeneratorInterface $urlGenerator,
+        private readonly SchoolStaffMemberProvider $userProvider,
     ) {
     }
 
@@ -56,12 +57,7 @@ class SchoolAuthenticator extends AbstractLoginFormAuthenticator
 
         return new Passport(
             new UserBadge($email, function ($userIdentifier) {
-                $user = $this->memberRepository->findByEmail($userIdentifier);
-                if (!$user) {
-                    throw new UserNotFoundException('User not found.');
-                }
-
-                return $user;
+                return $this->userProvider->loadUserByIdentifier($userIdentifier);
             }),
             new PasswordCredentials($credentials['password'])
         );
@@ -93,7 +89,7 @@ class SchoolAuthenticator extends AbstractLoginFormAuthenticator
         TokenInterface $token,
         string $firewallName
     ): ?Response {
-        $url = $this->urlGenerator->generate('school_home');
+        $url = $this->urlGenerator->generate(self::AFTER_LOGIN_ROUTE);
         if ($request->getContentTypeFormat() === 'json') {
             return new JsonResponse(
                 [

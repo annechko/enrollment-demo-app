@@ -16,7 +16,7 @@ import {
 import PropTypes from "prop-types";
 import React from "react";
 import {Link} from "react-router-dom";
-import AppErrorMessage from "../../../Common/AppErrorMessage";
+import AppErrorMessage from "../../../../Common/AppErrorMessage";
 import CIcon from "@coreui/icons-react";
 import {cilPencil} from "@coreui/icons";
 

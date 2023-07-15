@@ -38,4 +38,13 @@ class SchoolStaffMemberRepository extends ServiceEntityRepository
 
         return $entity;
     }
+
+    public function save(StaffMember $entity, bool $flush = false): void
+    {
+        $this->getEntityManager()->persist($entity);
+
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
 }

@@ -4,7 +4,7 @@ import {
   useParams
 } from "react-router-dom";
 import CampusView from "../CampusView";
-import {submitForm} from "../../../Helper/SubmitForm";
+import {submitForm} from "../../../../Helper/SubmitForm";
 import Loadable from "../../Loadable";
 
 const CampusEditPage = () => {

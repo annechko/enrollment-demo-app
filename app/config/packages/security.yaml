@@ -1,7 +1,9 @@
 security:
     # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
     password_hashers:
-        App\ReadModel\Admin\AdminUser\AdminUserReadModel:
+        App\Security\AdminReadModel:
+            algorithm: auto
+        App\Security\SchoolStaffMemberReadModel:
             algorithm: auto
         App\Domain\Admin\Entity\AdminUser\AdminUser:
             algorithm: auto
@@ -11,11 +13,10 @@ security:
     providers:
         # used to reload user from session & other features (e.g. switch_user)
         admin_user_provider:
-            id: App\Security\AdminUserProvider
+            id: App\Security\AdminProvider
         school_user_provider:
-            entity:
-                class: App\Domain\School\Entity\School\StaffMember
-                property: email.value
+            id: App\Security\SchoolStaffMemberProvider
+
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -23,23 +24,18 @@ security:
         school:
             lazy: true
             pattern: ^/(api\/)?school
-            custom_authenticator: App\Security\SchoolAuthenticator
+            custom_authenticator: App\Security\SchoolStaffMemberAuthenticator
             logout:
                 path: school_logout
                 target: school_login
+                invalidate_session: false
         main:
             lazy: true
+            custom_authenticator: App\Security\AdminAuthenticator
             logout:
-                path: admin_logout
-            form_login:
-                provider: admin_user_provider
-                default_target_path: admin_school_list
-                always_use_default_target_path: true
-                login_path: admin_login
-                check_path: admin_login
-                username_parameter: email
-                password_parameter: password
-                enable_csrf: true
+                path: !php/const App\Infrastructure\RouteEnum::ADMIN_LOGOUT
+                target: !php/const App\Infrastructure\RouteEnum::ADMIN_LOGIN
+                invalidate_session: false
 
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
@@ -59,7 +55,7 @@ security:
         - { route: school_member_register, roles: PUBLIC_ACCESS }
         - { path: ^/school, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/admin/login, roles: PUBLIC_ACCESS }
-        - { path: ^/admin, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/navigation$, roles: PUBLIC_ACCESS }
         - { path: .*, roles: IS_AUTHENTICATED_FULLY }
 

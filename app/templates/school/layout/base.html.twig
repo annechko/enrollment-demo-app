@@ -8,8 +8,11 @@
         {% block resources %}
             <script>
               const abeApp = {
+                currentUser: {email: '{{ app.user ? app.user.email }}'},
+                otherAccounts: {{ other_accounts() }},
                 urls: {
                   school_login: '{{ path('school_login') }}',
+                  school_logout: '{{ path('school_logout') }}',
                   school_register: '{{ path('school_register') }}',
                   school_home: '{{ path('school_home') }}',
                   school_course_edit: '{{ path('school_course_edit', {'courseId': ':id'}) }}',
@@ -25,7 +28,7 @@
                   api_school_course_edit: '{{ path('api_school_course_edit', {'courseId': ':id'}) }}',
                   api_school_course_list: '{{ path('api_school_course_list') }}',
                   api_school_course_intake: '{{ path('api_school_course_intake', {'courseId': ':courseId', 'intakeId': ':intakeId'}) }}',
-                  api_school_course_intake_add: '{{ path('api_school_course_intake_add', {'courseId': ':id'}) }}',
+                  api_school_course_intake_add: '{{ path('api_school_course_intake_add', {'courseId': ':courseId'}) }}',
                   api_school_course_intake_edit: '{{ path('api_school_course_intake_edit', {'courseId': ':courseId', 'intakeId': ':intakeId'}) }}',
                   api_school_course_intake_remove: '{{ path('api_school_course_intake_remove', {'courseId': ':courseId', 'intakeId': ':intakeId'}) }}',
                   api_school_course_intake_list: '{{ path('api_school_course_intake_list', {'courseId': ':id'}) }}',

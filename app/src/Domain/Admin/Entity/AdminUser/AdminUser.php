@@ -41,6 +41,9 @@ class AdminUser
         $this->id = $id;
         $this->email = $email;
         $this->passwordHash = $passwordHash;
+        $this->roles = [
+            RoleEnum::ADMIN_USER->value,
+        ];
     }
 
     public function getId(): AdminUserId
@@ -58,12 +61,7 @@ class AdminUser
      */
     public function getRoles(): array
     {
-        $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
-        $roles[] = RoleEnum::USER->value;
-        $roles[] = RoleEnum::ADMIN_USER->value;
-
-        return array_unique($roles);
+        return $this->roles;
     }
 
     public function getPassword(): string

@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import {useNavigate} from "react-router-dom";
 import CourseForm from "../CourseForm";
-import {submitForm} from "../../../Helper/SubmitForm";
+import {submitForm} from "../../../../Helper/SubmitForm";
 
 const CourseAddPage = () => {
 

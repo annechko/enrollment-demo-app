@@ -8,6 +8,8 @@ import {
   Routes
 } from 'react-router-dom'
 import './scss/style.scss'
+import {UserContext} from "./Helper/UserContext";
+import {OtherAccounts} from "./Helper/OtherAccountsContext";
 
 const loading = (
   <div className="pt-3 text-center">
@@ -28,15 +30,20 @@ class App extends Component {
   render() {
     const urls = window.abeApp.urls
     return (
-      <BrowserRouter>
-        <Suspense fallback={loading}>
-          <Routes>
-            <Route exact path={urls.school_login} name="Login" element={<LoginPage urls={urls}/>}/>
-            <Route exact path={urls.school_register} name="Register" element={<RegisterPage urls={urls}/>}/>
-            <Route path="*" name="Home" element={<DefaultLayout/>}/>
-          </Routes>
-        </Suspense>
-      </BrowserRouter>
+      <UserContext.Provider value={window.abeApp.currentUser}>
+        <OtherAccounts.Provider value={window.abeApp.otherAccounts}>
+          <BrowserRouter>
+            <Suspense fallback={loading}>
+              <Routes>
+                <Route exact path={urls.school_login} name="Login" element={<LoginPage urls={urls}/>}/>
+                <Route exact path={urls.school_register} name="Register" element={<RegisterPage urls={urls}/>}/>
+                <Route path="*" name="Home" element={<DefaultLayout/>}/>
+              </Routes>
+            </Suspense>
+          </BrowserRouter>
+        </OtherAccounts.Provider>
+      </UserContext.Provider>
+
     )
   }
 }

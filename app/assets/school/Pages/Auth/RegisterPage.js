@@ -17,8 +17,8 @@ import {
 } from '@coreui/react'
 import React from 'react'
 import {Link} from 'react-router-dom'
-import AppErrorMessage from "../../Common/AppErrorMessage";
-import {submitForm} from "../../Helper/SubmitForm";
+import AppErrorMessage from "../../../Common/AppErrorMessage";
+import {submitForm} from "../../../Helper/SubmitForm";
 import * as LoadState from "../../Helper/LoadState";
 
 const AfterRegisterMessage = () => {

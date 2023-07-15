@@ -29,7 +29,8 @@ const AppContent = () => {
           <Route exact path={urls.school_campus_add} name="Add new campus" element={<CampusAddPage/>}/>
           <Route exact path={urls.school_campus_edit} name="Edit campus" element={<CampusEditPage/>}/>
           <Route exact path={urls.school_home} name="Home" element={<div>dashboard</div>}/>
-          <Route exact path={urls.school_student_list_show} name="Home" element={<div>students will be here</div>}/>
+          <Route exact path={urls.school_student_list_show} name="Home" element={
+            <div>students will be here</div>}/>
           <Route path="/" element={<Navigate to="dashboard" replace/>}/>
         </Routes>
       </Suspense>

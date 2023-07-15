@@ -123,4 +123,12 @@ class StaffMember implements \Symfony\Component\Security\Core\User\UserInterface
     {
         return $this->passwordHash;
     }
+
+    public function upgradePasswordHash(string $newHashedPassword): self
+    {
+        // todo research, delete maybe
+        $this->passwordHash = $newHashedPassword;
+
+        return $this;
+    }
 }

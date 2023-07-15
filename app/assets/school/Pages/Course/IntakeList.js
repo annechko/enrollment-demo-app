@@ -26,7 +26,7 @@ import {
   cilX
 } from "@coreui/icons";
 import Loadable from "../Loadable";
-import AppErrorMessage from "../../Common/AppErrorMessage";
+import AppErrorMessage from "../../../Common/AppErrorMessage";
 import IntakeForm from "./IntakeForm";
 import axios from "axios";
 import PropTypes from "prop-types";

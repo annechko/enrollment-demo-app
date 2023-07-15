@@ -6,7 +6,7 @@ import {
 import PropTypes from "prop-types";
 import React from 'react'
 import AppBackButton from "../../Common/AppBackButton";
-import AppErrorMessage from "../../Common/AppErrorMessage";
+import AppErrorMessage from "../../../Common/AppErrorMessage";
 import CampusForm from "./CampusForm";
 
 const CampusView = ({onSubmit, formId, dataState, isSubmitted, submitError, isUpdate = false}) => {

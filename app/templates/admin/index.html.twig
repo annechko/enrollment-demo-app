@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin home page{% endblock %}
+
+{% block resources %}
+    <script>
+      const abeApp = {
+        urls: {
+          admin_home: '{{ path(constant('App\\Infrastructure\\RouteEnum::ADMIN_HOME')) }}',
+          admin_login: '{{ path(constant('App\\Infrastructure\\RouteEnum::ADMIN_LOGIN')) }}',
+          admin_school_list: '{{ path('admin_school_list') }}',
+        }
+      }
+      window.abeApp = abeApp
+    </script>
+    {% set componentName = 'admin' %}
+    {{ parent() }}
+{% endblock %}

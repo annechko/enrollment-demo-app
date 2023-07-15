@@ -21,10 +21,10 @@ import {
   Link,
   useNavigate
 } from 'react-router-dom'
-import AppErrorMessage from "../../../Common/AppErrorMessage";
 import {submitForm} from "../../../Helper/SubmitForm";
+import AppErrorMessage from "../../../Common/AppErrorMessage";
 
-const Login = ({onSubmit, state, urlRegister, formId}) => {
+const Login = ({onSubmit, state, formId}) => {
   return (
     <div className="bg-light min-vh-100 d-flex flex-row align-items-center">
       <CContainer>
@@ -70,19 +70,6 @@ const Login = ({onSubmit, state, urlRegister, formId}) => {
                   </CForm>
                 </CCardBody>
               </CCard>
-              <CCard className="text-white bg-primary py-5" style={{width: '44%'}}>
-                <CCardBody className="text-center">
-                  <div>
-                    <h2>Sign up</h2>
-                    <p>Our user-friendly platform simplifies the application process and makes it easy for your staff to manage and process applications.</p>
-                    <Link to={urlRegister}>
-                      <CButton color="primary" className="mt-3" active tabIndex={-1}>
-                        Register Now!
-                      </CButton>
-                    </Link>
-                  </div>
-                </CCardBody>
-              </CCard>
             </CCardGroup>
           </CCol>
         </CRow>
@@ -108,7 +95,7 @@ const LoginPage = ({urls}) => {
       state,
       setState,
       formId,
-      url: urls.school_login,
+      url: urls.admin_login,
       onSuccess: onSuccess
     })
   }
@@ -116,7 +103,6 @@ const LoginPage = ({urls}) => {
   return <Login
     onSubmit={onSubmit}
     state={state}
-    urlRegister={urls.school_register}
     formId={formId}/>
 }
 
