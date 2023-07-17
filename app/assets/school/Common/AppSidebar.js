@@ -21,53 +21,34 @@ import React, {
 import SimpleBar from 'simplebar-react'
 import './AppSidebar.scss'
 import {AppSidebarNav} from './AppSidebarNav'
+import * as LoadState from "../Helper/LoadState";
+import {Link} from "react-router-dom";
 
 const AppSidebar = () => {
   const [unfoldable, toogleUnfoldable] = useState(false)
-  const [navItemsState, setNavItemsState] = useState({
-    navItems: null,
-    loading: false,
-    loaded: false,
-    error: null
-  })
-  const onLoad = (response) => {
-    setNavItemsState({
-      navItems: response.data.navItems,
-      loading: false,
-      loaded: true,
-      error: null
-    })
-  }
-  const onError = (error) => {
-    setNavItemsState({
-      navItems: null,
-      loading: false,
-      loaded: false,
-      error: error.response?.data?.error || 'Something went wrong'
-    })
-  }
-  const loadNavItems = () => {
-    setNavItemsState({
-      navItems: null,
-      loading: true,
-      loaded: false,
-      error: null
-    })
-    const urls = window.abeApp.urls
-
-    axios.get(urls.api_school_sidebar)
-      .then(onLoad)
-      .catch(onError)
-  }
+  const [navItemsState, setNavItemsState] = useState(LoadState.initialize())
   React.useEffect(() => {
-    if (!navItemsState.loaded && !navItemsState.loading && navItemsState.error === null) {
+    if (LoadState.needLoading(navItemsState)) {
       loadNavItems()
     }
-  }, [navItemsState.loaded, navItemsState.loading, navItemsState.error])
+  }, [navItemsState])
 
+  const onSuccess = (response) => {
+    setNavItemsState(LoadState.finishLoading(response.data.navItems))
+  }
+  const onError = (error) => {
+    setNavItemsState(LoadState.error(error.response?.data?.error))
+  }
+  const loadNavItems = () => {
+    setNavItemsState(LoadState.startLoading())
+
+    axios.get(window.abeApp.urls.api_sidebar)
+      .then(onSuccess)
+      .catch(onError)
+  }
 
   let navigation = []
-  if (navItemsState.navItems === null) {
+  if (navItemsState.data === null) {
     navigation.push({
       component: CNavItem,
       name: 'Loading...',
@@ -75,7 +56,8 @@ const AppSidebar = () => {
       className: 'disabled'
     })
   } else {
-    navItemsState.navItems.forEach((navItem) => {
+    navItemsState.data.forEach((navItem) => {
+      // todo add item types and map them to icons
       if (navItem.type === 'home') {
         navigation.push({
           component: CNavItem,
@@ -117,9 +99,11 @@ const AppSidebar = () => {
       unfoldable={unfoldable}
       visible={true}
     >
-      <CSidebarBrand className="d-md-flex" to="/">
-        <CIcon className="sidebar-brand-full" icon={cilBaby} height={35}/>
-      </CSidebarBrand>
+      <Link to={window.abeApp.urls.home}>
+        <CSidebarBrand className="d-md-flex">
+          <CIcon className="sidebar-brand-full" icon={cilBaby} height={61}/>
+        </CSidebarBrand>
+      </Link>
       <CSidebarNav>
         <SimpleBar>
           <AppSidebarNav items={navigation}/>

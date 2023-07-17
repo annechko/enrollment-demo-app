@@ -49,6 +49,7 @@ security:
             - ROLE_USER
 
     access_control:
+        - { route: app_home, roles: PUBLIC_ACCESS }
         - { path: ^/login, roles: PUBLIC_ACCESS }
         - { path: ^/school/login, roles: PUBLIC_ACCESS }
         - { path: ^/school/register, roles: PUBLIC_ACCESS }

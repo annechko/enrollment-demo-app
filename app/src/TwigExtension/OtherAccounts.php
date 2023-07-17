@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Widget;
+namespace App\TwigExtension;
 
 use App\Infrastructure\RouteEnum;
 use App\Security\AdminReadModel;
@@ -14,7 +14,7 @@ use Symfony\Component\Security\Http\Authenticator\Token\PostAuthenticationToken;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
-class OtherAccountsWidget extends AbstractExtension
+class OtherAccounts extends AbstractExtension
 {
     private \Symfony\Component\HttpFoundation\Session\SessionInterface $session;
     private ?string $currentUserIdentifier;
@@ -43,7 +43,8 @@ class OtherAccountsWidget extends AbstractExtension
     {
         $accounts = [];
         // todo in case of FRAMEWORK UPDATE - check this functionality!
-        // I really don't like this solution, it's very fragile, but it's just a demo project :)
+        // I really don't like this solution, it's very fragile,
+        // if you know a better way - tell me please, would really appreciate it.
         foreach ($this->session->getIterator() as $name => $item) {
             if ($name === '_security_main' || $name === '_security_school') {
                 try {

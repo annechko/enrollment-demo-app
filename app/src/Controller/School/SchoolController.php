@@ -53,7 +53,7 @@ class SchoolController extends AbstractController
             }
         }
 
-        return $this->render('school/index.html.twig', ['title' => 'Register']);
+        return $this->render('base.html.twig', ['title' => 'Register']);
     }
 
     #[Route('/school/campuses', name: 'school_campus_list_show', methods: ['GET'])]
@@ -61,7 +61,7 @@ class SchoolController extends AbstractController
     {
         $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
 
-        return $this->render('school/index.html.twig', [
+        return $this->render('base.html.twig', [
             'title' => 'School dashboard',
         ]);
     }
@@ -71,7 +71,7 @@ class SchoolController extends AbstractController
     {
         $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
 
-        return $this->render('school/index.html.twig', [
+        return $this->render('base.html.twig', [
             'title' => 'School dashboard',
         ]);
     }
@@ -81,7 +81,7 @@ class SchoolController extends AbstractController
     {
         $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
 
-        return $this->render('school/index.html.twig', [
+        return $this->render('base.html.twig', [
             'title' => 'School dashboard',
         ]);
     }
@@ -91,7 +91,7 @@ class SchoolController extends AbstractController
     {
         $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
 
-        return $this->render('school/index.html.twig', [
+        return $this->render('base.html.twig', [
             'title' => 'School dashboard',
         ]);
     }
@@ -101,7 +101,7 @@ class SchoolController extends AbstractController
     {
         $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
 
-        return $this->render('school/index.html.twig', [
+        return $this->render('base.html.twig', [
             'title' => 'School dashboard',
         ]);
     }
@@ -113,7 +113,7 @@ class SchoolController extends AbstractController
     {
         $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
 
-        return $this->render('school/index.html.twig', [
+        return $this->render('base.html.twig', [
             'title' => 'Edit campus',
         ]);
     }
@@ -125,7 +125,7 @@ class SchoolController extends AbstractController
     {
         $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
 
-        return $this->render('school/index.html.twig', [
+        return $this->render('base.html.twig', [
             'title' => 'Edit course',
         ]);
     }
@@ -135,7 +135,7 @@ class SchoolController extends AbstractController
     {
         $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
 
-        return $this->render('school/index.html.twig', [
+        return $this->render('base.html.twig', [
             'title' => 'School dashboard',
         ]);
     }
@@ -166,8 +166,6 @@ class SchoolController extends AbstractController
             }
         }
 
-        return $this->render('school/member/register.html.twig', [
-            'form' => $form->createView(),
-        ]);
+        return $this->render('base.html.twig');
     }
 }

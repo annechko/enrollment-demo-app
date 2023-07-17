@@ -31,8 +31,8 @@ const OtherProfiles = () => {
   return <>
     <CDropdownHeader className="bg-light fw-semibold py-2">Other Accounts</CDropdownHeader>
     {
-      otherAccounts.map((account) =>
-        <CDropdownItem href={account.home}>
+      otherAccounts.map((account, index) =>
+        <CDropdownItem href={account.home} key={index}>
           <CIcon icon={cilUser} className="me-2"/>
           {account.email}
         </CDropdownItem>

@@ -20,6 +20,8 @@ const loading = (
 const DefaultLayout = React.lazy(() => import('./Layout/DefaultLayout'))
 
 const LoginPage = React.lazy(() => import('./Pages/Auth/LoginPage'))
+const AdminLoginPage = React.lazy(() => import('./../admin/Pages/Auth/LoginPage'))
+const HomePage = React.lazy(() => import('./Pages/HomePage'))
 const RegisterPage = React.lazy(() => import('./Pages/Auth/RegisterPage'))
 
 class App extends Component {
@@ -35,9 +37,13 @@ class App extends Component {
           <BrowserRouter>
             <Suspense fallback={loading}>
               <Routes>
+                {/* todo decide based on current section */}
                 <Route exact path={urls.school_login} name="Login" element={<LoginPage urls={urls}/>}/>
                 <Route exact path={urls.school_register} name="Register" element={<RegisterPage urls={urls}/>}/>
-                <Route path="*" name="Home" element={<DefaultLayout/>}/>
+                <Route exact path={urls.admin_login} name="Login" element={<AdminLoginPage urls={urls}/>}/>
+
+                <Route path={urls.home} name="Home" element={<HomePage/>}/>
+                <Route path="*" name="Default" element={<DefaultLayout/>}/>
               </Routes>
             </Suspense>
           </BrowserRouter>
