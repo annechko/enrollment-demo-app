@@ -40,8 +40,9 @@ class SchoolController extends AbstractApiController
             $request->query->get('direction', 'desc')
         );
 
+        $result = [];
         foreach ($pagination->getItems() as $item) {
-            $res[] = [
+            $result[] = [
                 'id' => $item['id'],
                 'adminId' => $item['admin_id'],
                 'name' => $item['name'],
@@ -54,7 +55,7 @@ class SchoolController extends AbstractApiController
             ];
         }
 
-        return new JsonResponse($res);
+        return new JsonResponse($result);
     }
 
     #[Route('/{schoolId}/confirm', name: 'api_admin_school_confirm',

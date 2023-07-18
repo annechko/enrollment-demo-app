@@ -19,16 +19,18 @@ class SectionProvider
         self::SECTION_SCHOOL,
     ];
     private ?UserInterface $currentUser;
-    private string $firewallName;
-    private string $routeName;
+    private string $firewallName = '';
+    private string $routeName = '';
 
     public function __construct(
         readonly Security $security,
         readonly RequestStack $request,
     ) {
         $this->currentUser = $security->getUser();
-        $this->firewallName = $security->getFirewallConfig($request->getMainRequest())->getName();
-        $this->routeName = $request->getMainRequest()->attributes->get('_route', '');
+        if ($request->getMainRequest()) {
+            $this->firewallName = $security->getFirewallConfig($request->getMainRequest())->getName();
+            $this->routeName = $request->getMainRequest()->attributes->get('_route', '');
+        }
     }
 
     public function getCurrentSection(): ?string
