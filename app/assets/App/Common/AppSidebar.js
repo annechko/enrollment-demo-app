@@ -1,6 +1,5 @@
 import {
   cilArrowLeft,
-  cilBaby,
   cilEducation,
   cilInstitution,
   cilPeople,
@@ -87,6 +86,13 @@ const AppSidebar = () => {
           to: navItem.to,
           icon: <CIcon icon={cilPeople} customClassName="nav-icon"/>
         })
+      } else if (navItem.type === 'institution') {
+        navigation.push({
+          component: CNavItem,
+          name: navItem.title,
+          to: navItem.to,
+          icon: <CIcon icon={cilInstitution} customClassName="nav-icon"/>
+        })
       }
     })
 
@@ -102,7 +108,7 @@ const AppSidebar = () => {
     >
       <Link to={window.abeApp.urls.home} className="text-decoration-none">
         <CSidebarBrand className="d-md-flex" style={{minHeight: '61px'}}>
-          <CIcon className="sidebar-brand-full" icon={cilArrowLeft} height={25} />
+          <CIcon className="sidebar-brand-full" icon={cilArrowLeft} height={25}/>
           <p className="mb-0 ms-2">Switch section</p>
         </CSidebarBrand>
       </Link>

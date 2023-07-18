@@ -7,6 +7,7 @@ export function submitForm({event, state, setState, url, formId, onSuccess, head
   }
 
   setState({
+    ...state,
     loading: true,
     error: null
   })
@@ -17,6 +18,7 @@ export function submitForm({event, state, setState, url, formId, onSuccess, head
   })
     .then(response => {
       setState({
+        ...state,
         loading: false,
         error: null
       })
@@ -26,6 +28,7 @@ export function submitForm({event, state, setState, url, formId, onSuccess, head
     })
     .catch((error) => {
       setState({
+        ...state,
         loading: false,
         error: error.response?.data?.error || 'Something went wrong'
       })

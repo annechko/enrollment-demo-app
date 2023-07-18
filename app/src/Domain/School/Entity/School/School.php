@@ -29,6 +29,14 @@ class School
     #[ORM\Column(type: Types::STRING, nullable: false)]
     private string $status;
 
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: false)]
+    /**
+     * @phpstan-ignore property.onlyWritten
+     *
+     * @phpstan-ignore-next-line
+     */
+    private \DateTimeImmutable $createdAt;
+
     private function __construct(
         SchoolId $id,
         Name $name,
@@ -41,6 +49,7 @@ class School
         $this->status = self::STATUS_NEW;
         $this->admin = new StaffMember($adminId, $adminName, $adminEmail);
         $this->admin->changeRole(RoleEnum::SCHOOL_ADMIN);
+        $this->createdAt = new \DateTimeImmutable();
     }
 
     public static function register(

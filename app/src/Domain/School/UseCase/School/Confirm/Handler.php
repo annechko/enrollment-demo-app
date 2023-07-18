@@ -24,14 +24,15 @@ class Handler
     public function handle(Command $command): void
     {
         $school = $this->schoolRepository->get(new SchoolId($command->id));
+
         $token = $this->uuidGenerator->generate();
         $school->confirmRegister(
             new InvitationToken($token, new \DateTimeImmutable())
         );
 
+        $this->flusher->flush();
+
         $admin = $school->getAdmin();
         $this->emailSender->send($admin->getEmail()->getValue(), $token, $school->getId());
-
-        $this->flusher->flush();
     }
 }

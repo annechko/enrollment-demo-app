@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Api\Admin;
 
+use App\Infrastructure\RouteEnum;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,9 +19,14 @@ class MenuController extends AbstractController
         return new JsonResponse([
             'navItems' => [
                 [
-                    'title' => 'admin_school_list',
-                    'to' => $this->generateUrl('admin_school_list'),
+                    'title' => 'Dashboard',
+                    'to' => $this->generateUrl(RouteEnum::ADMIN_HOME),
                     'type' => 'home',
+                ],
+                [
+                    'title' => 'Schools',
+                    'to' => $this->generateUrl('admin_school_list_show'),
+                    'type' => 'institution',
                 ],
             ],
         ]);

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Api\School;
 
+use App\Controller\Api\AbstractApiController;
 use App\Domain\Core\NotFoundException;
 use App\Domain\Core\UuidPattern;
 use App\Domain\School\Common\RoleEnum;
@@ -14,8 +15,6 @@ use App\Domain\School\Repository\CampusRepository;
 use App\Domain\School\Repository\CourseRepository;
 use App\Domain\School\UseCase\School;
 use App\Infrastructure\RouteEnum;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,7 +24,7 @@ use Symfony\Component\Validator\Validation;
 use Webmozart\Assert\InvalidArgumentException;
 
 #[Route('/api/school')]
-class SchoolController extends AbstractController
+class SchoolController extends AbstractApiController
 {
     #[Route('/campuses/{campusId}', name: 'api_school_campus_edit',
         requirements: ['campusId' => UuidPattern::PATTERN_WITH_TEMPLATE],
@@ -324,45 +323,5 @@ class SchoolController extends AbstractController
                 ],
             ],
         ]);
-    }
-
-    private function handle(
-        object $command,
-        string $class,
-        object $handler,
-        Request $request,
-        callable $responseSuccessBuilder = null
-    ): JsonResponse {
-        $form = $this->createForm($class, $command);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted()) {
-            if (!$form->isValid()) {
-                $violationList = $form->getErrors(true);
-                $error = 'Invalid data.';
-                foreach ($violationList as $violation) {
-                    if ($violation instanceof FormError) {
-                        $error = $violation->getMessage();
-                        break;
-                    }
-                }
-
-                return new JsonResponse([
-                    'error' => $error,
-                ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
-            }
-            try {
-                $result = $handler->handle($command);
-                $response = $responseSuccessBuilder ? $responseSuccessBuilder($result) : null;
-
-                return new JsonResponse($response);
-            } catch (InvalidArgumentException $exception) {
-                return new JsonResponse([
-                    'error' => $exception->getMessage(),
-                ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
-            }
-        }
-
-        return new JsonResponse([]);
     }
 }

@@ -13,7 +13,9 @@
                   api_sidebar: '{{ path('api_admin_sidebar') }}',
                   logout: '{{ path('admin_logout') }}',
                   admin_home: '{{ path(constant('App\\Infrastructure\\RouteEnum::ADMIN_HOME')) }}',
-                  admin_school_list: '{{ path('admin_school_list') }}',
+                  admin_school_list_show: '{{ path('admin_school_list_show') }}',
+                  api_admin_school_list: '{{ path('api_admin_school_list') }}',
+                  api_admin_school_confirm: '{{ path('api_admin_school_confirm', {'schoolId': ':schoolId'}) }}',
                 }
                 {% elseif currentSection == 'school' %}
                 const urls = {

@@ -35,6 +35,7 @@ class SchoolFetcher
                 's.name',
                 's.status',
                 'm.email',
+                's.created_at',
                 'm.invitation_token_created_at AS invitation_date',
             )
             ->from('school_school', 's')
