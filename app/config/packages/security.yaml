@@ -29,7 +29,7 @@ security:
                 path: school_logout
                 target: school_login
                 invalidate_session: false
-        main:
+        admin:
             lazy: true
             custom_authenticator: App\Security\AdminAuthenticator
             logout:
@@ -50,15 +50,14 @@ security:
 
     access_control:
         - { route: app_home, roles: PUBLIC_ACCESS }
-        - { path: ^/login, roles: PUBLIC_ACCESS }
+        - { route: school_member_register, roles: PUBLIC_ACCESS }
+        - { path: ^/admin/login, roles: PUBLIC_ACCESS }
         - { path: ^/school/login, roles: PUBLIC_ACCESS }
         - { path: ^/school/register, roles: PUBLIC_ACCESS }
-        - { route: school_member_register, roles: PUBLIC_ACCESS }
-        - { path: ^/school, roles: IS_AUTHENTICATED_FULLY }
-        - { path: ^/admin/login, roles: PUBLIC_ACCESS }
-        - { path: ^/admin, roles: ROLE_ADMIN }
-        - { path: ^/navigation$, roles: PUBLIC_ACCESS }
-        - { path: .*, roles: IS_AUTHENTICATED_FULLY }
+
+        - { path: ^/(api\/)?school, roles: ROLE_SCHOOL_ADMIN }
+        - { path: ^/(api\/)?admin, roles: ROLE_ADMIN }
+        - { path: .*, roles: ROLE_ADMIN }
 
 when@test:
     security:

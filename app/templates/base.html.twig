@@ -13,14 +13,16 @@
               {% elseif currentSection == 'admin' %}
               const urls = {
                 api_sidebar: '{{ path('api_admin_sidebar') }}',
+                logout: '{{ path('admin_logout') }}',
                 admin_home: '{{ path(constant('App\\Infrastructure\\RouteEnum::ADMIN_HOME')) }}',
                 admin_school_list: '{{ path('admin_school_list') }}',
               }
               {% elseif currentSection == 'school' %}
               const urls = {
                 api_sidebar: '{{ path('api_school_sidebar') }}',
-                school_logout: '{{ path('school_logout') }}',
+                logout: '{{ path('school_logout') }}',
                 school_home: '{{ path('school_home') }}',
+                school_register: '{{ path('school_register') }}',
                 school_course_edit: '{{ path('school_course_edit', {'courseId': ':id'}) }}',
                 school_course_add: '{{ path('school_course_add') }}',
                 school_course_list_show: '{{ path('school_course_list_show') }}',
@@ -50,19 +52,17 @@
                 urls: Object.assign({
                   home: '{{ path('app_home') }}',
                   school_login: '{{ path('school_login') }}',
-                  school_register: '{{ path('school_register') }}',
                   admin_login: '{{ path(constant('App\\Infrastructure\\RouteEnum::ADMIN_LOGIN')) }}',
                 }, urls)
               }
               window.abeApp = abeApp
             </script>
-            {% set componentName = 'school' %}
             {% block stylesheets %}
-                {{ encore_entry_link_tags(componentName) }}
+                {{ encore_entry_link_tags('app') }}
             {% endblock %}
 
             {% block javascripts %}
-                {{ encore_entry_script_tags(componentName) }}
+                {{ encore_entry_script_tags('app') }}
             {% endblock %}
         {% endblock resources %}
     </head>
