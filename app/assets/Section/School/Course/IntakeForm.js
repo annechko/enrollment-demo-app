@@ -46,11 +46,11 @@ const IntakeForm = ({
   const onSubmit = (event) => {
     submitForm({
       event,
-      submitState,
-      setSubmitState,
+      state: submitState,
+      setState: setSubmitState,
+      url: url,
       formId,
       onSuccess,
-      url: url,
       headers: {'Content-Type': 'multipart/form-data'}
     })
   }
