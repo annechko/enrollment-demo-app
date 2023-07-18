@@ -8,7 +8,7 @@ use App\Domain\Admin\Entity\AdminUser\AdminUser;
 use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManagerInterface;
 
-class AdminUserFetcher
+class AdminFetcher
 {
     private Connection $connection;
     private string $adminUserTableName;
@@ -19,6 +19,11 @@ class AdminUserFetcher
         $this->adminUserTableName = $em->getClassMetadata(AdminUser::class)->getTableName();
     }
 
+    /**
+     * @return array<string, mixed>
+     *
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function findByEmail(string $email): array
     {
         $result = $this->connection->createQueryBuilder()

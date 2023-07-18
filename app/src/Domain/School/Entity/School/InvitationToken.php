@@ -16,6 +16,7 @@ class InvitationToken
     #[ORM\Column(type: Types::STRING, length: 36, nullable: true)]
     /**
      * @phpstan-ignore property.onlyWritten
+     *
      * @phpstan-ignore-next-line
      */
     private readonly string $value;

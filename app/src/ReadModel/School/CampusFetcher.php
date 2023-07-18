@@ -21,6 +21,7 @@ class CampusFetcher
 
     /**
      * @return array<string, string>
+     *
      * @throws \Doctrine\DBAL\Exception
      */
     public function getCampusesIdToName(): array

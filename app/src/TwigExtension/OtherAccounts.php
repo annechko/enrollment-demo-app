@@ -18,6 +18,8 @@ class OtherAccounts extends AbstractExtension
 {
     private \Symfony\Component\HttpFoundation\Session\SessionInterface $session;
     private ?string $currentUserIdentifier;
+    private const SESSION_ACCOUNT_NAME_ADMIN = '_security_admin';
+    private const SESSION_ACCOUNT_NAME_SCHOOL = '_security_school';
 
     public function __construct(
         readonly RequestStack $requestStack,
@@ -45,32 +47,36 @@ class OtherAccounts extends AbstractExtension
         // todo in case of FRAMEWORK UPDATE - check this functionality!
         // I really don't like this solution, it's very fragile,
         // if you know a better way - tell me please, would really appreciate it.
-        foreach ($this->session->getIterator() as $name => $item) {
-            if ($name === '_security_main' || $name === '_security_school') {
-                try {
-                    $token = unserialize($item);
-                    if ($token instanceof PostAuthenticationToken) {
-                        $user = $token->getUser();
-                        if ($user instanceof SchoolStaffMemberReadModel
-                            || $user instanceof AdminReadModel
-                        ) {
-                            if ($user->getUserIdentifier() === $this->currentUserIdentifier) {
-                                continue;
-                            }
-                            $url = $this->urlGenerator->generate(
-                                $user instanceof AdminReadModel ? RouteEnum::ADMIN_HOME : 'school_home'
-                            );
-
-                            $accounts[] = [
-                                'email' => $user->getUserIdentifier(),
-                                'home' => $url,
-                            ];
-                        }
-                    }
-                } catch (\Throwable $exception) {
+        $items = [
+            $this->session->get(self::SESSION_ACCOUNT_NAME_ADMIN),
+            $this->session->get(self::SESSION_ACCOUNT_NAME_SCHOOL),
+        ];
+        foreach ($items as $item) {
+            try {
+                $token = unserialize($item);
+                if (!($token instanceof PostAuthenticationToken)) {
+                    continue;
                 }
+                $user = $token->getUser();
+                if ($user instanceof SchoolStaffMemberReadModel
+                    || $user instanceof AdminReadModel
+                ) {
+                    if ($user->getUserIdentifier() === $this->currentUserIdentifier) {
+                        continue;
+                    }
+                    $url = $this->urlGenerator->generate(
+                        $user instanceof AdminReadModel ? RouteEnum::ADMIN_HOME : RouteEnum::SCHOOL_HOME
+                    );
+
+                    $accounts[] = [
+                        'email' => $user->getUserIdentifier(),
+                        'home' => $url,
+                    ];
+                }
+            } catch (\Throwable) {
             }
         }
+
         return json_encode($accounts);
     }
 }

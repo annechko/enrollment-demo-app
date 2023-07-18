@@ -35,7 +35,6 @@ class AdminAuthenticator extends AbstractLoginFormAuthenticator
     }
 
     /**
-     * @param Request $request
      * @return array<string, string>
      */
     private function getCredentials(Request $request): array

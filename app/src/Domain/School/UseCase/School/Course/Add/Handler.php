@@ -30,6 +30,7 @@ class Handler
         $this->courseRepository->add($course);
 
         $this->flusher->flush();
+
         return $course->getId();
     }
 }

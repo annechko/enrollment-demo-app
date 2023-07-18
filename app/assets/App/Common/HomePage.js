@@ -26,7 +26,7 @@ const LinkCard = ({title, color, href, text}) => {
     </CCard>
   </CCol>
 }
-const CourseForm = ({}) => {
+const HomePage = () => {
   return <>
     <div className="bg-light min-vh-100 d-flex flex-row align-items-center">
       <CContainer>
@@ -53,9 +53,8 @@ const CourseForm = ({}) => {
             }
           />
         </CRow>
-
       </CContainer>
     </div>
   </>
 }
-export default React.memo(CourseForm)
+export default React.memo(HomePage)

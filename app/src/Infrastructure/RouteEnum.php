@@ -8,8 +8,9 @@ namespace App\Infrastructure;
 // todo move all paths and params too?
 class RouteEnum
 {
+    public const HOME = 'app_home';
     public const ADMIN_HOME = 'admin_home';
     public const ADMIN_LOGIN = 'admin_login';
     public const ADMIN_LOGOUT = 'admin_logout';
-    public const HOME = 'app_home';
+    public const SCHOOL_HOME = 'school_home';
 }

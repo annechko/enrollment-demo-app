@@ -19,7 +19,7 @@
                 const urls = {
                   api_sidebar: '{{ path('api_school_sidebar') }}',
                   logout: '{{ path('school_logout') }}',
-                  school_home: '{{ path('school_home') }}',
+                  school_home: '{{ path(constant('App\\Infrastructure\\RouteEnum::SCHOOL_HOME')) }}',
                   school_register: '{{ path('school_register') }}',
                   school_course_edit: '{{ path('school_course_edit', {'courseId': ':id'}) }}',
                   school_course_add: '{{ path('school_course_add') }}',

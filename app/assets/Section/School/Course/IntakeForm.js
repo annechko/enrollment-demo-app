@@ -44,7 +44,6 @@ const IntakeForm = ({
     : window.abeApp.urls.api_school_course_intake_add
       .replace(':courseId', courseId)
   const onSubmit = (event) => {
-    debugger
     submitForm({
       event,
       submitState,

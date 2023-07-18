@@ -10,6 +10,9 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 class AdminReadModel implements UserInterface, PasswordAuthenticatedUserInterface, EquatableInterface
 {
+    /**
+     * @param string[] $roles
+     */
     public function __construct(
         public readonly string $id,
         public readonly string $email,
@@ -20,6 +23,9 @@ class AdminReadModel implements UserInterface, PasswordAuthenticatedUserInterfac
     ) {
     }
 
+    /**
+     * @return string[]
+     */
     public function getRoles(): array
     {
         return $this->roles;
@@ -44,9 +50,10 @@ class AdminReadModel implements UserInterface, PasswordAuthenticatedUserInterfac
         if (!$user instanceof self) {
             return false;
         }
-        $areRolesEqual = count($this->roles) == count($user->roles)
+        $areRolesEqual = count($this->roles) === count($user->roles)
                          && array_diff($this->roles, $user->roles)
                             === array_diff($user->roles, $this->roles);
+
         return
             $this->id === $user->id &&
             $this->email === $user->email &&

@@ -8,6 +8,7 @@ use App\Domain\Core\UuidPattern;
 use App\Domain\School\Common\RoleEnum;
 use App\Domain\School\UseCase\Member;
 use App\Domain\School\UseCase\School\Register;
+use App\Infrastructure\RouteEnum;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -130,7 +131,7 @@ class SchoolController extends AbstractController
         ]);
     }
 
-    #[Route('/school/', name: 'school_home')]
+    #[Route('/school/', name: RouteEnum::SCHOOL_HOME)]
     public function home(): Response
     {
         $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);

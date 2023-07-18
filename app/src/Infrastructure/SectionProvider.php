@@ -41,8 +41,10 @@ class SectionProvider
             if (in_array($this->firewallName, self::SECTIONS, true)) {
                 return $this->firewallName;
             }
+
             return self::SECTION_ADMIN;
         }
+
         return match (get_class($this->currentUser)) {
             AdminReadModel::class => self::SECTION_ADMIN,
             SchoolStaffMemberReadModel::class => self::SECTION_SCHOOL,

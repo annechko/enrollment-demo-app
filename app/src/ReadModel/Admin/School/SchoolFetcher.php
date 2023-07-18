@@ -18,11 +18,6 @@ class SchoolFetcher
     }
 
     /**
-     * @param Filter $filter
-     * @param int $page
-     * @param int $size
-     * @param string $sort
-     * @param string $direction
      * @return PaginationInterface<int, mixed>
      */
     public function fetch(

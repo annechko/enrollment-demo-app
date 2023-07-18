@@ -13,6 +13,7 @@ use App\Domain\School\Entity\Course\Intake\IntakeId;
 use App\Domain\School\Repository\CampusRepository;
 use App\Domain\School\Repository\CourseRepository;
 use App\Domain\School\UseCase\School;
+use App\Infrastructure\RouteEnum;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -303,7 +304,7 @@ class SchoolController extends AbstractController
             'navItems' => [
                 [
                     'title' => 'Dashboard',
-                    'to' => $this->generateUrl('school_home'),
+                    'to' => $this->generateUrl(RouteEnum::SCHOOL_HOME),
                     'type' => 'home',
                 ],
                 [
@@ -353,6 +354,7 @@ class SchoolController extends AbstractController
             try {
                 $result = $handler->handle($command);
                 $response = $responseSuccessBuilder ? $responseSuccessBuilder($result) : null;
+
                 return new JsonResponse($response);
             } catch (InvalidArgumentException $exception) {
                 return new JsonResponse([

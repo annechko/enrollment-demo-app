@@ -37,6 +37,7 @@ class Intake
     #[ORM\JoinColumn(nullable: false)]
     /**
      * @phpstan-ignore property.onlyWritten
+     *
      * @phpstan-ignore-next-line
      */
     private Course $course;
@@ -44,6 +45,7 @@ class Intake
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: false)]
     /**
      * @phpstan-ignore property.onlyWritten
+     *
      * @phpstan-ignore-next-line
      */
     private \DateTimeImmutable $createdAt;
@@ -117,6 +119,7 @@ class Intake
         $this->name = $name;
         $this->classSize = $classSize;
         $this->campus = $campus;
+
         return $this;
     }
 }

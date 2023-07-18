@@ -19,6 +19,11 @@ class SchoolStaffMemberFetcher
         $this->adminUserTableName = $em->getClassMetadata(StaffMember::class)->getTableName();
     }
 
+    /**
+     * @return array<string, mixed>
+     *
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function findByEmail(string $email): array
     {
         $result = $this->connection->createQueryBuilder()

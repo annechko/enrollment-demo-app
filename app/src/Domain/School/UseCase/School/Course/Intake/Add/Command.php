@@ -22,7 +22,7 @@ class Command
     #[Assert\NotBlank(message: 'End date should not be blank.')]
     public $endDate;
 
-    /** @var integer */
+    /** @var int */
     #[Assert\Type('integer')]
     #[Assert\PositiveOrZero(message: 'Class size should be positive.')]
     public $classSize;

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Security;
 
 use App\Domain\Admin\Repository\AdminUserRepository;
-use App\ReadModel\Admin\AdminUser\AdminUserFetcher;
+use App\ReadModel\Admin\AdminUser\AdminFetcher;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\Exception\UserNotFoundException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -16,7 +16,7 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
 class AdminProvider implements UserProviderInterface, PasswordUpgraderInterface
 {
     public function __construct(
-        private readonly AdminUserFetcher $userFetcher,
+        private readonly AdminFetcher $userFetcher,
         private readonly AdminUserRepository $userRepository,
     ) {
     }
@@ -26,9 +26,7 @@ class AdminProvider implements UserProviderInterface, PasswordUpgraderInterface
         string $newHashedPassword
     ): void {
         if (!$user instanceof AdminReadModel) {
-            throw new UnsupportedUserException(
-                sprintf('Instances of "%s" are not supported.', \get_class($user))
-            );
+            throw new UnsupportedUserException(sprintf('Instances of "%s" are not supported.', \get_class($user)));
         }
 
         $admin = $this->userRepository->find($user->id);
@@ -51,10 +49,6 @@ class AdminProvider implements UserProviderInterface, PasswordUpgraderInterface
         return $class === AdminReadModel::class;
     }
 
-    /**
-     * @param string $identifier
-     * @return
-     */
     public function loadUserByIdentifier(string $identifier): UserInterface
     {
         $userFields = $this->userFetcher->findByEmail($identifier);

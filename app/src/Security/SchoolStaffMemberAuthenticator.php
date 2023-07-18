@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Security;
 
+use App\Infrastructure\RouteEnum;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,8 +25,7 @@ class SchoolStaffMemberAuthenticator extends AbstractLoginFormAuthenticator
     use TargetPathTrait;
 
     private const LOGIN_ROUTE = 'school_login';
-    private const AFTER_LOGIN_ROUTE = 'school_home';
-
+    private const AFTER_LOGIN_ROUTE = RouteEnum::SCHOOL_HOME;
 
     public function __construct(
         private readonly UrlGeneratorInterface $urlGenerator,
@@ -34,7 +34,6 @@ class SchoolStaffMemberAuthenticator extends AbstractLoginFormAuthenticator
     }
 
     /**
-     * @param Request $request
      * @return array<string, string>
      */
     private function getCredentials(Request $request): array

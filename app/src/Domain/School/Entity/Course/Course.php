@@ -39,6 +39,7 @@ class Course
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: false)]
     /**
      * @phpstan-ignore property.onlyWritten
+     *
      * @phpstan-ignore-next-line
      */
     private \DateTimeImmutable $createdAt;
@@ -77,6 +78,7 @@ class Course
     ): self {
         $this->name = $name;
         $this->description = $description;
+
         return $this;
     }
 
@@ -107,6 +109,7 @@ class Course
     public function removeIntake(IntakeId $id): self
     {
         $this->intakes->remove($id->getValue());
+
         return $this;
     }
 
@@ -143,6 +146,7 @@ class Course
     {
         $intake = $this->intakes->get($id->getValue());
         Assert::notNull($intake);
+
         return $intake;
     }
 }

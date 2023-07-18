@@ -18,10 +18,6 @@ class Command
     #[Assert\Regex(pattern: UuidPattern::PATTERN_REG_EXP)]
     public $courseId;
 
-    /**
-     * @param string $intakeId
-     * @param string $courseId
-     */
     public function __construct(string $intakeId, string $courseId)
     {
         $this->intakeId = $intakeId;

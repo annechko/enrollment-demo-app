@@ -26,9 +26,7 @@ class SchoolStaffMemberProvider implements UserProviderInterface, PasswordUpgrad
         string $newHashedPassword
     ): void {
         if (!$user instanceof SchoolStaffMemberReadModel) {
-            throw new UnsupportedUserException(
-                sprintf('Instances of "%s" are not supported.', \get_class($user))
-            );
+            throw new UnsupportedUserException(sprintf('Instances of "%s" are not supported.', \get_class($user)));
         }
 
         $member = $this->userRepository->find($user->id);
@@ -52,7 +50,6 @@ class SchoolStaffMemberProvider implements UserProviderInterface, PasswordUpgrad
     }
 
     /**
-     * @param string $identifier
      * @return \App\Security\SchoolStaffMemberReadModel
      */
     public function loadUserByIdentifier(string $identifier): UserInterface
