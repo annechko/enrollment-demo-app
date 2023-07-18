@@ -66,7 +66,7 @@ const CampusList = ({dataState}) => {
           <CCardBody>
             <p>The buildings, structures, and outdoor areas available for use by children attending the school.</p>
             <Link to={window.abeApp.urls.school_campus_add}>
-              <CButton color="primary" role="button" className="mb-3">
+              <CButton color="primary" role="button" className="mb-3" size="sm">
                 New
               </CButton>
             </Link>

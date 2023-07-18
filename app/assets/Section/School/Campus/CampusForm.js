@@ -51,7 +51,7 @@ const CampusForm = ({
             name={formId + "[address]"}></CFormTextarea>
         </div>
         {showSubmitBtn && (
-          <CButton color="success"
+          <CButton color="success" size="sm"
             className={'px-4' + (isSubmitted ? ' disabled' : '')}
             disabled={isSubmitted === true}
             type="submit">
