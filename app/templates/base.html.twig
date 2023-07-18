@@ -7,55 +7,55 @@
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
         {% block resources %}
             <script>
-              {% set currentSection = current_section() %}
-              {% if currentSection == '' %}
-              const urls = {}
-              {% elseif currentSection == 'admin' %}
-              const urls = {
-                api_sidebar: '{{ path('api_admin_sidebar') }}',
-                logout: '{{ path('admin_logout') }}',
-                admin_home: '{{ path(constant('App\\Infrastructure\\RouteEnum::ADMIN_HOME')) }}',
-                admin_school_list: '{{ path('admin_school_list') }}',
-              }
-              {% elseif currentSection == 'school' %}
-              const urls = {
-                api_sidebar: '{{ path('api_school_sidebar') }}',
-                logout: '{{ path('school_logout') }}',
-                school_home: '{{ path('school_home') }}',
-                school_register: '{{ path('school_register') }}',
-                school_course_edit: '{{ path('school_course_edit', {'courseId': ':id'}) }}',
-                school_course_add: '{{ path('school_course_add') }}',
-                school_course_list_show: '{{ path('school_course_list_show') }}',
-                school_campus_add: '{{ path('school_campus_add') }}',
-                school_campus_edit: '{{ path('school_campus_edit', {'campusId': ':id'}) }}',
-                school_campus_list_show: '{{ path('school_campus_list_show') }}',
-                school_student_list_show: '{{ path('school_student_list_show') }}',
-                api_school_course: '{{ path('api_school_course') }}',
-                api_school_course_add: '{{ path('api_school_course_add') }}',
-                api_school_course_edit: '{{ path('api_school_course_edit', {'courseId': ':id'}) }}',
-                api_school_course_list: '{{ path('api_school_course_list') }}',
-                api_school_course_intake: '{{ path('api_school_course_intake', {'courseId': ':courseId', 'intakeId': ':intakeId'}) }}',
-                api_school_course_intake_add: '{{ path('api_school_course_intake_add', {'courseId': ':courseId'}) }}',
-                api_school_course_intake_edit: '{{ path('api_school_course_intake_edit', {'courseId': ':courseId', 'intakeId': ':intakeId'}) }}',
-                api_school_course_intake_remove: '{{ path('api_school_course_intake_remove', {'courseId': ':courseId', 'intakeId': ':intakeId'}) }}',
-                api_school_course_intake_list: '{{ path('api_school_course_intake_list', {'courseId': ':id'}) }}',
-                api_school_campus: '{{ path('api_school_campus', {'campusId': ':id'}) }}',
-                api_school_campus_add: '{{ path('api_school_campus_add') }}',
-                api_school_campus_edit: '{{ path('api_school_campus_edit', {'campusId': ':id'}) }}',
-                api_school_campus_list: '{{ path('api_school_campus_list') }}',
-              }
-              {% endif %}
-              const abeApp = {
-                currentUser: {email: '{{ app.user ? app.user.email }}'},
-                otherAccounts: {{ other_accounts() }},
-                currentSection: '{{ currentSection }}',
-                urls: Object.assign({
-                  home: '{{ path('app_home') }}',
-                  school_login: '{{ path('school_login') }}',
-                  admin_login: '{{ path(constant('App\\Infrastructure\\RouteEnum::ADMIN_LOGIN')) }}',
-                }, urls)
-              }
-              window.abeApp = abeApp
+                {% set currentSection = current_section() %}
+                {% if currentSection == 'admin' %}
+                const urls = {
+                  api_sidebar: '{{ path('api_admin_sidebar') }}',
+                  logout: '{{ path('admin_logout') }}',
+                  admin_home: '{{ path(constant('App\\Infrastructure\\RouteEnum::ADMIN_HOME')) }}',
+                  admin_school_list: '{{ path('admin_school_list') }}',
+                }
+                {% elseif currentSection == 'school' %}
+                const urls = {
+                  api_sidebar: '{{ path('api_school_sidebar') }}',
+                  logout: '{{ path('school_logout') }}',
+                  school_home: '{{ path('school_home') }}',
+                  school_register: '{{ path('school_register') }}',
+                  school_course_edit: '{{ path('school_course_edit', {'courseId': ':id'}) }}',
+                  school_course_add: '{{ path('school_course_add') }}',
+                  school_course_list_show: '{{ path('school_course_list_show') }}',
+                  school_campus_add: '{{ path('school_campus_add') }}',
+                  school_campus_edit: '{{ path('school_campus_edit', {'campusId': ':id'}) }}',
+                  school_campus_list_show: '{{ path('school_campus_list_show') }}',
+                  school_student_list_show: '{{ path('school_student_list_show') }}',
+                  api_school_course: '{{ path('api_school_course') }}',
+                  api_school_course_add: '{{ path('api_school_course_add') }}',
+                  api_school_course_edit: '{{ path('api_school_course_edit', {'courseId': ':id'}) }}',
+                  api_school_course_list: '{{ path('api_school_course_list') }}',
+                  api_school_course_intake: '{{ path('api_school_course_intake', {'courseId': ':courseId', 'intakeId': ':intakeId'}) }}',
+                  api_school_course_intake_add: '{{ path('api_school_course_intake_add', {'courseId': ':courseId'}) }}',
+                  api_school_course_intake_edit: '{{ path('api_school_course_intake_edit', {'courseId': ':courseId', 'intakeId': ':intakeId'}) }}',
+                  api_school_course_intake_remove: '{{ path('api_school_course_intake_remove', {'courseId': ':courseId', 'intakeId': ':intakeId'}) }}',
+                  api_school_course_intake_list: '{{ path('api_school_course_intake_list', {'courseId': ':id'}) }}',
+                  api_school_campus: '{{ path('api_school_campus', {'campusId': ':id'}) }}',
+                  api_school_campus_add: '{{ path('api_school_campus_add') }}',
+                  api_school_campus_edit: '{{ path('api_school_campus_edit', {'campusId': ':id'}) }}',
+                  api_school_campus_list: '{{ path('api_school_campus_list') }}',
+                }
+                {% else %}
+                const urls = {}
+                {% endif %}
+                const abeApp = {
+                  currentUser: {email: '{{ app.user ? app.user.email }}'},
+                  otherAccounts: {{ other_accounts() }},
+                  currentSection: {% if currentSection == '' %} null {% else %} '{{ currentSection }}' {% endif %},
+                  urls: Object.assign({
+                    home: '{{ path(constant('App\\Infrastructure\\RouteEnum::HOME')) }}',
+                    school_login: '{{ path('school_login') }}',
+                    admin_login: '{{ path(constant('App\\Infrastructure\\RouteEnum::ADMIN_LOGIN')) }}',
+                  }, urls)
+                }
+                window.abeApp = abeApp
             </script>
             {% block stylesheets %}
                 {{ encore_entry_link_tags('app') }}

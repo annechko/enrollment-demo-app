@@ -21,8 +21,9 @@ import React, {
   memo,
   useContext
 } from 'react'
-import {UserContext} from "../Helper/UserContext";
-import {OtherAccounts} from "../Helper/OtherAccountsContext";
+import {UserContext} from "../Helper/Context/UserContext";
+import {OtherAccounts} from "../Helper/Context/OtherAccountsContext";
+import {CurrentSectionContext} from "../Helper/Context/CurrentSectionContext";
 
 const OtherProfiles = () => {
   const otherAccounts = useContext(OtherAccounts)
@@ -43,10 +44,17 @@ const OtherProfiles = () => {
 }
 const AppHeaderDropdown = () => {
   const user = useContext(UserContext)
+  const currentSection = useContext(CurrentSectionContext)
+  let avatarColor = ''
+  if (currentSection === 'admin') {
+    avatarColor = 'bg-danger'
+  } else if (currentSection === 'school') {
+    avatarColor = 'bg-info'
+  }
   return (
     <CDropdown variant="nav-item">
       <CDropdownToggle placement="bottom-end" className="py-0" caret={false}>
-        <div className="fake-avatar avatar-img"></div>
+        <div className={'fake-avatar avatar-img ' + avatarColor}></div>
       </CDropdownToggle>
       <CDropdownMenu className="pt-0" placement="bottom-end">
         <CDropdownHeader className="bg-light fw-semibold py-2">Logged in as</CDropdownHeader>

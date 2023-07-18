@@ -11,14 +11,22 @@ import {
   CNavItem,
   CNavLink,
 } from '@coreui/react'
-import React from 'react'
+import React, {useContext} from 'react'
 import {AppHeaderDropdown} from "./index";
+import {CurrentSectionContext} from "../Helper/Context/CurrentSectionContext";
 
 const AppHeader = () => {
-
+  const currentSection = useContext(CurrentSectionContext)
+  let sectionName = ''
+  if (currentSection === 'admin') {
+    sectionName = 'Admin section'
+  } else if (currentSection === 'school') {
+    sectionName = 'School section'
+  }
   return (
     <CHeader position="sticky" className="mb-2">
       <CContainer fluid className="header-items-right">
+        {sectionName}
         <CHeaderNav>
           <CNavItem>
             <CNavLink href="#">

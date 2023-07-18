@@ -20,6 +20,7 @@ class SectionProvider
     ];
     private ?UserInterface $currentUser;
     private string $firewallName;
+    private string $routeName;
 
     public function __construct(
         readonly Security $security,
@@ -27,10 +28,14 @@ class SectionProvider
     ) {
         $this->currentUser = $security->getUser();
         $this->firewallName = $security->getFirewallConfig($request->getMainRequest())->getName();
+        $this->routeName = $request->getMainRequest()->attributes->get('_route', '');
     }
 
     public function getCurrentSection(): ?string
     {
+        if ($this->routeName === RouteEnum::HOME) {
+            return null;
+        }
         // todo maybe consider checking urls start with section name
         if ($this->currentUser === null) {
             if (in_array($this->firewallName, self::SECTIONS, true)) {

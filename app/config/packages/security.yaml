@@ -49,7 +49,7 @@ security:
             - ROLE_USER
 
     access_control:
-        - { route: app_home, roles: PUBLIC_ACCESS }
+        - { route: !php/const App\Infrastructure\RouteEnum::HOME, roles: PUBLIC_ACCESS }
         - { route: school_member_register, roles: PUBLIC_ACCESS }
         - { path: ^/admin/login, roles: PUBLIC_ACCESS }
         - { path: ^/school/login, roles: PUBLIC_ACCESS }

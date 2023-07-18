@@ -9,8 +9,9 @@ import {
   Routes
 } from 'react-router-dom'
 import './scss/style.scss'
-import {UserContext} from "./Helper/UserContext";
-import {OtherAccounts} from "./Helper/OtherAccountsContext";
+import {UserContext} from "./Helper/Context/UserContext";
+import {OtherAccounts} from "./Helper/Context/OtherAccountsContext";
+import {CurrentSectionContext} from "./Helper/Context/CurrentSectionContext";
 import AdminRoutes from '../Section/Admin/Contract/ContentRoutes';
 import SchoolRoutes from '../Section/School/Contract/ContentRoutes';
 
@@ -35,19 +36,21 @@ class App extends Component {
       : (currentSection === 'admin' ? AdminRoutes : [])
 
     return (
-      <UserContext.Provider value={window.abeApp.currentUser}>
-        <OtherAccounts.Provider value={window.abeApp.otherAccounts}>
-          <BrowserRouter>
-            <Suspense fallback={loading}>
-              <Routes>
-                <Route exact path={urls.home} element={<HomePage/>}/>
-                {routes}
-                <Route path="*" element={<Navigate to={urls.home} replace/>}/>
-              </Routes>
-            </Suspense>
-          </BrowserRouter>
-        </OtherAccounts.Provider>
-      </UserContext.Provider>
+      <CurrentSectionContext.Provider value={currentSection}>
+        <UserContext.Provider value={window.abeApp.currentUser}>
+          <OtherAccounts.Provider value={window.abeApp.otherAccounts}>
+            <BrowserRouter>
+              <Suspense fallback={loading}>
+                <Routes>
+                  <Route exact path={urls.home} element={<HomePage/>}/>
+                  {routes}
+                  <Route path="*" element={<Navigate to={urls.home} replace/>}/>
+                </Routes>
+              </Suspense>
+            </BrowserRouter>
+          </OtherAccounts.Provider>
+        </UserContext.Provider>
+      </CurrentSectionContext.Provider>
     )
   }
 }
