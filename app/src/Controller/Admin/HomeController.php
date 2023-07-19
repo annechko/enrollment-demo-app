@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/admin')]
 class HomeController extends AbstractController
 {
-    #[Route('', name: RouteEnum::ADMIN_HOME)]
+    #[Route('/', name: RouteEnum::ADMIN_HOME)]
     public function index(): Response
     {
         return $this->render('base.html.twig');
