@@ -23,6 +23,7 @@ import './AppSidebar.scss'
 import {AppSidebarNav} from './AppSidebarNav'
 import * as LoadState from "../Helper/LoadState";
 import {Link} from "react-router-dom";
+import {CssHelper} from "../Helper/CssHelper";
 
 const AppSidebar = () => {
   const [unfoldable, toogleUnfoldable] = useState(false)
@@ -102,6 +103,7 @@ const AppSidebar = () => {
   }
   return (
     <CSidebar
+      className={CssHelper.getCurrentSectionBgColor()}
       position="fixed"
       unfoldable={unfoldable}
       visible={true}

@@ -1,3 +1,4 @@
+@import "_variables";
 .btn {
   cursor: pointer;
 }
@@ -27,4 +28,23 @@
 
 .table th, .table td {
   padding: 5px;
+}
+
+.app-bg-admin {
+  background-color: #{$app-color-admin};
+}
+.app-bg-school {
+  background-color: #{$app-color-school};
+}
+.app-bg-student {
+  background-color: #{$app-color-student};
+}
+.app-text-admin {
+  color: #{$app-color-admin};
+}
+.app-text-school {
+  color: #{$app-color-school};
+}
+.app-text-student {
+  color: #{$app-color-student};
 }
