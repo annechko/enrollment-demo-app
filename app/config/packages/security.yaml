@@ -52,8 +52,6 @@ security:
                 target: !php/const App\Infrastructure\RouteEnum::ADMIN_LOGIN
                 invalidate_session: false
 
-    # Easy way to control access for large sections of your site
-    # Note: Only the *first* access control that matches will be used
     role_hierarchy:
         ROLE_ADMIN:
             - ROLE_USER
@@ -62,7 +60,7 @@ security:
         ROLE_SCHOOL_ADMIN:
             - ROLE_SCHOOL_USER
             - ROLE_USER
-        ROLE_STUDENT:
+        ROLE_STUDENT_USER:
             - ROLE_USER
 
     access_control:
@@ -75,7 +73,7 @@ security:
         - { route: !php/const App\Infrastructure\RouteEnum::STUDENT_REGISTER, roles: PUBLIC_ACCESS }
 
         - { path: ^/(api\/)?school, roles: ROLE_SCHOOL_ADMIN }
-        - { path: ^/(api\/)?student, roles: ROLE_STUDENT }
+        - { path: ^/(api\/)?student, roles: ROLE_STUDENT_USER }
         - { path: ^/(api\/)?admin, roles: ROLE_ADMIN }
         - { path: .*, roles: ROLE_ADMIN }
 

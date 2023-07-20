@@ -17,6 +17,15 @@
                   api_admin_school_list: '{{ path('api_admin_school_list') }}',
                   api_admin_school_confirm: '{{ path('api_admin_school_confirm', {'schoolId': ':schoolId'}) }}',
                 }
+                {% elseif currentSection == 'student' %}
+                const urls = {
+                  api_sidebar: '{{ path('api_student_sidebar') }}',
+                  logout: '{{ path(constant('App\\Infrastructure\\RouteEnum::STUDENT_LOGOUT')) }}',
+                  student_home: '{{ path(constant('App\\Infrastructure\\RouteEnum::STUDENT_HOME')) }}',
+                  student_register: '{{ path(constant('App\\Infrastructure\\RouteEnum::STUDENT_REGISTER')) }}',
+                  api_student_register: '{{ path(constant('App\\Infrastructure\\RouteEnum::API_STUDENT_REGISTER')) }}',
+                  api_student_login: '{{ path(constant('App\\Infrastructure\\RouteEnum::API_STUDENT_LOGIN')) }}',
+                }
                 {% elseif currentSection == 'school' %}
                 const urls = {
                   api_sidebar: '{{ path('api_school_sidebar') }}',
@@ -55,6 +64,7 @@
                     home: '{{ path(constant('App\\Infrastructure\\RouteEnum::HOME')) }}',
                     school_login: '{{ path('school_login') }}',
                     admin_login: '{{ path(constant('App\\Infrastructure\\RouteEnum::ADMIN_LOGIN')) }}',
+                    student_login: '{{ path(constant('App\\Infrastructure\\RouteEnum::STUDENT_LOGIN')) }}',
                   }, urls)
                 }
                 window.abeApp = abeApp

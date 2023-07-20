@@ -6,6 +6,7 @@ namespace App\Infrastructure;
 
 use App\Security\AdminReadModel;
 use App\Security\SchoolStaffMemberReadModel;
+use App\Security\StudentReadModel;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Exception\SessionNotFoundException;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -19,6 +20,12 @@ class OtherAccountsProvider
     private ?string $currentUserIdentifier;
     private const SESSION_ACCOUNT_NAME_ADMIN = '_security_admin';
     private const SESSION_ACCOUNT_NAME_SCHOOL = '_security_school';
+    private const SESSION_ACCOUNT_NAME_STUDENT = '_security_student';
+    private const USER_CLASS_TO_HOME_ROUTE = [
+        AdminReadModel::class => RouteEnum::ADMIN_HOME,
+        SchoolStaffMemberReadModel::class => RouteEnum::SCHOOL_HOME,
+        StudentReadModel::class => RouteEnum::STUDENT_HOME,
+    ];
 
     public function __construct(
         readonly RequestStack $requestStack,
@@ -44,6 +51,7 @@ class OtherAccountsProvider
         $items = [
             $this->session->get(self::SESSION_ACCOUNT_NAME_ADMIN),
             $this->session->get(self::SESSION_ACCOUNT_NAME_SCHOOL),
+            $this->session->get(self::SESSION_ACCOUNT_NAME_STUDENT),
         ];
         foreach ($items as $item) {
             try {
@@ -52,15 +60,14 @@ class OtherAccountsProvider
                     continue;
                 }
                 $user = $token->getUser();
-                if ($user instanceof SchoolStaffMemberReadModel
-                    || $user instanceof AdminReadModel
+                $userClass = get_class($user);
+                if (in_array($userClass, array_keys(self::USER_CLASS_TO_HOME_ROUTE), true)
                 ) {
                     if ($user->getUserIdentifier() === $this->currentUserIdentifier) {
                         continue;
                     }
-                    $url = $this->urlGenerator->generate(
-                        $user instanceof AdminReadModel ? RouteEnum::ADMIN_HOME : RouteEnum::SCHOOL_HOME
-                    );
+                    $home = self::USER_CLASS_TO_HOME_ROUTE[$userClass] ?? RouteEnum::HOME;
+                    $url = $this->urlGenerator->generate($home);
 
                     $accounts[] = [
                         'email' => $user->getUserIdentifier(),

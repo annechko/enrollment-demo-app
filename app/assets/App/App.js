@@ -14,6 +14,7 @@ import {OtherAccounts} from "./Helper/Context/OtherAccountsContext";
 import {CurrentSectionContext} from "./Helper/Context/CurrentSectionContext";
 import AdminRoutes from '../Section/Admin/Contract/ContentRoutes';
 import SchoolRoutes from '../Section/School/Contract/ContentRoutes';
+import StudentRoutes from '../Section/Student/Contract/ContentRoutes';
 
 const loading = (
   <div className="pt-3 text-center">
@@ -33,7 +34,8 @@ class App extends Component {
     const currentSection = window.abeApp.currentSection
     const routes = currentSection === 'school'
       ? SchoolRoutes
-      : (currentSection === 'admin' ? AdminRoutes : [])
+      : (currentSection === 'admin' ? AdminRoutes
+        : (currentSection === 'student' ? StudentRoutes : []))
 
     return (
       <CurrentSectionContext.Provider value={currentSection}>

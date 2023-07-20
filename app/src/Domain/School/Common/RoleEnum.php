@@ -6,6 +6,7 @@ namespace App\Domain\School\Common;
 
 enum RoleEnum: string
 {
+    // todo user or no user, unify.
     case ADMIN_USER = 'ROLE_ADMIN';
     case SCHOOL_ADMIN = 'ROLE_SCHOOL_ADMIN';
     case SCHOOL_USER = 'ROLE_SCHOOL_USER';

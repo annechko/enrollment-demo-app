@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Domain\Student\Entity\Student;
 
-use App\Domain\Student\Repository\StudentRepository;
 use App\Domain\School\Common\RoleEnum;
+use App\Domain\Student\Repository\StudentRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: StudentRepository::class)]
@@ -36,21 +36,37 @@ class Student
     #[ORM\Column(type: 'boolean', nullable: false)]
     private $isEmailVerified = false;
 
-    public function __construct(
+    private function __construct(
         StudentId $id,
         string $email,
-        string $passwordHash,
         string $name,
         string $surname,
+        string $passwordHash,
     ) {
         $this->id = $id;
         $this->email = $email;
-        $this->passwordHash = $passwordHash;
         $this->name = $name;
         $this->surname = $surname;
+        $this->passwordHash = $passwordHash;
         $this->roles = [
             RoleEnum::STUDENT_USER->value,
         ];
+    }
+
+    public static function register(
+        StudentId $id,
+        string $email,
+        string $name,
+        string $surname,
+        string $passwordHash
+    ): self {
+        return new self(
+            $id,
+            $email,
+            $name,
+            $surname,
+            $passwordHash
+        );
     }
 
     public function getId(): StudentId
@@ -71,7 +87,7 @@ class Student
         return $this->roles;
     }
 
-    public function getPassword(): string
+    public function getPasswordHash(): string
     {
         return $this->passwordHash;
     }
@@ -91,5 +107,16 @@ class Student
     public function getSurname(): string
     {
         return $this->surname;
+    }
+
+    public function verifyEmail(): self
+    {
+        $this->isEmailVerified = true;
+        return $this;
+    }
+
+    public function isEmailVerified(): bool
+    {
+        return $this->isEmailVerified;
     }
 }

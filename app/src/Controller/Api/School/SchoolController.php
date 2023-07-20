@@ -38,7 +38,7 @@ class SchoolController extends AbstractApiController
 
         $command = new School\Campus\Edit\Command($campusId);
 
-        return $this->handle($command, School\Campus\Edit\Form::class, $handler, $request);
+        return $this->handleWithResponse($command, School\Campus\Edit\Form::class, $handler, $request);
     }
 
     #[Route('/campuses', name: 'api_school_campus_add', methods: ['POST'])]
@@ -50,7 +50,7 @@ class SchoolController extends AbstractApiController
 
         $command = new School\Campus\Add\Command();
 
-        return $this->handle($command, School\Campus\Add\Form::class, $handler, $request);
+        return $this->handleWithResponse($command, School\Campus\Add\Form::class, $handler, $request);
     }
 
     #[Route('/campuses', name: 'api_school_campus_list', methods: ['GET'])]
@@ -112,7 +112,7 @@ class SchoolController extends AbstractApiController
 
         $command = new School\Course\Add\Command();
 
-        return $this->handle(
+        return $this->handleWithResponse(
             $command,
             School\Course\Add\Form::class,
             $handler,
@@ -161,7 +161,7 @@ class SchoolController extends AbstractApiController
 
         $command = new School\Course\Intake\Add\Command($courseId);
 
-        return $this->handle(
+        return $this->handleWithResponse(
             $command,
             School\Course\Intake\Add\Form::class,
             $handler,
@@ -185,7 +185,7 @@ class SchoolController extends AbstractApiController
 
         $command = new School\Course\Intake\Edit\Command($intakeId, $courseId);
 
-        return $this->handle(
+        return $this->handleWithResponse(
             $command,
             School\Course\Intake\Edit\Form::class,
             $handler,
@@ -293,7 +293,7 @@ class SchoolController extends AbstractApiController
 
         $command = new School\Course\Edit\Command($courseId);
 
-        return $this->handle($command, School\Course\Edit\Form::class, $handler, $request);
+        return $this->handleWithResponse($command, School\Course\Edit\Form::class, $handler, $request);
     }
 
     #[Route('/sidebar', name: 'api_school_sidebar', methods: ['GET'])]

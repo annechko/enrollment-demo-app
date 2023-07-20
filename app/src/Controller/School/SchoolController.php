@@ -17,9 +17,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Webmozart\Assert\InvalidArgumentException;
 
+#[Route('/school')]
 class SchoolController extends AbstractController
 {
-    #[Route('/school/register', name: 'school_register')]
+    #[Route('/register', name: 'school_register')]
     public function register(
         Request $request,
         Register\Handler $handler
@@ -54,94 +55,11 @@ class SchoolController extends AbstractController
             }
         }
 
-        return $this->render('base.html.twig', ['title' => 'Register']);
+        return $this->render('base.html.twig');
     }
 
-    #[Route('/school/campuses', name: 'school_campus_list_show', methods: ['GET'])]
-    public function campusListShow(): Response
-    {
-        $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
-
-        return $this->render('base.html.twig', [
-            'title' => 'School dashboard',
-        ]);
-    }
-
-    #[Route('/school/students', name: 'school_student_list_show', methods: ['GET'])]
-    public function studentListShow(): Response
-    {
-        $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
-
-        return $this->render('base.html.twig', [
-            'title' => 'School dashboard',
-        ]);
-    }
-
-    #[Route('/school/courses', name: 'school_course_list_show', methods: ['GET'])]
-    public function courseListShow(): Response
-    {
-        $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
-
-        return $this->render('base.html.twig', [
-            'title' => 'School dashboard',
-        ]);
-    }
-
-    #[Route('/school/campuses/add', name: 'school_campus_add', methods: ['GET'])]
-    public function campusAddShow(): Response
-    {
-        $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
-
-        return $this->render('base.html.twig', [
-            'title' => 'School dashboard',
-        ]);
-    }
-
-    #[Route('/school/courses/add', name: 'school_course_add', methods: ['GET'])]
-    public function courseAddShow(): Response
-    {
-        $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
-
-        return $this->render('base.html.twig', [
-            'title' => 'School dashboard',
-        ]);
-    }
-
-    #[Route('/school/campuses/{campusId}/edit', name: 'school_campus_edit',
-        requirements: ['campusId' => UuidPattern::PATTERN_WITH_TEMPLATE],
-        methods: ['GET'])]
-    public function campusEditShow(string $campusId): Response
-    {
-        $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
-
-        return $this->render('base.html.twig', [
-            'title' => 'Edit campus',
-        ]);
-    }
-
-    #[Route('/school/courses/{courseId}/edit', name: 'school_course_edit',
-        requirements: ['courseId' => UuidPattern::PATTERN_WITH_TEMPLATE],
-        methods: ['GET'])]
-    public function courseEditShow(string $courseId): Response
-    {
-        $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
-
-        return $this->render('base.html.twig', [
-            'title' => 'Edit course',
-        ]);
-    }
-
-    #[Route('/school/', name: RouteEnum::SCHOOL_HOME)]
-    public function home(): Response
-    {
-        $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
-
-        return $this->render('base.html.twig', [
-            'title' => 'School dashboard',
-        ]);
-    }
-// todo rename to invite
-    #[Route('/school/{schoolId}/invitation/{invitationToken}', name: 'school_member_register',
+    // todo rename to invite
+    #[Route('/{schoolId}/invitation/{invitationToken}', name: 'school_member_register',
         requirements: [
             'schoolId' => UuidPattern::PATTERN,
             'invitationToken' => UuidPattern::PATTERN,
@@ -166,6 +84,74 @@ class SchoolController extends AbstractController
                 $this->addFlash('error', $exception->getMessage());
             }
         }
+
+        return $this->render('base.html.twig');
+    }
+
+    #[Route('/campuses', name: 'school_campus_list_show', methods: ['GET'])]
+    public function campusListShow(): Response
+    {
+        $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
+
+        return $this->render('base.html.twig');
+    }
+
+    #[Route('/students', name: 'school_student_list_show', methods: ['GET'])]
+    public function studentListShow(): Response
+    {
+        $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
+
+        return $this->render('base.html.twig');
+    }
+
+    #[Route('/courses', name: 'school_course_list_show', methods: ['GET'])]
+    public function courseListShow(): Response
+    {
+        $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
+
+        return $this->render('base.html.twig');
+    }
+
+    #[Route('/campuses/add', name: 'school_campus_add', methods: ['GET'])]
+    public function campusAddShow(): Response
+    {
+        $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
+
+        return $this->render('base.html.twig');
+    }
+
+    #[Route('/courses/add', name: 'school_course_add', methods: ['GET'])]
+    public function courseAddShow(): Response
+    {
+        $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
+
+        return $this->render('base.html.twig');
+    }
+
+    #[Route('/campuses/{campusId}/edit', name: 'school_campus_edit',
+        requirements: ['campusId' => UuidPattern::PATTERN_WITH_TEMPLATE],
+        methods: ['GET'])]
+    public function campusEditShow(string $campusId): Response
+    {
+        $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
+
+        return $this->render('base.html.twig');
+    }
+
+    #[Route('/courses/{courseId}/edit', name: 'school_course_edit',
+        requirements: ['courseId' => UuidPattern::PATTERN_WITH_TEMPLATE],
+        methods: ['GET'])]
+    public function courseEditShow(string $courseId): Response
+    {
+        $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
+
+        return $this->render('base.html.twig');
+    }
+
+    #[Route('/', name: RouteEnum::SCHOOL_HOME)]
+    public function home(): Response
+    {
+        $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
 
         return $this->render('base.html.twig');
     }

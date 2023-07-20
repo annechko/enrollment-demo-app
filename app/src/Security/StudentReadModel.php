@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Security;
 
+use App\Domain\Student\Entity\Student\Student;
 use Symfony\Component\Security\Core\User\EquatableInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -22,6 +23,19 @@ class StudentReadModel implements UserInterface, PasswordAuthenticatedUserInterf
         public readonly bool $isEmailVerified,
         public readonly array $roles,
     ) {
+    }
+
+    public static function createFromStudent(Student $student): self
+    {
+        return new StudentReadModel(
+            $student->getId()->getValue(),
+            $student->getEmail(),
+            $student->getPasswordHash(),
+            $student->getName(),
+            $student->getSurname(),
+            $student->isEmailVerified(),
+            $student->getRoles(),
+        );
     }
 
     /**
@@ -46,6 +60,11 @@ class StudentReadModel implements UserInterface, PasswordAuthenticatedUserInterf
         return $this->passwordHash;
     }
 
+    public function isEmailVerified(): bool
+    {
+        return $this->isEmailVerified;
+    }
+
     public function isEqualTo(UserInterface $user): bool
     {
         if (!$user instanceof self) {
@@ -60,10 +79,5 @@ class StudentReadModel implements UserInterface, PasswordAuthenticatedUserInterf
             $this->email === $user->email &&
             $this->passwordHash === $user->passwordHash &&
             $areRolesEqual;
-    }
-
-    public function isEmailVerified(): bool
-    {
-        return $this->isEmailVerified;
     }
 }

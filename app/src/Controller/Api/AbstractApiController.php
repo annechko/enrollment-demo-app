@@ -14,12 +14,11 @@ abstract class AbstractApiController extends AbstractController
 {
     protected function handle(
         object $command,
-        string $class,
+        string $formClass,
         object $handler,
         Request $request,
-        callable $responseSuccessBuilder = null
-    ): JsonResponse {
-        $form = $this->createForm($class, $command);
+    ) {
+        $form = $this->createForm($formClass, $command);
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
@@ -32,23 +31,34 @@ abstract class AbstractApiController extends AbstractController
                         break;
                     }
                 }
-
-                return new JsonResponse([
-                    'error' => $error,
-                ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
+                throw new FormErrorException($error);
             }
-            try {
-                $result = $handler->handle($command);
-                $response = $responseSuccessBuilder ? $responseSuccessBuilder($result) : null;
-
-                return new JsonResponse($response);
-            } catch (InvalidArgumentException $exception) {
-                return new JsonResponse([
-                    'error' => $exception->getMessage(),
-                ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
-            }
+            return $handler->handle($command);
         }
+        throw new \LogicException('Form is not submitted.');
+    }
 
-        return new JsonResponse([]);
+    protected function handleWithResponse(
+        object $command,
+        string $formClass,
+        object $handler,
+        Request $request,
+        callable $responseSuccessBuilder = null
+    ): JsonResponse {
+        try {
+            $result = $this->handle($command, $formClass, $handler, $request);
+            $response = $responseSuccessBuilder ? $responseSuccessBuilder($result) : null;
+
+            return new JsonResponse($response);
+        } catch (FormErrorException|InvalidArgumentException $exception) {
+            return new JsonResponse([
+                'error' => $exception->getMessage(),
+            ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
+        } catch (\Throwable $exception) {
+            // todo add logs
+            return new JsonResponse([
+                'error' => 'Something went wrong',
+            ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
+        }
     }
 }

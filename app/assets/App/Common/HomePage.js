@@ -55,7 +55,7 @@ const HomePage = () => {
           />
           <LinkCard title="Student" color="success"
             section="student"
-            href="#"
+            href={window.abeApp.urls.student_login}
             text={'Log in as a <b class="' + classStudent + '">Student</b> user, browse various <b' +
               ' class="' + classSchool + '">Schools</b> and their programms'
               + ', send your request to study at the chosen course, see your request statuses, etc.'
