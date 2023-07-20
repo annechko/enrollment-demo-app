@@ -8,6 +8,7 @@ doctrine:
             !php/const App\Domain\School\Entity\Campus\CampusIdType::NAME: 'App\Domain\School\Entity\Campus\CampusIdType'
             !php/const App\Domain\School\Entity\Course\CourseIdType::NAME: 'App\Domain\School\Entity\Course\CourseIdType'
             !php/const App\Domain\School\Entity\Course\Intake\IntakeIdType::NAME: 'App\Domain\School\Entity\Course\Intake\IntakeIdType'
+            !php/const App\Domain\Student\Entity\Student\StudentIdType::NAME: 'App\Domain\Student\Entity\Student\StudentIdType'
 
     orm:
         auto_generate_proxy_classes: true
@@ -20,6 +21,11 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Domain/School/Entity'
                 prefix: 'App\Domain\School\Entity'
                 alias: School
+            Student:
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Domain/Student/Entity'
+                prefix: 'App\Domain\Student\Entity'
+                alias: Student
             Admin:
                 is_bundle: false
                 dir: '%kernel.project_dir%/src/Domain/Admin/Entity'

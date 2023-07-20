@@ -5,9 +5,13 @@ security:
             algorithm: auto
         App\Security\SchoolStaffMemberReadModel:
             algorithm: auto
+        App\Security\StudentReadModel:
+            algorithm: auto
         App\Domain\Admin\Entity\AdminUser\AdminUser:
             algorithm: auto
         App\Domain\School\Entity\School\StaffMember:
+            algorithm: auto
+        App\Domain\Student\Entity\Student\Student:
             algorithm: auto
     # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
     providers:
@@ -16,6 +20,8 @@ security:
             id: App\Security\AdminProvider
         school_user_provider:
             id: App\Security\SchoolStaffMemberProvider
+        student_user_provider:
+            id: App\Security\StudentProvider
 
     firewalls:
         dev:
@@ -28,6 +34,15 @@ security:
             logout:
                 path: school_logout
                 target: school_login
+                invalidate_session: false
+        student:
+            lazy: true
+            pattern: ^/(api\/)?student
+            custom_authenticator: App\Security\StudentAuthenticator
+            user_checker: App\Security\StudentChecker
+            logout:
+                path: !php/const App\Infrastructure\RouteEnum::STUDENT_LOGOUT
+                target: !php/const App\Infrastructure\RouteEnum::STUDENT_LOGIN
                 invalidate_session: false
         admin:
             lazy: true
@@ -47,15 +62,20 @@ security:
         ROLE_SCHOOL_ADMIN:
             - ROLE_SCHOOL_USER
             - ROLE_USER
+        ROLE_STUDENT:
+            - ROLE_USER
 
     access_control:
         - { route: !php/const App\Infrastructure\RouteEnum::HOME, roles: PUBLIC_ACCESS }
+        - { route: !php/const App\Infrastructure\RouteEnum::STUDENT_LOGIN, roles: PUBLIC_ACCESS }
+        - { route: !php/const App\Infrastructure\RouteEnum::ADMIN_LOGIN, roles: PUBLIC_ACCESS }
+        - { route: !php/const App\Infrastructure\RouteEnum::SCHOOL_LOGIN, roles: PUBLIC_ACCESS }
         - { route: school_member_register, roles: PUBLIC_ACCESS }
-        - { path: ^/admin/login, roles: PUBLIC_ACCESS }
-        - { path: ^/school/login, roles: PUBLIC_ACCESS }
-        - { path: ^/school/register, roles: PUBLIC_ACCESS }
+        - { route: !php/const App\Infrastructure\RouteEnum::SCHOOL_REGISTER, roles: PUBLIC_ACCESS }
+        - { route: !php/const App\Infrastructure\RouteEnum::STUDENT_REGISTER, roles: PUBLIC_ACCESS }
 
         - { path: ^/(api\/)?school, roles: ROLE_SCHOOL_ADMIN }
+        - { path: ^/(api\/)?student, roles: ROLE_STUDENT }
         - { path: ^/(api\/)?admin, roles: ROLE_ADMIN }
         - { path: .*, roles: ROLE_ADMIN }
 

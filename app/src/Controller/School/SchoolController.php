@@ -140,7 +140,7 @@ class SchoolController extends AbstractController
             'title' => 'School dashboard',
         ]);
     }
-
+// todo rename to invite
     #[Route('/school/{schoolId}/invitation/{invitationToken}', name: 'school_member_register',
         requirements: [
             'schoolId' => UuidPattern::PATTERN,

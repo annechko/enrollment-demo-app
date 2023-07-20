@@ -10,4 +10,5 @@ enum RoleEnum: string
     case SCHOOL_ADMIN = 'ROLE_SCHOOL_ADMIN';
     case SCHOOL_USER = 'ROLE_SCHOOL_USER';
     case USER = 'ROLE_USER';
+    case STUDENT_USER = 'ROLE_STUDENT_USER';
 }
