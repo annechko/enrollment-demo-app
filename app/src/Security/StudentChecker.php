@@ -19,7 +19,7 @@ class StudentChecker implements UserCheckerInterface
             return;
         }
         if (!$user->isEmailVerified()) {
-            throw new EmailNotVerifiedException();
+            throw new EmailNotVerifiedException('Email Not Verified.');
         }
     }
 }

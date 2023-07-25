@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Security;
 
-use Symfony\Component\Security\Core\Exception\AccountStatusException;
+use Symfony\Component\Security\Core\Exception\CustomUserMessageAccountStatusException;
 
-class EmailNotVerifiedException extends AccountStatusException
+class EmailNotVerifiedException extends CustomUserMessageAccountStatusException
 {
 
 }

@@ -79,13 +79,20 @@ const RegisterForm = ({onSubmit, state, formId}) => {
     </>
   )
 }
+const AfterRegisterMessage = () => {
+  return <>
+    Thank you! Please check your email to verify your email address.
+  </>
+}
 const Register = ({onSubmit, state, formId}) => {
   const navigate = useNavigate();
   useEffect(() => {
     if (state?.registered === true) {
-      navigate(window.abeApp.urls.student_home)
+      if (state?.emailVerificationEnabled === false) {
+        navigate(window.abeApp.urls.student_home)
+      }
     }
-  }, [state?.registered])
+  }, [state])
 
   return (
     <div className="bg-light min-vh-100 d-flex flex-row align-items-center">
@@ -94,10 +101,13 @@ const Register = ({onSubmit, state, formId}) => {
           <CCol md={9} lg={7} xl={6}>
             <CCard className="mx-4">
               <CCardBody className="p-4">
-                <RegisterForm
-                  onSubmit={onSubmit}
-                  state={state}
-                  formId={formId}/>
+                {state?.emailVerificationEnabled === true
+                  ? <AfterRegisterMessage/>
+                  : <RegisterForm
+                    onSubmit={onSubmit}
+                    state={state}
+                    formId={formId}/>
+                }
               </CCardBody>
             </CCard>
           </CCol>
@@ -109,7 +119,7 @@ const Register = ({onSubmit, state, formId}) => {
 const RegisterPage = () => {
   const [state, setState] = React.useState(LoadState.initialize())
   const onSuccess = (response) => {
-    setState({...LoadState.finishLoading(), registered: true})
+    setState({...LoadState.finishLoading(), ...response.data, registered: true})
   }
   const formId = 'register-form';
   const onSubmit = (event) => {

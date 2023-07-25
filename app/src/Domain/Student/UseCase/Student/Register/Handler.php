@@ -11,6 +11,7 @@ use App\Domain\Core\UuidGenerator;
 use App\Domain\Student\Entity\Student\Student;
 use App\Domain\Student\Entity\Student\StudentId;
 use App\Domain\Student\Repository\StudentRepository;
+use App\Domain\Student\Service\StudentEmailVerifier;
 use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
 
 class Handler
@@ -18,6 +19,7 @@ class Handler
     public function __construct(
         private readonly StudentRepository $studentRepository,
         private readonly Flusher $flusher,
+        private readonly StudentEmailVerifier $emailVerifier,
         private readonly UuidGenerator $uuidGenerator,
         private readonly PasswordHasherFactoryInterface $hasherFactory,
         private readonly FeatureToggleService $featureToggleService,
@@ -37,10 +39,14 @@ class Handler
 
         $this->studentRepository->save($student);
 
-        // todo send email if activated.
-        if (!$this->featureToggleService->isActivated(
+        if ($this->featureToggleService->isEnabled(
             FeatureToggleType::STUDENT_EMAIL_VERIFICATION
         )) {
+            $this->emailVerifier->sendEmailConfirmation(
+                $student->getId(),
+                $student->getEmail()
+            );
+        } else {
             $student->verifyEmail();
         }
 

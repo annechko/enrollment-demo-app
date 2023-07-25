@@ -55,7 +55,7 @@ class StudentProvider implements UserProviderInterface, PasswordUpgraderInterfac
     {
         $userFields = $this->userFetcher->findByEmail($identifier);
         if (count($userFields) === 0) {
-            throw new UserNotFoundException();
+            throw new UserNotFoundException('User Not Found.');
         }
         try {
             return new StudentReadModel(

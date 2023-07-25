@@ -24,7 +24,6 @@
                   student_home: '{{ path(constant('App\\Infrastructure\\RouteEnum::STUDENT_HOME')) }}',
                   student_register: '{{ path(constant('App\\Infrastructure\\RouteEnum::STUDENT_REGISTER')) }}',
                   api_student_register: '{{ path(constant('App\\Infrastructure\\RouteEnum::API_STUDENT_REGISTER')) }}',
-                  api_student_login: '{{ path(constant('App\\Infrastructure\\RouteEnum::API_STUDENT_LOGIN')) }}',
                 }
                 {% elseif currentSection == 'school' %}
                 const urls = {

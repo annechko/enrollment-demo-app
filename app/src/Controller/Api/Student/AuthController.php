@@ -35,23 +35,12 @@ class AuthController extends AbstractApiController
                 'error' => $exception->getMessage(),
             ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
         }
-
-        if (!$featureToggleService->isActivated(
+        $emailVerificationEnabled = $featureToggleService->isEnabled(
             FeatureToggleType::STUDENT_EMAIL_VERIFICATION
-        )) {
+        );
+        if (!$emailVerificationEnabled) {
             $security->login(StudentReadModel::createFromStudent($user));
         }
-        return new JsonResponse();
+        return new JsonResponse(['emailVerificationEnabled' => $emailVerificationEnabled]);
     }
-
-    #[Route(path: '/login', name: RouteEnum::API_STUDENT_LOGIN)]
-    public function login(): Response
-    {
-        //todo???????
-        if ($this->getUser()) {
-            return $this->redirectToRoute(RouteEnum::STUDENT_HOME);
-        }
-        return $this->render('base.html.twig');
-    }
-
 }

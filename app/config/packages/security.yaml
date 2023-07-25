@@ -71,6 +71,7 @@ security:
         - { route: school_member_register, roles: PUBLIC_ACCESS }
         - { route: !php/const App\Infrastructure\RouteEnum::SCHOOL_REGISTER, roles: PUBLIC_ACCESS }
         - { route: !php/const App\Infrastructure\RouteEnum::STUDENT_REGISTER, roles: PUBLIC_ACCESS }
+        - { route: !php/const App\Infrastructure\RouteEnum::STUDENT_VERIFY_EMAIL, roles: PUBLIC_ACCESS }
 
         - { path: ^/(api\/)?school, roles: ROLE_SCHOOL_ADMIN }
         - { path: ^/(api\/)?student, roles: ROLE_STUDENT_USER }

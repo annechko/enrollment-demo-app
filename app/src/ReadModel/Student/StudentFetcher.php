@@ -42,6 +42,6 @@ class StudentFetcher
             ->setParameter('email', $email)
             ->fetchAssociative();
 
-        return $result;
+        return $result === false ? [] : $result;
     }
 }

@@ -23,7 +23,7 @@ class RouteEnum
     public const STUDENT_REGISTER = 'student_register';
     public const STUDENT_LOGIN = 'student_login';
     public const STUDENT_LOGOUT = 'student_logout';
+    public const STUDENT_VERIFY_EMAIL = 'student_verify_email';
     public const API_STUDENT_REGISTER = 'api_student_register';
-    public const API_STUDENT_LOGIN = 'api_student_login';
 
 }

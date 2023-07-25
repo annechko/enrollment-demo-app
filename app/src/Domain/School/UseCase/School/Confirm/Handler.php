@@ -33,6 +33,7 @@ class Handler
         $this->flusher->flush();
 
         $admin = $school->getAdmin();
+        // in real life I would send emails in a separate process, with RabbitMQ for example.
         $this->emailSender->send($admin->getEmail()->getValue(), $token, $school->getId());
     }
 }

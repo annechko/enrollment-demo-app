@@ -100,7 +100,7 @@ const LoginPage = () => {
 
   const navigate = useNavigate();
   const onSuccess = (response) => {
-    navigate(response.data?.redirect || '/');
+    navigate(window.abeApp.urls.student_home);
   }
   const formId = 'login-form'
   const onSubmit = (event) => {
@@ -109,7 +109,7 @@ const LoginPage = () => {
       state,
       setState,
       formId,
-      url: window.abeApp.urls.api_student_login,
+      url: window.abeApp.urls.student_login,
       onSuccess: onSuccess
     })
   }
