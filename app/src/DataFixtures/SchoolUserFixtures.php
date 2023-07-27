@@ -17,10 +17,13 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
 
-class SchoolAdminUserFixtures extends Fixture
+class SchoolUserFixtures extends Fixture
 {
-    public const PASSWORD = 'school';
-    public const EMAIL = 'school@school.school';
+    private const PASSWORD = 'school';
+    private const EMAIL = 'school@school.school';
+    private const NAME = 'default school';
+    private const ADMIN_NAME = 'school admin name';
+    private const ADMIN_SURNAME = 'school admin surname';
 
     public function __construct(
         private readonly PasswordHasherFactoryInterface $hasherFactory,
@@ -32,9 +35,9 @@ class SchoolAdminUserFixtures extends Fixture
     {
         $school = School::register(
             new SchoolId($this->uuidGenerator->generate()),
-            new Name('default school'),
+            new Name(self::NAME),
             new StaffMemberId($this->uuidGenerator->generate()),
-            new StaffMemberName('school admin name', 'school admin lastname'),
+            new StaffMemberName(self::ADMIN_NAME, self::ADMIN_SURNAME),
             new Email(self::EMAIL)
         );
         $school->confirmRegister(

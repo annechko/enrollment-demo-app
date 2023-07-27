@@ -13,7 +13,8 @@ use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
 
 class AdminUserFixtures extends Fixture
 {
-    public const PASSWORD = 'admin';
+    private const PASSWORD = 'admin';
+    private const EMAIL = 'admin@admin.admin';
 
     public function __construct(
         private readonly PasswordHasherFactoryInterface $hasherFactory,
@@ -25,7 +26,7 @@ class AdminUserFixtures extends Fixture
     {
         $user = new AdminUser(
             new AdminUserId($this->uuidGenerator->generate()),
-            'admin@admin.admin',
+            self::EMAIL,
             $this->hasherFactory->getPasswordHasher(AdminUser::class)
                 ->hash(self::PASSWORD)
         );

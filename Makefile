@@ -37,7 +37,7 @@ phpstan:
 bash:
 	docker exec -it enroll-app-php-fpm /bin/bash
 
-admin:
+users:
 	docker exec -it enroll-app-php-fpm bin/console doctrine:fixtures:load -n
 
 watch:
