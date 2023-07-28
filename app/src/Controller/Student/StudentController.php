@@ -26,6 +26,14 @@ class StudentController extends AbstractController
         return $this->render('base.html.twig');
     }
 
+    #[Route('/application', name: RouteEnum::STUDENT_APPLICATION)]
+    public function application(): Response
+    {
+        $this->denyAccessUnlessGranted(RoleEnum::STUDENT_USER->value);
+
+        return $this->render('base.html.twig');
+    }
+
     #[Route('/verify/email', name: RouteEnum::STUDENT_VERIFY_EMAIL)]
     public function verifyEmail(
         Request $request,

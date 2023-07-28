@@ -1,4 +1,5 @@
 import {
+  cilApplications,
   cilArrowLeft,
   cilEducation,
   cilInstitution,
@@ -66,6 +67,13 @@ const AppSidebar = () => {
           name: navItem.title,
           to: navItem.to,
           icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon"/>
+        })
+      } else if (navItem.type === 'application') {
+        navigation.push({
+          component: CNavItem,
+          name: navItem.title,
+          to: navItem.to,
+          icon: <CIcon icon={cilApplications} customClassName="nav-icon"/>
         })
       } else if (navItem.type === 'campuses') {
         navigation.push({

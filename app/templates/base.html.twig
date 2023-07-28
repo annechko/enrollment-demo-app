@@ -23,7 +23,9 @@
                   logout: '{{ path(constant('App\\Infrastructure\\RouteEnum::STUDENT_LOGOUT')) }}',
                   student_home: '{{ path(constant('App\\Infrastructure\\RouteEnum::STUDENT_HOME')) }}',
                   student_register: '{{ path(constant('App\\Infrastructure\\RouteEnum::STUDENT_REGISTER')) }}',
+                  student_application: '{{ path(constant('App\\Infrastructure\\RouteEnum::STUDENT_APPLICATION')) }}',
                   api_student_register: '{{ path(constant('App\\Infrastructure\\RouteEnum::API_STUDENT_REGISTER')) }}',
+                  api_student_application_school_list: '{{ path('api_student_application_school_list') }}',
                 }
                 {% elseif currentSection == 'school' %}
                 const urls = {
