@@ -82,3 +82,6 @@ Run `make watch` to start yarn watch. That way you may instantly (-ish) see the 
 1. Add logs
 1. Add GA
 1. Add fake data - generate schools, courses, intakes, students, applications
+
+# Known issues
+1. After login need to update app state on front, to get current logged in user email.

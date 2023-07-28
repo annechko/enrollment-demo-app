@@ -13,11 +13,10 @@ use App\Domain\School\Entity\School\SchoolId;
 use App\Domain\School\Entity\School\StaffMember;
 use App\Domain\School\Entity\School\StaffMemberId;
 use App\Domain\School\Entity\School\StaffMemberName;
-use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
 
-class SchoolUserFixtures extends Fixture
+class SchoolUserFixtures extends AbstractUserGroupFixtures
 {
     private const PASSWORD = 'school';
     private const EMAIL = 'school@school.school';

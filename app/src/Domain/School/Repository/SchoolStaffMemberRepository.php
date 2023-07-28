@@ -6,6 +6,7 @@ namespace App\Domain\School\Repository;
 
 use App\Domain\Core\NotFoundException;
 use App\Domain\School\Entity\School\StaffMember;
+use App\Domain\School\Entity\School\StaffMemberId;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -37,6 +38,16 @@ class SchoolStaffMemberRepository extends ServiceEntityRepository
         }
 
         return $entity;
+    }
+
+    public function get(StaffMemberId $id): StaffMember
+    {
+        $member = $this->find($id);
+        if ($member === null) {
+            throw new NotFoundException('Staff member not found.');
+        }
+
+        return $member;
     }
 
     public function save(StaffMember $entity, bool $flush = false): void

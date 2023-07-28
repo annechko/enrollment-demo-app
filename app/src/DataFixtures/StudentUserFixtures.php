@@ -8,11 +8,10 @@ use App\Domain\Core\UuidGenerator;
 use App\Domain\School\Entity\School\StaffMember;
 use App\Domain\Student\Entity\Student\Student;
 use App\Domain\Student\Entity\Student\StudentId;
-use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
 
-class StudentUserFixtures extends Fixture
+class StudentUserFixtures extends AbstractUserGroupFixtures
 {
     private const PASSWORD = 'student';
     private const EMAIL = 'student@student.student';

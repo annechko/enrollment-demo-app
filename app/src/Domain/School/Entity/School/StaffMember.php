@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity()]
 #[ORM\Table(name: 'school_staff_member')]
-class StaffMember implements \Symfony\Component\Security\Core\User\UserInterface, \Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface
+class StaffMember
 {
     private const STATUS_CREATED = 'created';
     private const STATUS_INVITED = 'invited';
@@ -42,14 +42,22 @@ class StaffMember implements \Symfony\Component\Security\Core\User\UserInterface
     #[ORM\Column(options: ['default' => '[]'])]
     private array $roles = [];
 
-    public function __construct(StaffMemberId $id, StaffMemberName $name, Email $email)
-    {
+    #[ORM\Column(type: SchoolIdType::NAME)]
+    private SchoolId $schoolId;
+
+    public function __construct(
+        SchoolId $schoolId,
+        StaffMemberId $id,
+        StaffMemberName $name,
+        Email $email
+    ) {
         $this->id = $id;
         $this->name = $name->getFirstName();
-        $this->surname = $name->getLastName();
+        $this->surname = $name->getSurname();
         $this->email = $email;
         $this->status = self::STATUS_CREATED;
         $this->roles = [RoleEnum::SCHOOL_USER->value];
+        $this->schoolId = $schoolId;
     }
 
     public function getName(): string
@@ -110,15 +118,6 @@ class StaffMember implements \Symfony\Component\Security\Core\User\UserInterface
         return $this->roles;
     }
 
-    public function eraseCredentials(): void
-    {
-    }
-
-    public function getUserIdentifier(): string
-    {
-        return $this->email->getValue();
-    }
-
     public function getPassword(): ?string
     {
         return $this->passwordHash;
@@ -130,5 +129,10 @@ class StaffMember implements \Symfony\Component\Security\Core\User\UserInterface
         $this->passwordHash = $newHashedPassword;
 
         return $this;
+    }
+
+    public function isFromSchool(School $school): bool
+    {
+        return $this->schoolId->getValue() === $school->getId()->getValue();
     }
 }

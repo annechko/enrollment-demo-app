@@ -104,6 +104,14 @@ class SchoolController extends AbstractController
         return $this->render('base.html.twig');
     }
 
+    #[Route('/profile', name: 'school_profile_show', methods: ['GET'])]
+    public function profileShow(): Response
+    {
+        $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
+
+        return $this->render('base.html.twig');
+    }
+
     #[Route('/courses', name: 'school_course_list_show', methods: ['GET'])]
     public function courseListShow(): Response
     {

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Domain\School\Entity\Campus;
 
+use App\Domain\School\Entity\School\SchoolId;
+use App\Domain\School\Entity\School\SchoolIdType;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -16,6 +18,9 @@ class Campus
     #[ORM\Id()]
     private CampusId $id;
 
+    #[ORM\Column(type: SchoolIdType::NAME, nullable: false)]
+    private SchoolId $schoolId;
+
     #[ORM\Column(type: Types::STRING, nullable: false)]
     private string $name;
 
@@ -23,10 +28,12 @@ class Campus
     private ?string $address;
 
     public function __construct(
+        SchoolId $schoolId,
         CampusId $id,
         string $name,
         ?string $address = null,
     ) {
+        $this->schoolId = $schoolId;
         $this->id = $id;
         $this->name = $name;
         $this->address = $address;

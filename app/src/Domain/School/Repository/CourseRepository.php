@@ -7,6 +7,7 @@ namespace App\Domain\School\Repository;
 use App\Domain\Core\NotFoundException;
 use App\Domain\School\Entity\Course\Course;
 use App\Domain\School\Entity\Course\CourseId;
+use App\Domain\School\Entity\School\SchoolId;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -48,9 +49,12 @@ class CourseRepository extends ServiceEntityRepository
     /**
      * @return Course[]
      */
-    public function findAllOrderedByName(): array
+    public function findAllOrderedByName(SchoolId $schoolId): array
     {
         return $this->createQueryBuilder('c')
+            ->select('c')
+            ->andWhere('c.schoolId = :schoolId')
+            ->setParameter('schoolId', $schoolId)
             ->orderBy('LOWER(c.name)')
             ->getQuery()
             ->execute();

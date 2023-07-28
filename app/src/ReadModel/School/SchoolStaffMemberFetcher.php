@@ -28,6 +28,7 @@ class SchoolStaffMemberFetcher
     {
         $result = $this->connection->createQueryBuilder()
             ->select(
+                'school_id',
                 'id',
                 'email',
                 'password_hash',

@@ -11,10 +11,13 @@ use App\Domain\School\Common\RoleEnum;
 use App\Domain\School\Entity\Campus\CampusId;
 use App\Domain\School\Entity\Course\CourseId;
 use App\Domain\School\Entity\Course\Intake\IntakeId;
+use App\Domain\School\Entity\School\SchoolId;
 use App\Domain\School\Repository\CampusRepository;
 use App\Domain\School\Repository\CourseRepository;
+use App\Domain\School\Repository\SchoolRepository;
 use App\Domain\School\UseCase\School;
 use App\Infrastructure\RouteEnum;
+use App\Security\SchoolStaffMemberReadModel;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -26,6 +29,44 @@ use Webmozart\Assert\InvalidArgumentException;
 #[Route('/api/school')]
 class SchoolController extends AbstractApiController
 {
+    #[Route('/profile', name: 'api_school_profile_edit', methods: ['POST'])]
+    public function profileEdit(
+        Request $request,
+        School\Profile\Edit\Handler $handler
+    ): Response {
+        $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_ADMIN->value);
+
+        $command = new School\Profile\Edit\Command(
+            $this->getCurrentSchoolId()->getValue(),
+            $this->getCurrentUser()->id
+        );
+
+        return $this->handleWithResponse(
+            $command,
+            School\Profile\Edit\Form::class,
+            $handler,
+            $request
+        );
+    }
+
+    #[Route('/profile', name: 'api_school_profile', methods: ['GET'])]
+    public function profileGet(
+        SchoolRepository $schoolRepository,
+    ): Response {
+        $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_ADMIN->value);
+
+        try {
+            $school = $schoolRepository->get($this->getCurrentSchoolId());
+        } catch (\Throwable $exception) {
+            // todo add logs.
+            return new JsonResponse([], Response::HTTP_NOT_FOUND);
+        }
+
+        return new JsonResponse([
+            'name' => $school->getName()->getValue(),
+        ]);
+    }
+
     #[Route('/campuses/{campusId}', name: 'api_school_campus_edit',
         requirements: ['campusId' => UuidPattern::PATTERN_WITH_TEMPLATE],
         methods: ['POST'])]
@@ -38,7 +79,12 @@ class SchoolController extends AbstractApiController
 
         $command = new School\Campus\Edit\Command($campusId);
 
-        return $this->handleWithResponse($command, School\Campus\Edit\Form::class, $handler, $request);
+        return $this->handleWithResponse(
+            $command,
+            School\Campus\Edit\Form::class,
+            $handler,
+            $request
+        );
     }
 
     #[Route('/campuses', name: 'api_school_campus_add', methods: ['POST'])]
@@ -48,15 +94,20 @@ class SchoolController extends AbstractApiController
     ): Response {
         $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
 
-        $command = new School\Campus\Add\Command();
+        $command = new School\Campus\Add\Command($this->getCurrentSchoolId()->getValue());
 
-        return $this->handleWithResponse($command, School\Campus\Add\Form::class, $handler, $request);
+        return $this->handleWithResponse(
+            $command,
+            School\Campus\Add\Form::class,
+            $handler,
+            $request
+        );
     }
 
     #[Route('/campuses', name: 'api_school_campus_list', methods: ['GET'])]
     public function campusListGet(CampusRepository $repository): Response
     {
-        $c = $repository->findAllOrderedByName();
+        $c = $repository->findAllOrderedByName($this->getCurrentSchoolId());
         $res = [];
         foreach ($c as $item) {
             $res[] = [
@@ -90,7 +141,7 @@ class SchoolController extends AbstractApiController
     #[Route('/courses', name: 'api_school_course_list', methods: ['GET'])]
     public function courseListGet(CourseRepository $repository): Response
     {
-        $courses = $repository->findAllOrderedByName();
+        $courses = $repository->findAllOrderedByName($this->getCurrentSchoolId());
         $res = [];
         foreach ($courses as $course) {
             $res[] = [
@@ -110,7 +161,7 @@ class SchoolController extends AbstractApiController
     ): Response {
         $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
 
-        $command = new School\Course\Add\Command();
+        $command = new School\Course\Add\Command($this->getCurrentSchoolId()->getValue());
 
         return $this->handleWithResponse(
             $command,
@@ -293,7 +344,12 @@ class SchoolController extends AbstractApiController
 
         $command = new School\Course\Edit\Command($courseId);
 
-        return $this->handleWithResponse($command, School\Course\Edit\Form::class, $handler, $request);
+        return $this->handleWithResponse(
+            $command,
+            School\Course\Edit\Form::class,
+            $handler,
+            $request
+        );
     }
 
     #[Route('/sidebar', name: 'api_school_sidebar', methods: ['GET'])]
@@ -321,7 +377,25 @@ class SchoolController extends AbstractApiController
                     'to' => $this->generateUrl('school_student_list_show'),
                     'type' => 'students',
                 ],
+                [
+                    'title' => 'School profile',
+                    'to' => $this->generateUrl('school_profile_show'),
+                    'type' => 'settings',
+                ],
             ],
         ]);
+    }
+
+    private function getCurrentUser(): SchoolStaffMemberReadModel
+    {
+        if (!$this->getUser() instanceof SchoolStaffMemberReadModel) {
+            throw new \LogicException();
+        }
+        return $this->getUser();
+    }
+
+    private function getCurrentSchoolId(): SchoolId
+    {
+        return new SchoolId($this->getCurrentUser()->schoolId);
     }
 }

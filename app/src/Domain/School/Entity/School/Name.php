@@ -17,8 +17,8 @@ class Name
     public function __construct(string $value)
     {
         Assert::stringNotEmpty($value);
-        Assert::maxLength($value, 255);
         Assert::minLength($value, 2);
+        Assert::maxLength($value, 255);
         $this->value = $value;
     }
 

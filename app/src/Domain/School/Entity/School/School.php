@@ -37,6 +37,17 @@ class School
      */
     private \DateTimeImmutable $createdAt;
 
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
+    /**
+     * @phpstan-ignore property.onlyWritten
+     *
+     * @phpstan-ignore-next-line
+     */
+    private ?\DateTimeImmutable $updatedAt = null;
+
+    #[ORM\Column(type: StaffMemberIdType::NAME, nullable: true)]
+    private ?StaffMemberId $updatedBy = null;
+
     private function __construct(
         SchoolId $id,
         Name $name,
@@ -47,7 +58,7 @@ class School
         $this->id = $id;
         $this->name = $name;
         $this->status = self::STATUS_NEW;
-        $this->admin = new StaffMember($adminId, $adminName, $adminEmail);
+        $this->admin = new StaffMember($id, $adminId, $adminName, $adminEmail);
         $this->admin->changeRole(RoleEnum::SCHOOL_ADMIN);
         $this->createdAt = new \DateTimeImmutable();
     }
@@ -85,5 +96,13 @@ class School
     public function getId(): SchoolId
     {
         return $this->id;
+    }
+
+    public function edit(Name $name, StaffMemberId $memberId): self
+    {
+        $this->name = $name;
+        $this->updatedAt = new \DateTimeImmutable();
+        $this->updatedBy = $memberId;
+        return $this;
     }
 }

@@ -16,7 +16,7 @@ final class Version20230718135555 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        $this->addSql('ALTER TABLE school_school ADD created_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT CURRENT_TIMESTAMP(0)');
+        $this->addSql('ALTER TABLE school_school ADD created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL');
         $this->addSql('COMMENT ON COLUMN school_school.created_at IS \'(DC2Type:datetime_immutable)\'');
     }
 

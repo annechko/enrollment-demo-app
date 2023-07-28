@@ -26,7 +26,7 @@ class Handler
     {
         $school = $this->schoolRepository->get(new SchoolId($command->schoolId));
         $member = $this->staffMemberRepository->getByInvitationToken($command->invitationToken);
-        if (!$this->isMemberFromSchool($member, $school)) {
+        if (!$member->isFromSchool($school)) {
             throw new \DomainException('Staff member not found.');
         }
 
@@ -36,11 +36,5 @@ class Handler
         );
 
         $this->flusher->flush();
-    }
-
-    private function isMemberFromSchool(StaffMember $member, School $school): bool
-    {
-        // todo save school id to member on creation
-        return $school->getAdmin()->getId()->getValue() === $member->getId()->getValue();
     }
 }

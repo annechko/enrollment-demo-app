@@ -38,6 +38,9 @@ bash:
 	docker exec -it enroll-app-php-fpm /bin/bash
 
 users:
+	docker exec -it enroll-app-php-fpm bin/console doctrine:fixtures:load -n --group=user
+
+data:
 	docker exec -it enroll-app-php-fpm bin/console doctrine:fixtures:load -n
 
 watch:

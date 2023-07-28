@@ -8,7 +8,7 @@ class StaffMemberName
 {
     public function __construct(
         private readonly string $firstName,
-        private readonly string $lastName,
+        private readonly string $surname,
     ) {
     }
 
@@ -17,8 +17,8 @@ class StaffMemberName
         return $this->firstName;
     }
 
-    public function getLastName(): string
+    public function getSurname(): string
     {
-        return $this->lastName;
+        return $this->surname;
     }
 }

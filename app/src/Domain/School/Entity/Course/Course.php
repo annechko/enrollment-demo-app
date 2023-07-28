@@ -7,6 +7,8 @@ namespace App\Domain\School\Entity\Course;
 use App\Domain\School\Entity\Campus\Campus;
 use App\Domain\School\Entity\Course\Intake\Intake;
 use App\Domain\School\Entity\Course\Intake\IntakeId;
+use App\Domain\School\Entity\School\SchoolId;
+use App\Domain\School\Entity\School\SchoolIdType;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -20,6 +22,9 @@ class Course
     #[ORM\Column(type: CourseIdType::NAME)]
     #[ORM\Id()]
     private CourseId $id;
+
+    #[ORM\Column(type: SchoolIdType::NAME)]
+    private SchoolId $schoolId;
 
     #[ORM\Column(type: Types::STRING, nullable: false)]
     private string $name;
@@ -45,11 +50,13 @@ class Course
     private \DateTimeImmutable $createdAt;
 
     public function __construct(
+        SchoolId $schoolId,
         CourseId $id,
         string $name,
         ?string $description = null,
         ?\DateTimeImmutable $createdAt = null,
     ) {
+        $this->schoolId = $schoolId;
         $this->id = $id;
         $this->name = $name;
         $this->description = $description;
@@ -86,9 +93,9 @@ class Course
         IntakeId $id,
         \DateTimeImmutable $startDate,
         \DateTimeImmutable $endDate,
-        ?string $name,
-        ?int $classSize,
-        ?Campus $campus,
+        ?string $name = null,
+        ?int $classSize = null,
+        ?Campus $campus = null,
         ?\DateTimeImmutable $createdAt = null,
     ): self {
         $intake = new Intake(

@@ -3,6 +3,7 @@ import {
   cilEducation,
   cilInstitution,
   cilPeople,
+  cilSettings,
   cilSpeedometer
 } from "@coreui/icons";
 import CIcon from '@coreui/icons-react'
@@ -86,6 +87,13 @@ const AppSidebar = () => {
           name: navItem.title,
           to: navItem.to,
           icon: <CIcon icon={cilPeople} customClassName="nav-icon"/>
+        })
+      } else if (navItem.type === 'settings') {
+        navigation.push({
+          component: CNavItem,
+          name: navItem.title,
+          to: navItem.to,
+          icon: <CIcon icon={cilSettings} customClassName="nav-icon"/>
         })
       } else if (navItem.type === 'institution') {
         navigation.push({

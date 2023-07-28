@@ -60,6 +60,7 @@ class SchoolStaffMemberProvider implements UserProviderInterface, PasswordUpgrad
         }
         try {
             return new SchoolStaffMemberReadModel(
+                $userFields['school_id'],
                 $userFields['id'],
                 $userFields['email'],
                 $userFields['password_hash'],

@@ -7,11 +7,10 @@ namespace App\DataFixtures;
 use App\Domain\Admin\Entity\AdminUser\AdminUser;
 use App\Domain\Admin\Entity\AdminUser\AdminUserId;
 use App\Domain\Core\UuidGenerator;
-use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
 
-class AdminUserFixtures extends Fixture
+class AdminUserFixtures extends AbstractUserGroupFixtures
 {
     private const PASSWORD = 'admin';
     private const EMAIL = 'admin@admin.admin';

@@ -38,6 +38,7 @@
                   school_campus_edit: '{{ path('school_campus_edit', {'campusId': ':id'}) }}',
                   school_campus_list_show: '{{ path('school_campus_list_show') }}',
                   school_student_list_show: '{{ path('school_student_list_show') }}',
+                  school_profile_show: '{{ path('school_profile_show') }}',
                   api_school_course: '{{ path('api_school_course') }}',
                   api_school_course_add: '{{ path('api_school_course_add') }}',
                   api_school_course_edit: '{{ path('api_school_course_edit', {'courseId': ':id'}) }}',
@@ -51,6 +52,8 @@
                   api_school_campus_add: '{{ path('api_school_campus_add') }}',
                   api_school_campus_edit: '{{ path('api_school_campus_edit', {'campusId': ':id'}) }}',
                   api_school_campus_list: '{{ path('api_school_campus_list') }}',
+                  api_school_profile_edit: '{{ path('api_school_profile_edit') }}',
+                  api_school_profile: '{{ path('api_school_profile') }}',
                 }
                 {% else %}
                 const urls = {}

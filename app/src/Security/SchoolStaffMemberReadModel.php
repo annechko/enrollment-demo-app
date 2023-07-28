@@ -14,6 +14,7 @@ class SchoolStaffMemberReadModel implements UserInterface, PasswordAuthenticated
      * @param array<int, string> $roles
      */
     public function __construct(
+        public readonly string $schoolId,
         public readonly string $id,
         public readonly string $email,
         public readonly string $passwordHash,

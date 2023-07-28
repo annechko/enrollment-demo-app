@@ -8,11 +8,14 @@ use App\Domain\Core\Flusher;
 use App\Domain\Core\UuidGenerator;
 use App\Domain\School\Entity\Campus\Campus;
 use App\Domain\School\Entity\Campus\CampusId;
+use App\Domain\School\Entity\School\SchoolId;
 use App\Domain\School\Repository\CampusRepository;
+use App\Domain\School\Repository\SchoolRepository;
 
 class Handler
 {
     public function __construct(
+        private readonly SchoolRepository $schoolRepository,
         private readonly CampusRepository $campusRepository,
         private readonly Flusher $flusher,
         private readonly UuidGenerator $uuidGenerator,
@@ -21,7 +24,9 @@ class Handler
 
     public function handle(Command $command): void
     {
+        $school = $this->schoolRepository->get(new SchoolId($command->schoolId));
         $campus = new Campus(
+            $school->getId(),
             new CampusId($this->uuidGenerator->generate()),
             $command->name,
             $command->address
