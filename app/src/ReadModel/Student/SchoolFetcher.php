@@ -32,13 +32,12 @@ class SchoolFetcher
     }
 
     /**
-     * @return PaginationInterface<int, mixed>
+     * @return array<array<string>>
      */
     public function fetchSchools(
         SchoolFilter $filter,
-        int $page,
         int $size,
-    ): PaginationInterface {
+    ): array {
         $qb = $this->connection->createQueryBuilder()
             ->select(
                 's.id',
@@ -54,20 +53,20 @@ class SchoolFetcher
         $qb->andWhere('s.status = :status');
         $qb->setParameter('status', School::STATUS_ACTIVE);
 
-        $qb->orderBy('LOWER(s.name)', 'asc');
-        // todo remove pagination.
+        $qb->orderBy('LOWER(s.name)', 'asc')
+            ->setMaxResults($size);
 
-        return $this->paginator->paginate($qb, $page, $size);
+        return $qb->fetchAllAssociative();
     }
 
     /**
-     * @return PaginationInterface<int, mixed>
+     * @return array<array<string>>
+     * @throws \Doctrine\DBAL\Exception
      */
     public function fetchSchoolCourses(
         CourseFilter $filter,
-        int $page,
         int $size,
-    ): PaginationInterface {
+    ): array {
         $qb = $this->connection->createQueryBuilder()
             ->select(
                 'c.id',
@@ -85,14 +84,13 @@ class SchoolFetcher
             $qb->setParameter('name', '%' . mb_strtolower($filter->name) . '%');
         }
 
-        $qb->orderBy('LOWER(c.name)', 'asc');
-        // todo remove pagination.
+        $qb->orderBy('LOWER(c.name)', 'asc')
+            ->setMaxResults($size);
 
-        return $this->paginator->paginate($qb, $page, $size);
+        return $qb->fetchAllAssociative();
     }
 
     /**
-     * @param IntakeFilter $filter
      * @return array<array<string>>
      * @throws \Doctrine\DBAL\Exception
      */

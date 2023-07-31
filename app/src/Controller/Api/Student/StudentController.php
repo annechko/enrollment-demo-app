@@ -30,15 +30,13 @@ class StudentController extends AbstractApiController
 
         $form = $this->createForm(Filter\SchoolForm::class, $filter);
         $form->handleRequest($request);
-        // todo remove pagination.
-        $pagination = $fetcher->fetchSchools(
+        $schools = $fetcher->fetchSchools(
             $filter,
-            $request->query->getInt('page', 1),
             self::MAX_ITEMS,
         );
 
         $result = [];
-        foreach ($pagination->getItems() as $item) {
+        foreach ($schools as $item) {
             $result[] = [
                 'id' => $item['id'],
                 'name' => $item['name'],
@@ -63,15 +61,13 @@ class StudentController extends AbstractApiController
 
         $form = $this->createForm(Filter\CourseForm::class, $filter);
         $form->handleRequest($request);
-        // todo remove pagination.
-        $pagination = $fetcher->fetchSchoolCourses(
+        $courses = $fetcher->fetchSchoolCourses(
             $filter,
-            $request->query->getInt('page', 1),
             self::MAX_ITEMS,
         );
 
         $result = [];
-        foreach ($pagination->getItems() as $item) {
+        foreach ($courses as $item) {
             $result[] = [
                 'id' => $item['id'],
                 'name' => $item['name'],

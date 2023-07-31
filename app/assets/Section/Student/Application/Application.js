@@ -177,6 +177,10 @@ export default function Application() {
             loading={intakesState.loading}
             id="intakes"
             sx={{width: 600}}
+            value={intakeValue}
+            onChange={(event, newValue) => {
+              setIntakeValue(newValue);
+            }}
             options={intakes}
             renderInput={RenderInput()}
           />
