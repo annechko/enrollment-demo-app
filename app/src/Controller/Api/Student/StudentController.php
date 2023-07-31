@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\Api\Student;
 
 use App\Controller\Api\AbstractApiController;
+use App\Domain\Core\UuidPattern;
 use App\Domain\School\Common\RoleEnum;
 use App\ReadModel\Student\Filter;
 use App\ReadModel\Student\SchoolFetcher;
@@ -25,12 +26,12 @@ class StudentController extends AbstractApiController
     ): Response {
         $this->denyAccessUnlessGranted(RoleEnum::STUDENT_USER->value);
 
-        $filter = new Filter\Filter();
+        $filter = new Filter\SchoolFilter();
 
-        $form = $this->createForm(Filter\Form::class, $filter);
+        $form = $this->createForm(Filter\SchoolForm::class, $filter);
         $form->handleRequest($request);
         // todo remove pagination.
-        $pagination = $fetcher->fetch(
+        $pagination = $fetcher->fetchSchools(
             $filter,
             $request->query->getInt('page', 1),
             self::MAX_ITEMS,
@@ -41,6 +42,75 @@ class StudentController extends AbstractApiController
             $result[] = [
                 'id' => $item['id'],
                 'name' => $item['name'],
+            ];
+        }
+
+        return new JsonResponse($result);
+    }
+
+    #[Route('/application/schools/{schoolId}/courses',
+        name: 'api_student_application_course_list',
+        requirements: ['schoolId' => UuidPattern::PATTERN_WITH_TEMPLATE],
+    )]
+    public function applicationSchoolCoursesList(
+        Request $request,
+        string $schoolId,
+        SchoolFetcher $fetcher
+    ): Response {
+        $this->denyAccessUnlessGranted(RoleEnum::STUDENT_USER->value);
+
+        $filter = new Filter\CourseFilter($schoolId);
+
+        $form = $this->createForm(Filter\CourseForm::class, $filter);
+        $form->handleRequest($request);
+        // todo remove pagination.
+        $pagination = $fetcher->fetchSchoolCourses(
+            $filter,
+            $request->query->getInt('page', 1),
+            self::MAX_ITEMS,
+        );
+
+        $result = [];
+        foreach ($pagination->getItems() as $item) {
+            $result[] = [
+                'id' => $item['id'],
+                'name' => $item['name'],
+            ];
+        }
+
+        return new JsonResponse($result);
+    }
+
+    #[Route('/application/schools/{schoolId}/courses/{courseId}/intakes',
+        name: 'api_student_application_intake_list',
+        requirements: [
+            'schoolId' => UuidPattern::PATTERN_WITH_TEMPLATE,
+            'courseId' => UuidPattern::PATTERN_WITH_TEMPLATE,
+        ],
+    )]
+    public function applicationCourseIntakesList(
+        Request $request,
+        string $schoolId,
+        string $courseId,
+        SchoolFetcher $fetcher
+    ): Response {
+        $this->denyAccessUnlessGranted(RoleEnum::STUDENT_USER->value);
+
+        $filter = new Filter\IntakeFilter($schoolId, $courseId);
+
+        $form = $this->createForm(Filter\IntakeForm::class, $filter);
+        $form->handleRequest($request);
+        $intakes = $fetcher->fetchCourseIntakes(
+            $filter,
+        );
+
+        $result = [];
+        foreach ($intakes as $item) {
+            $result[] = [
+                'id' => $item['id'],
+                'name' => $item['name'],
+                'start' => $item['start_date'],
+                'end' => $item['end_date'],
             ];
         }
 

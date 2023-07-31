@@ -386,12 +386,10 @@ class SchoolFixtures extends Fixture implements FixtureGroupInterface
         'Bachelor of English Literature',
         'Bachelor of Science in Psychology',
         'Bachelor of Business Administration',
-        'Master of Civil Engineering',
         'Bachelor of Science in Biology',
         'Bachelor of Science in Mathematics',
         'Bachelor of Arts in History',
         'Bachelor of Science in Marketing',
-        'Master of Mechanical Engineering',
         'Bachelor of Science in Environmental Science',
         'Bachelor of Arts in Economics',
         'Bachelor of Arts in Sociology',
@@ -784,8 +782,13 @@ class SchoolFixtures extends Fixture implements FixtureGroupInterface
                 $campusIndex++;
                 $manager->persist($campus2);
             }
-            for ($j = 0; $j < 20; $j++) {
-                $courseIndex = rand(0, $coursesCount-1);
+            $courseIndexes = [];
+            while (count($courseIndexes) < 20) {
+                $courseIndex = rand(0, $coursesCount - 1);
+                $courseIndexes[$courseIndex] = true;
+            }
+            $courseIndexes = array_keys($courseIndexes);
+            foreach ($courseIndexes as $courseIndex) {
                 $course = new Course(
                     $school->getId(),
                     new CourseId($this->uuidGenerator->generate()),
@@ -799,7 +802,7 @@ class SchoolFixtures extends Fixture implements FixtureGroupInterface
                     new IntakeId($this->uuidGenerator->generate()),
                     $start,
                     $end,
-                    null,
+                    rand(0, 1) === 0 ? 'Thesis' : 'Full-time',
                     rand(5, 50)
                 );
                 $manager->persist($course);

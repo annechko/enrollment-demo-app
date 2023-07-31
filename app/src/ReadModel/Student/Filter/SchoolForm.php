@@ -9,17 +9,13 @@ use Symfony\Component\Form\Extension\Core\Type;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class Form extends AbstractType
+class SchoolForm extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('name', Type\TextType::class, [
                 'required' => false,
-                'attr' => [
-                    'placeholder' => 'Name',
-                    'onchange' => 'this.form.submit()',
-                ],
             ]);
     }
 
@@ -32,7 +28,7 @@ class Form extends AbstractType
     {
         $resolver->setDefaults(
             [
-                'data_class' => Filter::class,
+                'data_class' => SchoolFilter::class,
                 'method' => 'GET',
                 'csrf_protection' => false,
             ]

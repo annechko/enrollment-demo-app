@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\ReadModel\Student\Filter;
 
-class Filter
+class SchoolFilter
 {
     /**
      * @var string

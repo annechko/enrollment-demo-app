@@ -17,6 +17,7 @@ use Webmozart\Assert\Assert;
 
 #[ORM\Entity()]
 #[ORM\Table(name: 'school_course')]
+#[ORM\UniqueConstraint('uk_school_course_school_name', ['school_id', 'name'])]
 class Course
 {
     #[ORM\Column(type: CourseIdType::NAME)]

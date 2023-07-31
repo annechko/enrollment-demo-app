@@ -26,6 +26,8 @@
                   student_application: '{{ path(constant('App\\Infrastructure\\RouteEnum::STUDENT_APPLICATION')) }}',
                   api_student_register: '{{ path(constant('App\\Infrastructure\\RouteEnum::API_STUDENT_REGISTER')) }}',
                   api_student_application_school_list: '{{ path('api_student_application_school_list') }}',
+                  api_student_application_course_list: '{{ path('api_student_application_course_list', {'schoolId': ':schoolId'}) }}',
+                  api_student_application_intake_list: '{{ path('api_student_application_intake_list', {'schoolId': ':schoolId', 'courseId': ':courseId'}) }}',
                 }
                 {% elseif currentSection == 'school' %}
                 const urls = {
