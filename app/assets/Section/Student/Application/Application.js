@@ -3,9 +3,7 @@ import {
   useEffect,
   useState
 } from 'react';
-import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
-import ClearIcon from '@mui/material/Icon';
 import {
   CCard,
   CCardBody,
@@ -18,72 +16,65 @@ import * as LoadState from "../../../App/Helper/LoadState";
 import axios from "axios";
 
 const AutocompleteInput = ({value, setValue, dataUrl, disabled}) => {
-  const [schoolsRequestTimerId, setSchoolsRequestTimerId] = React.useState(null)
-  const [schoolsState, setSchoolsState] = useState(LoadState.initialize())
+  const [dataRequestTimerId, setDataRequestTimerId] = React.useState(null)
+  const [optionsState, setOptionsState] = useState(LoadState.initialize())
 
-  const [inputValue, setInputValue] = React.useState('');
-  const [schools, setSchools] = React.useState([]);
+  const [options, setOptions] = React.useState([]);
 
-  const loadSchools = (name) => {
-    setSchoolsState(LoadState.startLoading())
+  const loadOptions = (name) => {
+    setOptionsState(LoadState.startLoading())
     axios.get(dataUrl, {params: {'filter[name]': name}})
       .then((response) => {
-        setSchoolsState(LoadState.finishLoading(response.data))
-        let newSchools = [];
+        setOptionsState(LoadState.finishLoading(response.data))
+        let newOptions = [];
         if (response.data) {
-          newSchools = response.data.map((s) => {
+          newOptions = response.data.map((s) => {
             return {label: s.name, id: s.id}
           })
         }
-        setSchools(newSchools);
+        setOptions(newOptions);
       })
       .catch((error) => {
-        setSchoolsState(LoadState.error(error.response?.data?.error))
+        setOptionsState(LoadState.error(error.response?.data?.error))
       })
   }
   return <Autocomplete
     disabled={disabled}
-    loading={schoolsRequestTimerId !== null || schoolsState.loading}
-    id="school"
+    loading={dataRequestTimerId !== null || optionsState.loading}
+    id={'id' + Math.random().toString()}
     sx={{width: 600}}
     filterOptions={(x) => x}
-    options={schools}
+    options={options}
     isOptionEqualToValue={(option, value) => option.title === value.title}
     value={value}
     onChange={(event, newValue) => {
       setValue(newValue);
     }}
     onInputChange={(event, newInputValue) => {
-      setInputValue(newInputValue);
-      if (schoolsRequestTimerId !== null) {
-        clearTimeout(schoolsRequestTimerId);
+      if (dataRequestTimerId !== null) {
+        clearTimeout(dataRequestTimerId);
       }
-      setSchools([]);
-      const newSchoolsRequestTimerId = setTimeout(() => {
-        setSchoolsRequestTimerId(null)
+      setOptions([]);
+      const newOptionsRequestTimerId = setTimeout(() => {
+        setDataRequestTimerId(null)
         if (!newInputValue || newInputValue.length < 2) {
-          setSchools([]);
+          setOptions([]);
           return;
         }
-        loadSchools(newInputValue);
+        loadOptions(newInputValue);
       }, 1000)
-      setSchoolsRequestTimerId(newSchoolsRequestTimerId)
+      setDataRequestTimerId(newOptionsRequestTimerId)
     }}
     renderInput={RenderInput()}
   />
 }
 const RenderInput = () => {
-  const coreInput = (params) => {
+  return (params) => {
     return <div ref={params.InputProps.ref}>
       <CFormInput {...params.inputProps}
       />
     </div>
   }
-  const muiInput = (params) => <>
-    <TextField {...params} label="School name"/>
-    <ClearIcon fontSize="small"/>
-  </>
-  return coreInput
 }
 
 export default function Application() {
@@ -99,7 +90,6 @@ export default function Application() {
     setCourseValue(null)
     setIntakeValue(null)
     setIntakes([]);
-
 
     if (schoolValue && schoolValue.id) {
       setCourseDisabled(false)
