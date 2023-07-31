@@ -14,6 +14,20 @@ import AppErrorMessage from "../../../App/Common/AppErrorMessage";
 import * as LoadState from "../../../App/Helper/LoadState";
 import axios from "axios";
 
+const RenderInput = () => {
+  const coreInput = (params) => {
+    return <div ref={params.InputProps.ref}>
+      <CFormInput {...params.inputProps}
+      />
+    </div>
+  }
+  const muiInput = (params) => <>
+    <TextField {...params} label="School name"/>
+    <ClearIcon fontSize="small"/>
+  </>
+  return coreInput
+}
+
 export default function Application() {
   const [schoolsRequestTimerId, setSchoolsRequestTimerId] = React.useState(null)
   const [schoolsState, setSchoolsState] = useState(LoadState.initialize())
@@ -25,16 +39,6 @@ export default function Application() {
   const schoolsUrl = window.abeApp.urls.api_student_application_school_list
 
   const error = null
-  const coreInput = (params) => {
-    return <div ref={params.InputProps.ref}>
-      <CFormInput {...params.inputProps}
-      />
-    </div>
-  }
-  const muiInput = (params) => <>
-    <TextField {...params} label="School name"/>
-    <ClearIcon fontSize="small"/>
-  </>
 
   const courses = [];
   const intakes = [];
@@ -95,7 +99,7 @@ export default function Application() {
               }, 1000)
               setSchoolsRequestTimerId(newSchoolsRequestTimerId)
             }}
-            renderInput={coreInput}
+            renderInput={RenderInput()}
           />
         </div>
         <div className="mb-3">
@@ -106,7 +110,7 @@ export default function Application() {
             id="course"
             options={courses}
             sx={{width: 600}}
-            renderInput={coreInput}
+            renderInput={RenderInput()}
           />
         </div>
         <div className="mb-3">
@@ -117,7 +121,7 @@ export default function Application() {
             id="intake"
             options={intakes}
             sx={{width: 600}}
-            renderInput={coreInput}
+            renderInput={RenderInput()}
           />
         </div>
       </CCardBody>
