@@ -28,6 +28,7 @@
                   api_student_application_school_list: '{{ path('api_student_application_school_list') }}',
                   api_student_application_course_list: '{{ path('api_student_application_course_list', {'schoolId': ':schoolId'}) }}',
                   api_student_application_intake_list: '{{ path('api_student_application_intake_list', {'schoolId': ':schoolId', 'courseId': ':courseId'}) }}',
+                  api_student_application: '{{ path('api_student_application') }}',
                 }
                 {% elseif currentSection == 'school' %}
                 const urls = {

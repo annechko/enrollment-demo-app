@@ -12,7 +12,7 @@ class CourseFilter
     /**
      * @var string
      */
-    #[Assert\Regex(pattern: UuidPattern::PATTERN_REG_EXP)]
+    #[Assert\Regex(pattern: UuidPattern::PATTERN_REG_EXP, message: 'SchoolId value is not valid.')]
     public $schoolId;
 
     /**

@@ -9,6 +9,7 @@ doctrine:
             !php/const App\Domain\School\Entity\Course\CourseIdType::NAME: 'App\Domain\School\Entity\Course\CourseIdType'
             !php/const App\Domain\School\Entity\Course\Intake\IntakeIdType::NAME: 'App\Domain\School\Entity\Course\Intake\IntakeIdType'
             !php/const App\Domain\Student\Entity\Student\StudentIdType::NAME: 'App\Domain\Student\Entity\Student\StudentIdType'
+            !php/const App\Domain\Student\Entity\Application\ApplicationIdType::NAME: 'App\Domain\Student\Entity\Application\ApplicationIdType'
 
     orm:
         auto_generate_proxy_classes: true

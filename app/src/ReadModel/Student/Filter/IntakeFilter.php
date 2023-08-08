@@ -12,13 +12,13 @@ class IntakeFilter
     /**
      * @var string
      */
-    #[Assert\Regex(pattern: UuidPattern::PATTERN_REG_EXP)]
+    #[Assert\Regex(pattern: UuidPattern::PATTERN_REG_EXP, message: 'SchoolId value is not valid.')]
     public $schoolId;
 
     /**
      * @var string
      */
-    #[Assert\Regex(pattern: UuidPattern::PATTERN_REG_EXP)]
+    #[Assert\Regex(pattern: UuidPattern::PATTERN_REG_EXP, message: 'CourseId value is not valid.')]
     public $courseId;
 
     public function __construct(string $schoolId, string $courseId)

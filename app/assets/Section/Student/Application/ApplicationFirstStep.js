@@ -39,6 +39,7 @@ const AutocompleteInput = ({value, dataUrl, disabled, onChange}) => {
     loading={dataRequestTimerId !== null || optionsState.loading}
     id={'id' + Math.random().toString()}
     sx={{width: 600}}
+    noOptionsText={'No options (type two or more symbols)'}
     filterOptions={(x) => x}
     options={options}
     isOptionEqualToValue={(option, value) => option.title === value.title}
@@ -95,13 +96,13 @@ export default function ApplicationFirstStep({finishStep, blockStep, stepData, s
   const [intakesState, setIntakesState] = useState(LoadState.initialize())
   const [intakes, setIntakes] = React.useState([]);
 
-  const [schoolValue, setSchoolValue] = React.useState(fromStepDataToAutocompleteValue(stepData.school));
-  const [courseValue, setCourseValue] = React.useState(fromStepDataToAutocompleteValue(stepData.course));
-  const [intakeValue, setIntakeValue] = React.useState(fromStepDataToAutocompleteValue(stepData.intake));
+  const [schoolValue, setSchoolValue] = React.useState(fromStepDataToAutocompleteValue(stepData.schoolId));
+  const [courseValue, setCourseValue] = React.useState(fromStepDataToAutocompleteValue(stepData.courseId));
+  const [intakeValue, setIntakeValue] = React.useState(fromStepDataToAutocompleteValue(stepData.intakeId));
   const [courseDisabled, setCourseDisabled] = React.useState(getCourseDisabledBasedOnSchool(schoolValue));
   const [intakeDisabled, setIntakeDisabled] = React.useState(getIntakeDisabledBasedOnCourse(courseValue));
   useEffect(() => {
-    if (stepData.school && stepData.course && stepData.intake) {
+    if (stepData.schoolId && stepData.courseId && stepData.intakeId) {
       finishStep()
     }
   }, [this])
@@ -159,9 +160,9 @@ export default function ApplicationFirstStep({finishStep, blockStep, stepData, s
       blockStep()
     } else {
       setStepData({
-        school: {formValue: schoolValue.id, value: schoolValue.label, title: 'School'},
-        course: {formValue: courseValue.id, value: courseValue.label, title: 'Course'},
-        intake: {formValue: newValue.id, value: newValue.label, title: 'Intake'},
+        schoolId: {formValue: schoolValue.id, value: schoolValue.label, title: 'School'},
+        courseId: {formValue: courseValue.id, value: courseValue.label, title: 'Course'},
+        intakeId: {formValue: newValue.id, value: newValue.label, title: 'Intake'},
       })
       finishStep()
     }

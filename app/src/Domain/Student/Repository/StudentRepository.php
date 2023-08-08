@@ -4,7 +4,11 @@ declare(strict_types=1);
 
 namespace App\Domain\Student\Repository;
 
+use App\Domain\Core\NotFoundException;
+use App\Domain\School\Entity\School\School;
+use App\Domain\School\Entity\School\SchoolId;
 use App\Domain\Student\Entity\Student\Student;
+use App\Domain\Student\Entity\Student\StudentId;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -39,5 +43,15 @@ class StudentRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    public function get(StudentId $id): Student
+    {
+        $school = $this->find($id);
+        if ($school === null) {
+            throw new NotFoundException('Student not found.');
+        }
+
+        return $school;
     }
 }

@@ -19,7 +19,7 @@ class Command
     public $address;
 
     /** @var string */
-    #[Assert\NotBlank(message: 'Name should not be blank.')]
+    #[Assert\NotBlank(message: 'SchoolId should not be blank.')]
     #[Assert\Regex(pattern: UuidPattern::PATTERN_REG_EXP)]
     public $schoolId;
 

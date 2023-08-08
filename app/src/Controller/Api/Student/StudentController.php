@@ -4,22 +4,29 @@ declare(strict_types=1);
 
 namespace App\Controller\Api\Student;
 
-use App\Controller\Api\AbstractApiController;
+use App\Controller\Api\AbstractJsonApiController;
 use App\Domain\Core\UuidPattern;
 use App\Domain\School\Common\RoleEnum;
+use App\Domain\Student\Entity\Student\StudentId;
+use App\Domain\Student\UseCase\Application;
 use App\ReadModel\Student\Filter;
 use App\ReadModel\Student\SchoolFetcher;
+use App\Security\StudentReadModel;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 #[Route('/api/student')]
-class StudentController extends AbstractApiController
+class StudentController extends AbstractJsonApiController
 {
     private const MAX_ITEMS = 20;
 
-    #[Route('/application/schools', name: 'api_student_application_school_list')]
+    #[Route('/applications/schools', name: 'api_student_application_school_list')]
     public function applicationSchoolList(
         Request $request,
         SchoolFetcher $fetcher
@@ -30,6 +37,19 @@ class StudentController extends AbstractApiController
 
         $form = $this->createForm(Filter\SchoolForm::class, $filter);
         $form->handleRequest($request);
+        if (!$form->isSubmitted() || !$form->isValid()) {
+            $violationList = $form->getErrors(true);
+            $error = 'Invalid data.';
+            foreach ($violationList as $violation) {
+                if ($violation instanceof FormError) {
+                    $error = $violation->getMessage();
+                    break;
+                }
+            }
+            return new JsonResponse([
+                'error' => $error,
+            ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
+        }
         $schools = $fetcher->fetchSchools(
             $filter,
             self::MAX_ITEMS,
@@ -46,7 +66,7 @@ class StudentController extends AbstractApiController
         return new JsonResponse($result);
     }
 
-    #[Route('/application/schools/{schoolId}/courses',
+    #[Route('/applications/schools/{schoolId}/courses',
         name: 'api_student_application_course_list',
         requirements: ['schoolId' => UuidPattern::PATTERN_WITH_TEMPLATE],
     )]
@@ -61,6 +81,19 @@ class StudentController extends AbstractApiController
 
         $form = $this->createForm(Filter\CourseForm::class, $filter);
         $form->handleRequest($request);
+        if (!$form->isSubmitted() || !$form->isValid()) {
+            $violationList = $form->getErrors(true);
+            $error = 'Invalid data.';
+            foreach ($violationList as $violation) {
+                if ($violation instanceof FormError) {
+                    $error = $violation->getMessage();
+                    break;
+                }
+            }
+            return new JsonResponse([
+                'error' => $error,
+            ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
+        }
         $courses = $fetcher->fetchSchoolCourses(
             $filter,
             self::MAX_ITEMS,
@@ -77,7 +110,7 @@ class StudentController extends AbstractApiController
         return new JsonResponse($result);
     }
 
-    #[Route('/application/schools/{schoolId}/courses/{courseId}/intakes',
+    #[Route('/applications/schools/{schoolId}/courses/{courseId}/intakes',
         name: 'api_student_application_intake_list',
         requirements: [
             'schoolId' => UuidPattern::PATTERN_WITH_TEMPLATE,
@@ -111,5 +144,35 @@ class StudentController extends AbstractApiController
         }
 
         return new JsonResponse($result);
+    }
+
+    #[Route('/applications', name: 'api_student_application',format: 'json')]
+    public function applicationAdd(
+        Request $request,
+        Application\Add\Handler $handler,
+    ): Response {
+        $this->denyAccessUnlessGranted(RoleEnum::STUDENT_USER->value);
+
+        return $this->handleWithResponse(
+            Application\Add\Command::class,
+            $handler,
+            $request,
+            commandCallback: function (Application\Add\Command $command) {
+                $command->studentId = $this->getCurrentStudentId()->getValue();
+            }
+        );
+    }
+
+    private function getCurrentUser(): StudentReadModel
+    {
+        if (!$this->getUser() instanceof StudentReadModel) {
+            throw new \LogicException();
+        }
+        return $this->getUser();
+    }
+
+    private function getCurrentStudentId(): StudentId
+    {
+        return new StudentId($this->getCurrentUser()->id);
     }
 }

@@ -19,14 +19,12 @@ class Form extends AbstractType
                 'required' => false,
                 'attr' => [
                     'placeholder' => 'Id',
-                    'onchange' => 'this.form.submit()',
                 ],
             ])
             ->add('name', Type\TextType::class, [
                 'required' => false,
                 'attr' => [
                     'placeholder' => 'Name',
-                    'onchange' => 'this.form.submit()',
                 ],
             ])
             ->add('status', Type\ChoiceType::class, [
