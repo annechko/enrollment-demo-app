@@ -1,5 +1,8 @@
 import * as React from 'react';
-import {useState} from 'react';
+import {
+  useEffect,
+  useState
+} from 'react';
 import * as LoadState from "../../../App/Helper/LoadState";
 import axios from "axios";
 import Autocomplete from "@mui/material/Autocomplete";
@@ -9,7 +12,7 @@ import {
 } from "@coreui/react";
 
 const AutocompleteInput = ({value, dataUrl, disabled, onChange}) => {
-  const [dataRequestTimerId, setDataRequestTimerId] = React.useState(null)
+  const [dataRequestTimerId, setDataRequestTimerId] = React.useState(null) // todo useRef
   const [optionsState, setOptionsState] = useState(LoadState.initialize())
 
   const [options, setOptions] = React.useState([]);
@@ -88,7 +91,7 @@ function getIntakeDisabledBasedOnCourse(course) {
   return !(course && course.id)
 }
 
-export default function ApplicationFirstStep({finishStep, stepData}) {
+export default function ApplicationFirstStep({finishStep, blockStep, stepData, setStepData}) {
   const [intakesState, setIntakesState] = useState(LoadState.initialize())
   const [intakes, setIntakes] = React.useState([]);
 
@@ -97,13 +100,18 @@ export default function ApplicationFirstStep({finishStep, stepData}) {
   const [intakeValue, setIntakeValue] = React.useState(fromStepDataToAutocompleteValue(stepData.intake));
   const [courseDisabled, setCourseDisabled] = React.useState(getCourseDisabledBasedOnSchool(schoolValue));
   const [intakeDisabled, setIntakeDisabled] = React.useState(getIntakeDisabledBasedOnCourse(courseValue));
-
+  useEffect(() => {
+    if (stepData.school && stepData.course && stepData.intake) {
+      finishStep()
+    }
+  }, [this])
   const onSchoolChange = (selectedSchool) => {
     setSchoolValue(selectedSchool)
 
     setCourseValue(null)
     setIntakeValue(null)
-    setIntakes([]);
+    blockStep()
+    setIntakes([])
     setCourseDisabled(getCourseDisabledBasedOnSchool(selectedSchool))
   }
   let coursesUrl = null
@@ -117,11 +125,16 @@ export default function ApplicationFirstStep({finishStep, stepData}) {
 
     setIntakeValue(null)
     setIntakes([]);
+    blockStep()
 
-    if (selectedCourse && selectedCourse.id && schoolValue && schoolValue.id) {
+    loadIntakes(selectedCourse, schoolValue)
+    setIntakeDisabled(getIntakeDisabledBasedOnCourse(selectedCourse))
+  }
+  const loadIntakes = (course, school) => {
+    if (course && course.id && school && school.id) {
       intakesUrl = window.abeApp.urls.api_student_application_intake_list
-        .replace(':schoolId', schoolValue.id)
-        .replace(':courseId', selectedCourse.id)
+        .replace(':schoolId', school.id)
+        .replace(':courseId', course.id)
       setIntakesState(LoadState.startLoading())
       axios.get(intakesUrl)
         .then((response) => {
@@ -139,7 +152,19 @@ export default function ApplicationFirstStep({finishStep, stepData}) {
           setIntakesState(LoadState.error(error.response?.data?.error))
         })
     }
-    setIntakeDisabled(getIntakeDisabledBasedOnCourse(selectedCourse))
+  }
+  const onIntakeChange = (event, newValue) => {
+    setIntakeValue(newValue);
+    if (!newValue) {
+      blockStep()
+    } else {
+      setStepData({
+        school: {formValue: schoolValue.id, value: schoolValue.label, title: 'School'},
+        course: {formValue: courseValue.id, value: courseValue.label, title: 'Course'},
+        intake: {formValue: newValue.id, value: newValue.label, title: 'Intake'},
+      })
+      finishStep()
+    }
   }
 
   return <>
@@ -165,17 +190,15 @@ export default function ApplicationFirstStep({finishStep, stepData}) {
       <Autocomplete
         disabled={intakeDisabled}
         loading={intakesState.loading}
+        onOpen={() => {
+          if (!intakesState.loaded && !intakesState.loading) {
+            loadIntakes(courseValue, schoolValue)
+          }
+        }}
         id="intakes"
         sx={{width: 600}}
         value={intakeValue}
-        onChange={(event, newValue) => {
-          setIntakeValue(newValue);
-          finishStep({
-            school: {formValue: schoolValue.id, value: schoolValue.label, title: 'School'},
-            course: {formValue: courseValue.id, value: courseValue.label, title: 'Course'},
-            intake: {formValue: newValue.id, value: newValue.label, title: 'Intake'},
-          })
-        }}
+        onChange={onIntakeChange}
         options={intakes}
         renderInput={RenderInput()}
       />

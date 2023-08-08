@@ -1,4 +1,5 @@
 import * as React from 'react';
+import {useEffect} from 'react';
 import {
   CFormInput,
   CFormLabel
@@ -11,10 +12,14 @@ function isStepDataReady(updatedState) {
     && updatedState.passportExpiry
 }
 
-export default function ApplicationSecondStep({finishStep, stepData}) {
-  const [state, setState] = React.useState({});
+export default function ApplicationSecondStep({finishStep, blockStep, stepData, setStepData}) {
+  useEffect(() => {
+    if (isStepDataReady(stepData)) {
+      finishStep()
+    }
+  }, [this])
   const addData = (fieldName, title, value) => {
-    const updatedState = {...state}
+    const updatedState = {...stepData}
     delete updatedState[fieldName]
     if (value) {
       updatedState[fieldName] = {
@@ -23,16 +28,20 @@ export default function ApplicationSecondStep({finishStep, stepData}) {
         title: title
       }
     }
-    setState(updatedState)
+    setStepData(updatedState)
     if (isStepDataReady(updatedState)) {
-      finishStep(updatedState)
+      finishStep()
+    } else {
+      blockStep()
     }
   }
+
   return <>
     <div>
       <div className="mb-3">
         <CFormLabel htmlFor="passportNumber">Passport number</CFormLabel>
         <CFormInput
+          defaultValue={stepData.passportNumber?.value}
           name="passportNumber"
           type="text"
           id="passportNumber"
@@ -45,6 +54,7 @@ export default function ApplicationSecondStep({finishStep, stepData}) {
       <div className="mb-3">
         <CFormLabel htmlFor="passportExpiry">Passport expiry</CFormLabel>
         <CFormInput
+          defaultValue={stepData.passportExpiry?.value}
           name="passportExpiry"
           type="date"
           id="passportExpiry"
@@ -57,6 +67,7 @@ export default function ApplicationSecondStep({finishStep, stepData}) {
       <div className="mb-3">
         <CFormLabel htmlFor="fullName">Full name</CFormLabel>
         <CFormInput
+          defaultValue={stepData.fullName?.value}
           name="fullName"
           type="text"
           id="fullName"
@@ -69,6 +80,7 @@ export default function ApplicationSecondStep({finishStep, stepData}) {
       <div className="mb-3">
         <CFormLabel htmlFor="preferredName">Preferred name</CFormLabel>
         <CFormInput
+          defaultValue={stepData.preferredName?.value}
           name="preferredName"
           type="text"
           id="preferredName"
@@ -81,6 +93,7 @@ export default function ApplicationSecondStep({finishStep, stepData}) {
       <div className="mb-3">
         <CFormLabel htmlFor="dateOfBirth">Date of birth</CFormLabel>
         <CFormInput
+          defaultValue={stepData.dateOfBirth?.value}
           name="dateOfBirth"
           type="date"
           autoComplete="off"

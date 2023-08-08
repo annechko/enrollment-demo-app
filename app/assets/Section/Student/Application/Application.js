@@ -22,8 +22,13 @@ export default function Application() {
     ApplicationSecondStep
   ]
 
-  const finishStep = (stepState) => {
+  const blockStep = () => {
+    setNextStepButtonDisabled(true)
+  }
+  const finishStep = () => {
     setNextStepButtonDisabled(false)
+  }
+  const setStepData = (stepState) => {
     const newData = {...applicationData}
     newData[currentStep] = stepState
     setApplicationData(newData)
@@ -33,14 +38,16 @@ export default function Application() {
     if (nextStepButtonDisabled || nextStep >= steps.length) {
       return;
     }
-    setCurrentStep(nextStep)
     setNextStepButtonDisabled(true)
+    setCurrentStep(nextStep)
   }
   const onPreviousScreenClick = () => {
     if (currentStep <= 0) {
       return;
     }
-    setCurrentStep(currentStep - 1)
+    setNextStepButtonDisabled(true)
+    const newStep = currentStep - 1
+    setCurrentStep(newStep)
   }
   const StepComponent = steps[currentStep]
   const stepData = applicationData[currentStep] ?? {}
@@ -57,8 +64,10 @@ export default function Application() {
         <AppErrorMessage error={error}/>
         <StepComponent
           stepData={stepData}
-          finishStep={finishStep}/>
-
+          setStepData={setStepData}
+          finishStep={finishStep}
+          blockStep={blockStep}
+        />
         {
           showPreviousStepBtn &&
           <CButton color="primary" role="button"
@@ -74,7 +83,6 @@ export default function Application() {
           onClick={onNextScreenClick}
         >{currentStep < steps.length - 1 ? 'Next' : 'Submit'}
         </CButton>
-
       </CCardBody>
     </CCard>
   </>
