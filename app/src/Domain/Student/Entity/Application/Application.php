@@ -6,6 +6,7 @@ namespace App\Domain\Student\Entity\Application;
 
 use App\Domain\School\Entity\Course\Course;
 use App\Domain\School\Entity\Course\Intake\Intake;
+use App\Domain\School\Entity\School\Name;
 use App\Domain\School\Entity\School\School;
 use App\Domain\Student\Entity\Student\Student;
 use App\Domain\Student\Repository\StudentRepository;
@@ -59,6 +60,9 @@ class Application
     #[ORM\JoinColumn(nullable: false)]
     private Student $student;
 
+    #[ORM\Column(type: Types::STRING, enumType: ApplicationStatusEnum::class,options: ['default' => ApplicationStatusEnum::STATUS_NEW])]
+    private ApplicationStatusEnum $status;
+
     public function __construct(
         ApplicationId $id,
         Student $student,
@@ -82,11 +86,17 @@ class Application
         $this->preferredName = $preferredName;
         $this->createdAt = new \DateTimeImmutable();
         $this->student = $student;
+        $this->status = ApplicationStatusEnum::new();
     }
 
     public function getId(): ApplicationId
     {
         return $this->id;
+    }
+
+    public function getStatus(): ApplicationStatusEnum
+    {
+        return $this->status;
     }
 
 

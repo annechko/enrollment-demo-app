@@ -4,6 +4,7 @@ import {
   useState
 } from 'react';
 import {
+  CBadge,
   CButton,
   CCard,
   CCardBody,
@@ -57,6 +58,14 @@ const Applications = () => {
     </CCard>
   )
 }
+
+const ApplicationStatus = ({value}) => {
+  if (value === 'NEW') {
+    return <CBadge color="success" shape="rounded-pill">New</CBadge>
+  }
+  return <></>;
+}
+
 const ApplicationsRows = ({
                             applicationsState,
                           }) => {
@@ -79,7 +88,7 @@ const ApplicationsRows = ({
       <CTableDataCell>{item.createdAt}</CTableDataCell>
       <CTableDataCell>{item.intake.startDate}</CTableDataCell>
       <CTableDataCell>{item.intake.endDate}</CTableDataCell>
-      <CTableDataCell>{item.statusName}</CTableDataCell>
+      <CTableDataCell><ApplicationStatus value={item.status}/></CTableDataCell>
     </CTableRow>
   )
 

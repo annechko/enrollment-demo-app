@@ -66,7 +66,7 @@ Run `make watch` to start yarn watch. That way you may instantly (-ish) see the 
    ~~1. Autocomplete, search for intake~~
    ~~1. Next step to fill out the form~~
    ~~1. Passport number, passport expiry, full name, preferred name, date of birth~~
-1. See applications and statuses as student - reviewed, accepted, offer granted
+~~1. See applications and statuses as student - reviewed, accepted, offer granted~~
 1. See offer as student - download as pdf?
 1. Save drafts, show last step on page reload
 application_draft

@@ -171,7 +171,7 @@ class StudentController extends AbstractJsonApiController
                     'name' => $item['course_name'],
                 ],
                 'intake' => $intake,
-                'statusName' => 'New',
+                'status' => $item['status'],
             ];
         }
         return new JsonResponse($result);

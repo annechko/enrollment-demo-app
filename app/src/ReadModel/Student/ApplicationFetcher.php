@@ -39,6 +39,7 @@ class ApplicationFetcher
         $result = $this->connection->createQueryBuilder()
             ->select(
                 'a.id AS id',
+                'a.status AS status',
                 'a.created_at AS created_at',
                 's.name AS school_name',
                 's.id AS school_id',
