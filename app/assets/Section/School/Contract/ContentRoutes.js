@@ -14,6 +14,8 @@ const CourseListPage = React.lazy(() => import('../Course/List/CourseListPage'))
 const CourseAddPage = React.lazy(() => import('../Course/Add/CourseAddPage'))
 const CourseEditPage = React.lazy(() => import('../Course/Edit/CourseEditPage'))
 const SchoolProfile = React.lazy(() => import('../Profile/SchoolProfile'))
+const ApplicationList = React.lazy(() => import('../Application/ApplicationList'))
+const ApplicationEdit = React.lazy(() => import('../Application/ApplicationEdit'))
 
 const urls = window.abeApp.urls
 let key = 0
@@ -31,6 +33,8 @@ export default [
     <Route exact path={urls.school_campus_edit} element={<CampusEditPage/>}/>,
     <Route exact path={urls.school_home} element={<div>school_home</div>}/>,
     <Route exact path={urls.school_profile_show} element={<SchoolProfile/>}/>,
+    <Route exact path={urls.school_application_list_show} element={<ApplicationList/>}/>,
+    <Route exact path={urls.school_application_edit} element={<ApplicationEdit/>}/>,
     <Route exact path={urls.school_student_list_show} element={
       <div>students will be here</div>}/>,
     <Route exact path="/school/*" element={<Navigate to={urls.school_home} replace/>}/>

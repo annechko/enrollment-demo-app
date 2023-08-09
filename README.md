@@ -77,7 +77,7 @@ on application create - delete all drafts by userId
 
 ## School
 
-1. See applications as school - list
+~~1. See applications as school - list~~
 1. Accept application as school
 1. Send offer to student as school
 1. See stats on dashboard as school - how many applications by month, by course
@@ -88,6 +88,7 @@ on application create - delete all drafts by userId
 1. Add logs
 1. Add GA
 1. Add fake data - generate schools, courses, intakes, students, applications
+1. Remove all forms, use serialization
 
 # Known issues
 1. After login need to update app state on front, to get current logged in user email.

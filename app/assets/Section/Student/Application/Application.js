@@ -18,7 +18,7 @@ const ApplicationSecondStep = React.lazy(() => import('./ApplicationSecondStep')
 
 export default function Application() {
   const [currentStep, setCurrentStep] = React.useState(0);
-  const [applicationSubmitted, setApplicationSubmitted] = React.useState(true);
+  const [applicationSubmitted, setApplicationSubmitted] = React.useState(false);
   const [nextStepButtonDisabled, setNextStepButtonDisabled] = React.useState(true);
   const [applicationData, setApplicationData] = React.useState({});
   const [applicationSubmitState, setApplicationSubmitState] = useState(LoadState.initialize())

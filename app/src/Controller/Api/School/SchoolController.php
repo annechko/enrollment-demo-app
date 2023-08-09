@@ -16,8 +16,11 @@ use App\Domain\School\Repository\CampusRepository;
 use App\Domain\School\Repository\CourseRepository;
 use App\Domain\School\Repository\SchoolRepository;
 use App\Domain\School\UseCase\School;
+use App\Domain\Student\Entity\Application\ApplicationId;
 use App\Infrastructure\RouteEnum;
+use App\ReadModel\School\ApplicationFetcher;
 use App\Security\SchoolStaffMemberReadModel;
+use DateTimeImmutable;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -65,6 +68,100 @@ class SchoolController extends AbstractApiController
         return new JsonResponse([
             'name' => $school->getName()->getValue(),
         ]);
+    }
+
+    #[Route('/applications', name: 'api_school_application_list', methods: ['GET'])]
+    public function applicationList(
+        ApplicationFetcher $fetcher
+    ): Response {
+        $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_ADMIN->value);
+
+        $applications = $fetcher->findAll($this->getCurrentSchoolId());
+        $result = [];
+        $format = 'M d, Y';
+        foreach ($applications as $item) {
+            $intake = [
+                'startDate' => (new DateTimeImmutable($item['intake_start_date']))->format($format),
+                'endDate' => (new DateTimeImmutable($item['intake_end_date']))->format($format),
+            ];
+            $result[] = [
+                'id' => $item['id'],
+                'createdAt' => (new DateTimeImmutable($item['created_at']))->format($format),
+                'student' => [
+                    'id' => $item['student_id'],
+                    'name' => $item['student_name'],
+                ],
+                'course' => [
+                    'id' => $item['course_id'],
+                    'name' => $item['course_name'],
+                ],
+                'intake' => $intake,
+                'status' => $item['status'],
+            ];
+        }
+        return new JsonResponse($result);
+    }
+
+    #[Route('/applications/{applicationId}', name: 'api_school_application',
+        requirements: ['applicationId' => UuidPattern::PATTERN_WITH_TEMPLATE],
+        methods: ['GET'])]
+    public function applicationGet(
+        string $applicationId,
+        ApplicationFetcher $fetcher
+    ): Response {
+        $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
+
+        $application = $fetcher->findOne(
+            new ApplicationId($applicationId),
+            $this->getCurrentSchoolId()
+        );
+        if (count($application) === 0) {
+            return new JsonResponse([]);
+        }
+        $format = 'M d, Y';
+
+        return new JsonResponse([
+            'id' => $application['id'],
+            'student' => [
+                'id' => $application['id'],
+                'passportNumber' => $application['passport_number'],
+                'passportExpiry' => (new DateTimeImmutable(
+                    $application['passport_expiry']
+                ))->format($format),
+                'dateOfBirth' => (new DateTimeImmutable($application['date_of_birth']))->format(
+                    $format
+                ),
+                'fullName' => $application['full_name'],
+                'preferredName' => $application['preferred_name'],
+            ],
+            'course' => [
+                'id' => $application['id'],
+            ],
+            'intake' => [
+                'id' => $application['id'],
+            ],
+            'createdAt' => (new DateTimeImmutable($application['created_at']))->format($format),
+        ]);
+    }
+
+    #[Route('/campuses/{applicationId}', name: 'api_school_application_edit',
+        requirements: ['applicationId' => UuidPattern::PATTERN_WITH_TEMPLATE],
+        methods: ['POST'])]
+    public function applicationEdit(
+        Request $request,
+        string $applicationId,
+        School\Campus\Edit\Handler $handler
+    ): Response {
+        $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
+
+        $command = new School\Campus\Edit\Command($campusId);
+
+        return $this->handleWithResponse(
+            $command,
+            School\Campus\Edit\Form::class,
+            $handler,
+            $request
+        );
     }
 
     #[Route('/campuses/{campusId}', name: 'api_school_campus_edit',
@@ -371,6 +468,11 @@ class SchoolController extends AbstractApiController
                     'title' => 'Campuses',
                     'to' => $this->generateUrl('school_campus_list_show'),
                     'type' => 'campuses',
+                ],
+                [
+                    'title' => 'Applications',
+                    'to' => $this->generateUrl('school_application_list_show'),
+                    'type' => 'application',
                 ],
                 [
                     'title' => 'Students',

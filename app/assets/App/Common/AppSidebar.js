@@ -1,8 +1,8 @@
 import {
-  cilApplications,
   cilArrowLeft,
   cilEducation,
   cilInstitution,
+  cilNotes,
   cilPeople,
   cilSettings,
   cilSpeedometer
@@ -73,7 +73,7 @@ const AppSidebar = () => {
           component: CNavItem,
           name: navItem.title,
           to: navItem.to,
-          icon: <CIcon icon={cilApplications} customClassName="nav-icon"/>
+          icon: <CIcon icon={cilNotes} customClassName="nav-icon"/>
         })
       } else if (navItem.type === 'campuses') {
         navigation.push({

@@ -104,6 +104,24 @@ class SchoolController extends AbstractController
         return $this->render('base.html.twig');
     }
 
+    #[Route('/applications', name: 'school_application_list_show', methods: ['GET'])]
+    public function studentApplicationListShow(): Response
+    {
+        $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
+
+        return $this->render('base.html.twig');
+    }
+
+    #[Route('/applications/{applicationId}', name: 'school_application_edit',
+        requirements: ['applicationId' => UuidPattern::PATTERN_WITH_TEMPLATE],
+        methods: ['GET'])]
+    public function studentApplicationEditShow(string $applicationId): Response
+    {
+        $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
+
+        return $this->render('base.html.twig');
+    }
+
     #[Route('/profile', name: 'school_profile_show', methods: ['GET'])]
     public function profileShow(): Response
     {
