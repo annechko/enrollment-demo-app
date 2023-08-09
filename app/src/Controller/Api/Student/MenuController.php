@@ -29,7 +29,7 @@ class MenuController extends AbstractController
                 ],
                 [
                     'title' => 'Application',
-                    'to' => $this->generateUrl(RouteEnum::STUDENT_APPLICATION),
+                    'to' => $this->generateUrl(RouteEnum::STUDENT_APPLICATION_LIST),
                     'type' => 'application',
                 ],
             ],

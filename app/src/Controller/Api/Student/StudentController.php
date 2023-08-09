@@ -9,17 +9,16 @@ use App\Domain\Core\UuidPattern;
 use App\Domain\School\Common\RoleEnum;
 use App\Domain\Student\Entity\Student\StudentId;
 use App\Domain\Student\UseCase\Application;
+use App\ReadModel\Student\ApplicationFetcher;
 use App\ReadModel\Student\Filter;
 use App\ReadModel\Student\SchoolFetcher;
 use App\Security\StudentReadModel;
+use DateTimeImmutable;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\SerializerInterface;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 #[Route('/api/student')]
 class StudentController extends AbstractJsonApiController
@@ -146,7 +145,40 @@ class StudentController extends AbstractJsonApiController
         return new JsonResponse($result);
     }
 
-    #[Route('/applications', name: 'api_student_application',format: 'json')]
+    #[Route('/applications', name: 'api_student_application_list',
+        methods: ['GET'], format: 'json')]
+    public function applicationList(ApplicationFetcher $fetcher): Response
+    {
+        $this->denyAccessUnlessGranted(RoleEnum::STUDENT_USER->value);
+
+        $applications = $fetcher->findAll($this->getCurrentStudentId());
+        $result = [];
+        $format = 'M d, Y';
+        foreach ($applications as $item) {
+            $intake = [
+                'startDate' => (new DateTimeImmutable($item['intake_start_date']))->format($format),
+                'endDate' => (new DateTimeImmutable($item['intake_end_date']))->format($format),
+            ];
+            $result[] = [
+                'id' => $item['id'],
+                'createdAt' => (new DateTimeImmutable($item['created_at']))->format($format),
+                'school' => [
+                    'id' => $item['school_id'],
+                    'name' => $item['school_name'],
+                ],
+                'course' => [
+                    'id' => $item['course_id'],
+                    'name' => $item['course_name'],
+                ],
+                'intake' => $intake,
+                'statusName' => 'New',
+            ];
+        }
+        return new JsonResponse($result);
+    }
+
+    #[Route('/applications', name: 'api_student_application',
+        methods: ['POST'], format: 'json')]
     public function applicationAdd(
         Request $request,
         Application\Add\Handler $handler,

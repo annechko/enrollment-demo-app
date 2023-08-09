@@ -10,13 +10,15 @@ import {
 import AppErrorMessage from "../../../App/Common/AppErrorMessage";
 import * as LoadState from "../../../App/Helper/LoadState";
 import * as Api from "../../../App/Helper/Api";
+import AppBackButton from "../../../App/Common/AppBackButton";
+import {Link} from "react-router-dom";
 
 const ApplicationFirstStep = React.lazy(() => import('./ApplicationFirstStep'))
 const ApplicationSecondStep = React.lazy(() => import('./ApplicationSecondStep'))
 
 export default function Application() {
   const [currentStep, setCurrentStep] = React.useState(0);
-  const [applicationSubmitted, setApplicationSubmitted] = React.useState(false);
+  const [applicationSubmitted, setApplicationSubmitted] = React.useState(true);
   const [nextStepButtonDisabled, setNextStepButtonDisabled] = React.useState(true);
   const [applicationData, setApplicationData] = React.useState({});
   const [applicationSubmitState, setApplicationSubmitState] = useState(LoadState.initialize())
@@ -82,6 +84,7 @@ export default function Application() {
   const showPreviousStepBtn = currentStep > 0
 
   return <>
+    <AppBackButton/>
     <CCard className="mb-4">
       <CCardHeader>
         <strong>
@@ -127,6 +130,7 @@ export default function Application() {
 const SuccessSubmitMessage = () => {
   return <>
     <p>Your application was successfully submitted!</p>
-    <p>You can check your application status on Applications page.</p>
+    <p>You can check your application status on <Link
+      to={window.abeApp.urls.student_application_list}>Applications</Link> page.</p>
   </>
 }

@@ -25,6 +25,7 @@ class RouteEnum
     public const STUDENT_LOGOUT = 'student_logout';
     public const STUDENT_VERIFY_EMAIL = 'student_verify_email';
     public const STUDENT_APPLICATION = 'student_application';
+    public const STUDENT_APPLICATION_LIST = 'student_application_list';
     public const API_STUDENT_REGISTER = 'api_student_register';
 
 }
