@@ -38,6 +38,7 @@ services:
       - ./app:/app
     depends_on:
       - enroll-app-php-fpm
+      - enroll-front-node
     ports:
       - "8080:80"
 
@@ -52,6 +53,17 @@ services:
       - ./app:/app
       - node-cache:/usr/local/share/.cache
     working_dir: /app
+
+  enroll-front-node:
+    image: node:19.8-alpine3.17
+    working_dir: /app
+    environment:
+      WDS_SOCKET_PORT: 0
+    volumes:
+      - ./app:/app
+      - node-cache:/usr/local/share/.cache
+    command: sh -c "yarn dev-server --hot --port 8080 --host 0.0.0.0"
+    tty: true
 
 volumes:
   enroll-db:
