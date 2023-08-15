@@ -76,6 +76,7 @@ class ApplicationFetcher
             ->setParameter('school_id', $schoolId)
             ->where('id = :id')
             ->setParameter('id', $applicationId)
+            ->orderBy('created_at')
             ->fetchAssociative();
 
         return $result === false ? [] : $result;

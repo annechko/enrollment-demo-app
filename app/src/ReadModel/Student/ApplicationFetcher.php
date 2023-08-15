@@ -54,6 +54,7 @@ class ApplicationFetcher
             ->innerJoin('a', $this->tableNameIntake, 'i', 'i.id = a.intake_id')
             ->where('student_id = :student_id')
             ->setParameter('student_id', $studentId)
+            ->orderBy('a.created_at')
             ->fetchAllAssociative();
 
         return $result;

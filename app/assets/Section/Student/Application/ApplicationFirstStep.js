@@ -59,7 +59,7 @@ const AutocompleteInput = ({value, dataUrl, disabled, onChange}) => {
           return;
         }
         loadOptions(newInputValue);
-      }, 1000)
+      }, 500)
       setDataRequestTimerId(newOptionsRequestTimerId)
     }}
     renderInput={RenderInput()}

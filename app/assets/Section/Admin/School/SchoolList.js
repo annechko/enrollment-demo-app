@@ -122,9 +122,9 @@ const SchoolsRows = ({
     <CTableRow key={key++}>
       <CTableDataCell scope="row">{item.id.substring(32)}</CTableDataCell>
       <CTableDataCell>{item.name}</CTableDataCell>
-      <CTableDataCell className="text-nowrap">{item.email}</CTableDataCell>
-      <CTableDataCell className="text-nowrap">{item.createdAt}</CTableDataCell>
-      <CTableDataCell className="text-nowrap">{item.invitationDate}</CTableDataCell>
+      <CTableDataCell >{item.email}</CTableDataCell>
+      <CTableDataCell >{item.createdAt}</CTableDataCell>
+      <CTableDataCell >{item.invitationDate}</CTableDataCell>
       <CTableDataCell>
         <div className="d-flex">
           {item.canBeConfirmed &&
