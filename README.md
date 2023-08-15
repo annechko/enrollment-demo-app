@@ -85,8 +85,9 @@ on application create - delete all drafts by userId
 ## Back
 
 1. Add emails
-1. Add logs
-1. Add GA
+1. ~~Add logs~~
+1. ~~Add GA~~
+1. Add HTTPS
 1. Add fake data - generate schools, courses, intakes, students, applications
 1. Remove all forms, use serialization
 
