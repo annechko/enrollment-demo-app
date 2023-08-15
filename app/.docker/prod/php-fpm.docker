@@ -39,7 +39,7 @@ RUN apt-get update && apt-get install -y libpq-dev \
 
 RUN mv /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini
 
-COPY ./docker/prod/php/default.ini /usr/local/etc/php/conf.d/default.ini
+COPY ./.docker/prod/php/default.ini /usr/local/etc/php/conf.d/default.ini
 
 WORKDIR /app
 

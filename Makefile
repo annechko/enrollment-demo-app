@@ -47,3 +47,14 @@ watch:
 	docker-compose run --rm enroll-node yarn watch
 lint:
 	docker-compose run --rm enroll-node ./node_modules/.bin/eslint assets
+
+
+prod-build:
+	docker --log-level=debug build --file=app/.docker/prod/nginx.docker --tag ${REGISTRY}:demo-nginx-${IMAGE_TAG} app
+	docker --log-level=debug build --file=app/.docker/prod/php-fpm.docker --tag ${REGISTRY}:demo-php-fpm-${IMAGE_TAG} app
+	docker --log-level=debug build --file=app/.docker/prod/db.docker --tag ${REGISTRY}:demo-db-${IMAGE_TAG} app
+
+prod-push:
+	docker push ${REGISTRY}:demo-db-${IMAGE_TAG}
+	docker push ${REGISTRY}:demo-nginx-${IMAGE_TAG}
+	docker push ${REGISTRY}:demo-php-fpm-${IMAGE_TAG}
