@@ -2,8 +2,8 @@ version: '3'
 
 services:
 
-  enroll-app-php-fpm:
-    container_name: enroll-app-php-fpm
+  enroll-php-fpm:
+    container_name: enroll-php-fpm
     environment:
       PHP_IDE_CONFIG: serverName=Docker
     build:
@@ -37,7 +37,7 @@ services:
     volumes:
       - ./app:/app
     depends_on:
-      - enroll-app-php-fpm
+      - enroll-php-fpm
       - enroll-front-node
     ports:
       - "8080:80"
