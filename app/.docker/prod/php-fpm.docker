@@ -37,7 +37,7 @@ RUN apt-get update && apt-get install -y libpq-dev \
     && docker-php-ext-configure intl \
     && docker-php-ext-install intl
 
-RUN mv /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini
+RUN mv $PHP_INI_DIR/php.ini-production $PHP_INI_DIR/php.ini
 
 COPY ./.docker/prod/php/default.ini /usr/local/etc/php/conf.d/default.ini
 
