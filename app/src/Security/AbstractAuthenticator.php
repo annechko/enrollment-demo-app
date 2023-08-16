@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Security;
 
-use App\Infrastructure\RouteEnum;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,24 +13,20 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Exception\UserNotFoundException;
-use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Http\Authenticator\AbstractLoginFormAuthenticator;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Credentials\PasswordCredentials;
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
-use Symfony\Component\Security\Http\Util\TargetPathTrait;
 
-// todo create abstract Authenticator and set params with container
-class StudentAuthenticator extends AbstractLoginFormAuthenticator
+abstract class AbstractAuthenticator extends AbstractLoginFormAuthenticator
 {
-    use TargetPathTrait;
+    abstract protected function getLoginRoute(): string;
 
-    private const LOGIN_ROUTE = RouteEnum::STUDENT_LOGIN;
-    private const AFTER_LOGIN_ROUTE = RouteEnum::STUDENT_HOME;
+    abstract protected function getAfterLoginRoute(): string;
 
     public function __construct(
         private readonly UrlGeneratorInterface $urlGenerator,
-        private readonly StudentProvider $userProvider,
+        private readonly AbstractUserProvider $userProvider,
     ) {
     }
 
@@ -56,9 +52,7 @@ class StudentAuthenticator extends AbstractLoginFormAuthenticator
         $request->getSession()->set(Security::LAST_USERNAME, $email);
 
         return new Passport(
-            new UserBadge($email, function ($userIdentifier) {
-                return $this->userProvider->loadUserByIdentifier($userIdentifier);
-            }),
+            new UserBadge($email, $this->userProvider->loadUserByIdentifier(...)),
             new PasswordCredentials($credentials['password'])
         );
     }
@@ -89,7 +83,7 @@ class StudentAuthenticator extends AbstractLoginFormAuthenticator
         TokenInterface $token,
         string $firewallName
     ): ?Response {
-        $url = $this->urlGenerator->generate(self::AFTER_LOGIN_ROUTE);
+        $url = $this->urlGenerator->generate($this->getAfterLoginRoute());
         if ($request->getContentTypeFormat() === 'json') {
             return new JsonResponse(
                 [
@@ -103,6 +97,6 @@ class StudentAuthenticator extends AbstractLoginFormAuthenticator
 
     protected function getLoginUrl(Request $request): string
     {
-        return $this->urlGenerator->generate(self::LOGIN_ROUTE);
+        return $this->urlGenerator->generate($this->getLoginRoute());
     }
 }

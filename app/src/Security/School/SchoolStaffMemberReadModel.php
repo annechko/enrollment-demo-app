@@ -2,18 +2,19 @@
 
 declare(strict_types=1);
 
-namespace App\Security;
+namespace App\Security\School;
 
 use Symfony\Component\Security\Core\User\EquatableInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class AdminReadModel implements UserInterface, PasswordAuthenticatedUserInterface, EquatableInterface
+class SchoolStaffMemberReadModel implements UserInterface, PasswordAuthenticatedUserInterface, EquatableInterface
 {
     /**
-     * @param string[] $roles
+     * @param array<int, string> $roles
      */
     public function __construct(
+        public readonly string $schoolId,
         public readonly string $id,
         public readonly string $email,
         public readonly string $passwordHash,

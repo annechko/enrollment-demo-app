@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Security;
+namespace App\Security\Student;
 
+use App\Security\EmailNotVerifiedException;
 use Symfony\Component\Security\Core\User\UserCheckerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 

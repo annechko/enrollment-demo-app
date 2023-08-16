@@ -12,7 +12,7 @@ use App\Domain\Student\UseCase\Application;
 use App\ReadModel\Student\ApplicationFetcher;
 use App\ReadModel\Student\Filter;
 use App\ReadModel\Student\SchoolFetcher;
-use App\Security\StudentReadModel;
+use App\Security\Student\StudentReadModel;
 use DateTimeImmutable;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\JsonResponse;

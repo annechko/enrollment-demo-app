@@ -19,7 +19,7 @@ use App\Domain\School\UseCase\School;
 use App\Domain\Student\Entity\Application\ApplicationId;
 use App\Infrastructure\RouteEnum;
 use App\ReadModel\School\ApplicationFetcher;
-use App\Security\SchoolStaffMemberReadModel;
+use App\Security\School\SchoolStaffMemberReadModel;
 use DateTimeImmutable;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;

@@ -20,5 +20,45 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
 
-    # add more service definitions when explicit configuration is needed
-    # please note that last definitions always *replace* previous ones
+    # admin
+    App\Security\Admin\AdminDbHelper:
+        arguments:
+            $entityClassName: App\Domain\Admin\Entity\AdminUser\AdminUser
+
+    App\Security\Admin\AdminProvider:
+        arguments:
+            App\Security\AbstractUserDbHelper: '@App\Security\Admin\AdminDbHelper'
+            $userClassName: App\Security\Admin\AdminReadModel
+
+    App\Security\Admin\AdminAuthenticator:
+        arguments:
+            App\Security\AbstractUserProvider: '@App\Security\Admin\AdminProvider'
+
+    # student
+    App\Security\Student\StudentDbHelper:
+        arguments:
+            $entityClassName: App\Domain\Student\Entity\Student\Student
+
+    App\Security\Student\StudentProvider:
+        arguments:
+            App\Security\AbstractUserDbHelper: '@App\Security\Student\StudentDbHelper'
+            $userClassName: App\Security\Student\StudentReadModel
+
+    App\Security\Student\StudentAuthenticator:
+        arguments:
+            App\Security\AbstractUserProvider: '@App\Security\Student\StudentProvider'
+
+    # school
+    App\Security\School\SchoolStaffMemberDbHelper:
+        arguments:
+            $entityClassName: App\Domain\School\Entity\School\StaffMember
+
+    App\Security\School\SchoolStaffMemberProvider:
+        arguments:
+            App\Security\AbstractUserDbHelper: '@App\Security\School\SchoolStaffMemberDbHelper'
+            $userClassName: App\Security\School\SchoolStaffMemberReadModel
+
+    App\Security\School\SchoolStaffMemberAuthenticator:
+        arguments:
+            App\Security\AbstractUserProvider: '@App\Security\School\SchoolStaffMemberProvider'
+

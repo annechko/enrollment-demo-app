@@ -9,7 +9,7 @@ use App\Domain\Core\FeatureToggleService;
 use App\Domain\Core\FeatureToggleType;
 use App\Domain\Student\UseCase\Student\Register;
 use App\Infrastructure\RouteEnum;
-use App\Security\StudentReadModel;
+use App\Security\Student\StudentReadModel;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;

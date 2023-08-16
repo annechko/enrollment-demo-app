@@ -1,11 +1,11 @@
 security:
     # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
     password_hashers:
-        App\Security\AdminReadModel:
+        App\Security\Admin\AdminReadModel:
             algorithm: auto
-        App\Security\SchoolStaffMemberReadModel:
+        App\Security\School\SchoolStaffMemberReadModel:
             algorithm: auto
-        App\Security\StudentReadModel:
+        App\Security\Student\StudentReadModel:
             algorithm: auto
         App\Domain\Admin\Entity\AdminUser\AdminUser:
             algorithm: auto
@@ -17,11 +17,11 @@ security:
     providers:
         # used to reload user from session & other features (e.g. switch_user)
         admin_user_provider:
-            id: App\Security\AdminProvider
+            id: App\Security\Admin\AdminProvider
         school_user_provider:
-            id: App\Security\SchoolStaffMemberProvider
+            id: App\Security\School\SchoolStaffMemberProvider
         student_user_provider:
-            id: App\Security\StudentProvider
+            id: App\Security\Student\StudentProvider
 
     firewalls:
         dev:
@@ -30,7 +30,7 @@ security:
         school:
             lazy: true
             pattern: ^/(api\/)?school
-            custom_authenticator: App\Security\SchoolStaffMemberAuthenticator
+            custom_authenticator: App\Security\School\SchoolStaffMemberAuthenticator
             logout:
                 path: school_logout
                 target: school_login
@@ -38,15 +38,15 @@ security:
         student:
             lazy: true
             pattern: ^/(api\/)?student
-            custom_authenticator: App\Security\StudentAuthenticator
-            user_checker: App\Security\StudentChecker
+            custom_authenticator: App\Security\Student\StudentAuthenticator
+            user_checker: App\Security\Student\StudentChecker
             logout:
                 path: !php/const App\Infrastructure\RouteEnum::STUDENT_LOGOUT
                 target: !php/const App\Infrastructure\RouteEnum::STUDENT_LOGIN
                 invalidate_session: false
         admin:
             lazy: true
-            custom_authenticator: App\Security\AdminAuthenticator
+            custom_authenticator: App\Security\Admin\AdminAuthenticator
             logout:
                 path: !php/const App\Infrastructure\RouteEnum::ADMIN_LOGOUT
                 target: !php/const App\Infrastructure\RouteEnum::ADMIN_LOGIN

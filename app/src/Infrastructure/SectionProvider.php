@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Infrastructure;
 
-use App\Security\AdminReadModel;
-use App\Security\SchoolStaffMemberReadModel;
-use App\Security\StudentReadModel;
+use App\Security\Admin\AdminReadModel;
+use App\Security\School\SchoolStaffMemberReadModel;
+use App\Security\Student\StudentReadModel;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\User\UserInterface;
