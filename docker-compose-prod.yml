@@ -25,8 +25,6 @@ services:
     image: ${REGISTRY}:demo-db-${IMAGE_TAG}
     volumes:
       - enroll-db:/var/lib/postgresql/data:rw
-    ports:
-      - "5432:5432"
 
   enroll-nginx:
     container_name: enroll-app-nginx
