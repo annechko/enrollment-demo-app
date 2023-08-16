@@ -89,6 +89,7 @@ on application create - delete all drafts by userId
 1. ~~Add GA~~
 1. Add HTTPS
 1. Add fake data - generate schools, courses, intakes, students, applications
+1. Add fake data prod clean and run
 1. Remove all forms, use serialization
 
 # Known issues
