@@ -204,6 +204,8 @@ class SchoolController extends AbstractApiController
     #[Route('/campuses', name: 'api_school_campus_list', methods: ['GET'])]
     public function campusListGet(CampusRepository $repository): Response
     {
+        $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
+
         $c = $repository->findAllOrderedByName($this->getCurrentSchoolId());
         $res = [];
         foreach ($c as $item) {
@@ -222,6 +224,8 @@ class SchoolController extends AbstractApiController
         methods: ['GET'])]
     public function campusGet(CampusRepository $repository, string $campusId): Response
     {
+        $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
+
         try {
             $campus = $repository->get(new CampusId($campusId));
         } catch (NotFoundException $exception) {
@@ -238,6 +242,8 @@ class SchoolController extends AbstractApiController
     #[Route('/courses', name: 'api_school_course_list', methods: ['GET'])]
     public function courseListGet(CourseRepository $repository): Response
     {
+        $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
+
         $courses = $repository->findAllOrderedByName($this->getCurrentSchoolId());
         $res = [];
         foreach ($courses as $course) {
@@ -279,6 +285,8 @@ class SchoolController extends AbstractApiController
         string $courseId,
         CourseRepository $repository,
     ): Response {
+        $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
+
         $c = $repository->get(new CourseId($courseId));
         $res = [];
         foreach ($c->getIntakes() as $intake) {
@@ -397,6 +405,8 @@ class SchoolController extends AbstractApiController
         CourseRepository $repository,
         Request $request
     ): Response {
+        $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
+
         $result = ['course' => null];
 
         $courseId = $request->get('courseId', null);
@@ -452,6 +462,8 @@ class SchoolController extends AbstractApiController
     #[Route('/sidebar', name: 'api_school_sidebar', methods: ['GET'])]
     public function getSidebar(): Response
     {
+        $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
+
         return new JsonResponse([
             'navItems' => [
                 [

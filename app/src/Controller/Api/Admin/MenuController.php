@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Api\Admin;
 
+use App\Domain\School\Common\RoleEnum;
 use App\Infrastructure\RouteEnum;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -16,6 +17,8 @@ class MenuController extends AbstractController
     #[Route('/sidebar', name: 'api_admin_sidebar', methods: ['GET'])]
     public function getSidebar(): Response
     {
+        $this->denyAccessUnlessGranted(RoleEnum::ADMIN_USER->value);
+
         return new JsonResponse([
             'navItems' => [
                 [
