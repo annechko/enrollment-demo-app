@@ -49,9 +49,15 @@ lint:
 	docker-compose run --rm enroll-node ./node_modules/.bin/eslint assets
 
 
-prod-build:
-	docker --log-level=debug build --file=app/.docker/prod/nginx.docker --tag ${REGISTRY}:demo-nginx-${IMAGE_TAG} app
+prod-build: prod-build-php prod-build-nginx prod-build-db
+
+prod-build-php:
 	docker --log-level=debug build --file=app/.docker/prod/php-fpm.docker --tag ${REGISTRY}:demo-php-fpm-${IMAGE_TAG} app
+
+prod-build-nginx:
+	docker --log-level=debug build --file=app/.docker/prod/nginx.docker --tag ${REGISTRY}:demo-nginx-${IMAGE_TAG} app
+
+prod-build-db:
 	docker --log-level=debug build --file=app/.docker/prod/db.docker --tag ${REGISTRY}:demo-db-${IMAGE_TAG} app
 
 prod-push:
