@@ -4,6 +4,7 @@ services:
 
   enroll-php-fpm:
     container_name: enroll-php-fpm
+    restart: always
     image: ${REGISTRY}:demo-php-fpm-${IMAGE_TAG}
     environment:
       APP_ENV: prod
@@ -18,6 +19,7 @@ services:
 
   enroll-app-db:
     container_name: enroll-app-db
+    restart: always
     environment:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
@@ -28,6 +30,7 @@ services:
 
   enroll-nginx:
     container_name: enroll-app-nginx
+    restart: always
     image: ${REGISTRY}:demo-nginx-${IMAGE_TAG}
     depends_on:
       - enroll-php-fpm
