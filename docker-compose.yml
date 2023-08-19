@@ -12,10 +12,10 @@ services:
     volumes:
       - ./app:/app
     depends_on:
-      - enroll-app-db
+      - enroll-db
 
-  enroll-app-db:
-    container_name: enroll-app-db
+  enroll-db:
+    container_name: enroll-db
     environment:
       - POSTGRES_DB=app
       - POSTGRES_USER=app
@@ -30,7 +30,7 @@ services:
       - "5432:5432"
 
   enroll-nginx:
-    container_name: enroll-app-nginx
+    container_name: enroll-nginx
     build:
       context: app/.docker/dev/
       dockerfile: nginx.docker

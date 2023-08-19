@@ -10,15 +10,15 @@ services:
       APP_ENV: prod
       APP_DEBUG: 0
       APP_SECRET: ${APP_SECRET}
-      DATABASE_URL: pgsql://app:${POSTGRES_PASSWORD}@enroll-app-db:5432/${POSTGRES_DB}
+      DATABASE_URL: pgsql://app:${POSTGRES_PASSWORD}@enroll-db:5432/${POSTGRES_DB}
       MAILER_DSN: ${MAILER_DSN}
       MAILER_SENDER: ${MAILER_SENDER}
       SENTRY_DSN: ${SENTRY_DSN}
     depends_on:
-      - enroll-app-db
+      - enroll-db
 
-  enroll-app-db:
-    container_name: enroll-app-db
+  enroll-db:
+    container_name: enroll-db
     restart: always
     environment:
       POSTGRES_DB: ${POSTGRES_DB}
@@ -29,7 +29,7 @@ services:
       - enroll-db:/var/lib/postgresql/data:rw
 
   enroll-nginx:
-    container_name: enroll-app-nginx
+    container_name: enroll-nginx
     restart: always
     image: ${REGISTRY}:demo-nginx-${IMAGE_TAG}
     volumes:

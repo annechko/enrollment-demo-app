@@ -25,7 +25,7 @@ app-assets-install:
 	docker-compose run --rm enroll-node yarn install
 
 app-wait-db:
-	until docker-compose exec -T enroll-app-db pg_isready --timeout=0 --dbname=app ; do sleep 1 ; done
+	until docker-compose exec -T enroll-db pg_isready --timeout=0 --dbname=app ; do sleep 1 ; done
 
 app-migrations:
 	docker exec -d enroll-php-fpm php bin/console doctrine:migrations:migrate --no-interaction
@@ -68,3 +68,10 @@ prod-push-php:
 	docker push ${REGISTRY}:demo-php-fpm-${IMAGE_TAG}
 prod-push-nginx:
 	docker push ${REGISTRY}:demo-nginx-${IMAGE_TAG}
+
+deploy:
+	ssh -o StrictHostKeyChecking=no -t ${PROD_HOST} 'cd ${HOME_DIR} && sudo rm -rf docker-compose.yml'
+	scp -o StrictHostKeyChecking=no docker-compose-prod.yml ${PROD_HOST}:${HOME_DIR}docker-compose.yml
+	ssh -o StrictHostKeyChecking=no -t ${PROD_HOST} 'cd ${HOME_DIR} && sudo docker compose pull'
+	ssh -o StrictHostKeyChecking=no -t ${PROD_HOST} 'cd ${HOME_DIR} && sudo docker compose up --build --remove-orphans -d'
+	ssh -o StrictHostKeyChecking=no -t ${PROD_HOST} 'cd ${HOME_DIR} && sudo docker compose run --rm enroll-php-fpm php bin/console doctrine:migrations:migrate --no-interaction'
