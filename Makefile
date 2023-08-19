@@ -60,7 +60,11 @@ prod-build-nginx:
 prod-build-db:
 	docker --log-level=debug build --file=app/.docker/prod/db.docker --tag ${REGISTRY}:demo-db-${IMAGE_TAG} app
 
-prod-push:
+prod-push: prod-push-nginx prod-push-db prod-push-php
+
+prod-push-db:
 	docker push ${REGISTRY}:demo-db-${IMAGE_TAG}
-	docker push ${REGISTRY}:demo-nginx-${IMAGE_TAG}
+prod-push-php:
 	docker push ${REGISTRY}:demo-php-fpm-${IMAGE_TAG}
+prod-push-nginx:
+	docker push ${REGISTRY}:demo-nginx-${IMAGE_TAG}

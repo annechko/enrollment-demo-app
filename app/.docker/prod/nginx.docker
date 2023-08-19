@@ -15,8 +15,12 @@ RUN yarn build
 FROM nginx:1.22.1-alpine
 
 COPY ./.docker/prod/nginx/default.conf /etc/nginx/conf.d/default.conf
+COPY ./.docker/prod/nginx/snippets /etc/nginx/snippets
 
 WORKDIR /app
 
 COPY ./public ./public
 COPY --from=builder /app/public/build ./public/build
+
+# in order to use volumes - delete symlinks to std_
+RUN rm /var/log/nginx/*

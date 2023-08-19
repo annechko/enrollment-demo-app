@@ -32,10 +32,15 @@ services:
     container_name: enroll-app-nginx
     restart: always
     image: ${REGISTRY}:demo-nginx-${IMAGE_TAG}
+    volumes:
+      - /etc/letsencrypt:/etc/letsencrypt:ro
+      - /var/www/html:/var/www/html:ro
+      - /var/log/nginx:/var/log/nginx
     depends_on:
       - enroll-php-fpm
     ports:
       - "80:80"
+      - "443:443"
 
 volumes:
   enroll-db:
