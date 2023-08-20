@@ -9,6 +9,7 @@ use App\Core\Common\FeatureToggleService;
 use App\Core\Common\FeatureToggleType;
 use App\Infrastructure\RouteEnum;
 use App\Security\Student\StudentReadModel;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,6 +24,7 @@ class AuthController extends AbstractApiController
         Request $request,
         \App\Core\Student\UseCase\Student\Register\Handler $handler,
         FeatureToggleService $featureToggleService,
+        LoggerInterface $logger,
         Security $security,
     ): Response {
         $command = new \App\Core\Student\UseCase\Student\Register\Command();
@@ -39,6 +41,7 @@ class AuthController extends AbstractApiController
             return new JsonResponse(['emailVerificationEnabled' => $emailVerificationEnabled]);
         } catch (\Throwable $exception) {
             // todo catch different types.
+            $logger->error($exception->getMessage(), ['exception' => $exception]);
             return new JsonResponse([
                 'error' => 'Something went wrong.',
             ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
