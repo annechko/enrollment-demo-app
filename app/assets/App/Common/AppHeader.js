@@ -22,6 +22,8 @@ const AppHeader = () => {
     sectionName = 'Admin section'
   } else if (currentSection === 'school') {
     sectionName = 'School section'
+  } else if (currentSection === 'student') {
+    sectionName = 'Student section'
   }
   return (
     <CHeader position="sticky" className="mb-2">
