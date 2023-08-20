@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\School\UseCase\School\Course\Intake\Edit;
 
-use App\Domain\Core\Flusher;
+use App\Domain\Common\Flusher;
 use App\Domain\School\Entity\Campus\CampusId;
 use App\Domain\School\Entity\Course\CourseId;
 use App\Domain\School\Entity\Course\Intake\IntakeId;

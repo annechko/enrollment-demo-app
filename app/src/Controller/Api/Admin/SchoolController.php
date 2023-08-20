@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\Api\Admin;
 
 use App\Controller\Api\AbstractApiController;
-use App\Domain\Core\UuidPattern;
+use App\Domain\Common\UuidPattern;
 use App\Domain\School\Common\RoleEnum;
 use App\Domain\School\Entity\School\School;
 use App\Domain\School\UseCase\School\Confirm;

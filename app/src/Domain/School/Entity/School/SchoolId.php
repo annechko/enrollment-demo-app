@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\School\Entity\School;
 
-use App\Domain\Core\UuidPattern;
+use App\Domain\Common\UuidPattern;
 use Webmozart\Assert\Assert;
 
 class SchoolId

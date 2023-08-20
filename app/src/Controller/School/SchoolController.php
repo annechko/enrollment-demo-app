@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\School;
 
-use App\Domain\Core\UuidPattern;
+use App\Domain\Common\UuidPattern;
 use App\Domain\School\Common\RoleEnum;
 use App\Domain\School\UseCase\Member;
 use App\Domain\School\UseCase\School\Register;

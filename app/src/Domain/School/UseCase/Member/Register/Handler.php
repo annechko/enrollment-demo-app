@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\School\UseCase\Member\Register;
 
-use App\Domain\Core\Flusher;
+use App\Domain\Common\Flusher;
 use App\Domain\School\Entity\School\School;
 use App\Domain\School\Entity\School\SchoolId;
 use App\Domain\School\Entity\School\StaffMember;

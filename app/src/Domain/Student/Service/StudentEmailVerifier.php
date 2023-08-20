@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Student\Service;
 
-use App\Domain\Core\Flusher;
+use App\Domain\Common\Flusher;
 use App\Domain\Student\Entity\Student\Student;
 use App\Domain\Student\Entity\Student\StudentId;
 use App\Infrastructure\RouteEnum;

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\DataFixtures;
 
-use App\Domain\Core\UuidGenerator;
+use App\Domain\Common\UuidGenerator;
 use App\Domain\School\Entity\School\Email;
 use App\Domain\School\Entity\School\InvitationToken;
 use App\Domain\School\Entity\School\Name;

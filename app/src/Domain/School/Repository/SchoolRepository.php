@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\School\Repository;
 
-use App\Domain\Core\NotFoundException;
+use App\Domain\Common\NotFoundException;
 use App\Domain\School\Entity\School\School;
 use App\Domain\School\Entity\School\SchoolId;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\DataFixtures;
 
-use App\Domain\Core\UuidGenerator;
+use App\Domain\Common\UuidGenerator;
 use App\Domain\School\Entity\School\StaffMember;
 use App\Domain\Student\Entity\Student\Student;
 use App\Domain\Student\Entity\Student\StudentId;

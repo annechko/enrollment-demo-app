@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\Api\Student;
 
 use App\Controller\Api\AbstractJsonApiController;
-use App\Domain\Core\UuidPattern;
+use App\Domain\Common\UuidPattern;
 use App\Domain\School\Common\RoleEnum;
 use App\Domain\Student\Entity\Student\StudentId;
 use App\Domain\Student\UseCase\Application;

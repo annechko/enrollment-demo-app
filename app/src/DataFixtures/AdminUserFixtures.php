@@ -6,7 +6,7 @@ namespace App\DataFixtures;
 
 use App\Domain\Admin\Entity\AdminUser\AdminUser;
 use App\Domain\Admin\Entity\AdminUser\AdminUserId;
-use App\Domain\Core\UuidGenerator;
+use App\Domain\Common\UuidGenerator;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
 

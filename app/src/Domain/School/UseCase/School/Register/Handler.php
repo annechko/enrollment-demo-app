@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Domain\School\UseCase\School\Register;
 
-use App\Domain\Core\Flusher;
-use App\Domain\Core\UuidGenerator;
+use App\Domain\Common\Flusher;
+use App\Domain\Common\UuidGenerator;
 use App\Domain\School\Entity\School\Email;
 use App\Domain\School\Entity\School\Name;
 use App\Domain\School\Entity\School\School;

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\School\UseCase\School\Course\Intake\Edit;
 
-use App\Domain\Core\UuidPattern;
+use App\Domain\Common\UuidPattern;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class Command

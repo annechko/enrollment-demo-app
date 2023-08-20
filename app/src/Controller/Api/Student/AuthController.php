@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Controller\Api\Student;
 
 use App\Controller\Api\AbstractApiController;
-use App\Domain\Core\FeatureToggleService;
-use App\Domain\Core\FeatureToggleType;
+use App\Domain\Common\FeatureToggleService;
+use App\Domain\Common\FeatureToggleType;
 use App\Domain\Student\UseCase\Student\Register;
 use App\Infrastructure\RouteEnum;
 use App\Security\Student\StudentReadModel;

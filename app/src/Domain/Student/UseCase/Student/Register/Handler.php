@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Domain\Student\UseCase\Student\Register;
 
-use App\Domain\Core\FeatureToggleService;
-use App\Domain\Core\FeatureToggleType;
-use App\Domain\Core\Flusher;
-use App\Domain\Core\UuidGenerator;
+use App\Domain\Common\FeatureToggleService;
+use App\Domain\Common\FeatureToggleType;
+use App\Domain\Common\Flusher;
+use App\Domain\Common\UuidGenerator;
 use App\Domain\Student\Entity\Student\Student;
 use App\Domain\Student\Entity\Student\StudentId;
 use App\Domain\Student\Repository\StudentRepository;

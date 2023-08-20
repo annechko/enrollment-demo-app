@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Controller\Api\School;
 
 use App\Controller\Api\AbstractApiController;
-use App\Domain\Core\NotFoundException;
-use App\Domain\Core\UuidPattern;
+use App\Domain\Common\NotFoundException;
+use App\Domain\Common\UuidPattern;
 use App\Domain\School\Common\RoleEnum;
 use App\Domain\School\Entity\Campus\CampusId;
 use App\Domain\School\Entity\Course\CourseId;
