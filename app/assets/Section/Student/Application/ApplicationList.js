@@ -94,22 +94,28 @@ const ApplicationsRows = ({
 
   return <>
     {applicationsRows.length > 0
-      &&
-      <CTable hover bordered>
-        <CTableHead>
-          <CTableRow key={key++}>
-            <CTableHeaderCell scope="col">Id</CTableHeaderCell>
-            <CTableHeaderCell scope="col">School</CTableHeaderCell>
-            <CTableHeaderCell scope="col">Course</CTableHeaderCell>
-            <CTableHeaderCell scope="col">Created</CTableHeaderCell>
-            <CTableHeaderCell scope="col">Start</CTableHeaderCell>
-            <CTableHeaderCell scope="col">End</CTableHeaderCell>
-            <CTableHeaderCell scope="col">Status</CTableHeaderCell>
-          </CTableRow>
-        </CTableHead>
-        <CTableBody>
-          {applicationsRows}
-        </CTableBody>
-      </CTable>}
+      ?
+      <>
+        <CTable hover bordered>
+          <CTableHead>
+            <CTableRow key={key++}>
+              <CTableHeaderCell scope="col">Id</CTableHeaderCell>
+              <CTableHeaderCell scope="col">School</CTableHeaderCell>
+              <CTableHeaderCell scope="col">Course</CTableHeaderCell>
+              <CTableHeaderCell scope="col">Created</CTableHeaderCell>
+              <CTableHeaderCell scope="col">Start</CTableHeaderCell>
+              <CTableHeaderCell scope="col">End</CTableHeaderCell>
+              <CTableHeaderCell scope="col">Status</CTableHeaderCell>
+            </CTableRow>
+          </CTableHead>
+          <CTableBody>
+            {applicationsRows}
+          </CTableBody>
+        </CTable>
+      </>
+      : <>
+      You have no applications yet.
+      </>
+    }
   </>
 }
