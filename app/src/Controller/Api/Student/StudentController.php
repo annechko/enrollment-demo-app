@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Controller\Api\Student;
 
 use App\Controller\Api\AbstractJsonApiController;
-use App\Domain\Common\UuidPattern;
-use App\Domain\School\Common\RoleEnum;
-use App\Domain\Student\Entity\Student\StudentId;
+use App\Core\Common\UuidPattern;
+use App\Core\School\Common\RoleEnum;
+use App\Core\Student\Entity\Student\StudentId;
 use App\Domain\Student\UseCase\Application;
 use App\ReadModel\Student\ApplicationFetcher;
 use App\ReadModel\Student\Filter;
@@ -181,15 +181,15 @@ class StudentController extends AbstractJsonApiController
         methods: ['POST'], format: 'json')]
     public function applicationAdd(
         Request $request,
-        Application\Add\Handler $handler,
+        \App\Core\Student\UseCase\Application\Add\Handler $handler,
     ): Response {
         $this->denyAccessUnlessGranted(RoleEnum::STUDENT_USER->value);
 
         return $this->handleWithResponse(
-            Application\Add\Command::class,
-            $handler,
-            $request,
-            commandCallback: function (Application\Add\Command $command) {
+			\App\Core\Student\UseCase\Application\Add\Command::class,
+			$handler,
+			$request,
+            commandCallback: function (\App\Core\Student\UseCase\Application\Add\Command $command) {
                 $command->studentId = $this->getCurrentStudentId()->getValue();
             }
         );

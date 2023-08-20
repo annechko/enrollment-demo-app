@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\ReadModel\School;
 
-use App\Domain\School\Entity\School\StaffMember;
+use App\Core\School\Entity\School\StaffMember;
 use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManagerInterface;
 

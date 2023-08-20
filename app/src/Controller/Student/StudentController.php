@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Controller\Student;
 
-use App\Domain\School\Common\RoleEnum;
+use App\Core\School\Common\RoleEnum;
+use App\Core\Student\Repository\StudentRepository;
+use App\Core\Student\Service\StudentEmailVerifier;
 use App\Domain\School\UseCase\Member;
-use App\Domain\Student\Repository\StudentRepository;
-use App\Domain\Student\Service\StudentEmailVerifier;
 use App\Infrastructure\RouteEnum;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

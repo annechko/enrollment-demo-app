@@ -4,15 +4,14 @@ declare(strict_types=1);
 
 namespace App\ReadModel\Student;
 
-use App\Domain\School\Entity\Course\Course;
-use App\Domain\School\Entity\Course\Intake\Intake;
-use App\Domain\School\Entity\School\School;
+use App\Core\School\Entity\Course\Course;
+use App\Core\School\Entity\Course\Intake\Intake;
+use App\Core\School\Entity\School\School;
 use App\ReadModel\Student\Filter\CourseFilter;
 use App\ReadModel\Student\Filter\IntakeFilter;
 use App\ReadModel\Student\Filter\SchoolFilter;
 use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManagerInterface;
-use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
 
 class SchoolFetcher

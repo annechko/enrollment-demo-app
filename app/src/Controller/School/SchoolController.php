@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Controller\School;
 
-use App\Domain\Common\UuidPattern;
-use App\Domain\School\Common\RoleEnum;
+use App\Core\Common\UuidPattern;
+use App\Core\School\Common\RoleEnum;
 use App\Domain\School\UseCase\Member;
 use App\Domain\School\UseCase\School\Register;
 use App\Infrastructure\RouteEnum;
@@ -23,10 +23,10 @@ class SchoolController extends AbstractController
     #[Route('/register', name: 'school_register')]
     public function register(
         Request $request,
-        Register\Handler $handler
+        \App\Core\School\UseCase\School\Register\Handler $handler
     ): Response {
-        $command = new Register\Command();
-        $form = $this->createForm(Register\Form::class, $command);
+        $command = new \App\Core\School\UseCase\School\Register\Command();
+        $form = $this->createForm(\App\Core\School\UseCase\School\Register\Form::class, $command);
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
@@ -66,12 +66,12 @@ class SchoolController extends AbstractController
         ])]
     public function memberRegister(
         Request $request,
-        Member\Register\Handler $handler,
+        \App\Core\School\UseCase\Member\Register\Handler $handler,
         string $schoolId,
         string $invitationToken,
     ): Response {
-        $command = new Member\Register\Command($schoolId, $invitationToken);
-        $form = $this->createForm(Member\Register\Form::class, $command);
+        $command = new \App\Core\School\UseCase\Member\Register\Command($schoolId, $invitationToken);
+        $form = $this->createForm(\App\Core\School\UseCase\Member\Register\Form::class, $command);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

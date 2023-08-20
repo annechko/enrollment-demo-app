@@ -23,7 +23,7 @@ services:
     # admin
     App\Security\Admin\AdminDbHelper:
         arguments:
-            $entityClassName: App\Domain\Admin\Entity\AdminUser\AdminUser
+            $entityClassName: App\Core\Admin\Entity\AdminUser\AdminUser
 
     App\Security\Admin\AdminProvider:
         arguments:
@@ -37,7 +37,7 @@ services:
     # student
     App\Security\Student\StudentDbHelper:
         arguments:
-            $entityClassName: App\Domain\Student\Entity\Student\Student
+            $entityClassName: App\Core\Student\Entity\Student\Student
 
     App\Security\Student\StudentProvider:
         arguments:
@@ -51,7 +51,7 @@ services:
     # school
     App\Security\School\SchoolStaffMemberDbHelper:
         arguments:
-            $entityClassName: App\Domain\School\Entity\School\StaffMember
+            $entityClassName: App\Core\School\Entity\School\StaffMember
 
     App\Security\School\SchoolStaffMemberProvider:
         arguments:

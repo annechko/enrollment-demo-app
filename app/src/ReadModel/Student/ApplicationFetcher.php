@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\ReadModel\Student;
 
-use App\Domain\School\Entity\Course\Course;
-use App\Domain\School\Entity\Course\Intake\Intake;
-use App\Domain\School\Entity\School\School;
-use App\Domain\Student\Entity\Application\Application;
-use App\Domain\Student\Entity\Student\StudentId;
+use App\Core\School\Entity\Course\Course;
+use App\Core\School\Entity\Course\Intake\Intake;
+use App\Core\School\Entity\School\School;
+use App\Core\Student\Entity\Application\Application;
+use App\Core\Student\Entity\Student\StudentId;
 use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManagerInterface;
 

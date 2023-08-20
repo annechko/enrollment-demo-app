@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Api\Student;
 
-use App\Domain\School\Common\RoleEnum;
+use App\Core\School\Common\RoleEnum;
 use App\Infrastructure\RouteEnum;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;

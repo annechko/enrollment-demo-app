@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\ReadModel\Admin\School\Filter;
 
-use App\Domain\School\Entity\School\School;
+use App\Core\School\Entity\School\School;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type;
 use Symfony\Component\Form\FormBuilderInterface;

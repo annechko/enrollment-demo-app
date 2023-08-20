@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\ReadModel\Student\Filter;
 
-use App\Domain\Common\UuidPattern;
+use App\Core\Common\UuidPattern;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class CourseFilter

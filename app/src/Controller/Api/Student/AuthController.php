@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Controller\Api\Student;
 
 use App\Controller\Api\AbstractApiController;
-use App\Domain\Common\FeatureToggleService;
-use App\Domain\Common\FeatureToggleType;
+use App\Core\Common\FeatureToggleService;
+use App\Core\Common\FeatureToggleType;
 use App\Domain\Student\UseCase\Student\Register;
 use App\Infrastructure\RouteEnum;
 use App\Security\Student\StudentReadModel;
@@ -22,13 +22,13 @@ class AuthController extends AbstractApiController
     #[Route('/register', name: RouteEnum::API_STUDENT_REGISTER)]
     public function register(
         Request $request,
-        Register\Handler $handler,
+        \App\Core\Student\UseCase\Student\Register\Handler $handler,
         FeatureToggleService $featureToggleService,
         Security $security,
     ): Response {
-        $command = new Register\Command();
+        $command = new \App\Core\Student\UseCase\Student\Register\Command();
         try {
-            $user = $this->handle($command, Register\Form::class, $handler, $request);
+            $user = $this->handle($command, \App\Core\Student\UseCase\Student\Register\Form::class, $handler, $request);
         } catch (\Throwable $exception) {
             // todo catch different types.
             return new JsonResponse([

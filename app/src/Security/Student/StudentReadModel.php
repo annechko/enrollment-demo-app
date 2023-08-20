@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Security\Student;
 
-use App\Domain\Student\Entity\Student\Student;
+use App\Core\Student\Entity\Student\Student;
 use Symfony\Component\Security\Core\User\EquatableInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;

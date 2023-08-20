@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Controller\Api\Admin;
 
 use App\Controller\Api\AbstractApiController;
-use App\Domain\Common\UuidPattern;
-use App\Domain\School\Common\RoleEnum;
-use App\Domain\School\Entity\School\School;
+use App\Core\Common\UuidPattern;
+use App\Core\School\Common\RoleEnum;
+use App\Core\School\Entity\School\School;
 use App\Domain\School\UseCase\School\Confirm;
 use App\ReadModel\Admin\School\Filter;
 use App\ReadModel\Admin\School\SchoolFetcher;
@@ -62,11 +62,11 @@ class SchoolController extends AbstractApiController
         requirements: ['schoolId' => UuidPattern::PATTERN_WITH_TEMPLATE],
         methods: ['POST']),
     ]
-    public function confirm(string $schoolId, Confirm\Handler $handler): Response
+    public function confirm(string $schoolId, \App\Core\School\UseCase\School\Confirm\Handler $handler): Response
     {
         $this->denyAccessUnlessGranted(RoleEnum::ADMIN_USER->value);
 
-        $command = new Confirm\Command($schoolId);
+        $command = new \App\Core\School\UseCase\School\Confirm\Command($schoolId);
         try {
             $handler->handle($command);
         } catch (InvalidArgumentException|\DomainException $exception) {

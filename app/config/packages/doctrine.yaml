@@ -2,14 +2,14 @@ doctrine:
     dbal:
         url: '%env(resolve:DATABASE_URL)%'
         types:
-            !php/const App\Domain\School\Entity\School\SchoolIdType::NAME: 'App\Domain\School\Entity\School\SchoolIdType'
-            !php/const App\Domain\Admin\Entity\AdminUser\AdminUserIdType::NAME: 'App\Domain\Admin\Entity\AdminUser\AdminUserIdType'
-            !php/const App\Domain\School\Entity\School\StaffMemberIdType::NAME: 'App\Domain\School\Entity\School\StaffMemberIdType'
-            !php/const App\Domain\School\Entity\Campus\CampusIdType::NAME: 'App\Domain\School\Entity\Campus\CampusIdType'
-            !php/const App\Domain\School\Entity\Course\CourseIdType::NAME: 'App\Domain\School\Entity\Course\CourseIdType'
-            !php/const App\Domain\School\Entity\Course\Intake\IntakeIdType::NAME: 'App\Domain\School\Entity\Course\Intake\IntakeIdType'
-            !php/const App\Domain\Student\Entity\Student\StudentIdType::NAME: 'App\Domain\Student\Entity\Student\StudentIdType'
-            !php/const App\Domain\Student\Entity\Application\ApplicationIdType::NAME: 'App\Domain\Student\Entity\Application\ApplicationIdType'
+            !php/const App\Core\School\Entity\School\SchoolIdType::NAME: 'App\Core\School\Entity\School\SchoolIdType'
+            !php/const App\Core\Admin\Entity\AdminUser\AdminUserIdType::NAME: 'App\Core\Admin\Entity\AdminUser\AdminUserIdType'
+            !php/const App\Core\School\Entity\School\StaffMemberIdType::NAME: 'App\Core\School\Entity\School\StaffMemberIdType'
+            !php/const App\Core\School\Entity\Campus\CampusIdType::NAME: 'App\Core\School\Entity\Campus\CampusIdType'
+            !php/const App\Core\School\Entity\Course\CourseIdType::NAME: 'App\Core\School\Entity\Course\CourseIdType'
+            !php/const App\Core\School\Entity\Course\Intake\IntakeIdType::NAME: 'App\Core\School\Entity\Course\Intake\IntakeIdType'
+            !php/const App\Core\Student\Entity\Student\StudentIdType::NAME: 'App\Core\Student\Entity\Student\StudentIdType'
+            !php/const App\Core\Student\Entity\Application\ApplicationIdType::NAME: 'App\Core\Student\Entity\Application\ApplicationIdType'
 
     orm:
         auto_generate_proxy_classes: true
@@ -19,18 +19,18 @@ doctrine:
         mappings:
             School:
                 is_bundle: false
-                dir: '%kernel.project_dir%/src/Domain/School/Entity'
-                prefix: 'App\Domain\School\Entity'
+                dir: '%kernel.project_dir%/src/Core/School/Entity'
+                prefix: 'App\Core\School\Entity'
                 alias: School
             Student:
                 is_bundle: false
-                dir: '%kernel.project_dir%/src/Domain/Student/Entity'
-                prefix: 'App\Domain\Student\Entity'
+                dir: '%kernel.project_dir%/src/Core/Student/Entity'
+                prefix: 'App\Core\Student\Entity'
                 alias: Student
             Admin:
                 is_bundle: false
-                dir: '%kernel.project_dir%/src/Domain/Admin/Entity'
-                prefix: 'App\Domain\Admin\Entity'
+                dir: '%kernel.project_dir%/src/Core/Admin/Entity'
+                prefix: 'App\Core\Admin\Entity'
                 alias: Admin
 
 when@test:

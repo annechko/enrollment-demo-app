@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace App\DataFixtures;
 
-use App\Domain\Common\UuidGenerator;
-use App\Domain\School\Entity\School\Email;
-use App\Domain\School\Entity\School\InvitationToken;
-use App\Domain\School\Entity\School\Name;
-use App\Domain\School\Entity\School\School;
-use App\Domain\School\Entity\School\SchoolId;
-use App\Domain\School\Entity\School\StaffMember;
-use App\Domain\School\Entity\School\StaffMemberId;
-use App\Domain\School\Entity\School\StaffMemberName;
+use App\Core\Common\UuidGenerator;
+use App\Core\School\Entity\School\Email;
+use App\Core\School\Entity\School\InvitationToken;
+use App\Core\School\Entity\School\Name;
+use App\Core\School\Entity\School\School;
+use App\Core\School\Entity\School\SchoolId;
+use App\Core\School\Entity\School\StaffMember;
+use App\Core\School\Entity\School\StaffMemberId;
+use App\Core\School\Entity\School\StaffMemberName;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
 

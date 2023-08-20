@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\DataFixtures;
 
-use App\Domain\Common\UuidGenerator;
-use App\Domain\School\Entity\School\StaffMember;
-use App\Domain\Student\Entity\Student\Student;
-use App\Domain\Student\Entity\Student\StudentId;
+use App\Core\Common\UuidGenerator;
+use App\Core\School\Entity\School\StaffMember;
+use App\Core\Student\Entity\Student\Student;
+use App\Core\Student\Entity\Student\StudentId;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
 

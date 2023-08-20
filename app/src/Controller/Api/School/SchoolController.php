@@ -5,18 +5,18 @@ declare(strict_types=1);
 namespace App\Controller\Api\School;
 
 use App\Controller\Api\AbstractApiController;
-use App\Domain\Common\NotFoundException;
-use App\Domain\Common\UuidPattern;
-use App\Domain\School\Common\RoleEnum;
-use App\Domain\School\Entity\Campus\CampusId;
-use App\Domain\School\Entity\Course\CourseId;
-use App\Domain\School\Entity\Course\Intake\IntakeId;
-use App\Domain\School\Entity\School\SchoolId;
-use App\Domain\School\Repository\CampusRepository;
-use App\Domain\School\Repository\CourseRepository;
-use App\Domain\School\Repository\SchoolRepository;
+use App\Core\Common\NotFoundException;
+use App\Core\Common\UuidPattern;
+use App\Core\School\Common\RoleEnum;
+use App\Core\School\Entity\Campus\CampusId;
+use App\Core\School\Entity\Course\CourseId;
+use App\Core\School\Entity\Course\Intake\IntakeId;
+use App\Core\School\Entity\School\SchoolId;
+use App\Core\School\Repository\CampusRepository;
+use App\Core\School\Repository\CourseRepository;
+use App\Core\School\Repository\SchoolRepository;
+use App\Core\Student\Entity\Application\ApplicationId;
 use App\Domain\School\UseCase\School;
-use App\Domain\Student\Entity\Application\ApplicationId;
 use App\Infrastructure\RouteEnum;
 use App\ReadModel\School\ApplicationFetcher;
 use App\Security\School\SchoolStaffMemberReadModel;
@@ -35,20 +35,20 @@ class SchoolController extends AbstractApiController
     #[Route('/profile', name: 'api_school_profile_edit', methods: ['POST'])]
     public function profileEdit(
         Request $request,
-        School\Profile\Edit\Handler $handler
+        \App\Core\School\UseCase\School\Profile\Edit\Handler $handler
     ): Response {
         $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_ADMIN->value);
 
-        $command = new School\Profile\Edit\Command(
+        $command = new \App\Core\School\UseCase\School\Profile\Edit\Command(
             $this->getCurrentSchoolId()->getValue(),
             $this->getCurrentUser()->id
         );
 
         return $this->handleWithResponse(
-            $command,
-            School\Profile\Edit\Form::class,
-            $handler,
-            $request
+			$command,
+			\App\Core\School\UseCase\School\Profile\Edit\Form::class,
+			$handler,
+			$request
         );
     }
 
@@ -150,17 +150,17 @@ class SchoolController extends AbstractApiController
     public function applicationEdit(
         Request $request,
         string $applicationId,
-        School\Campus\Edit\Handler $handler
+        \App\Core\School\UseCase\School\Campus\Edit\Handler $handler
     ): Response {
         $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
 
-        $command = new School\Campus\Edit\Command($campusId);
+        $command = new \App\Core\School\UseCase\School\Campus\Edit\Command($campusId);
 
         return $this->handleWithResponse(
-            $command,
-            School\Campus\Edit\Form::class,
-            $handler,
-            $request
+			$command,
+			\App\Core\School\UseCase\School\Campus\Edit\Form::class,
+			$handler,
+			$request
         );
     }
 
@@ -170,34 +170,34 @@ class SchoolController extends AbstractApiController
     public function campusEdit(
         Request $request,
         string $campusId,
-        School\Campus\Edit\Handler $handler
+        \App\Core\School\UseCase\School\Campus\Edit\Handler $handler
     ): Response {
         $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
 
-        $command = new School\Campus\Edit\Command($campusId);
+        $command = new \App\Core\School\UseCase\School\Campus\Edit\Command($campusId);
 
         return $this->handleWithResponse(
-            $command,
-            School\Campus\Edit\Form::class,
-            $handler,
-            $request
+			$command,
+			\App\Core\School\UseCase\School\Campus\Edit\Form::class,
+			$handler,
+			$request
         );
     }
 
     #[Route('/campuses', name: 'api_school_campus_add', methods: ['POST'])]
     public function campusAdd(
         Request $request,
-        School\Campus\Add\Handler $handler
+        \App\Core\School\UseCase\School\Campus\Add\Handler $handler
     ): Response {
         $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
 
-        $command = new School\Campus\Add\Command($this->getCurrentSchoolId()->getValue());
+        $command = new \App\Core\School\UseCase\School\Campus\Add\Command($this->getCurrentSchoolId()->getValue());
 
         return $this->handleWithResponse(
-            $command,
-            School\Campus\Add\Form::class,
-            $handler,
-            $request
+			$command,
+			\App\Core\School\UseCase\School\Campus\Add\Form::class,
+			$handler,
+			$request
         );
     }
 
@@ -260,17 +260,17 @@ class SchoolController extends AbstractApiController
     #[Route('/courses', name: 'api_school_course_add', methods: ['POST'])]
     public function courseAdd(
         Request $request,
-        School\Course\Add\Handler $handler
+        \App\Core\School\UseCase\School\Course\Add\Handler $handler
     ): Response {
         $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
 
-        $command = new School\Course\Add\Command($this->getCurrentSchoolId()->getValue());
+        $command = new \App\Core\School\UseCase\School\Course\Add\Command($this->getCurrentSchoolId()->getValue());
 
         return $this->handleWithResponse(
-            $command,
-            School\Course\Add\Form::class,
-            $handler,
-            $request,
+			$command,
+			\App\Core\School\UseCase\School\Course\Add\Form::class,
+			$handler,
+			$request,
             fn (CourseId $result) => ['id' => $result->getValue()]
         );
     }
@@ -311,17 +311,17 @@ class SchoolController extends AbstractApiController
     public function courseIntakeAdd(
         Request $request,
         string $courseId,
-        School\Course\Intake\Add\Handler $handler
+        \App\Core\School\UseCase\School\Course\Intake\Add\Handler $handler
     ): Response {
         $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
 
-        $command = new School\Course\Intake\Add\Command($courseId);
+        $command = new \App\Core\School\UseCase\School\Course\Intake\Add\Command($courseId);
 
         return $this->handleWithResponse(
-            $command,
-            School\Course\Intake\Add\Form::class,
-            $handler,
-            $request,
+			$command,
+			\App\Core\School\UseCase\School\Course\Intake\Add\Form::class,
+			$handler,
+			$request,
         );
     }
 
@@ -335,17 +335,17 @@ class SchoolController extends AbstractApiController
         Request $request,
         string $courseId,
         string $intakeId,
-        School\Course\Intake\Edit\Handler $handler
+        \App\Core\School\UseCase\School\Course\Intake\Edit\Handler $handler
     ): Response {
         $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
 
-        $command = new School\Course\Intake\Edit\Command($intakeId, $courseId);
+        $command = new \App\Core\School\UseCase\School\Course\Intake\Edit\Command($intakeId, $courseId);
 
         return $this->handleWithResponse(
-            $command,
-            School\Course\Intake\Edit\Form::class,
-            $handler,
-            $request,
+			$command,
+			\App\Core\School\UseCase\School\Course\Intake\Edit\Form::class,
+			$handler,
+			$request,
         );
     }
 
@@ -384,12 +384,12 @@ class SchoolController extends AbstractApiController
     public function courseIntakeRemove(
         string $courseId,
         string $intakeId,
-        School\Course\Intake\Remove\Handler $handler
+        \App\Core\School\UseCase\School\Course\Intake\Remove\Handler $handler
     ): Response {
         $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
 
         try {
-            $command = new School\Course\Intake\Remove\Command($intakeId, $courseId);
+            $command = new \App\Core\School\UseCase\School\Course\Intake\Remove\Command($intakeId, $courseId);
             $handler->handle($command);
         } catch (InvalidArgumentException $exception) {
             return new JsonResponse([
@@ -445,17 +445,17 @@ class SchoolController extends AbstractApiController
     public function courseEdit(
         Request $request,
         string $courseId,
-        School\Course\Edit\Handler $handler,
+        \App\Core\School\UseCase\School\Course\Edit\Handler $handler,
     ): Response {
         $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
 
-        $command = new School\Course\Edit\Command($courseId);
+        $command = new \App\Core\School\UseCase\School\Course\Edit\Command($courseId);
 
         return $this->handleWithResponse(
-            $command,
-            School\Course\Edit\Form::class,
-            $handler,
-            $request
+			$command,
+			\App\Core\School\UseCase\School\Course\Edit\Form::class,
+			$handler,
+			$request
         );
     }
 
