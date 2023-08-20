@@ -20,6 +20,7 @@ abstract class AbstractUserDbHelper
 
     /**
      * @param array<string, mixed> $data
+     *
      * @throws UserNotFoundException
      */
     abstract protected function mapDataToModel(array $data): UserInterface;
@@ -36,7 +37,7 @@ abstract class AbstractUserDbHelper
      * @throws \Doctrine\DBAL\Exception
      * @throws UserNotFoundException
      */
-    public function findByEmail(string $email,): UserInterface
+    public function findByEmail(string $email): UserInterface
     {
         $result = $this->connection->createQueryBuilder()
             ->select(

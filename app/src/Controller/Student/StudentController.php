@@ -7,7 +7,6 @@ namespace App\Controller\Student;
 use App\Core\School\Common\RoleEnum;
 use App\Core\Student\Repository\StudentRepository;
 use App\Core\Student\Service\StudentEmailVerifier;
-use App\Domain\School\UseCase\Member;
 use App\Infrastructure\RouteEnum;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

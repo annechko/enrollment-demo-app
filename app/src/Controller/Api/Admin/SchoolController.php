@@ -8,7 +8,6 @@ use App\Controller\Api\AbstractApiController;
 use App\Core\Common\UuidPattern;
 use App\Core\School\Common\RoleEnum;
 use App\Core\School\Entity\School\School;
-use App\Domain\School\UseCase\School\Confirm;
 use App\ReadModel\Admin\School\Filter;
 use App\ReadModel\Admin\School\SchoolFetcher;
 use Symfony\Component\HttpFoundation\JsonResponse;

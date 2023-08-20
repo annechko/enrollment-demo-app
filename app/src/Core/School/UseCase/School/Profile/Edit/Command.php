@@ -25,7 +25,7 @@ class Command
     #[Assert\Type('string')]
     public $name;
 
-    public function __construct(string $schoolId, string $staffMemberId,)
+    public function __construct(string $schoolId, string $staffMemberId)
     {
         $this->schoolId = $schoolId;
         $this->staffMemberId = $staffMemberId;

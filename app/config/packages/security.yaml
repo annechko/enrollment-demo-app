@@ -7,11 +7,11 @@ security:
             algorithm: auto
         App\Security\Student\StudentReadModel:
             algorithm: auto
-        App\Domain\Admin\Entity\AdminUser\AdminUser:
+        App\Core\Admin\Entity\AdminUser\AdminUser:
             algorithm: auto
-        App\Domain\School\Entity\School\StaffMember:
+        App\Core\School\Entity\School\StaffMember:
             algorithm: auto
-        App\Domain\Student\Entity\Student\Student:
+        App\Core\Student\Entity\Student\Student:
             algorithm: auto
     # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
     providers:

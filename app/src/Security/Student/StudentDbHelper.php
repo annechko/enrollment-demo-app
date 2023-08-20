@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Security\Student;
 
 use App\Security\AbstractUserDbHelper;
-use App\Security\Admin\AdminReadModel;
 use Symfony\Component\Security\Core\Exception\UserNotFoundException;
 use Symfony\Component\Security\Core\User\UserInterface;
 

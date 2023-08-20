@@ -60,6 +60,7 @@ class SchoolFetcher
 
     /**
      * @return array<array<string>>
+     *
      * @throws \Doctrine\DBAL\Exception
      */
     public function fetchSchoolCourses(
@@ -91,6 +92,7 @@ class SchoolFetcher
 
     /**
      * @return array<array<string>>
+     *
      * @throws \Doctrine\DBAL\Exception
      */
     public function fetchCourseIntakes(

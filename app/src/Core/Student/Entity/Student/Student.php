@@ -112,6 +112,7 @@ class Student
     public function verifyEmail(): self
     {
         $this->isEmailVerified = true;
+
         return $this;
     }
 

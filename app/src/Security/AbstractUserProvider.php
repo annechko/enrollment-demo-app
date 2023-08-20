@@ -23,9 +23,7 @@ abstract class AbstractUserProvider implements UserProviderInterface, PasswordUp
         string $newHashedPassword
     ): void {
         if (!$user instanceof ($this->userClassName) || (!$user instanceof UserInterface)) {
-            throw new UnsupportedUserException(
-                sprintf('Instances of "%s" are not supported.', \get_class($user))
-            );
+            throw new UnsupportedUserException(sprintf('Instances of "%s" are not supported.', \get_class($user)));
         }
 
         $this->userFetcher->runUpgradePassword($user->getUserIdentifier(), $newHashedPassword);
@@ -47,12 +45,11 @@ abstract class AbstractUserProvider implements UserProviderInterface, PasswordUp
 
     public function supportsClass(string $class): bool
     {
-        return $class === ($this->userClassName);
+        return $class === $this->userClassName;
     }
 
     public function loadUserByIdentifier(string $identifier): UserInterface
     {
         return $this->userFetcher->findByEmail($identifier);
     }
-
 }

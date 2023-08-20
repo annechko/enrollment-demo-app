@@ -41,6 +41,7 @@ abstract class AbstractJsonApiController extends AbstractController
             }
             throw new \DomainException(implode(', ', $errors));
         }
+
         return $handler->handle($command);
     }
 

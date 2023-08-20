@@ -7,7 +7,6 @@ namespace App\Controller\Api\Student;
 use App\Controller\Api\AbstractApiController;
 use App\Core\Common\FeatureToggleService;
 use App\Core\Common\FeatureToggleType;
-use App\Domain\Student\UseCase\Student\Register;
 use App\Infrastructure\RouteEnum;
 use App\Security\Student\StudentReadModel;
 use Symfony\Bundle\SecurityBundle\Security;
@@ -41,6 +40,7 @@ class AuthController extends AbstractApiController
         if (!$emailVerificationEnabled) {
             $security->login(StudentReadModel::createFromStudent($user));
         }
+
         return new JsonResponse(['emailVerificationEnabled' => $emailVerificationEnabled]);
     }
 }

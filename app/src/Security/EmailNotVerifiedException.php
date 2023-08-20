@@ -8,5 +8,4 @@ use Symfony\Component\Security\Core\Exception\CustomUserMessageAccountStatusExce
 
 class EmailNotVerifiedException extends CustomUserMessageAccountStatusException
 {
-
 }

@@ -59,7 +59,7 @@ class Application
     #[ORM\JoinColumn(nullable: false)]
     private Student $student;
 
-    #[ORM\Column(type: Types::STRING, enumType: ApplicationStatusEnum::class,options: ['default' => ApplicationStatusEnum::STATUS_NEW])]
+    #[ORM\Column(type: Types::STRING, enumType: ApplicationStatusEnum::class, options: ['default' => ApplicationStatusEnum::STATUS_NEW])]
     private ApplicationStatusEnum $status;
 
     public function __construct(
@@ -97,6 +97,4 @@ class Application
     {
         return $this->status;
     }
-
-
 }

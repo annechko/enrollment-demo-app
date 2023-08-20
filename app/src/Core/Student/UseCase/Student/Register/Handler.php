@@ -51,6 +51,7 @@ class Handler
         }
 
         $this->flusher->flush();
+
         return $student;
     }
 }

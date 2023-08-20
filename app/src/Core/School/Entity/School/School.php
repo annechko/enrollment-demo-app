@@ -103,6 +103,7 @@ class School
         $this->name = $name;
         $this->updatedAt = new \DateTimeImmutable();
         $this->updatedBy = $memberId;
+
         return $this;
     }
 }

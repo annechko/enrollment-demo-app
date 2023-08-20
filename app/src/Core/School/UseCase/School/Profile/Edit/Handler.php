@@ -25,7 +25,7 @@ class Handler
         $school = $this->schoolRepository->get(new SchoolId($command->schoolId));
         $staffMember = $this->memberRepository->get(new StaffMemberId($command->staffMemberId));
         if (!$staffMember->isFromSchool($school)) {
-            throw new \DomainException("Member not found.");
+            throw new \DomainException('Member not found.');
         }
 
         $school->edit(new Name($command->name), $staffMember->getId());

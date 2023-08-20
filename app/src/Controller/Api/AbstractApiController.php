@@ -33,6 +33,7 @@ abstract class AbstractApiController extends AbstractController
                 }
                 throw new FormErrorException($error);
             }
+
             return $handler->handle($command);
         }
         throw new \LogicException('Form is not submitted.');

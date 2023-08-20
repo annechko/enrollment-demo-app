@@ -6,8 +6,6 @@ namespace App\Controller\School;
 
 use App\Core\Common\UuidPattern;
 use App\Core\School\Common\RoleEnum;
-use App\Domain\School\UseCase\Member;
-use App\Domain\School\UseCase\School\Register;
 use App\Infrastructure\RouteEnum;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;

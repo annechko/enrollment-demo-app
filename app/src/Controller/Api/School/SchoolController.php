@@ -16,11 +16,9 @@ use App\Core\School\Repository\CampusRepository;
 use App\Core\School\Repository\CourseRepository;
 use App\Core\School\Repository\SchoolRepository;
 use App\Core\Student\Entity\Application\ApplicationId;
-use App\Domain\School\UseCase\School;
 use App\Infrastructure\RouteEnum;
 use App\ReadModel\School\ApplicationFetcher;
 use App\Security\School\SchoolStaffMemberReadModel;
-use DateTimeImmutable;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -45,10 +43,10 @@ class SchoolController extends AbstractApiController
         );
 
         return $this->handleWithResponse(
-			$command,
-			\App\Core\School\UseCase\School\Profile\Edit\Form::class,
-			$handler,
-			$request
+            $command,
+            \App\Core\School\UseCase\School\Profile\Edit\Form::class,
+            $handler,
+            $request
         );
     }
 
@@ -81,12 +79,12 @@ class SchoolController extends AbstractApiController
         $format = 'M d, Y';
         foreach ($applications as $item) {
             $intake = [
-                'startDate' => (new DateTimeImmutable($item['intake_start_date']))->format($format),
-                'endDate' => (new DateTimeImmutable($item['intake_end_date']))->format($format),
+                'startDate' => (new \DateTimeImmutable($item['intake_start_date']))->format($format),
+                'endDate' => (new \DateTimeImmutable($item['intake_end_date']))->format($format),
             ];
             $result[] = [
                 'id' => $item['id'],
-                'createdAt' => (new DateTimeImmutable($item['created_at']))->format($format),
+                'createdAt' => (new \DateTimeImmutable($item['created_at']))->format($format),
                 'student' => [
                     'id' => $item['student_id'],
                     'name' => $item['student_name'],
@@ -99,6 +97,7 @@ class SchoolController extends AbstractApiController
                 'status' => $item['status'],
             ];
         }
+
         return new JsonResponse($result);
     }
 
@@ -125,10 +124,10 @@ class SchoolController extends AbstractApiController
             'student' => [
                 'id' => $application['id'],
                 'passportNumber' => $application['passport_number'],
-                'passportExpiry' => (new DateTimeImmutable(
+                'passportExpiry' => (new \DateTimeImmutable(
                     $application['passport_expiry']
                 ))->format($format),
-                'dateOfBirth' => (new DateTimeImmutable($application['date_of_birth']))->format(
+                'dateOfBirth' => (new \DateTimeImmutable($application['date_of_birth']))->format(
                     $format
                 ),
                 'fullName' => $application['full_name'],
@@ -140,7 +139,7 @@ class SchoolController extends AbstractApiController
             'intake' => [
                 'id' => $application['id'],
             ],
-            'createdAt' => (new DateTimeImmutable($application['created_at']))->format($format),
+            'createdAt' => (new \DateTimeImmutable($application['created_at']))->format($format),
         ]);
     }
 
@@ -157,10 +156,10 @@ class SchoolController extends AbstractApiController
         $command = new \App\Core\School\UseCase\School\Campus\Edit\Command($campusId);
 
         return $this->handleWithResponse(
-			$command,
-			\App\Core\School\UseCase\School\Campus\Edit\Form::class,
-			$handler,
-			$request
+            $command,
+            \App\Core\School\UseCase\School\Campus\Edit\Form::class,
+            $handler,
+            $request
         );
     }
 
@@ -177,10 +176,10 @@ class SchoolController extends AbstractApiController
         $command = new \App\Core\School\UseCase\School\Campus\Edit\Command($campusId);
 
         return $this->handleWithResponse(
-			$command,
-			\App\Core\School\UseCase\School\Campus\Edit\Form::class,
-			$handler,
-			$request
+            $command,
+            \App\Core\School\UseCase\School\Campus\Edit\Form::class,
+            $handler,
+            $request
         );
     }
 
@@ -194,10 +193,10 @@ class SchoolController extends AbstractApiController
         $command = new \App\Core\School\UseCase\School\Campus\Add\Command($this->getCurrentSchoolId()->getValue());
 
         return $this->handleWithResponse(
-			$command,
-			\App\Core\School\UseCase\School\Campus\Add\Form::class,
-			$handler,
-			$request
+            $command,
+            \App\Core\School\UseCase\School\Campus\Add\Form::class,
+            $handler,
+            $request
         );
     }
 
@@ -267,10 +266,10 @@ class SchoolController extends AbstractApiController
         $command = new \App\Core\School\UseCase\School\Course\Add\Command($this->getCurrentSchoolId()->getValue());
 
         return $this->handleWithResponse(
-			$command,
-			\App\Core\School\UseCase\School\Course\Add\Form::class,
-			$handler,
-			$request,
+            $command,
+            \App\Core\School\UseCase\School\Course\Add\Form::class,
+            $handler,
+            $request,
             fn (CourseId $result) => ['id' => $result->getValue()]
         );
     }
@@ -318,10 +317,10 @@ class SchoolController extends AbstractApiController
         $command = new \App\Core\School\UseCase\School\Course\Intake\Add\Command($courseId);
 
         return $this->handleWithResponse(
-			$command,
-			\App\Core\School\UseCase\School\Course\Intake\Add\Form::class,
-			$handler,
-			$request,
+            $command,
+            \App\Core\School\UseCase\School\Course\Intake\Add\Form::class,
+            $handler,
+            $request,
         );
     }
 
@@ -342,10 +341,10 @@ class SchoolController extends AbstractApiController
         $command = new \App\Core\School\UseCase\School\Course\Intake\Edit\Command($intakeId, $courseId);
 
         return $this->handleWithResponse(
-			$command,
-			\App\Core\School\UseCase\School\Course\Intake\Edit\Form::class,
-			$handler,
-			$request,
+            $command,
+            \App\Core\School\UseCase\School\Course\Intake\Edit\Form::class,
+            $handler,
+            $request,
         );
     }
 
@@ -452,10 +451,10 @@ class SchoolController extends AbstractApiController
         $command = new \App\Core\School\UseCase\School\Course\Edit\Command($courseId);
 
         return $this->handleWithResponse(
-			$command,
-			\App\Core\School\UseCase\School\Course\Edit\Form::class,
-			$handler,
-			$request
+            $command,
+            \App\Core\School\UseCase\School\Course\Edit\Form::class,
+            $handler,
+            $request
         );
     }
 
@@ -505,6 +504,7 @@ class SchoolController extends AbstractApiController
         if (!$this->getUser() instanceof SchoolStaffMemberReadModel) {
             throw new \LogicException();
         }
+
         return $this->getUser();
     }
 

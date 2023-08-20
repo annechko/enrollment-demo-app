@@ -78,6 +78,6 @@ class OtherAccountsProvider
             }
         }
 
-        return ($accounts);
+        return $accounts;
     }
 }

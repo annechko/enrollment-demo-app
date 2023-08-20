@@ -8,12 +8,10 @@ use App\Controller\Api\AbstractJsonApiController;
 use App\Core\Common\UuidPattern;
 use App\Core\School\Common\RoleEnum;
 use App\Core\Student\Entity\Student\StudentId;
-use App\Domain\Student\UseCase\Application;
 use App\ReadModel\Student\ApplicationFetcher;
 use App\ReadModel\Student\Filter;
 use App\ReadModel\Student\SchoolFetcher;
 use App\Security\Student\StudentReadModel;
-use DateTimeImmutable;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -45,6 +43,7 @@ class StudentController extends AbstractJsonApiController
                     break;
                 }
             }
+
             return new JsonResponse([
                 'error' => $error,
             ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
@@ -89,6 +88,7 @@ class StudentController extends AbstractJsonApiController
                     break;
                 }
             }
+
             return new JsonResponse([
                 'error' => $error,
             ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
@@ -156,12 +156,12 @@ class StudentController extends AbstractJsonApiController
         $format = 'M d, Y';
         foreach ($applications as $item) {
             $intake = [
-                'startDate' => (new DateTimeImmutable($item['intake_start_date']))->format($format),
-                'endDate' => (new DateTimeImmutable($item['intake_end_date']))->format($format),
+                'startDate' => (new \DateTimeImmutable($item['intake_start_date']))->format($format),
+                'endDate' => (new \DateTimeImmutable($item['intake_end_date']))->format($format),
             ];
             $result[] = [
                 'id' => $item['id'],
-                'createdAt' => (new DateTimeImmutable($item['created_at']))->format($format),
+                'createdAt' => (new \DateTimeImmutable($item['created_at']))->format($format),
                 'school' => [
                     'id' => $item['school_id'],
                     'name' => $item['school_name'],
@@ -174,6 +174,7 @@ class StudentController extends AbstractJsonApiController
                 'status' => $item['status'],
             ];
         }
+
         return new JsonResponse($result);
     }
 
@@ -186,9 +187,9 @@ class StudentController extends AbstractJsonApiController
         $this->denyAccessUnlessGranted(RoleEnum::STUDENT_USER->value);
 
         return $this->handleWithResponse(
-			\App\Core\Student\UseCase\Application\Add\Command::class,
-			$handler,
-			$request,
+            \App\Core\Student\UseCase\Application\Add\Command::class,
+            $handler,
+            $request,
             commandCallback: function (\App\Core\Student\UseCase\Application\Add\Command $command) {
                 $command->studentId = $this->getCurrentStudentId()->getValue();
             }
@@ -200,6 +201,7 @@ class StudentController extends AbstractJsonApiController
         if (!$this->getUser() instanceof StudentReadModel) {
             throw new \LogicException();
         }
+
         return $this->getUser();
     }
 
