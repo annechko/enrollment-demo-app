@@ -28,19 +28,20 @@ class AuthController extends AbstractApiController
         $command = new \App\Core\Student\UseCase\Student\Register\Command();
         try {
             $user = $this->handle($command, \App\Core\Student\UseCase\Student\Register\Form::class, $handler, $request);
+
+            $emailVerificationEnabled = $featureToggleService->isEnabled(
+                FeatureToggleType::STUDENT_EMAIL_VERIFICATION
+            );
+            if (!$emailVerificationEnabled) {
+                $security->login(StudentReadModel::createFromStudent($user));
+            }
+
+            return new JsonResponse(['emailVerificationEnabled' => $emailVerificationEnabled]);
         } catch (\Throwable $exception) {
             // todo catch different types.
             return new JsonResponse([
-                'error' => $exception->getMessage(),
+                'error' => 'Something went wrong.',
             ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
         }
-        $emailVerificationEnabled = $featureToggleService->isEnabled(
-            FeatureToggleType::STUDENT_EMAIL_VERIFICATION
-        );
-        if (!$emailVerificationEnabled) {
-            $security->login(StudentReadModel::createFromStudent($user));
-        }
-
-        return new JsonResponse(['emailVerificationEnabled' => $emailVerificationEnabled]);
     }
 }

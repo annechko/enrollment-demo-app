@@ -10,6 +10,6 @@ class FeatureToggleService
     {
         // todo add entity and repository and store in db.
         // admin user can activate different toggles.
-        return false;
+        return true;
     }
 }
