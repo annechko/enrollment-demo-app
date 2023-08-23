@@ -46,7 +46,7 @@ class SchoolController extends AbstractController
                 $handler->handle($command);
 
                 return new JsonResponse([]);
-            } catch (InvalidArgumentException $exception) {
+            } catch (InvalidArgumentException|\InvalidArgumentException $exception) {
                 return new JsonResponse([
                     'error' => $exception->getMessage(),
                 ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY);

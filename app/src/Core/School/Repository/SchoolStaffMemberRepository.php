@@ -58,4 +58,9 @@ class SchoolStaffMemberRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+
+    public function hasByEmail(string $adminEmail): bool
+    {
+        return $this->count(['email.value' => $adminEmail]) > 0;
+    }
 }

@@ -28,6 +28,9 @@ class Handler
 
     public function handle(Command $command): Student
     {
+        if ($this->studentRepository->hasByEmail($command->email)) {
+            throw new \InvalidArgumentException('Student with this email already exists.');
+        }
         $student = Student::register(
             new StudentId($this->uuidGenerator->generate()),
             $command->email,

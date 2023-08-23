@@ -13,11 +13,13 @@ use App\Core\School\Entity\School\SchoolId;
 use App\Core\School\Entity\School\StaffMemberId;
 use App\Core\School\Entity\School\StaffMemberName;
 use App\Core\School\Repository\SchoolRepository;
+use App\Core\School\Repository\SchoolStaffMemberRepository;
 
 class Handler
 {
     public function __construct(
         private readonly SchoolRepository $schoolRepository,
+        private readonly SchoolStaffMemberRepository $staffMemberRepository,
         private readonly Flusher $flusher,
         private readonly UuidGenerator $uuidGenerator,
     ) {
@@ -25,6 +27,9 @@ class Handler
 
     public function handle(Command $command): void
     {
+        if ($this->staffMemberRepository->hasByEmail($command->adminEmail)) {
+            throw new \InvalidArgumentException('School with this admin email already exists.');
+        }
         $school = School::register(
             new SchoolId($this->uuidGenerator->generate()),
             new Name($command->name),

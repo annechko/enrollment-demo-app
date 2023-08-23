@@ -52,4 +52,9 @@ class StudentRepository extends ServiceEntityRepository
 
         return $school;
     }
+
+    public function hasByEmail(string $email): bool
+    {
+        return $this->count(['email' => $email]) > 0;
+    }
 }
