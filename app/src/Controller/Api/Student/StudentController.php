@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\Api\Student;
 
 use App\Controller\Api\AbstractJsonApiController;
-use App\Core\Common\UuidPattern;
+use App\Core\Common\RegexEnum;
 use App\Core\School\Common\RoleEnum;
 use App\Core\Student\Entity\Student\StudentId;
 use App\ReadModel\Student\ApplicationFetcher;
@@ -66,7 +66,7 @@ class StudentController extends AbstractJsonApiController
 
     #[Route('/applications/schools/{schoolId}/courses',
         name: 'api_student_application_course_list',
-        requirements: ['schoolId' => UuidPattern::PATTERN_WITH_TEMPLATE],
+        requirements: ['schoolId' => RegexEnum::UUID_PATTERN_WITH_TEMPLATE],
     )]
     public function applicationSchoolCoursesList(
         Request $request,
@@ -112,8 +112,8 @@ class StudentController extends AbstractJsonApiController
     #[Route('/applications/schools/{schoolId}/courses/{courseId}/intakes',
         name: 'api_student_application_intake_list',
         requirements: [
-            'schoolId' => UuidPattern::PATTERN_WITH_TEMPLATE,
-            'courseId' => UuidPattern::PATTERN_WITH_TEMPLATE,
+            'schoolId' => RegexEnum::UUID_PATTERN_WITH_TEMPLATE,
+            'courseId' => RegexEnum::UUID_PATTERN_WITH_TEMPLATE,
         ],
     )]
     public function applicationCourseIntakesList(

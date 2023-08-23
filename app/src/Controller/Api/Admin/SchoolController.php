@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\Api\Admin;
 
 use App\Controller\Api\AbstractApiController;
-use App\Core\Common\UuidPattern;
+use App\Core\Common\RegexEnum;
 use App\Core\School\Common\RoleEnum;
 use App\Core\School\Entity\School\School;
 use App\ReadModel\Admin\School\Filter;
@@ -58,7 +58,7 @@ class SchoolController extends AbstractApiController
     }
 
     #[Route('/{schoolId}/confirm', name: 'api_admin_school_confirm',
-        requirements: ['schoolId' => UuidPattern::PATTERN_WITH_TEMPLATE],
+        requirements: ['schoolId' => RegexEnum::UUID_PATTERN_WITH_TEMPLATE],
         methods: ['POST']),
     ]
     public function confirm(string $schoolId, \App\Core\School\UseCase\School\Confirm\Handler $handler): Response

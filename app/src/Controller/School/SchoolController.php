@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\School;
 
-use App\Core\Common\UuidPattern;
+use App\Core\Common\RegexEnum;
 use App\Core\School\Common\RoleEnum;
 use App\Infrastructure\RouteEnum;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -59,8 +59,8 @@ class SchoolController extends AbstractController
     // todo rename to invite
     #[Route('/{schoolId}/invitation/{invitationToken}', name: 'school_member_register',
         requirements: [
-            'schoolId' => UuidPattern::PATTERN,
-            'invitationToken' => UuidPattern::PATTERN,
+            'schoolId' => RegexEnum::UUID_PATTERN,
+            'invitationToken' => RegexEnum::UUID_PATTERN,
         ])]
     public function memberRegister(
         Request $request,
@@ -111,7 +111,7 @@ class SchoolController extends AbstractController
     }
 
     #[Route('/applications/{applicationId}', name: 'school_application_edit',
-        requirements: ['applicationId' => UuidPattern::PATTERN_WITH_TEMPLATE],
+        requirements: ['applicationId' => RegexEnum::UUID_PATTERN_WITH_TEMPLATE],
         methods: ['GET'])]
     public function studentApplicationEditShow(string $applicationId): Response
     {
@@ -153,7 +153,7 @@ class SchoolController extends AbstractController
     }
 
     #[Route('/campuses/{campusId}/edit', name: 'school_campus_edit',
-        requirements: ['campusId' => UuidPattern::PATTERN_WITH_TEMPLATE],
+        requirements: ['campusId' => RegexEnum::UUID_PATTERN_WITH_TEMPLATE],
         methods: ['GET'])]
     public function campusEditShow(string $campusId): Response
     {
@@ -163,7 +163,7 @@ class SchoolController extends AbstractController
     }
 
     #[Route('/courses/{courseId}/edit', name: 'school_course_edit',
-        requirements: ['courseId' => UuidPattern::PATTERN_WITH_TEMPLATE],
+        requirements: ['courseId' => RegexEnum::UUID_PATTERN_WITH_TEMPLATE],
         methods: ['GET'])]
     public function courseEditShow(string $courseId): Response
     {

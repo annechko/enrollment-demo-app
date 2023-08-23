@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace App\Core\School\UseCase\School\Course\Intake\Add;
 
-use App\Core\Common\UuidPattern;
+use App\Core\Common\RegexEnum;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class Command
 {
     /** @var string */
+    #[Assert\Regex(RegexEnum::WORDS_AND_NUMBERS_REG_EXP, message: 'Name is not valid.')]
     public $name;
 
     /** @var \DateTimeImmutable */
@@ -28,11 +29,11 @@ class Command
     public $classSize;
 
     /** @var string */
-    #[Assert\Regex(pattern: UuidPattern::PATTERN_REG_EXP)]
+    #[Assert\Regex(pattern: RegexEnum::UUID_PATTERN_REG_EXP)]
     public $campusId;
 
     /** @var string */
-    #[Assert\Regex(pattern: UuidPattern::PATTERN_REG_EXP)]
+    #[Assert\Regex(pattern: RegexEnum::UUID_PATTERN_REG_EXP)]
     public $courseId;
 
     public function __construct(string $courseId)

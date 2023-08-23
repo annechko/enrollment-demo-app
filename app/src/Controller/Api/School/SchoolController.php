@@ -6,7 +6,7 @@ namespace App\Controller\Api\School;
 
 use App\Controller\Api\AbstractApiController;
 use App\Core\Common\NotFoundException;
-use App\Core\Common\UuidPattern;
+use App\Core\Common\RegexEnum;
 use App\Core\School\Common\RoleEnum;
 use App\Core\School\Entity\Campus\CampusId;
 use App\Core\School\Entity\Course\CourseId;
@@ -102,7 +102,7 @@ class SchoolController extends AbstractApiController
     }
 
     #[Route('/applications/{applicationId}', name: 'api_school_application',
-        requirements: ['applicationId' => UuidPattern::PATTERN_WITH_TEMPLATE],
+        requirements: ['applicationId' => RegexEnum::UUID_PATTERN_WITH_TEMPLATE],
         methods: ['GET'])]
     public function applicationGet(
         string $applicationId,
@@ -144,7 +144,7 @@ class SchoolController extends AbstractApiController
     }
 
     #[Route('/campuses/{applicationId}', name: 'api_school_application_edit',
-        requirements: ['applicationId' => UuidPattern::PATTERN_WITH_TEMPLATE],
+        requirements: ['applicationId' => RegexEnum::UUID_PATTERN_WITH_TEMPLATE],
         methods: ['POST'])]
     public function applicationEdit(
         Request $request,
@@ -164,7 +164,7 @@ class SchoolController extends AbstractApiController
     }
 
     #[Route('/campuses/{campusId}', name: 'api_school_campus_edit',
-        requirements: ['campusId' => UuidPattern::PATTERN_WITH_TEMPLATE],
+        requirements: ['campusId' => RegexEnum::UUID_PATTERN_WITH_TEMPLATE],
         methods: ['POST'])]
     public function campusEdit(
         Request $request,
@@ -219,7 +219,7 @@ class SchoolController extends AbstractApiController
     }
 
     #[Route('/campuses/{campusId}', name: 'api_school_campus',
-        requirements: ['campusId' => UuidPattern::PATTERN_WITH_TEMPLATE],
+        requirements: ['campusId' => RegexEnum::UUID_PATTERN_WITH_TEMPLATE],
         methods: ['GET'])]
     public function campusGet(CampusRepository $repository, string $campusId): Response
     {
@@ -276,7 +276,7 @@ class SchoolController extends AbstractApiController
 
     #[Route('/courses/{courseId}/intakes', name: 'api_school_course_intake_list',
         requirements: [
-            'courseId' => UuidPattern::PATTERN_WITH_TEMPLATE,
+            'courseId' => RegexEnum::UUID_PATTERN_WITH_TEMPLATE,
         ],
         methods: ['GET'],
     )]
@@ -304,7 +304,7 @@ class SchoolController extends AbstractApiController
 
     #[Route('/courses/{courseId}/intakes', name: 'api_school_course_intake_add',
         requirements: [
-            'courseId' => UuidPattern::PATTERN_WITH_TEMPLATE,
+            'courseId' => RegexEnum::UUID_PATTERN_WITH_TEMPLATE,
         ],
         methods: ['POST'])]
     public function courseIntakeAdd(
@@ -326,8 +326,8 @@ class SchoolController extends AbstractApiController
 
     #[Route('/courses/{courseId}/intakes/{intakeId}', name: 'api_school_course_intake_edit',
         requirements: [
-            'courseId' => UuidPattern::PATTERN_WITH_TEMPLATE,
-            'intakeId' => UuidPattern::PATTERN_WITH_TEMPLATE,
+            'courseId' => RegexEnum::UUID_PATTERN_WITH_TEMPLATE,
+            'intakeId' => RegexEnum::UUID_PATTERN_WITH_TEMPLATE,
         ],
         methods: ['POST'])]
     public function courseIntakeEdit(
@@ -350,8 +350,8 @@ class SchoolController extends AbstractApiController
 
     #[Route('/courses/{courseId}/intakes/{intakeId}', name: 'api_school_course_intake',
         requirements: [
-            'courseId' => UuidPattern::PATTERN_WITH_TEMPLATE,
-            'intakeId' => UuidPattern::PATTERN_WITH_TEMPLATE,
+            'courseId' => RegexEnum::UUID_PATTERN_WITH_TEMPLATE,
+            'intakeId' => RegexEnum::UUID_PATTERN_WITH_TEMPLATE,
         ],
         methods: ['GET'])]
     public function courseIntakeGet(
@@ -376,8 +376,8 @@ class SchoolController extends AbstractApiController
 
     #[Route('/courses/{courseId}/intakes/{intakeId}', name: 'api_school_course_intake_remove',
         requirements: [
-            'courseId' => UuidPattern::PATTERN_WITH_TEMPLATE,
-            'intakeId' => UuidPattern::PATTERN_WITH_TEMPLATE,
+            'courseId' => RegexEnum::UUID_PATTERN_WITH_TEMPLATE,
+            'intakeId' => RegexEnum::UUID_PATTERN_WITH_TEMPLATE,
         ],
         methods: ['DELETE'])]
     public function courseIntakeRemove(
@@ -412,7 +412,7 @@ class SchoolController extends AbstractApiController
         if ($courseId !== null) {
             $validator = Validation::createValidator();
             $violations = $validator->validate($courseId, [
-                new Constraints\Regex(UuidPattern::PATTERN_REG_EXP),
+                new Constraints\Regex(RegexEnum::UUID_PATTERN_REG_EXP),
             ]);
             if (count($violations) > 0) {
                 $errors = [];
@@ -439,7 +439,7 @@ class SchoolController extends AbstractApiController
 
     #[Route('/courses/{courseId}', name: 'api_school_course_edit',
         requirements: [
-            'courseId' => UuidPattern::PATTERN_WITH_TEMPLATE,
+            'courseId' => RegexEnum::UUID_PATTERN_WITH_TEMPLATE,
         ])]
     public function courseEdit(
         Request $request,

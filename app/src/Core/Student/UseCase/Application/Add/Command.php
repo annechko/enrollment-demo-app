@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core\Student\UseCase\Application\Add;
 
-use App\Core\Common\UuidPattern;
+use App\Core\Common\RegexEnum;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class Command
@@ -34,21 +34,21 @@ class Command
 
     /** @var string */
     #[Assert\NotBlank(message: 'SchoolId should not be blank.')]
-    #[Assert\Regex(pattern: UuidPattern::PATTERN_REG_EXP)]
+    #[Assert\Regex(pattern: RegexEnum::UUID_PATTERN_REG_EXP)]
     public $schoolId;
 
     /** @var string */
     #[Assert\NotBlank(message: 'CourseId should not be blank.')]
-    #[Assert\Regex(pattern: UuidPattern::PATTERN_REG_EXP)]
+    #[Assert\Regex(pattern: RegexEnum::UUID_PATTERN_REG_EXP)]
     public $courseId;
 
     /** @var string */
     #[Assert\NotBlank(message: 'IntakeId should not be blank.')]
-    #[Assert\Regex(pattern: UuidPattern::PATTERN_REG_EXP)]
+    #[Assert\Regex(pattern: RegexEnum::UUID_PATTERN_REG_EXP)]
     public $intakeId;
 
     /** @var string */
     #[Assert\NotBlank]
-    #[Assert\Regex(pattern: UuidPattern::PATTERN_REG_EXP)]
+    #[Assert\Regex(pattern: RegexEnum::UUID_PATTERN_REG_EXP)]
     public $studentId;
 }
