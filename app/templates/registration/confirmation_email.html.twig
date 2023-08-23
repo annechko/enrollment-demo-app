@@ -1,11 +1,23 @@
-<h1>Hi! Please confirm your email!</h1>
-
-<p>
-    Please confirm your email address by clicking the following link: <br><br>
-    <a href="{{ signedUrl|raw }}">Confirm my Email</a>.
-    This link will expire in {{ expiresAtMessageKey|trans(expiresAtMessageData, 'VerifyEmailBundle') }}.
-</p>
-
-<p>
-    Cheers!
-</p>
+<!doctype html>
+<html lang="en" data-bs-theme="auto">
+<head>
+    <style>
+		h5,p{margin-top:0}.btn,[type=button]:not(:disabled){cursor:pointer}.btn,.btn:hover{color:rgba(44,56,74,.95)}.btn:active:focus,.btn:focus{box-shadow:0 0 0 .25rem var(--cui-btn-shadow)}.card-title,h5{margin-bottom:.5rem}*,:after,:before{box-sizing:border-box}h5{font-weight:500;line-height:1.2;color:unset;color:var(--cui-headings-color,unset);font-size:1.25rem}p{margin-bottom:1rem}a{color:#321fdb;color:var(--cui-link-color,#321fdb);text-decoration:underline}a:hover{color:#2819af;color:var(--cui-link-hover-color,#2819af)}[type=button]{-webkit-appearance:button}.btn{display:inline-block;font-weight:400;line-height:1.5;color:var(--cui-btn-color,rgba(44,56,74,.95));text-align:center;text-decoration:none;vertical-align:middle;-webkit-user-select:none;-moz-user-select:none;user-select:none;background-color:transparent;background-color:var(--cui-btn-bg,transparent);border:1px solid transparent;border:1px solid var(--cui-btn-border-color,transparent);padding:.375rem .75rem;font-size:1rem;border-radius:.25rem;transition:color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out}.btn:hover{color:var(--cui-btn-hover-color,rgba(44,56,74,.95))}.btn:focus,.btn:hover{background-color:var(--cui-btn-hover-bg);border-color:transparent;border-color:var(--cui-btn-hover-border-color,transparent)}.btn:focus{color:var(--cui-btn-hover-color);outline:0}.btn:active{color:var(--cui-btn-active-color);background-color:var(--cui-btn-active-bg);border-color:transparent;border-color:var(--cui-btn-active-border-color,transparent)}.btn:disabled{color:var(--cui-btn-disabled-color);pointer-events:none;background-color:var(--cui-btn-disabled-bg);border-color:transparent;border-color:var(--cui-btn-disabled-border-color,transparent);opacity:.65}.btn-primary{--cui-btn-bg:#321fdb;--cui-btn-border-color:#321fdb;--cui-btn-color:hsla(0,0%,100%,0.87);--cui-btn-hover-bg:#5141e0;--cui-btn-hover-border-color:#4735df;--cui-btn-hover-color:hsla(0,0%,100%,0.87);--cui-btn-active-bg:#5b4ce2;--cui-btn-active-border-color:#4735df;--cui-btn-active-color:hsla(0,0%,100%,0.87);--cui-btn-disabled-bg:#321fdb;--cui-btn-disabled-border-color:#321fdb;--cui-btn-disabled-color:hsla(0,0%,100%,0.87);--cui-btn-shadow:rgba(50,31,219,0.5)}.fade{transition:opacity .15s linear}@media (prefers-reduced-motion:reduce){.btn,.fade{transition:none}}.tab-content>.tab-pane{display:none}.tab-content>.active{display:block}.card{position:relative;display:flex;flex-direction:column;min-width:0;word-wrap:break-word;background-color:#fff;background-color:var(--cui-card-bg,#fff);background-clip:border-box;border:1px solid rgba(0,0,21,.125);border:1px solid var(--cui-card-border-color,rgba(0,0,21,.125));border-radius:.25rem}.card-body{flex:1 1 auto;padding:1rem;color:unset;color:var(--cui-card-color,unset)}.card-header,.example .preview>:last-child{margin-bottom:0}.card-header{padding:.5rem 1rem;color:unset;color:var(--cui-card-cap-color,unset);background-color:rgba(0,0,21,.03);background-color:var(--cui-card-cap-bg,rgba(0,0,21,.03));border-bottom:1px solid rgba(0,0,21,.125);border-bottom:1px solid var(--cui-card-border-color,rgba(0,0,21,.125))}.card-header:first-child{border-radius:calc(.25rem - 1px) calc(.25rem - 1px) 0 0}.card-footer{padding:.5rem 1rem;color:unset;color:var(--cui-card-cap-color,unset);background-color:rgba(0,0,21,.03);background-color:var(--cui-card-cap-bg,rgba(0,0,21,.03));border-top:1px solid rgba(0,0,21,.125);border-top:1px solid var(--cui-card-border-color,rgba(0,0,21,.125))}.card-footer:last-child{border-radius:0 0 calc(.25rem - 1px) calc(.25rem - 1px)}.p-3{padding:1rem!important}html:not([dir=rtl]) .text-center{text-align:center!important}.text-medium-emphasis{color:rgba(44,56,74,.681)!important;color:var(--cui-medium-emphasis,rgba(44,56,74,.681))!important}.rounded-bottom{border-bottom-left-radius:.25rem!important;border-bottom-right-radius:.25rem!important}.example .tab-content{background-color:#f9fafa!important}
+    </style>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>AB</text></svg>">
+</head>
+<body>
+<div class="tab-pane fade active p-3 preview show">
+    <div class="card text-center">
+        <div class="card-body"><h5 class="card-title">Welcome to Enrollment Demo App!</h5>
+            <p class="card-text">Please confirm your email address by clicking the following link:</p>
+            <a class="btn btn-primary" type="button" href="{{ signedUrl|raw }}">Confirm my Email</a>
+        </div>
+        <div class="card-footer text-medium-emphasis">This link will expire in {{ expiresAtMessageKey|trans(expiresAtMessageData, 'VerifyEmailBundle') }}</div>
+    </div>
+</div>
+</body>
+</html>
