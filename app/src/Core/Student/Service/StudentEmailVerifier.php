@@ -28,8 +28,8 @@ class StudentEmailVerifier
     ): void {
         $email = (new TemplatedEmail())
             ->to($studentEmail)
-            ->subject('Please confirm your email.')
-            ->htmlTemplate('registration/confirmation_email.html.twig');
+            ->subject('Please confirm your email')
+            ->htmlTemplate('email/student/registration/confirmation_email.html.twig');
 
         $signatureComponents = $this->verifyEmailHelper->generateSignature(
             RouteEnum::STUDENT_VERIFY_EMAIL,

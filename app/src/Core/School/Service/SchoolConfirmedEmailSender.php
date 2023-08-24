@@ -19,13 +19,17 @@ class SchoolConfirmedEmailSender
 
     public function send(string $toEmail, string $invitationToken, SchoolId $schoolId): void
     {
-        $url = $this->urlGenerator->generate('school_member_register', [
-            'invitationToken' => $invitationToken,
-            'schoolId' => $schoolId->getValue(),
-        ]);
+        $url = $this->urlGenerator->generate(
+            'school_member_register',
+            [
+                'invitationToken' => $invitationToken,
+                'schoolId' => $schoolId->getValue(),
+            ],
+            UrlGeneratorInterface::ABSOLUTE_URL
+        );
         $email = (new TemplatedEmail())
             ->to($toEmail)
-            ->subject('Invitation to the Enrollment Demo App!')
+            ->subject('Activate your Enrollment Demo App account')
             ->htmlTemplate('email/school/invite-member.html.twig')
             ->context(
                 [
