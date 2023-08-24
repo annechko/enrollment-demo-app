@@ -32,6 +32,7 @@ export default function Application() {
 
   const blockStep = () => {
     setNextStepButtonDisabled(true)
+    setApplicationSubmitState(LoadState.initialize())
   }
   const finishStep = () => {
     setNextStepButtonDisabled(false)

@@ -27,6 +27,7 @@ const AfterRegisterMessage = () => {
       <h3>Thank you!</h3>
       <p className="text-medium-emphasis">We are glad to see you joined us as a school!</p>
       <p className="text-medium-emphasis">Kindly await an email containing an invitation to register.</p>
+      <p className="text-medium-emphasis">After our admin user approves your registration in admin panel.</p>
     </>
   )
 }

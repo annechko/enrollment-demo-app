@@ -10,6 +10,7 @@ use App\Core\School\Entity\School\School;
 use App\ReadModel\Student\Filter\CourseFilter;
 use App\ReadModel\Student\Filter\IntakeFilter;
 use App\ReadModel\Student\Filter\SchoolFilter;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
@@ -38,11 +39,11 @@ class SchoolFetcher
         int $size,
     ): array {
         $qb = $this->connection->createQueryBuilder()
-            ->select(
-                's.id',
-                's.name',
-            )
-            ->from($this->tableSchool, 's');
+            ->select('s.id')
+            ->distinct()
+            ->from($this->tableSchool, 's')
+            ->innerJoin('s', $this->tableCourse, 'c', 's.id = c.school_id')
+            ->innerJoin('s', $this->tableIntake, 'i', 'c.id = i.course_id');
 
         if ($filter->name) {
             $qb->andWhere($qb->expr()->like('LOWER(s.name)', ':name'));
@@ -51,6 +52,20 @@ class SchoolFetcher
 
         $qb->andWhere('s.status = :status');
         $qb->setParameter('status', School::STATUS_ACTIVE);
+
+        $qb->setMaxResults($size);
+        $ids = $qb->fetchFirstColumn();
+        if (count($ids) === 0) {
+            return [];
+        }
+        $qb = $this->connection->createQueryBuilder()
+            ->select(
+                's.id',
+                's.name',
+            )
+            ->from($this->tableSchool, 's')
+            ->andWhere('s.id IN (:ids)')
+            ->setParameter('ids', $ids, ArrayParameterType::STRING);
 
         $qb->orderBy('LOWER(s.name)', 'asc')
             ->setMaxResults($size);

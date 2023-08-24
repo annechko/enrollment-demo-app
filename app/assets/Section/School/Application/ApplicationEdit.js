@@ -17,18 +17,6 @@ import * as LoadState from "../../../App/Helper/LoadState";
 const ApplicationEdit = () => {
   const params = useParams()
 
-  // const onSubmit = (event) => {
-  //   submitForm({
-  //     event,
-  //     state,
-  //     setState,
-  //     formId,
-  //     onSuccess,
-  //     url: window.abeApp.urls.api_school_application_edit.replace(':applicationId', params.id),
-  //     headers: {'Content-Type': 'multipart/form-data'}
-  //   })
-  // }
-
   return <Loadable
     component={ApplicationView}
     url={window.abeApp.urls.api_school_application.replace(':applicationId', params.applicationId)}
@@ -70,8 +58,6 @@ const ApplicationView = ({dataState}) => {
           </strong>
         </CCardHeader>
         <CCardBody>
-          {/*<AppErrorMessage error={error}/>*/}
-          {/*<AppErrorMessage error={error}/>*/}
           <h5>Student</h5>
           <div className="mb-3">
             <CFormLabel htmlFor="fullName">Name</CFormLabel>

@@ -29,6 +29,7 @@ security:
             security: false
         school:
             lazy: true
+            provider: school_user_provider
             pattern: ^/(api\/)?school
             custom_authenticator: App\Security\School\SchoolStaffMemberAuthenticator
             logout:
@@ -38,6 +39,7 @@ security:
         student:
             lazy: true
             pattern: ^/(api\/)?student
+            provider: student_user_provider
             custom_authenticator: App\Security\Student\StudentAuthenticator
             user_checker: App\Security\Student\StudentChecker
             logout:
@@ -47,6 +49,7 @@ security:
         admin:
             lazy: true
             custom_authenticator: App\Security\Admin\AdminAuthenticator
+            provider: admin_user_provider
             logout:
                 path: !php/const App\Infrastructure\RouteEnum::ADMIN_LOGOUT
                 target: !php/const App\Infrastructure\RouteEnum::ADMIN_LOGIN

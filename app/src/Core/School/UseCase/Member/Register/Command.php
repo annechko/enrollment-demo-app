@@ -22,10 +22,4 @@ class Command
     /** @var string */
     #[Assert\NotBlank]
     public $plainPassword;
-
-    public function __construct(string $schoolId, string $invitationToken)
-    {
-        $this->schoolId = $schoolId;
-        $this->invitationToken = $invitationToken;
-    }
 }

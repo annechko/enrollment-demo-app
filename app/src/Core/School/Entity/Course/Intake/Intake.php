@@ -61,11 +61,6 @@ class Intake
         ?\DateTimeImmutable $createdAt = null,
     ) {
         Assert::nullOrGreaterThanEq($classSize, 0);
-        Assert::greaterThanEq(
-            $endDate,
-            $startDate,
-            'Start date should be greater than or equal to end date.'
-        );
 
         $this->course = $course;
         $this->id = $id;
@@ -75,6 +70,7 @@ class Intake
         $this->classSize = $classSize;
         $this->campus = $campus;
         $this->createdAt = $createdAt ?? new \DateTimeImmutable();
+        $this->validateStartEnd();
     }
 
     public function getId(): IntakeId
@@ -119,7 +115,17 @@ class Intake
         $this->name = $name;
         $this->classSize = $classSize;
         $this->campus = $campus;
+        $this->validateStartEnd();
 
         return $this;
+    }
+
+    private function validateStartEnd(): void
+    {
+        Assert::greaterThanEq(
+            $this->endDate,
+            $this->startDate,
+            'Start date should be greater than or equal to end date.'
+        );
     }
 }

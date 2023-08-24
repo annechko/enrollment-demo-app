@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Api;
 
+use App\Core\Common\NotFoundException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -57,7 +58,7 @@ abstract class AbstractJsonApiController extends AbstractController
             $response = $responseSuccessBuilder ? $responseSuccessBuilder($result) : null;
 
             return new JsonResponse($response);
-        } catch (\DomainException $exception) {
+        } catch (\DomainException|NotFoundException $exception) {
             return new JsonResponse([
                 'error' => $exception->getMessage(),
             ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY);

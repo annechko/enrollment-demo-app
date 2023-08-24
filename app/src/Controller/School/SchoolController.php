@@ -59,30 +59,11 @@ class SchoolController extends AbstractController
     // todo rename to invite
     #[Route('/{schoolId}/invitation/{invitationToken}', name: 'school_member_register',
         requirements: [
-            'schoolId' => RegexEnum::UUID_PATTERN,
-            'invitationToken' => RegexEnum::UUID_PATTERN,
-        ])]
-    public function memberRegister(
-        Request $request,
-        \App\Core\School\UseCase\Member\Register\Handler $handler,
-        string $schoolId,
-        string $invitationToken,
-    ): Response {
-        $command = new \App\Core\School\UseCase\Member\Register\Command($schoolId, $invitationToken);
-        $form = $this->createForm(\App\Core\School\UseCase\Member\Register\Form::class, $command);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            try {
-                $handler->handle($command);
-
-                return $this->redirectToRoute('school_login');
-            } catch (InvalidArgumentException $exception) {
-                $form->addError(new FormError($exception->getMessage()));
-                $this->addFlash('error', $exception->getMessage());
-            }
-        }
-
+            'schoolId' => RegexEnum::UUID_PATTERN_WITH_TEMPLATE,
+            'invitationToken' => RegexEnum::UUID_PATTERN_WITH_TEMPLATE,
+        ], methods: ['GET'])]
+    public function showMemberRegister(): Response
+    {
         return $this->render('base.html.twig');
     }
 

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core\School\Entity\Course;
 
+use App\Core\Common\NotFoundException;
 use App\Core\School\Entity\Campus\Campus;
 use App\Core\School\Entity\Course\Intake\Intake;
 use App\Core\School\Entity\Course\Intake\IntakeId;
@@ -13,7 +14,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Webmozart\Assert\Assert;
 
 #[ORM\Entity()]
 #[ORM\Table(name: 'school_course')]
@@ -153,7 +153,9 @@ class Course
     public function getIntake(IntakeId $id): Intake
     {
         $intake = $this->intakes->get($id->getValue());
-        Assert::notNull($intake);
+        if ($intake === null) {
+            throw new NotFoundException('Intake not found.');
+        }
 
         return $intake;
     }

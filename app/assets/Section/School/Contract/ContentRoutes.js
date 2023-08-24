@@ -16,6 +16,7 @@ const CourseEditPage = React.lazy(() => import('../Course/Edit/CourseEditPage'))
 const SchoolProfile = React.lazy(() => import('../Profile/SchoolProfile'))
 const ApplicationList = React.lazy(() => import('../Application/ApplicationList'))
 const ApplicationEdit = React.lazy(() => import('../Application/ApplicationEdit'))
+const StaffMemberCompleteRegister = React.lazy(() => import('../Auth/StaffMemberCompleteRegister'))
 
 const urls = window.abeApp.urls
 let key = 0
@@ -23,6 +24,7 @@ let key = 0
 export default [
   <Route key={key++} exact path={urls.school_login} element={<LoginPage urls={urls}/>}/>,
   <Route key={key++} exact path={urls.school_register} element={<RegisterPage urls={urls}/>}/>,
+  <Route exact path={urls.school_member_register} element={<StaffMemberCompleteRegister/>}/>,
 
   <Route key={key++} element={<DefaultLayout/>}>
     <Route exact path={urls.school_course_list_show} element={<CourseListPage/>}/>,

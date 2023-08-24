@@ -44,6 +44,7 @@
                 const urls = {
                   api_sidebar: '{{ path('api_school_sidebar') }}',
                   logout: '{{ path('school_logout') }}',
+                  school_member_register: '{{ path('school_member_register', {'invitationToken':':invitationToken', 'schoolId':':schoolId'}) }}',
                   school_home: '{{ path(constant('App\\Infrastructure\\RouteEnum::SCHOOL_HOME')) }}',
                   school_register: '{{ path('school_register') }}',
                   school_course_edit: '{{ path('school_course_edit', {'courseId': ':id'}) }}',
@@ -56,6 +57,7 @@
                   school_profile_show: '{{ path('school_profile_show') }}',
                   school_application_list_show: '{{ path('school_application_list_show') }}',
                   school_application_edit: '{{ path('school_application_edit', {'applicationId': ':applicationId'}) }}',
+                  api_school_member_register: '{{ path('api_school_member_register', {'invitationToken':':invitationToken', 'schoolId':':schoolId'}) }}',
                   api_school_course: '{{ path('api_school_course') }}',
                   api_school_course_add: '{{ path('api_school_course_add') }}',
                   api_school_course_edit: '{{ path('api_school_course_edit', {'courseId': ':id'}) }}',
