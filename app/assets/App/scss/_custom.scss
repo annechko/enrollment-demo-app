@@ -1,6 +1,12 @@
 @import "_variables";
+
 .btn {
   cursor: pointer;
+}
+
+body, #root {
+  height: 100vh;
+  min-height: 100%;
 }
 
 .header-items-right {
@@ -45,15 +51,15 @@
   }
 }
 
-@media (min-width: 426px)  {
+@media (min-width: 426px) {
   .app-home-container {
     flex-direction: row;
   }
   .app-home-cards-wrapper {
-    min-height: 100px;
+    min-height: 100%;
   }
   .app-home-card-body {
-    min-height: 13rem!important;
+    min-height: 13rem !important;
   }
 }
 
