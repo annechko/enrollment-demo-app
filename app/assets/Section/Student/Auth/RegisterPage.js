@@ -18,6 +18,8 @@ import AppErrorMessage from "../../../App/Common/AppErrorMessage";
 import {submitForm} from "../../../App/Helper/SubmitForm";
 import * as LoadState from "../../../App/Helper/LoadState";
 import {CssHelper} from "../../../App/Helper/CssHelper";
+import CIcon from "@coreui/icons-react";
+import {cilArrowLeft} from "@coreui/icons";
 
 const RegisterForm = ({onSubmit, state, formId}) => {
   return (
@@ -95,25 +97,35 @@ const Register = ({onSubmit, state, formId}) => {
   }, [state])
 
   return (
-    <div className="bg-light min-vh-100 d-flex flex-row align-items-center">
-      <CContainer>
-        <CRow className="justify-content-center">
-          <CCol md={9} lg={7} xl={6}>
-            <CCard className="mx-4">
-              <CCardBody className="p-4">
-                {state?.emailVerificationEnabled === true
-                  ? <AfterRegisterMessage/>
-                  : <RegisterForm
-                    onSubmit={onSubmit}
-                    state={state}
-                    formId={formId}/>
-                }
-              </CCardBody>
-            </CCard>
-          </CCol>
-        </CRow>
-      </CContainer>
-    </div>
+      <>
+        <Link to={window.abeApp.urls.home}>
+          <CButton color="dark" role="button" className="py-2 mb-2"
+              size="sm"
+              variant="outline">
+            <CIcon icon={cilArrowLeft} className="me-2"/>
+            Switch section
+          </CButton>
+        </Link>
+        <div className="bg-light min-vh-100 d-flex flex-row align-items-center">
+          <CContainer>
+            <CRow className="justify-content-center">
+              <CCol md={9} lg={7} xl={6}>
+                <CCard className="mx-4">
+                  <CCardBody className="p-4">
+                    {state?.emailVerificationEnabled === true
+                        ? <AfterRegisterMessage/>
+                        : <RegisterForm
+                            onSubmit={onSubmit}
+                            state={state}
+                            formId={formId}/>
+                    }
+                  </CCardBody>
+                </CCard>
+              </CCol>
+            </CRow>
+          </CContainer>
+        </div>
+      </>
   )
 }
 const RegisterPage = () => {

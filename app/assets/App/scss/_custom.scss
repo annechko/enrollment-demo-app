@@ -30,21 +30,53 @@
   padding: 5px;
 }
 
+.app-linked {
+  display: flex !important;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-content: flex-end;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+@media (min-width: 0) and (max-width: 426px) {
+  .app-home-container {
+    flex-direction: column;
+  }
+}
+
+@media (min-width: 426px)  {
+  .app-home-container {
+    flex-direction: row;
+  }
+  .app-home-cards-wrapper {
+    min-height: 100px;
+  }
+  .app-home-card-body {
+    min-height: 13rem!important;
+  }
+}
+
 .app-bg-admin {
   background-color: #{$app-color-admin};
 }
+
 .app-bg-school {
   background-color: #{$app-color-school};
 }
+
 .app-bg-student {
   background-color: #{$app-color-student};
 }
+
 .app-text-admin {
   color: #{$app-color-admin};
 }
+
 .app-text-school {
   color: #{$app-color-school};
 }
+
 .app-text-student {
   color: #{$app-color-student};
 }

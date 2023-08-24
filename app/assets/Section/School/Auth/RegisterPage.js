@@ -1,4 +1,5 @@
 import {
+  cilArrowLeft,
   cilSchool,
   cilUser
 } from '@coreui/icons'
@@ -96,24 +97,34 @@ const RegisterForm = ({onSubmit, state, urlLogin, formId}) => {
 const Register = ({onSubmit, state, urlLogin, formId}) => {
   const isRegistered = state.registered === true
   return (
-    <div className="bg-light min-vh-100 d-flex flex-row align-items-center">
-      <CContainer>
-        <CRow className="justify-content-center">
-          <CCol md={9} lg={7} xl={6}>
-            <CCard className="mx-4">
-              <CCardBody className="p-4">
-                {isRegistered ? <AfterRegisterMessage/>
-                  : <RegisterForm
-                    onSubmit={onSubmit}
-                    urlLogin={urlLogin}
-                    state={state}
-                    formId={formId}/>}
-              </CCardBody>
-            </CCard>
-          </CCol>
-        </CRow>
-      </CContainer>
-    </div>
+      <>
+        <Link to={window.abeApp.urls.home}>
+          <CButton color="dark" role="button" className="py-2 mb-2"
+              size="sm"
+              variant="outline">
+            <CIcon icon={cilArrowLeft} className="me-2"/>
+            Switch section
+          </CButton>
+        </Link>
+        <div className="bg-light min-vh-100 d-flex flex-row align-items-center">
+          <CContainer>
+            <CRow className="justify-content-center">
+              <CCol md={9} lg={7} xl={6}>
+                <CCard className="mx-4">
+                  <CCardBody className="p-4">
+                    {isRegistered ? <AfterRegisterMessage/>
+                        : <RegisterForm
+                            onSubmit={onSubmit}
+                            urlLogin={urlLogin}
+                            state={state}
+                            formId={formId}/>}
+                  </CCardBody>
+                </CCard>
+              </CCol>
+            </CRow>
+          </CContainer>
+        </div>
+      </>
   )
 }
 const RegisterPage = ({urls}) => {

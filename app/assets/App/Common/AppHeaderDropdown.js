@@ -52,11 +52,6 @@ const AppHeaderDropdown = () => {
 
         <OtherProfiles></OtherProfiles>
 
-        <CDropdownHeader className="bg-light fw-semibold py-2">Settings</CDropdownHeader>
-        <CDropdownItem href="#">
-          <CIcon icon={cilUser} className="me-2"/>
-          Profile
-        </CDropdownItem>
         <CDropdownDivider/>
         <CDropdownItem href={window.abeApp.urls.logout}>
           <CIcon icon={cilAccountLogout} className="me-2"/>
