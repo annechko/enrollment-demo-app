@@ -11,6 +11,8 @@ import {
   CRow
 } from "@coreui/react";
 import {CssHelper} from "../Helper/CssHelper";
+import CIcon from "@coreui/icons-react";
+import {cibLinkedin} from "@coreui/icons";
 
 const LinkCard = ({title, color, href, text, section}) =>
 {
@@ -42,8 +44,10 @@ const HomePage = () =>
 				<CRow className="align-items-center justify-content-center text-center mb-5 mt-5">
 					<h2>Enrollment Demo Application</h2>
 					<p className="app-linked">Created by Anna Borzenko
-						<a href="https://www.linkedin.com/in/anna-borzenko/" target="_blank">
-							<CImage src="/linkedin-logo.png" style={{width: '30px'}} className="mx-2"/></a>
+						<a href="https://www.linkedin.com/in/anna-borzenko/" target="_blank"
+              className="text-decoration-none">
+              <CIcon icon={cibLinkedin} size="xl" className="mx-3" />
+            </a>
 					</p>
 				</CRow>
 				<CRow className="align-items-center justify-content-center d-flex app-home-container">

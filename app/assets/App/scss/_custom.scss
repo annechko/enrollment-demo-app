@@ -18,7 +18,9 @@ body, #root {
   min-height: 2rem;
   background: antiquewhite;
 }
-
+.app-icon-link{
+  color: unset;
+}
 .app-loading {
   background: #ebedef !important;
 }
