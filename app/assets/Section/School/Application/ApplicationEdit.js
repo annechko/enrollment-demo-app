@@ -57,7 +57,7 @@ const ApplicationView = ({dataState}) => {
             Application
           </strong>
         </CCardHeader>
-        <CCardBody>
+        <CCardBody className="overflow-y-scroll">
           <h5>Student</h5>
           <div className="mb-3">
             <CFormLabel htmlFor="fullName">Name</CFormLabel>

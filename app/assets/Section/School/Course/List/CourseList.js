@@ -64,7 +64,7 @@ const CourseList = ({dataState}) => {
           <CCardHeader>
             <strong>School courses</strong>
           </CCardHeader>
-          <CCardBody>
+          <CCardBody className="overflow-y-scroll">
             <p>The course catalogue includes on-site and online courses.</p>
             <Link to={window.abeApp.urls.school_course_add}>
               <CButton color="primary" role="button" className="mb-3" size="sm">

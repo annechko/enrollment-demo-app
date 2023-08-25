@@ -37,7 +37,7 @@ const CampusView = ({onSubmit, formId, dataState, isSubmitted, submitError, isUp
             {isUpdate ? 'Update campus' : 'Lets create new campus!'}
           </strong>
         </CCardHeader>
-        <CCardBody>
+        <CCardBody className="overflow-y-scroll">
           <AppErrorMessage error={error}/>
           <CampusForm formId={formId} onSubmit={onSubmit} isSubmitted={isSubmitted}
             submitError={submitError} isUpdate={isUpdate} dataState={dataState}

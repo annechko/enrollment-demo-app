@@ -38,7 +38,7 @@ export default function ApplicationList() {
       <CCardHeader>
         <strong>Applications</strong>
       </CCardHeader>
-      <CCardBody>
+      <CCardBody className="overflow-y-scroll">
         <ApplicationsRows
           applicationsState={applicationsState}
         />

@@ -100,7 +100,7 @@ const IntakeList = ({courseId}) => {
       <CCardHeader>
         <strong>Intakes</strong>
       </CCardHeader>
-      <CCardBody>
+      <CCardBody className="overflow-y-scroll">
         <IntakesRows
           intakesState={intakesState}
           setNewIntakeModalState={setNewIntakeModalState}
