@@ -11,7 +11,7 @@ import CIcon from '@coreui/icons-react'
 import {
   CNavItem,
   CSidebar,
-  CSidebarBrand,
+  CSidebarBrand, CSidebarHeader,
   CSidebarNav,
   CSidebarToggler
 } from '@coreui/react'
@@ -27,8 +27,8 @@ import * as LoadState from "../Helper/LoadState";
 import {Link} from "react-router-dom";
 import {CssHelper} from "../Helper/CssHelper";
 
-const AppSidebar = () => {
-  const [unfoldable, toogleUnfoldable] = useState(false)
+const AppSidebar = ({isSidebarVisible}) => {
+  const [isSidebarUnfoldable, setIsSidebarUnfoldable] = useState(false)
   const [navItemsState, setNavItemsState] = useState(LoadState.initialize())
   React.useEffect(() => {
     if (LoadState.needLoading(navItemsState)) {
@@ -115,21 +115,23 @@ const AppSidebar = () => {
 
   }
   const onToggleUnfoldable = () => {
-    toogleUnfoldable(!unfoldable)
+    setIsSidebarUnfoldable(!isSidebarUnfoldable)
   }
   return (
     <CSidebar
       className={CssHelper.getCurrentSectionBgColor()}
       position="fixed"
-      unfoldable={unfoldable}
-      visible={true}
+      unfoldable={isSidebarUnfoldable}
+      visible={isSidebarVisible}
     >
-      <Link to={window.abeApp.urls.home} className="text-decoration-none">
-        <CSidebarBrand className="d-md-flex" style={{minHeight: '61px'}}>
-          <CIcon className="sidebar-brand-full" icon={cilArrowLeft} height={25}/>
-          <p className="mb-0 ms-2">Switch section</p>
-        </CSidebarBrand>
-      </Link>
+      <CSidebarHeader>
+        <Link to={window.abeApp.urls.home} className="text-decoration-none">
+          <CSidebarBrand className="d-md-flex" >
+            <CIcon className="sidebar-brand-full" icon={cilArrowLeft} height={25}/>
+            <p className="mb-0 ms-2">Switch section</p>
+          </CSidebarBrand>
+        </Link>
+      </CSidebarHeader>
       <CSidebarNav>
         <SimpleBar>
           <AppSidebarNav items={navigation}/>

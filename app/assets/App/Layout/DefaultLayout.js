@@ -1,4 +1,4 @@
-import React, {Suspense} from 'react'
+import React, {Suspense, useState} from 'react'
 import {
   AppFooter,
   AppHeader,
@@ -11,12 +11,16 @@ import {
 import {Outlet} from "react-router-dom";
 
 const DefaultLayout = () => {
+  const [isSidebarVisible, setIsSidebarVisible] = useState(true)
+  const toggleSidebarVisible = () => {
+    setIsSidebarVisible(!isSidebarVisible)
+  }
 
   return (
     <div>
-      <AppSidebar/>
+      <AppSidebar isSidebarVisible={isSidebarVisible}/>
       <div className="wrapper d-flex flex-column min-vh-100 bg-light">
-        <AppHeader/>
+        <AppHeader toggleSidebarVisible={toggleSidebarVisible}/>
         <div className="body flex-grow-1 px-3">
           <CContainer lg>
             <Suspense fallback={<CSpinner color="primary"/>}>
