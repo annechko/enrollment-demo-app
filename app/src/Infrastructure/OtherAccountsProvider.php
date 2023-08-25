@@ -34,9 +34,11 @@ class OtherAccountsProvider
     ) {
         try {
             $this->session = $requestStack->getSession();
-        } catch (SessionNotFoundException $exception) {
+        } catch (SessionNotFoundException) {
         }
-        $this->currentUserIdentifier = $security->getUser()?->getUserIdentifier();
+        $this->currentUserIdentifier = $security->getUser()
+            ? get_class($security->getUser())
+            : null;
     }
 
     public function getOtherAccounts(): array
@@ -63,7 +65,7 @@ class OtherAccountsProvider
                 $userClass = get_class($user);
                 if (in_array($userClass, array_keys(self::USER_CLASS_TO_HOME_ROUTE), true)
                 ) {
-                    if ($user->getUserIdentifier() === $this->currentUserIdentifier) {
+                    if (get_class($user) === $this->currentUserIdentifier) {
                         continue;
                     }
                     $home = self::USER_CLASS_TO_HOME_ROUTE[$userClass] ?? RouteEnum::HOME;
