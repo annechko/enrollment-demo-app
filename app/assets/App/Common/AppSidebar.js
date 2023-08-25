@@ -27,7 +27,7 @@ import * as LoadState from "../Helper/LoadState";
 import {Link} from "react-router-dom";
 import {CssHelper} from "../Helper/CssHelper";
 
-const AppSidebar = ({isSidebarVisible}) => {
+const AppSidebar = ({isSidebarVisible, setIsSidebarVisible}) => {
   const [isSidebarUnfoldable, setIsSidebarUnfoldable] = useState(false)
   const [navItemsState, setNavItemsState] = useState(LoadState.initialize())
   React.useEffect(() => {
@@ -123,6 +123,9 @@ const AppSidebar = ({isSidebarVisible}) => {
       position="fixed"
       unfoldable={isSidebarUnfoldable}
       visible={isSidebarVisible}
+      onVisibleChange={(visible) => {
+        setIsSidebarVisible(visible)
+      }}
     >
       <CSidebarHeader>
         <Link to={window.abeApp.urls.home} className="text-decoration-none">

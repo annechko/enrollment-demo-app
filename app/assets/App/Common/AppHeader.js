@@ -26,7 +26,7 @@ const AppHeader = ({toggleSidebarVisible}) => {
             className="ps-1"
             onClick={toggleSidebarVisible}
         >
-          <CIcon icon={cilMenu} size="lg" />
+          <CIcon icon={cilMenu} size="lg" width="2rem" height="2rem" className="app-menu-icon"/>
         </CHeaderToggler>
         {sectionName}
         <CHeaderNav className="ms-3">

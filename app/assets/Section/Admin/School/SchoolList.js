@@ -63,7 +63,7 @@ const SchoolList = () => {
       <CCardHeader>
         <strong>Schools</strong>
       </CCardHeader>
-      <CCardBody>
+      <CCardBody className="overflow-y-scroll">
         <SchoolsRows
           schoolsState={schoolsState}
           setConfirmState={setConfirmState}

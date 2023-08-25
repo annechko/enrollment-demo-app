@@ -18,7 +18,7 @@ const DefaultLayout = () => {
 
   return (
     <div>
-      <AppSidebar isSidebarVisible={isSidebarVisible}/>
+      <AppSidebar isSidebarVisible={isSidebarVisible} setIsSidebarVisible={setIsSidebarVisible}/>
       <div className="wrapper d-flex flex-column min-vh-100 bg-light">
         <AppHeader toggleSidebarVisible={toggleSidebarVisible}/>
         <div className="body flex-grow-1 px-3">
