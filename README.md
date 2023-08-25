@@ -9,7 +9,7 @@ It starts NGINX, PHP-FPM, PostgreSQL, and some more Docker containers, builds as
 
 
 App functionality so far<br>
-[![demo video preview](https://img.youtube.com/vi/QYguU9Ar0MU/0.jpg)](https://youtu.be/QYguU9Ar0MU)
+[![demo video preview](https://img.youtube.com/vi/EFN9wcFBess/0.jpg)](https://youtu.be/EFN9wcFBess)
 
 You have 3 main sections - each is available only for specific roles.
 You may travel to different sections from the main page.
