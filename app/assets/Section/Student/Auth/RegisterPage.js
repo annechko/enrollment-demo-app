@@ -20,6 +20,7 @@ import * as LoadState from "../../../App/Helper/LoadState";
 import {CssHelper} from "../../../App/Helper/CssHelper";
 import CIcon from "@coreui/icons-react";
 import {cilArrowLeft} from "@coreui/icons";
+import AppSwitchSectionBtn from "../../../App/Common/AppSwitchSectionBtn";
 
 const RegisterForm = ({onSubmit, state, formId}) => {
   return (
@@ -98,19 +99,12 @@ const Register = ({onSubmit, state, formId}) => {
 
   return (
       <>
-        <Link to={window.abeApp.urls.home}>
-          <CButton color="dark" role="button" className="py-2 mb-2"
-              size="sm"
-              variant="outline">
-            <CIcon icon={cilArrowLeft} className="me-2"/>
-            Switch section
-          </CButton>
-        </Link>
         <div className="bg-light min-vh-100 d-flex flex-row align-items-center">
           <CContainer>
             <CRow className="justify-content-center">
-              <CCol md={9} lg={7} xl={6}>
-                <CCard className="mx-4">
+              <CCol xl={6}>
+                <AppSwitchSectionBtn/>
+                <CCard>
                   <CCardBody className="p-4">
                     {state?.emailVerificationEnabled === true
                         ? <AfterRegisterMessage/>

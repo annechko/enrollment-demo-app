@@ -24,22 +24,16 @@ import {
 } from 'react-router-dom'
 import AppErrorMessage from "../../../App/Common/AppErrorMessage";
 import {submitForm} from "../../../App/Helper/SubmitForm";
+import AppSwitchSectionBtn from "../../../App/Common/AppSwitchSectionBtn";
 
 const Login = ({onSubmit, state, urlRegister, formId}) => {
   return (
       <>
-        <Link to={window.abeApp.urls.home}>
-          <CButton color="dark" role="button" className="py-2 mb-2"
-              size="sm"
-              variant="outline">
-            <CIcon icon={cilArrowLeft} className="me-2"/>
-            Switch section
-          </CButton>
-        </Link>
         <div className="bg-light min-vh-100 d-flex flex-row align-items-center">
           <CContainer>
             <CRow className="justify-content-center">
               <CCol md={8}>
+                <AppSwitchSectionBtn/>
                 <CCardGroup>
                   <CCard className="p-4">
                     <CCardBody>
