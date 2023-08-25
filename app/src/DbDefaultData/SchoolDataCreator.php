@@ -745,7 +745,7 @@ class SchoolDataCreator
         $coursesCount = count(self::COURSES);
         foreach (self::SCHOOL_NAMES as $index => $name) {
             $adminNameAndSurname = explode(' ', self::ADMIN_NAMES[$index]);
-            $email = str_replace(' ', '.', strtolower($name)) . '@gmail.com';
+            $email = str_replace(' ', '.', strtolower($name)) . '@example.com';
             $school = School::register(
                 new SchoolId($this->uuidGenerator->generate()),
                 new Name($name),
