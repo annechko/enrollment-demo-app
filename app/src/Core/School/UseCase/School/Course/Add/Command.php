@@ -17,7 +17,7 @@ class Command
 
     /** @var string */
     #[Assert\Type('string')]
-    #[Assert\Regex(RegexEnum::WORDS_AND_NUMBERS_REG_EXP, message: 'Description is not valid.')]
+    #[Assert\Regex(RegexEnum::DESCRIPTION_REG_EXP, message: 'Description is not valid.')]
     public $description;
 
     /** @var string */
