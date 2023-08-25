@@ -49,11 +49,11 @@ class OtherAccountsProvider
         // I really don't like this solution, it's very fragile,
         // if you know a better way - tell me please, would really appreciate it.
         $items = [
-            $this->session->get(self::SESSION_ACCOUNT_NAME_ADMIN),
-            $this->session->get(self::SESSION_ACCOUNT_NAME_SCHOOL),
-            $this->session->get(self::SESSION_ACCOUNT_NAME_STUDENT),
+            'admin' => $this->session->get(self::SESSION_ACCOUNT_NAME_ADMIN),
+            'school' => $this->session->get(self::SESSION_ACCOUNT_NAME_SCHOOL),
+            'student' => $this->session->get(self::SESSION_ACCOUNT_NAME_STUDENT),
         ];
-        foreach ($items as $item) {
+        foreach ($items as $role => $item) {
             try {
                 $token = unserialize($item);
                 if (!($token instanceof PostAuthenticationToken)) {
@@ -71,6 +71,7 @@ class OtherAccountsProvider
 
                     $accounts[] = [
                         'email' => $user->getUserIdentifier(),
+                        'role' => $role,
                         'home' => $url,
                     ];
                 }

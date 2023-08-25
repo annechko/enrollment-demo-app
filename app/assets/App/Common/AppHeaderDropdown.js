@@ -30,7 +30,7 @@ const OtherProfiles = () => {
       otherAccounts.map((account, index) =>
         <CDropdownItem href={account.home} key={index}>
           <CIcon icon={cilUser} className="me-2"/>
-          {account.email}
+          {account.role}: {account.email}
         </CDropdownItem>
       )
     }
