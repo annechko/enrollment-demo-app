@@ -62,7 +62,13 @@ class DataCommand extends Command
                         'no-clear',
                         '',
                         InputOption::VALUE_NONE,
-                        'Skip optional cache warmers (faster)'
+                        'Do not delete any data, add default data'
+                    ),
+                    new InputOption(
+                        'clear-only',
+                        'c',
+                        InputOption::VALUE_NONE,
+                        'Delete all data, do not add any data'
                     ),
                 ]
             );
@@ -74,8 +80,9 @@ class DataCommand extends Command
         if (!$input->getOption('no-clear')) {
             $this->clearDb($io);
         }
-
-        $this->addData($io);
+        if (!$input->getOption('clear-only')) {
+            $this->addData($io);
+        }
 
         $io->success('Success.');
 
