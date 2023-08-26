@@ -37,8 +37,10 @@ services:
     volumes:
       - ./app:/app
     depends_on:
-      - enroll-php-fpm
-      - enroll-front-node
+      enroll-php-fpm:
+        condition: service_started
+      enroll-front-node:
+        condition: service_healthy
     ports:
       - "8080:80"
 
@@ -63,6 +65,10 @@ services:
       - ./app:/app
       - node-cache:/usr/local/share/.cache
     command: sh -c "yarn dev-server --hot --port 8080 --host 0.0.0.0"
+    healthcheck:
+      test: sh -c "wget http://0.0.0.0:8080/build/runtime.js --spider"
+      interval: 2s
+      retries: 60
     tty: true
 
 volumes:
