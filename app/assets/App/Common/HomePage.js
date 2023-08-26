@@ -24,7 +24,7 @@ const LinkCard = ({title, color, href, text, section}) => {
         ' g-opacity-50 b g-' + color}>
         <CCardText className="content" dangerouslySetInnerHTML={{__html: text}}>
         </CCardText>
-        <CButton className={'text-white ' + CssHelper.getSectionBgColor(section)}
+        <CButton color={color} className={'text-white app-no-border ' + CssHelper.getSectionBgColor(section)}
           href={href}>Go as {title}</CButton>
       </CCardBody>
     </CCard>

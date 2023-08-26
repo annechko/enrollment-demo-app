@@ -1,4 +1,7 @@
-import React, {Suspense, useState} from 'react'
+import React, {
+  Suspense,
+  useState
+} from 'react'
 import {
   AppFooter,
   AppHeader,

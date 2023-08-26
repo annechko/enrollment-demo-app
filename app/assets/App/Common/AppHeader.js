@@ -1,7 +1,8 @@
 import {
   CContainer,
   CHeader,
-  CHeaderNav, CHeaderToggler,
+  CHeaderNav,
+  CHeaderToggler,
 } from '@coreui/react'
 import React, {useContext} from 'react'
 import {AppHeaderDropdown} from "./index";
@@ -21,12 +22,12 @@ const AppHeader = ({toggleSidebarVisible}) => {
   }
   return (
     <CHeader position="sticky" className="mb-2">
-      <CContainer fluid >
+      <CContainer fluid>
         <CHeaderToggler
-            className="ps-1"
-            onClick={toggleSidebarVisible}
+          className="ps-1"
+          onClick={toggleSidebarVisible}
         >
-          <CIcon icon={cilMenu} size="lg" width="2rem" height="2rem" className="app-menu-icon"/>
+          <CIcon icon={cilMenu} size="lg" width={30} height={30} className="app-menu-icon"/>
         </CHeaderToggler>
         {sectionName}
         <CHeaderNav className="ms-3">

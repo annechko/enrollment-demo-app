@@ -11,7 +11,8 @@ import CIcon from '@coreui/icons-react'
 import {
   CNavItem,
   CSidebar,
-  CSidebarBrand, CSidebarHeader,
+  CSidebarBrand,
+  CSidebarHeader,
   CSidebarNav,
   CSidebarToggler
 } from '@coreui/react'
@@ -129,7 +130,7 @@ const AppSidebar = ({isSidebarVisible, setIsSidebarVisible}) => {
     >
       <CSidebarHeader>
         <Link to={window.abeApp.urls.home} className="text-decoration-none">
-          <CSidebarBrand className="d-md-flex" >
+          <CSidebarBrand className="d-md-flex">
             <CIcon className="sidebar-brand-full" icon={cilArrowLeft} height={25}/>
             <p className="mb-0 ms-2">Switch section</p>
           </CSidebarBrand>

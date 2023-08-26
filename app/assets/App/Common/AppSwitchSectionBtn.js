@@ -4,8 +4,7 @@ import CIcon from "@coreui/icons-react";
 import {cilArrowLeft} from "@coreui/icons";
 import {Link} from "react-router-dom";
 
-const AppSwitchSectionBtn = () =>
-{
+const AppSwitchSectionBtn = () => {
   return (
     <Link to={window.abeApp.urls.home}>
       <CButton color="dark" role="button" className="py-2 mb-4"

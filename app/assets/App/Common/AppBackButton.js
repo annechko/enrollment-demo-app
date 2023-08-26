@@ -12,7 +12,7 @@ const AppBackButton = () => {
         size="sm"
         variant="outline"
         onClick={() => navigate(-1)}>
-        <CIcon icon={cilArrowLeft} />
+        <CIcon icon={cilArrowLeft}/>
       </CButton>
       <br/>
     </>

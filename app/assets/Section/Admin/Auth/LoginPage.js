@@ -47,7 +47,6 @@ const Login = ({onSubmit, state, formId}) => {
                       onClick={fillDefaultUser}>
                        Use default user
                      </CButton>
-
                      <AppErrorMessage error={state.error}/>
                      <CInputGroup className="mb-3">
                        <CInputGroupText>
