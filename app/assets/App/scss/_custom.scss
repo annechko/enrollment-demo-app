@@ -12,17 +12,21 @@ body, #root {
 .header-items-right {
   justify-content: flex-end !important;
 }
-.app-menu-icon{
-  vertical-align: bottom!important;
+
+.app-menu-icon {
+  vertical-align: bottom !important;
 }
+
 .fake-avatar {
   min-width: 2rem;
   min-height: 2rem;
   background: antiquewhite;
 }
-.app-icon-link{
+
+.app-icon-link {
   color: unset;
 }
+
 .app-loading {
   background: #ebedef !important;
 }
@@ -81,6 +85,10 @@ body, #root {
 
 .app-text-admin {
   color: #{$app-color-admin};
+}
+
+.app-no-border {
+  border-color: transparent;
 }
 
 .app-text-school {

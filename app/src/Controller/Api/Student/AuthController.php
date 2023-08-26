@@ -8,16 +8,15 @@ use App\Controller\Api\AbstractApiController;
 use App\Controller\Api\FormErrorException;
 use App\Core\Common\FeatureToggleService;
 use App\Core\Common\FeatureToggleType;
+use App\Core\Student\UseCase\Student;
 use App\Infrastructure\RouteEnum;
 use App\Security\Student\StudentReadModel;
 use Psr\Log\LoggerInterface;
-use App\Core\Student\UseCase\Student;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use InvalidArgumentException;
 
 #[Route('/api/student')]
 class AuthController extends AbstractApiController
@@ -47,7 +46,7 @@ class AuthController extends AbstractApiController
             }
 
             return new JsonResponse(['emailVerificationEnabled' => $emailVerificationEnabled]);
-        } catch (FormErrorException|InvalidArgumentException $exception) {
+        } catch (FormErrorException|\InvalidArgumentException $exception) {
             return new JsonResponse(
                 [
                     'error' => $exception->getMessage(),
@@ -55,6 +54,7 @@ class AuthController extends AbstractApiController
             );
         } catch (\Throwable $exception) {
             $logger->error($exception->getMessage(), ['exception' => $exception]);
+
             return new JsonResponse(
                 [
                     'error' => 'Something went wrong.',
