@@ -24,7 +24,7 @@ let key = 0
 export default [
   <Route key={key++} exact path={urls.school_login} element={<LoginPage urls={urls}/>}/>,
   <Route key={key++} exact path={urls.school_register} element={<RegisterPage urls={urls}/>}/>,
-  <Route exact path={urls.school_member_register} element={<StaffMemberCompleteRegister/>}/>,
+  <Route key={key++} exact path={urls.school_member_register} element={<StaffMemberCompleteRegister/>}/>,
 
   <Route key={key++} element={<DefaultLayout/>}>
     <Route exact path={urls.school_course_list_show} element={<CourseListPage/>}/>,
