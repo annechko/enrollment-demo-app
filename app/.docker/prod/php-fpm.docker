@@ -44,7 +44,8 @@ COPY ./.docker/prod/php/default.ini /usr/local/etc/php/conf.d/default.ini
 WORKDIR /app
 
 COPY --from=php-builder /app ./
-COPY --from=node-builder /app/public/build ./public/build
+COPY --from=node-builder /app/public/build/entrypoints.json ./public/build/entrypoints.json
+COPY --from=node-builder /app/public/build/manifest.json ./public/build/manifest.json
 COPY ./ ./
 
 RUN rm -rf ./assets
