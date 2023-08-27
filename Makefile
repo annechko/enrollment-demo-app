@@ -63,6 +63,7 @@ prod-push-php:
 	docker push ${REGISTRY}:demo-php-fpm-${IMAGE_TAG}
 prod-push-nginx:
 	docker push ${REGISTRY}:demo-nginx-${IMAGE_TAG}
+prod-build-push: prod-build prod-push
 
 deploy:
 	ssh -o StrictHostKeyChecking=no -t ${PROD_HOST} 'cd ${HOME_DIR} && sudo rm -rf docker-compose.yml'
