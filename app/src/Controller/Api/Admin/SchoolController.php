@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\Api\Admin;
 
 use App\Controller\Api\AbstractApiController;
+use App\Core\Common\DefaultUserEnum;
 use App\Core\Common\RegexEnum;
 use App\Core\School\Common\RoleEnum;
 use App\Core\School\Entity\School\School;
@@ -40,17 +41,18 @@ class SchoolController extends AbstractApiController
         );
 
         $result = [];
-        foreach ($pagination->getItems() as $item) {
+        foreach ($pagination->getItems() as $school) {
             $result[] = [
-                'id' => $item['id'],
-                'adminId' => $item['admin_id'],
-                'name' => $item['name'],
-                'status' => $item['status'],
-                'email' => $item['email'],
-                'invitationDate' => $item['invitation_date'],
-                'createdAt' => $item['created_at'],
-                'canBeConfirmed' => $item['status'] === School::STATUS_NEW,
-                // todo move logic to Status ValueObject
+                'id' => $school['id'],
+                'adminId' => $school['admin_id'],
+                'name' => $school['name'],
+                'status' => $school['status'],
+                'email' => $school['admin_email'],
+                'invitationDate' => $school['invitation_date'],
+                'createdAt' => $school['created_at'],
+                'canBeConfirmed' => $school['status'] === School::STATUS_NEW,
+                'canBeDeleted' => !DefaultUserEnum::isDefaultSchoolUser($school['admin_email']),
+                // todo move logic to ValueObjects
             ];
         }
 
@@ -61,8 +63,10 @@ class SchoolController extends AbstractApiController
         requirements: ['schoolId' => RegexEnum::UUID_PATTERN_WITH_TEMPLATE],
         methods: ['POST']),
     ]
-    public function confirm(string $schoolId, \App\Core\School\UseCase\School\Confirm\Handler $handler): Response
-    {
+    public function confirm(
+        string $schoolId,
+        \App\Core\School\UseCase\School\Confirm\Handler $handler
+    ): Response {
         $this->denyAccessUnlessGranted(RoleEnum::ADMIN_USER->value);
 
         $command = new \App\Core\School\UseCase\School\Confirm\Command($schoolId);

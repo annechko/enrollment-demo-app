@@ -27,6 +27,7 @@
                   admin_school_list_show: '{{ path('admin_school_list_show') }}',
                   api_admin_school_list: '{{ path('api_admin_school_list') }}',
                   api_admin_school_confirm: '{{ path('api_admin_school_confirm', {'schoolId': ':schoolId'}) }}',
+                  api_admin_school_delete: '{{ path('api_admin_school_delete', {'schoolId': ':schoolId'}) }}',
                 }
                 {% elseif currentSection == 'student' %}
                 const urls = {

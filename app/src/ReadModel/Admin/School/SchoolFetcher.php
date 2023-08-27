@@ -34,7 +34,7 @@ class SchoolFetcher
                 's.name',
                 's.name',
                 's.status',
-                'm.email',
+                'm.email as admin_email',
                 's.created_at',
                 'm.invitation_token_created_at AS invitation_date',
             )

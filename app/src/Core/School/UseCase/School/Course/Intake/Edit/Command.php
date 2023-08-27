@@ -15,7 +15,7 @@ class Command
     public $intakeId;
 
     /** @var string */
-    #[Assert\Regex(RegexEnum::WORDS_AND_NUMBERS_REG_EXP, message: 'Name is not valid.')]
+    #[Assert\Regex(RegexEnum::ELIGIBLE_TITLE_REG_EXP, message: 'Name is not valid.')]
     public $name;
 
     /** @var \DateTimeImmutable */

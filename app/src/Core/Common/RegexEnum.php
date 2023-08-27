@@ -11,7 +11,7 @@ class RegexEnum
     public const UUID_PATTERN_REG_EXP = '#' . self::UUID_PATTERN . '#';
     public const UUID_PATTERN_WITH_TEMPLATE = '^' . self::UUID_PATTERN_CORE . '|([:a-zA-Z]+){1}$';
     public const WORDS_REG_EXP = '#^[\w \-\(\),]+$#';
-    public const WORDS_AND_NUMBERS_REG_EXP = '#^[\w0-9 \-\(\),]+$#';
-    public const ADDRESS_REG_EXP = '#^[#.0-9a-zA-Z\s,-]+$#';
+    public const ELIGIBLE_TITLE_REG_EXP = '#^[\w0-9 \-\(\),]+$#';
+    public const ADDRESS_REG_EXP = self::ELIGIBLE_TITLE_REG_EXP;
     public const DESCRIPTION_REG_EXP = '#^[\w0-9 \-,\.]+$#i';
 }

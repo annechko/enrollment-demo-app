@@ -21,7 +21,10 @@ import React, {
   useState
 } from 'react'
 import CIcon from "@coreui/icons-react";
-import {cilCheck} from "@coreui/icons";
+import {
+  cilCheck,
+  cilX
+} from "@coreui/icons";
 import AppErrorMessage from "../../../App/Common/AppErrorMessage";
 import PropTypes from "prop-types";
 import * as LoadState from "../../../App/Helper/LoadState";
@@ -30,6 +33,7 @@ import {submitForm} from "../../../App/Helper/SubmitForm";
 
 const SchoolList = () => {
   const [confirmState, setConfirmState] = React.useState({modalVisible: false, school: {}})
+  const [deleteState, setDeleteState] = React.useState({modalVisible: false, school: {}})
 
   const [schoolsState, setSchoolsState] = useState(LoadState.initialize())
   const schoolsUrl = window.abeApp.urls.api_admin_school_list
@@ -41,7 +45,7 @@ const SchoolList = () => {
   }, [schoolsState])
 
   const formId = 'confirm'
-  const onConfirm = () => {
+  const onConfirmSuccess = () => {
     setConfirmState({modalVisible: false, school: {}})
     loadSchools()
   }
@@ -54,7 +58,23 @@ const SchoolList = () => {
         setState: setConfirmState,
         formId,
         url,
-        onSuccess: onConfirm
+        onSuccess: onConfirmSuccess
+      })
+    }
+  }
+  const onDeleteSuccess = () => {
+    setDeleteState({modalVisible: false, school: {}})
+    loadSchools()
+  }
+  const deleteSchool = (schoolId) => {
+    return () => {
+      const url = window.abeApp.urls.api_admin_school_delete.replace(':schoolId', schoolId)
+      Api.submitData({
+        state: deleteState,
+        setState: setDeleteState,
+        url,
+        data: {schoolId: schoolId},
+        onSuccess: onDeleteSuccess
       })
     }
   }
@@ -67,45 +87,85 @@ const SchoolList = () => {
         <SchoolsRows
           schoolsState={schoolsState}
           setConfirmState={setConfirmState}
+          setDeleteState={setDeleteState}
         />
 
-        <CModal visible={confirmState.modalVisible}
-          onClose={() => {
-            setConfirmState({modalVisible: false, school: {}})
-          }}>
-          <CModalHeader onClose={() => {
-            setConfirmState({modalVisible: false, school: {}})
-          }}>
-            <CModalTitle>Confirm school's registration</CModalTitle>
-          </CModalHeader>
-          <CModalBody>
-            {confirmState.error !== null && <AppErrorMessage error={confirmState.error}/>}
-            Are you sure you want to confirm school "{confirmState.school.name}"?
-          </CModalBody>
-          <CModalFooter>
-            <CButton color="secondary" size="sm" onClick={() => setConfirmState({
-              modalVisible: false,
-              school: {}
-            })}>
-              Close
-            </CButton>
-            <CButton color="primary" size="sm"
-              disabled={confirmState.loading === true}
-              onClick={confirm(confirmState.school.id)}>
-
-              {confirmState.loading === true
-                && <CSpinner className="me-1" component="span" size="sm" aria-hidden="true"/>}
-              Confirm
-            </CButton>
-          </CModalFooter>
-        </CModal>
+        <ConfirmModal confirmState={confirmState} setConfirmState={setConfirmState} confirm={confirm}/>
+        <DeleteModal state={deleteState} setState={setDeleteState} callback={deleteSchool}/>
       </CCardBody>
     </CCard>
   )
 }
+const DeleteModal = ({state, setState, callback}) => {
+  return <CModal visible={state.modalVisible}
+    onClose={() => {
+      setState({modalVisible: false, school: {}})
+    }}>
+    <CModalHeader onClose={() => {
+      setState({modalVisible: false, school: {}})
+    }}>
+      <CModalTitle>Confirm school's delete</CModalTitle>
+    </CModalHeader>
+    <CModalBody>
+      {state.error !== null && <AppErrorMessage error={state.error}/>}
+      Are you sure you want to delete school "{state.school.name}"?
+      All its staff members, courses, intakes, student applications will be removed too.
+    </CModalBody>
+    <CModalFooter>
+      <CButton color="secondary" size="sm" onClick={() => setState({
+        modalVisible: false,
+        school: {}
+      })}>
+        Close
+      </CButton>
+      <CButton color="danger" size="sm"
+        disabled={state.loading === true}
+        onClick={callback(state.school.id)}>
+
+        {state.loading === true
+          && <CSpinner className="me-1" component="span" size="sm" aria-hidden="true"/>}
+        Confirm
+      </CButton>
+    </CModalFooter>
+  </CModal>
+
+}
+const ConfirmModal = ({confirmState, setConfirmState, confirm}) => {
+  return <CModal visible={confirmState.modalVisible}
+    onClose={() => {
+      setConfirmState({modalVisible: false, school: {}})
+    }}>
+    <CModalHeader onClose={() => {
+      setConfirmState({modalVisible: false, school: {}})
+    }}>
+      <CModalTitle>Confirm school's registration</CModalTitle>
+    </CModalHeader>
+    <CModalBody>
+      {confirmState.error !== null && <AppErrorMessage error={confirmState.error}/>}
+      Are you sure you want to confirm school "{confirmState.school.name}"?
+    </CModalBody>
+    <CModalFooter>
+      <CButton color="secondary" size="sm" onClick={() => setConfirmState({
+        modalVisible: false,
+        school: {}
+      })}>
+        Close
+      </CButton>
+      <CButton color="primary" size="sm"
+        disabled={confirmState.loading === true}
+        onClick={confirm(confirmState.school.id)}>
+
+        {confirmState.loading === true
+          && <CSpinner className="me-1" component="span" size="sm" aria-hidden="true"/>}
+        Confirm
+      </CButton>
+    </CModalFooter>
+  </CModal>
+}
 const SchoolsRows = ({
                        schoolsState,
                        setConfirmState,
+                       setDeleteState,
                      }) => {
   const schools = schoolsState.data
 
@@ -122,14 +182,14 @@ const SchoolsRows = ({
     <CTableRow key={key++}>
       <CTableDataCell scope="row">{item.id.substring(32)}</CTableDataCell>
       <CTableDataCell>{item.name}</CTableDataCell>
-      <CTableDataCell >{item.email}</CTableDataCell>
-      <CTableDataCell >{item.createdAt}</CTableDataCell>
-      <CTableDataCell >{item.invitationDate}</CTableDataCell>
+      <CTableDataCell>{item.email}</CTableDataCell>
+      <CTableDataCell>{item.createdAt}</CTableDataCell>
+      <CTableDataCell>{item.invitationDate}</CTableDataCell>
       <CTableDataCell>
         <div className="d-flex">
           {item.canBeConfirmed &&
             <CButton color="primary" role="button"
-              className="py-0"
+              className="py-0 me-1"
               onClick={() => {
                 setConfirmState({
                   modalVisible: true,
@@ -138,6 +198,18 @@ const SchoolsRows = ({
               }}
               size="sm" variant="outline">
               <CIcon icon={cilCheck}/>
+            </CButton>}
+          {item.canBeDeleted &&
+            <CButton color="danger" role="button"
+              className="py-0"
+              onClick={() => {
+                setDeleteState({
+                  modalVisible: true,
+                  school: {name: item.name, id: item.id}
+                });
+              }}
+              size="sm" variant="outline">
+              <CIcon icon={cilX}/>
             </CButton>}
         </div>
       </CTableDataCell>
@@ -155,7 +227,7 @@ const SchoolsRows = ({
             <CTableHeaderCell scope="col">Email</CTableHeaderCell>
             <CTableHeaderCell scope="col">Registration Date</CTableHeaderCell>
             <CTableHeaderCell scope="col">Invitation Date</CTableHeaderCell>
-            <CTableHeaderCell scope="col">Confirm</CTableHeaderCell>
+            <CTableHeaderCell scope="col">Actions</CTableHeaderCell>
           </CTableRow>
         </CTableHead>
         <CTableBody>
@@ -168,12 +240,14 @@ const SchoolsRows = ({
 
 SchoolsRows.propTypes = {
   setConfirmState: PropTypes.func.isRequired,
+  setDeleteState: PropTypes.func.isRequired,
   schoolsState: PropTypes.shape({
     data: PropTypes.arrayOf(
       PropTypes.shape({
         id: PropTypes.string,
         name: PropTypes.string,
         canBeConfirmed: PropTypes.bool,
+        canBeDeleted: PropTypes.bool,
         email: PropTypes.string,
         invitationDate: PropTypes.string,
         createdAt: PropTypes.string,

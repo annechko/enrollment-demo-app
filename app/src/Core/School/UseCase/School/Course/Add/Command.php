@@ -11,7 +11,7 @@ class Command
 {
     /** @var string */
     #[Assert\NotBlank(message: 'Name should not be blank.')]
-    #[Assert\Regex(RegexEnum::WORDS_AND_NUMBERS_REG_EXP, message: 'Name is not valid.')]
+    #[Assert\Regex(RegexEnum::ELIGIBLE_TITLE_REG_EXP, message: 'Name is not valid.')]
     #[Assert\Length(min: 2, minMessage: 'Course name is too short. It should have {{ limit }} characters or more.')]
     public $name;
 
