@@ -1,11 +1,19 @@
+docker-down:
+	docker-compose down --remove-orphans
 docker-build:
 	docker-compose build
-
 docker-up:
 	docker-compose up -d --remove-orphans
 
-docker-down:
-	docker-compose down --remove-orphans
+app-init: app-composer-install app-assets-install app-wait-db app-migrations
+app-composer-install:
+	docker exec -d enroll-php-fpm composer i
+app-assets-install:
+	docker-compose run --rm enroll-node yarn install
+app-wait-db:
+	until docker-compose exec -T enroll-db pg_isready --timeout=0 --dbname=app ; do sleep 1 ; done
+app-migrations:
+	docker exec -d enroll-php-fpm php bin/console doctrine:migrations:migrate --no-interaction
 
 init: docker-down docker-build docker-up app-init
 
@@ -16,19 +24,6 @@ docker-pull:
 	docker-compose pull
 
 
-app-init: app-composer-install app-assets-install app-wait-db app-migrations
-
-app-composer-install:
-	docker exec -d enroll-php-fpm composer i
-
-app-assets-install:
-	docker-compose run --rm enroll-node yarn install
-
-app-wait-db:
-	until docker-compose exec -T enroll-db pg_isready --timeout=0 --dbname=app ; do sleep 1 ; done
-
-app-migrations:
-	docker exec -d enroll-php-fpm php bin/console doctrine:migrations:migrate --no-interaction
 fix:
 	docker exec -it enroll-php-fpm vendor/bin/php-cs-fixer fix -v --using-cache=no --allow-risky=yes
 phpstan:
