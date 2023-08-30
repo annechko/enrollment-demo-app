@@ -36,7 +36,7 @@ class SchoolController extends AbstractApiController
             $filter,
             $request->query->getInt('page', 1),
             self::MAX_ITEMS,
-            $request->query->get('sort', 'id'),
+            $request->query->get('sort', 'created_at'),
             $request->query->get('direction', 'desc')
         );
 

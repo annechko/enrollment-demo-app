@@ -15,35 +15,27 @@ import Chart from 'chart.js/auto';
 import * as LoadState from "../../../App/Helper/LoadState";
 import * as Api from "../../../App/Helper/Api";
 
-const ReportLoading = ({color = 'info'}) => {
-  return <CSpinner className="me-1" color={color} component="span" size="lg" aria-hidden="true"/>
-}
-const HomeDashboard = () => {
-  const loadingSchoolsRegs = false
-  const loadingApplication = false
-  const schoolRegsYearRef = useRef(null);
-  const schoolRegsMonthRef = useRef(null);
-  const studentApplicationsMonthRef = useRef(null);
-  const studentApplicationsYearRef = useRef(null);
-
-  const [schoolsRegsYearState, setSchoolsRegsYearState] = useState(LoadState.initialize())
+const Report = ({reportRef, reportRequestType, label, color}) => {
+  const [state, setState] = useState(LoadState.initialize())
+  const [loading, setLoading] = useState(true)
   const statsUrl = window.abeApp.urls.api_admin_stats
   useEffect(() => {
-    if (LoadState.needLoading(schoolsRegsYearState)) {
+    if (LoadState.needLoading(state)) {
       Api.submitData({
-        state: schoolsRegsYearState,
-        setState: setSchoolsRegsYearState,
+        state: state,
+        setState: setState,
         url: statsUrl,
-        data: {type: 'schoolRegistrationsYear'},
+        data: {type: reportRequestType},
         onSuccess: (response) => {
-          const chart = new Chart(schoolRegsYearRef.current, {
+          setLoading(false)
+          const chart = new Chart(reportRef.current, {
             type: 'bar',
             data: {
               labels: response.data.labels,
               datasets: [
                 {
-                  label: 'Schools registrations per month',
-                  backgroundColor: '#0aa4c1',
+                  label: label,
+                  backgroundColor: color,
                   data: response.data.data,
                 },
               ],
@@ -56,12 +48,27 @@ const HomeDashboard = () => {
               }
             }
           });
-
         }
       })
     }
-  }, [schoolsRegsYearState])
+  }, [state.loading])
 
+  return <>
+    {loading && <ReportLoading/>}
+    <canvas ref={reportRef}/>
+  </>
+}
+const ReportLoading = ({color = 'info'}) => {
+  return <CSpinner className="me-1" color={color} component="span" aria-hidden="true"/>
+}
+
+const HomeDashboard = () => {
+  const loadingSchoolsRegs = false
+  const loadingApplication = false
+  const schoolRegsYearRef = useRef(null);
+  const schoolRegsMonthRef = useRef(null);
+  const studentApplicationsMonthRef = useRef(null);
+  const studentApplicationsYearRef = useRef(null);
 
   return <>
     <h4 className="mt-3">Last month</h4>
@@ -70,11 +77,9 @@ const HomeDashboard = () => {
         <CCard className="mb-4">
           <CCardHeader>School registrations</CCardHeader>
           <CCardBody>
-            {
-              loadingSchoolsRegs
-                  ? <ReportLoading/>
-                  : <canvas ref={schoolRegsMonthRef}/>
-            }
+            <Report reportRef={schoolRegsMonthRef} reportRequestType={'schoolRegistrationsMonth'}
+                label={'Schools registrations per day'} color={'#0ac17b'}
+            />
           </CCardBody>
         </CCard>
       </CCol>
@@ -97,13 +102,9 @@ const HomeDashboard = () => {
         <CCard className="mb-4">
           <CCardHeader>School registrations</CCardHeader>
           <CCardBody>
-            {
-              loadingSchoolsRegs
-                  ? <ReportLoading/>
-                  : <div>
-                    <canvas ref={schoolRegsYearRef}/>
-                  </div>
-            }
+            <Report reportRef={schoolRegsYearRef} reportRequestType={'schoolRegistrationsYear'}
+                label={'Schools registrations per month'} color={'#0aa4c1'}
+            />
           </CCardBody>
         </CCard>
       </CCol>

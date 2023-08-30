@@ -7,4 +7,5 @@ namespace App\ReadModel\Admin\Statistics\Filter;
 enum ReportTypeEnum: string
 {
     case SCHOOL_REGISTRATIONS_YEAR = 'schoolRegistrationsYear';
+    case SCHOOL_REGISTRATIONS_MONTH = 'schoolRegistrationsMonth';
 }

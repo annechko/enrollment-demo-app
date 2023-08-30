@@ -18,8 +18,8 @@ class StatsFetcher
     }
 
 
-    public function fetchSchoolRegistrations(
-        Filter $filter,
+    public function fetchSchoolRegistrationsByMonth(
+        \DateTimeImmutable $since,
     ): array {
         $schools = $this->em->getClassMetadata(School::class)->getTableName();
         $results = $this->connection->executeQuery(
@@ -30,7 +30,26 @@ class StatsFetcher
             GROUP BY 1
             ORDER BY 1;",
             [
-                'since' => $filter->since->format('Y-m-d H:i:s'),
+                'since' => $since->format('Y-m-d H:i:s'),
+            ]
+        )->fetchAllKeyValue();
+
+        return $results;
+    }
+
+    public function fetchSchoolRegistrationsByDay(
+        \DateTimeImmutable $since,
+    ): array {
+        $schools = $this->em->getClassMetadata(School::class)->getTableName();
+        $results = $this->connection->executeQuery(
+            "
+            SELECT TO_CHAR(created_at,'MM-DD') AS date, COUNT(id) AS amount
+            FROM $schools
+            WHERE created_at > :since
+            GROUP BY 1
+            ORDER BY 1;",
+            [
+                'since' => $since->format('Y-m-d H:i:s'),
             ]
         )->fetchAllKeyValue();
 
