@@ -14,6 +14,7 @@ import {
 import Chart from 'chart.js/auto';
 import * as LoadState from "../../../App/Helper/LoadState";
 import * as Api from "../../../App/Helper/Api";
+import AppErrorMessage from "../../../App/Common/AppErrorMessage";
 
 const Report = ({reportRequestType, label, color}) => {
   const reportRef = useRef(null);
@@ -49,7 +50,8 @@ const Report = ({reportRequestType, label, color}) => {
   }, [this])
 
   return <>
-    {loading && <ReportLoading/>}
+    {loading && !state.error && <ReportLoading/>}
+    <AppErrorMessage error={state?.error}/>
     <canvas ref={reportRef}/>
   </>
 }

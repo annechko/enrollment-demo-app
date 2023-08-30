@@ -37,7 +37,7 @@ class StatisticsController extends AbstractJsonApiController
             $logger->error($exception->getMessage(), ['exception' => $exception]);
 
             return new JsonResponse([
-                'error' => 'Invalid report type.',
+                'error' => 'Something went wrong.',
             ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
         }
 
