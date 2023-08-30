@@ -1,7 +1,7 @@
 docker-down:
 	docker-compose down --remove-orphans
 docker-build:
-	docker-compose build
+	docker-compose build --pull
 docker-up:
 	docker-compose up -d --remove-orphans
 
@@ -47,13 +47,13 @@ lint:
 prod-build: prod-build-php prod-build-nginx prod-build-db
 
 prod-build-php:
-	docker --log-level=debug build --file=app/.docker/prod/php-fpm.docker --tag ${REGISTRY}:demo-php-fpm-${IMAGE_TAG} app
+	docker --log-level=debug build --pull --file=app/.docker/prod/php-fpm.docker --tag ${REGISTRY}:demo-php-fpm-${IMAGE_TAG} app
 
 prod-build-nginx:
-	docker --log-level=debug build --file=app/.docker/prod/nginx.docker --tag ${REGISTRY}:demo-nginx-${IMAGE_TAG} app
+	docker --log-level=debug build --pull --file=app/.docker/prod/nginx.docker --tag ${REGISTRY}:demo-nginx-${IMAGE_TAG} app
 
 prod-build-db:
-	docker --log-level=debug build --file=app/.docker/prod/db.docker --tag ${REGISTRY}:demo-db-${IMAGE_TAG} app
+	docker --log-level=debug build --pull --file=app/.docker/prod/db.docker --tag ${REGISTRY}:demo-db-${IMAGE_TAG} app
 
 prod-push: prod-push-nginx prod-push-db prod-push-php
 
