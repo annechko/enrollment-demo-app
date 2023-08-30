@@ -15,7 +15,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 abstract class AbstractJsonApiController extends AbstractController
 {
     public function __construct(
-        private readonly SerializerInterface $serializer,
+        protected readonly SerializerInterface $serializer,
         private readonly ValidatorInterface $validator,
     ) {
     }

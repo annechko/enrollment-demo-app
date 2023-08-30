@@ -746,12 +746,20 @@ class SchoolDataCreator
         foreach (self::SCHOOL_NAMES as $index => $name) {
             $adminNameAndSurname = explode(' ', self::ADMIN_NAMES[$index]);
             $email = str_replace(' ', '.', strtolower($name)) . '@example.com';
+            $registerDay = rand(1, 28);
+            $registerMonth = rand(1, 12);
+            $createdAt = \DateTimeImmutable::createFromFormat(
+                'Y-m-d',
+                $now->format('Y-m-') . $registerDay
+            )
+                ->sub(new \DateInterval("P{$registerMonth}M"));
             $school = School::register(
                 new SchoolId($this->uuidGenerator->generate()),
                 new Name($name),
                 new StaffMemberId($this->uuidGenerator->generate()),
                 new StaffMemberName($adminNameAndSurname[0], $adminNameAndSurname[1]),
-                new Email($email)
+                new Email($email),
+                $createdAt > $now ? $now : $createdAt
             );
             $school->confirmRegister(
                 new InvitationToken(

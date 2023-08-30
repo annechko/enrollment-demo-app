@@ -54,13 +54,14 @@ class School
         StaffMemberId $adminId,
         StaffMemberName $adminName,
         Email $adminEmail,
+        ?\DateTimeImmutable $createdAt = null
     ) {
         $this->id = $id;
         $this->name = $name;
         $this->status = self::STATUS_NEW;
         $this->admin = new StaffMember($id, $adminId, $adminName, $adminEmail);
         $this->admin->changeRole(RoleEnum::SCHOOL_ADMIN);
-        $this->createdAt = new \DateTimeImmutable();
+        $this->createdAt = $createdAt ?? new \DateTimeImmutable();
     }
 
     public static function register(
@@ -69,8 +70,9 @@ class School
         StaffMemberId $adminId,
         StaffMemberName $adminName,
         Email $adminEmail,
+        ?\DateTimeImmutable $createdAt = null
     ): self {
-        return new self($id, $schoolName, $adminId, $adminName, $adminEmail);
+        return new self($id, $schoolName, $adminId, $adminName, $adminEmail, $createdAt);
     }
 
     public function confirmRegister(
