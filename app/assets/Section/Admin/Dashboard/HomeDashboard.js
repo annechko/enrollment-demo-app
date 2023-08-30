@@ -42,7 +42,16 @@ const Report = ({reportRequestType, label, color}) => {
                 },
               ],
             },
-            options: {scales: {y: {max: response.data.maxY}}}
+            options: {
+              scales: {
+                y: {
+                  max: response.data.maxY,
+                  ticks: {
+                    stepSize: 1
+                  }
+                }
+              }
+            }
           });
         }
       })
@@ -64,7 +73,7 @@ const HomeDashboard = () => {
   return <>
     <h4 className="mt-3">Last month</h4>
     <CRow className="mt-3">
-      <CCol xs={6}>
+      <CCol xs={12} md={12} lg={6}>
         <CCard className="mb-4">
           <CCardHeader>School registrations</CCardHeader>
           <CCardBody>
@@ -74,7 +83,7 @@ const HomeDashboard = () => {
           </CCardBody>
         </CCard>
       </CCol>
-      <CCol xs={6}>
+      <CCol xs={12} md={12} lg={6}>
         <CCard className="mb-4">
           <CCardHeader>Student applications</CCardHeader>
           <CCardBody>
@@ -87,7 +96,7 @@ const HomeDashboard = () => {
     </CRow>
     <h4>Last year</h4>
     <CRow className="mt-3 mb-5">
-      <CCol xs={6}>
+      <CCol xs={12} md={12} lg={6}>
         <CCard className="mb-4">
           <CCardHeader>School registrations</CCardHeader>
           <CCardBody>
@@ -97,7 +106,7 @@ const HomeDashboard = () => {
           </CCardBody>
         </CCard>
       </CCol>
-      <CCol xs={6}>
+      <CCol xs={12} md={12} lg={6}>
         <CCard className="mb-4">
           <CCardHeader>Student applications</CCardHeader>
           <CCardBody>

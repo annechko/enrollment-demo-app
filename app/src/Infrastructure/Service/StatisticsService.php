@@ -90,7 +90,7 @@ class StatisticsService
             $data[] = $dateToAmountResults[$label] ?? 0;
         }
 
-        $maxY = intval(max($data) + round(max($data)) / 2);
+        $maxY = intval(max($data) + round(max($data)) / 2) + 1;
 
         return new StatisticsResponseDto(
             array_values($labels),
