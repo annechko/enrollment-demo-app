@@ -16,6 +16,8 @@ class StatisticsService
     private const FORMAT_DAY = 'j M';
     private const INTERVAL_DAY = 'P1D';
     private const DATE_STRING_MONTH_AGO = '30 days ago';
+    private const FETCHER_FORMAT_MONTH = 'y-m';
+    private const FETCHER_FORMAT_DAY = 'm-d';
 
     public function __construct(
         private readonly StatsFetcher $fetcher,
@@ -25,36 +27,42 @@ class StatisticsService
     public function getByType(Filter $filter): StatisticsResponseDto
     {
         return match ($filter->type->value) {
-            ReportTypeEnum::SCHOOL_REGISTRATIONS_YEAR->value => $this->getData(
-                self::DATE_STRING_YEAR_AGO,
+            ReportTypeEnum::SCHOOL_REGISTRATIONS_YEAR->value => $this->getDataPerYear(
                 $this->fetcher->fetchSchoolRegistrationsByMonth(...),
-                self::FORMAT_MONTH,
-                self::INTERVAL_MONTH,
-                'y-m'
             ),
-            ReportTypeEnum::SCHOOL_REGISTRATIONS_MONTH->value => $this->getData(
-                self::DATE_STRING_MONTH_AGO,
-                $this->fetcher->fetchSchoolRegistrationsByDay(...),
-                self::FORMAT_DAY,
-                self::INTERVAL_DAY,
-                'm-d'
-            ),
-            ReportTypeEnum::STUDENT_APPLICATIONS_YEAR->value => $this->getData(
-                self::DATE_STRING_YEAR_AGO,
+            ReportTypeEnum::STUDENT_APPLICATIONS_YEAR->value => $this->getDataPerYear(
                 $this->fetcher->fetchStudentApplicationsByMonth(...),
-                self::FORMAT_MONTH,
-                self::INTERVAL_MONTH,
-                'y-m'
             ),
-            ReportTypeEnum::STUDENT_APPLICATIONS_MONTH->value => $this->getData(
-                self::DATE_STRING_MONTH_AGO,
+            ReportTypeEnum::SCHOOL_REGISTRATIONS_MONTH->value => $this->getDataPerMonth(
+                $this->fetcher->fetchSchoolRegistrationsByDay(...),
+            ),
+            ReportTypeEnum::STUDENT_APPLICATIONS_MONTH->value => $this->getDataPerMonth(
                 $this->fetcher->fetchStudentApplicationsByDay(...),
-                self::FORMAT_DAY,
-                self::INTERVAL_DAY,
-                'm-d'
             ),
             default => throw new \DomainException('Unknown report type.')
         };
+    }
+
+    private function getDataPerYear(callable $fetcherCallback): StatisticsResponseDto
+    {
+        return $this->getData(
+            self::DATE_STRING_YEAR_AGO,
+            $fetcherCallback,
+            self::FORMAT_MONTH,
+            self::INTERVAL_MONTH,
+            self::FETCHER_FORMAT_MONTH
+        );
+    }
+
+    private function getDataPerMonth(callable $fetcherCallback): StatisticsResponseDto
+    {
+        return $this->getData(
+            self::DATE_STRING_MONTH_AGO,
+            $fetcherCallback,
+            self::FORMAT_DAY,
+            self::INTERVAL_DAY,
+            self::FETCHER_FORMAT_DAY
+        );
     }
 
     private function getData(
