@@ -73,6 +73,7 @@ class Application
         \DateTimeImmutable $dateOfBirth,
         string $fullName,
         ?string $preferredName,
+        ?\DateTimeImmutable $createdAt = null,
     ) {
         $this->id = $id;
         $this->school = $school;
@@ -83,7 +84,7 @@ class Application
         $this->dateOfBirth = $dateOfBirth;
         $this->fullName = $fullName;
         $this->preferredName = $preferredName;
-        $this->createdAt = new \DateTimeImmutable();
+        $this->createdAt = $createdAt ?? new \DateTimeImmutable();
         $this->student = $student;
         $this->status = ApplicationStatusEnum::new();
     }

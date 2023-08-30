@@ -18,6 +18,8 @@ use App\Core\School\Entity\School\SchoolId;
 use App\Core\School\Entity\School\StaffMember;
 use App\Core\School\Entity\School\StaffMemberId;
 use App\Core\School\Entity\School\StaffMemberName;
+use App\Core\Student\Entity\Application\Application;
+use App\Core\Student\Entity\Application\ApplicationId;
 use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
 
 class SchoolDataCreator
@@ -730,8 +732,61 @@ class SchoolDataCreator
         '222 Xylosma Street',
         '333 Yarrow Court',
     ];
+    private const STUDENT_DATA = [
+        'Emily', 'Johnson',
+        'Alexander', 'Smith',
+        'Olivia', 'Martinez',
+        'Liam', 'Anderson',
+        'Sophia', 'Brown',
+        'Ethan', 'Williams',
+        'Ava', 'Taylor',
+        'Noah', 'Garcia',
+        'Isabella', 'Clark',
+        'Aiden', 'Davis',
+        'Mia', 'Rodriguez',
+        'Lucas', 'Wilson',
+        'Harper', 'Lee',
+        'Benjamin', 'Martinez',
+        'Amelia', 'Thompson',
+        'Elijah', 'Hall',
+        'Charlotte', 'White',
+        'James', 'Johnson',
+        'Evelyn', 'Harris',
+        'William', 'Adams',
+        'Abigail', 'Scott',
+        'Michael', 'Turner',
+        'Sophia', 'Lewis',
+        'Daniel', 'Young',
+        'Grace', 'King',
+        'Matthew', 'Martinez',
+        'Ava', 'Green',
+        'Logan', 'Wright',
+        'Olivia', 'Rodriguez',
+        'Jackson', 'Mitchell',
+        'Emma', 'Walker',
+        'Lucas', 'Hill',
+        'Mia', 'Carter',
+        'Ethan', 'Brown',
+        'Isabella', 'Cooper',
+        'Alexander', 'Turner',
+        'Harper', 'Bennett',
+        'Benjamin', 'Flores',
+        'Amelia', 'Reed',
+        'Liam', 'Morgan',
+        'Ava', 'Collins',
+        'Noah', 'Foster',
+        'Emily', 'Murphy',
+        'William', 'Rivera',
+        'Charlotte', 'Powell',
+        'James', 'Ward',
+        'Sophia', 'Adams',
+        'Jacob', 'Jenkins',
+        'Olivia', 'Butler',
+        'Mia', 'Parker',
+    ];
 
     public function __construct(
+        private readonly StudentUserCreator $studentCreator,
         private readonly PasswordHasherFactoryInterface $hasherFactory,
         private readonly UuidGenerator $uuidGenerator,
     ) {
@@ -740,26 +795,23 @@ class SchoolDataCreator
     public function createEntities(): array
     {
         $entities = [];
+        $applicationsData = [];
         $now = new \DateTimeImmutable();
+        $nowPlus2years = clone $now->add(new \DateInterval('P3Y'));
+        $dateOfBirth = \DateTimeImmutable::createFromFormat('Y-m-d', '1990-01-01');
         $campusIndex = 0;
         $coursesCount = count(self::COURSES);
         foreach (self::SCHOOL_NAMES as $index => $name) {
             $adminNameAndSurname = explode(' ', self::ADMIN_NAMES[$index]);
             $email = str_replace(' ', '.', strtolower($name)) . '@example.com';
-            $registerDay = rand(1, 28);
-            $registerMonth = rand(1, 12);
-            $createdAt = \DateTimeImmutable::createFromFormat(
-                'Y-m-d',
-                $now->format('Y-m-') . $registerDay
-            )
-                ->sub(new \DateInterval("P{$registerMonth}M"));
+
             $school = School::register(
                 new SchoolId($this->uuidGenerator->generate()),
                 new Name($name),
                 new StaffMemberId($this->uuidGenerator->generate()),
                 new StaffMemberName($adminNameAndSurname[0], $adminNameAndSurname[1]),
                 new Email($email),
-                $createdAt > $now ? $now : $createdAt
+                $this->buildCreatedAt($now, $index % 2 === 0 ? 'M':'D')
             );
             $school->confirmRegister(
                 new InvitationToken(
@@ -804,19 +856,56 @@ class SchoolDataCreator
                 $start = $now->add(new \DateInterval("P{$daysTillStart}D"));
                 $durationDays = rand(365, 365 * 3);
                 $end = $start->add(new \DateInterval("P{$durationDays}D"));
-                $course->addIntake(
+                $intake = $course->addIntake(
                     new IntakeId($this->uuidGenerator->generate()),
                     $start,
                     $end,
                     rand(0, 1) === 0 ? 'Thesis' : 'Full-time',
                     rand(5, 50)
                 );
+                $applicationsData[] = [$intake, $school, $course];
                 $entities[] = $course;
             }
             $entities[] = $school;
             $entities[] = $campus;
         }
 
+        for ($j = 0; $j < 20; $j++) {
+            $intake = $applicationsData[$j][0];
+            $data = self::STUDENT_DATA[$j];
+            $application = new Application(
+                new ApplicationId($this->uuidGenerator->generate()),
+                $student = $this->studentCreator->create(
+                    $data[0],
+                    $data[1],
+                    strtolower($data[0] . $data[1] . '@example.com')
+                ),
+                $applicationsData[$j][1],
+                $applicationsData[$j][2],
+                $intake,
+                '123456',
+                $nowPlus2years,
+                $dateOfBirth,
+                $data[0] . ' ' . $data[1],
+                null,
+                $this->buildCreatedAt($now, 'D')
+            );
+            $entities[] = $student;
+            $entities[] = $application;
+        }
+
         return $entities;
+    }
+
+    private function buildCreatedAt(\DateTimeImmutable $now, $subType='M'): \DateTimeImmutable
+    {
+        $registerDay = rand(1, 28);
+        $registerMonth = rand(1, 12);
+        $createdAt = \DateTimeImmutable::createFromFormat(
+            'Y-m-d',
+            $now->format('Y-m-') . $registerDay
+        )
+            ->sub(new \DateInterval("P{$registerMonth}{$subType}"));
+        return $createdAt > $now ? clone $now : $createdAt;
     }
 }

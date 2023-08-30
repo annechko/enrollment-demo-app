@@ -15,7 +15,8 @@ import Chart from 'chart.js/auto';
 import * as LoadState from "../../../App/Helper/LoadState";
 import * as Api from "../../../App/Helper/Api";
 
-const Report = ({reportRef, reportRequestType, label, color}) => {
+const Report = ({reportRequestType, label, color}) => {
+  const reportRef = useRef(null);
   const [state, setState] = useState(LoadState.initialize())
   const [loading, setLoading] = useState(true)
   const statsUrl = window.abeApp.urls.api_admin_stats
@@ -28,7 +29,7 @@ const Report = ({reportRef, reportRequestType, label, color}) => {
         data: {type: reportRequestType},
         onSuccess: (response) => {
           setLoading(false)
-          const chart = new Chart(reportRef.current, {
+          new Chart(reportRef.current, {
             type: 'bar',
             data: {
               labels: response.data.labels,
@@ -40,18 +41,12 @@ const Report = ({reportRef, reportRequestType, label, color}) => {
                 },
               ],
             },
-            options: {
-              scales: {
-                y: {
-                  max: response.data.maxY,
-                }
-              }
-            }
+            options: {scales: {y: {max: response.data.maxY}}}
           });
         }
       })
     }
-  }, [state.loading])
+  }, [this])
 
   return <>
     {loading && <ReportLoading/>}
@@ -63,12 +58,6 @@ const ReportLoading = ({color = 'info'}) => {
 }
 
 const HomeDashboard = () => {
-  const loadingSchoolsRegs = false
-  const loadingApplication = false
-  const schoolRegsYearRef = useRef(null);
-  const schoolRegsMonthRef = useRef(null);
-  const studentApplicationsMonthRef = useRef(null);
-  const studentApplicationsYearRef = useRef(null);
 
   return <>
     <h4 className="mt-3">Last month</h4>
@@ -77,7 +66,7 @@ const HomeDashboard = () => {
         <CCard className="mb-4">
           <CCardHeader>School registrations</CCardHeader>
           <CCardBody>
-            <Report reportRef={schoolRegsMonthRef} reportRequestType={'schoolRegistrationsMonth'}
+            <Report reportRequestType={'schoolRegistrationsMonth'}
                 label={'Schools registrations per day'} color={'#0ac17b'}
             />
           </CCardBody>
@@ -87,11 +76,9 @@ const HomeDashboard = () => {
         <CCard className="mb-4">
           <CCardHeader>Student applications</CCardHeader>
           <CCardBody>
-            {
-              loadingApplication
-                  ? <ReportLoading color="dark"/>
-                  : <canvas ref={studentApplicationsMonthRef}/>
-            }
+            <Report reportRequestType={'studentApplicationsMonth'}
+                label={'Student applications per day'} color={'#a90ac1'}
+            />
           </CCardBody>
         </CCard>
       </CCol>
@@ -102,7 +89,7 @@ const HomeDashboard = () => {
         <CCard className="mb-4">
           <CCardHeader>School registrations</CCardHeader>
           <CCardBody>
-            <Report reportRef={schoolRegsYearRef} reportRequestType={'schoolRegistrationsYear'}
+            <Report reportRequestType={'schoolRegistrationsYear'}
                 label={'Schools registrations per month'} color={'#0aa4c1'}
             />
           </CCardBody>
@@ -112,11 +99,9 @@ const HomeDashboard = () => {
         <CCard className="mb-4">
           <CCardHeader>Student applications</CCardHeader>
           <CCardBody>
-            {
-              loadingApplication
-                  ? <ReportLoading color="dark"/>
-                  : <canvas ref={studentApplicationsYearRef}/>
-            }
+            <Report reportRequestType={'studentApplicationsYear'}
+                label={'Student applications per month'} color={'#3e0ac1'}
+            />
           </CCardBody>
         </CCard>
       </CCol>

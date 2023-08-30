@@ -98,7 +98,7 @@ class Course
         ?int $classSize = null,
         ?Campus $campus = null,
         ?\DateTimeImmutable $createdAt = null,
-    ): self {
+    ): Intake {
         $intake = new Intake(
             $this,
             $id,
@@ -111,7 +111,7 @@ class Course
         );
         $this->intakes->add($intake);
 
-        return $this;
+        return $intake;
     }
 
     public function removeIntake(IntakeId $id): self

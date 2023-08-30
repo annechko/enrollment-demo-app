@@ -23,13 +23,16 @@ class StudentUserCreator
     ) {
     }
 
-    public function create(): Student
-    {
+    public function create(
+        ?string $name = null,
+        ?string $surname = null,
+        ?string $email = null
+    ): Student {
         $student = Student::register(
             new StudentId($this->uuidGenerator->generate()),
-            self::EMAIL,
-            self::NAME,
-            self::SURNAME,
+            $email ?? self::EMAIL,
+            $name ?? self::NAME,
+            $surname ?? self::SURNAME,
             $this->hasherFactory->getPasswordHasher(StaffMember::class)
                 ->hash(self::PASSWORD)
         );

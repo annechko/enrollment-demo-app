@@ -19,6 +19,7 @@ export function submitData({state, setState, url, data, onSuccess, headers}) {
     .then(response => {
       setState({
         ...state,
+        loaded: true,
         loading: false,
         error: null
       })
@@ -29,6 +30,7 @@ export function submitData({state, setState, url, data, onSuccess, headers}) {
     .catch((error) => {
       setState({
         ...state,
+        loaded: true,
         loading: false,
         error: error.response?.data?.error || 'Something went wrong'
       })
