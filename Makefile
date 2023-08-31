@@ -41,7 +41,7 @@ data:
 watch:
 	docker-compose run --rm enroll-node yarn watch
 lint:
-	docker-compose run --rm enroll-node ./node_modules/.bin/eslint assets
+	docker-compose run --rm enroll-node yarn eslint assets
 
 
 prod-build: prod-build-php prod-build-nginx prod-build-db
