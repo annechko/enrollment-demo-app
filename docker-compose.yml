@@ -39,7 +39,7 @@ services:
     depends_on:
       enroll-php-fpm:
         condition: service_started
-      enroll-front-node:
+      enroll-front-watcher:
         condition: service_healthy
     ports:
       - "8080:80"
@@ -56,7 +56,7 @@ services:
       - node-cache:/usr/local/share/.cache
     working_dir: /app
 
-  enroll-front-node:
+  enroll-front-watcher:
     image: node:19.8-alpine3.17
     working_dir: /app
     environment:
