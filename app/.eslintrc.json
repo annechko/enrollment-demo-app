@@ -4,7 +4,6 @@
     "es2021": true
   },
   "extends": [
-    "standard-with-typescript",
     "plugin:react/recommended"
   ],
   "parserOptions": {
@@ -20,5 +19,6 @@
     }
   },
   "rules": {
+    "react/prop-types": 0
   }
 }

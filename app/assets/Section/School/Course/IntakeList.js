@@ -144,7 +144,7 @@ const IntakeList = ({ courseId }) => {
           </CModalHeader>
           <CModalBody>
             {removeIntakeRequestState.error !== null && <AppErrorMessage error={removeIntakeRequestState.error}/>}
-            Are you sure you want to remove intake "{intakeToRemove.name}"?
+            Are you sure you want to remove intake &quot;{intakeToRemove.name}&quot;?
             Dates: {intakeToRemove.start} - {intakeToRemove.end}
           </CModalBody>
           <CModalFooter>

@@ -66,6 +66,7 @@ const AutocompleteInput = ({ value, dataUrl, disabled, onChange }) => {
   />
 }
 const RenderInput = () => {
+  // eslint-disable-next-line react/display-name
   return (params) => {
     return <div ref={params.InputProps.ref}>
       <CFormInput {...params.inputProps}

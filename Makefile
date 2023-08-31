@@ -40,8 +40,8 @@ data:
 
 watch:
 	docker-compose run --rm enroll-node yarn watch
-lint:
-	docker-compose run --rm enroll-node yarn eslint assets
+front-lint:
+	docker-compose run --rm enroll-node yarn eslint --ext .js,.jsx assets
 
 
 prod-build: prod-build-php prod-build-nginx prod-build-db

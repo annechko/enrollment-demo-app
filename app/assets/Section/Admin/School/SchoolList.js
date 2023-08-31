@@ -104,11 +104,11 @@ const DeleteModal = ({ state, setState, callback }) => {
     <CModalHeader onClose={() => {
       setState({ modalVisible: false, school: {} })
     }}>
-      <CModalTitle>Confirm school's delete</CModalTitle>
+      <CModalTitle>Confirm school&apos;s delete</CModalTitle>
     </CModalHeader>
     <CModalBody>
       {state.error !== null && <AppErrorMessage error={state.error}/>}
-      Are you sure you want to delete school "{state.school.name}"?
+      Are you sure you want to delete school &quot;{state.school.name}&quot;?
       All its staff members, courses, intakes, student applications will be removed too.
     </CModalBody>
     <CModalFooter>
@@ -137,11 +137,11 @@ const ConfirmModal = ({ confirmState, setConfirmState, confirm }) => {
     <CModalHeader onClose={() => {
       setConfirmState({ modalVisible: false, school: {} })
     }}>
-      <CModalTitle>Confirm school's registration</CModalTitle>
+      <CModalTitle>Confirm school&apos;s registration</CModalTitle>
     </CModalHeader>
     <CModalBody>
       {confirmState.error !== null && <AppErrorMessage error={confirmState.error}/>}
-      Are you sure you want to confirm school "{confirmState.school.name}"?
+      Are you sure you want to confirm school &quot;{confirmState.school.name}&quot;?
     </CModalBody>
     <CModalFooter>
       <CButton color="secondary" size="sm" onClick={() => setConfirmState({

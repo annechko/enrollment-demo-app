@@ -18,9 +18,8 @@ import AppErrorMessage from '../../../App/Common/AppErrorMessage'
 import { submitForm } from '../../../App/Helper/SubmitForm'
 import * as LoadState from '../../../App/Helper/LoadState'
 import { CssHelper } from '../../../App/Helper/CssHelper'
-import CIcon from '@coreui/icons-react'
-import { cilArrowLeft } from '@coreui/icons'
 import AppSwitchSectionBtn from '../../../App/Common/AppSwitchSectionBtn'
+import PropTypes from 'prop-types'
 
 const RegisterForm = ({ onSubmit, state, formId }) => {
   return (
@@ -98,28 +97,28 @@ const Register = ({ onSubmit, state, formId }) => {
   }, [state])
 
   return (
-      <>
-        <div className="bg-light min-vh-100 d-flex flex-row align-items-center">
-          <CContainer>
-            <CRow className="justify-content-center">
-              <CCol xl={6}>
-                <AppSwitchSectionBtn/>
-                <CCard>
-                  <CCardBody className="p-4">
-                    {state?.emailVerificationEnabled === true
-                      ? <AfterRegisterMessage/>
-                      : <RegisterForm
-                            onSubmit={onSubmit}
-                            state={state}
-                            formId={formId}/>
-                    }
-                  </CCardBody>
-                </CCard>
-              </CCol>
-            </CRow>
-          </CContainer>
-        </div>
-      </>
+    <>
+      <div className="bg-light min-vh-100 d-flex flex-row align-items-center">
+        <CContainer>
+          <CRow className="justify-content-center">
+            <CCol xl={6}>
+              <AppSwitchSectionBtn/>
+              <CCard>
+                <CCardBody className="p-4">
+                  {state?.emailVerificationEnabled === true
+                    ? <AfterRegisterMessage/>
+                    : <RegisterForm
+                      onSubmit={onSubmit}
+                      state={state}
+                      formId={formId}/>
+                  }
+                </CCardBody>
+              </CCard>
+            </CCol>
+          </CRow>
+        </CContainer>
+      </div>
+    </>
   )
 }
 const RegisterPage = () => {
@@ -140,5 +139,27 @@ const RegisterPage = () => {
     })
   }
   return <Register state={state} onSubmit={onSubmit} formId={formId}/>
+}
+Register.propTypes = {
+  onSubmit: PropTypes.func,
+  state: PropTypes.shape({
+    emailVerificationEnabled: PropTypes.bool,
+    registered: PropTypes.bool,
+    loading: PropTypes.bool,
+    loaded: PropTypes.bool,
+    error: PropTypes.string
+  }),
+  formId: PropTypes.string,
+}
+RegisterForm.propTypes = {
+  onSubmit: PropTypes.func,
+  state: PropTypes.shape({
+    emailVerificationEnabled: PropTypes.bool,
+    registered: PropTypes.bool,
+    loading: PropTypes.bool,
+    loaded: PropTypes.bool,
+    error: PropTypes.string
+  }),
+  formId: PropTypes.string,
 }
 export default RegisterPage
