@@ -39,7 +39,7 @@ const CampusList = ({ dataState }) => {
               <CButton color="primary" role="button"
                 className="pb-0 pt-0 pl-1 pr-1"
                 size="sm" variant="outline">
-                <CIcon icon={cilPencil} />
+                <CIcon icon={cilPencil}/>
               </CButton>
             </Link>
           </CTableDataCell>
@@ -90,17 +90,17 @@ const CampusList = ({ dataState }) => {
 }
 CampusList.propTypes = {
   dataState: PropTypes.shape({
-    data: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired,
-        address: PropTypes.string
-      })
-    ),
-    loading: PropTypes.bool,
-    loaded: PropTypes.bool,
-    error: PropTypes.string
-  }
+      data: PropTypes.arrayOf(
+        PropTypes.shape({
+          id: PropTypes.string.isRequired,
+          name: PropTypes.string.isRequired,
+          address: PropTypes.string
+        })
+      ),
+      loading: PropTypes.bool,
+      loaded: PropTypes.bool,
+      error: PropTypes.string
+    }
   )
 }
 export default CampusList

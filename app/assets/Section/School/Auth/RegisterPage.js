@@ -1,5 +1,4 @@
 import {
-  cilArrowLeft,
   cilSchool,
   cilUser
 } from '@coreui/icons'
@@ -98,28 +97,28 @@ const RegisterForm = ({ onSubmit, state, urlLogin, formId }) => {
 const Register = ({ onSubmit, state, urlLogin, formId }) => {
   const isRegistered = state.registered === true
   return (
-      <>
-        <div className="bg-light min-vh-100 d-flex flex-row align-items-center">
-          <CContainer>
-            <CRow className="justify-content-center">
-              <CCol xl={6}>
-                <AppSwitchSectionBtn/>
-                <CCard>
-                  <CCardBody className="p-4">
-                    {isRegistered
-                      ? <AfterRegisterMessage/>
-                      : <RegisterForm
-                            onSubmit={onSubmit}
-                            urlLogin={urlLogin}
-                            state={state}
-                            formId={formId}/>}
-                  </CCardBody>
-                </CCard>
-              </CCol>
-            </CRow>
-          </CContainer>
-        </div>
-      </>
+    <>
+      <div className="bg-light min-vh-100 d-flex flex-row align-items-center">
+        <CContainer>
+          <CRow className="justify-content-center">
+            <CCol xl={6}>
+              <AppSwitchSectionBtn/>
+              <CCard>
+                <CCardBody className="p-4">
+                  {isRegistered
+                    ? <AfterRegisterMessage/>
+                    : <RegisterForm
+                      onSubmit={onSubmit}
+                      urlLogin={urlLogin}
+                      state={state}
+                      formId={formId}/>}
+                </CCardBody>
+              </CCard>
+            </CCol>
+          </CRow>
+        </CContainer>
+      </div>
+    </>
   )
 }
 const RegisterPage = ({ urls }) => {

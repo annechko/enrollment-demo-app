@@ -111,7 +111,7 @@ const ApplicationsRows = ({
         </CTable>
       </>
       : <>
-      You have no applications yet.
+        You have no applications yet.
       </>
     }
   </>

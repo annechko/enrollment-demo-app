@@ -92,17 +92,17 @@ const CourseList = ({ dataState }) => {
 }
 CourseList.propTypes = {
   dataState: PropTypes.shape({
-    data: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired,
-        description: PropTypes.string
-      })
-    ),
-    loading: PropTypes.bool,
-    loaded: PropTypes.bool,
-    error: PropTypes.string
-  }
+      data: PropTypes.arrayOf(
+        PropTypes.shape({
+          id: PropTypes.string.isRequired,
+          name: PropTypes.string.isRequired,
+          description: PropTypes.string
+        })
+      ),
+      loading: PropTypes.bool,
+      loaded: PropTypes.bool,
+      error: PropTypes.string
+    }
   )
 }
 export default React.memo(CourseList)

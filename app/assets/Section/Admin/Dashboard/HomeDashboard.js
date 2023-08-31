@@ -77,7 +77,7 @@ const HomeDashboard = () => {
           <CCardHeader>School registrations</CCardHeader>
           <CCardBody>
             <Report reportRequestType={'schoolRegistrationsMonth'}
-                label={'Schools registrations per day'} color={'#0ac17b'}
+              label={'Schools registrations per day'} color={'#0ac17b'}
             />
           </CCardBody>
         </CCard>
@@ -87,7 +87,7 @@ const HomeDashboard = () => {
           <CCardHeader>Student applications</CCardHeader>
           <CCardBody>
             <Report reportRequestType={'studentApplicationsMonth'}
-                label={'Student applications per day'} color={'#a90ac1'}
+              label={'Student applications per day'} color={'#a90ac1'}
             />
           </CCardBody>
         </CCard>
@@ -100,7 +100,7 @@ const HomeDashboard = () => {
           <CCardHeader>School registrations</CCardHeader>
           <CCardBody>
             <Report reportRequestType={'schoolRegistrationsYear'}
-                label={'Schools registrations per month'} color={'#0aa4c1'}
+              label={'Schools registrations per month'} color={'#0aa4c1'}
             />
           </CCardBody>
         </CCard>
@@ -110,7 +110,7 @@ const HomeDashboard = () => {
           <CCardHeader>Student applications</CCardHeader>
           <CCardBody>
             <Report reportRequestType={'studentApplicationsYear'}
-                label={'Student applications per month'} color={'#3e0ac1'}
+              label={'Student applications per month'} color={'#3e0ac1'}
             />
           </CCardBody>
         </CCard>

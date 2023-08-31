@@ -35,8 +35,8 @@ class App extends Component {
     const routes = currentSection === 'school'
       ? SchoolRoutes
       : (currentSection === 'admin'
-          ? AdminRoutes
-          : (currentSection === 'student' ? StudentRoutes : []))
+        ? AdminRoutes
+        : (currentSection === 'student' ? StudentRoutes : []))
 
     return (
       <CurrentSectionContext.Provider value={currentSection}>

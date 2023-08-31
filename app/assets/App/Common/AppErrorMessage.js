@@ -7,10 +7,10 @@ const AppErrorMessage = ({ error }) => {
       {
         (error !== null && error !== undefined)
           ? (
-          <div className="alert alert-danger">
-            {error}
-          </div>
-            )
+            <div className="alert alert-danger">
+              {error}
+            </div>
+          )
           : ''
       }
     </>

@@ -2,7 +2,7 @@ export function needLoading(state: any): boolean {
   return !state.loaded && !state.loading && state.error === null;
 }
 
-export function error(message:string|null = null): object {
+export function error(message: string | null = null): object {
   return {
     data: null,
     loading: false,
@@ -11,7 +11,7 @@ export function error(message:string|null = null): object {
   };
 }
 
-export function finishLoading(data:object|null = null):object {
+export function finishLoading(data: object | null = null): object {
   return {
     data: data,
     loading: false,
@@ -20,7 +20,7 @@ export function finishLoading(data:object|null = null):object {
   };
 }
 
-export function startLoading():object {
+export function startLoading(): object {
   return {
     data: null,
     loading: true,
@@ -29,7 +29,7 @@ export function startLoading():object {
   }
 }
 
-export function initialize():object {
+export function initialize(): object {
   return {
     data: null,
     loading: false,
