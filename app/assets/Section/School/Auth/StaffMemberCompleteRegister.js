@@ -1,42 +1,39 @@
-import React, {useState} from 'react'
-import {CButton, CCol, CContainer, CForm, CFormInput, CRow} from "@coreui/react";
-import * as LoadState from "../../../App/Helper/LoadState";
-import * as Api from "../../../App/Helper/Api";
-import {Link, useParams} from "react-router-dom";
-import AppErrorMessage from "../../../App/Common/AppErrorMessage";
+import React, { useState } from 'react'
+import { CButton, CCol, CContainer, CForm, CFormInput, CRow } from '@coreui/react'
+import * as LoadState from '../../../App/Helper/LoadState'
+import * as Api from '../../../App/Helper/Api'
+import { Link, useParams } from 'react-router-dom'
+import AppErrorMessage from '../../../App/Common/AppErrorMessage'
 
-const StaffMemberCompleteRegister = () =>
-{
-	const params = useParams()
-	const [state, setState] = useState(LoadState.initialize)
-	const [isConfirmed, setIsConfirmed] = useState(false)
+const StaffMemberCompleteRegister = () => {
+  const params = useParams()
+  const [state, setState] = useState(LoadState.initialize)
+  const [isConfirmed, setIsConfirmed] = useState(false)
 
-	const url = window.abeApp.urls.api_school_member_register
-		.replace(':schoolId', params.schoolId)
-		.replace(':invitationToken', params.invitationToken)
+  const url = window.abeApp.urls.api_school_member_register
+    .replace(':schoolId', params.schoolId)
+    .replace(':invitationToken', params.invitationToken)
 
-	const confirm = (e) =>
-	{
-		e.preventDefault()
-		Api.submitData({
-			state: state,
-			setState: setState,
-			url: url,
-			data: document.getElementById('pass'),
-			onSuccess: () =>
-			{
-				setIsConfirmed(true)
-			}
-		})
-	}
+  const confirm = (e) => {
+    e.preventDefault()
+    Api.submitData({
+      state,
+      setState,
+      url,
+      data: document.getElementById('pass'),
+      onSuccess: () => {
+        setIsConfirmed(true)
+      }
+    })
+  }
 
-	return (
+  return (
 		<CContainer sm>
 			<div className=" justify-content-md-center  min-vh-100 d-flex flex-row align-items-center row-cols-3">
 				<CRow className="align-items-center">
 					<CCol>
 						{isConfirmed
-							? <>
+						  ? <>
 								<div className="d-flex flex-column align-items-center">
 									<h4>
 										Your account is ready!
@@ -53,7 +50,7 @@ const StaffMemberCompleteRegister = () =>
 									</Link>
 								</div>
 							</>
-							: <>
+						  : <>
 								<AppErrorMessage error={state?.error}/>
 
 								<CForm id="pass" onSubmit={confirm}>
@@ -80,7 +77,7 @@ const StaffMemberCompleteRegister = () =>
 				</CRow>
 			</div>
 		</CContainer>
-	)
+  )
 }
 
 export default StaffMemberCompleteRegister

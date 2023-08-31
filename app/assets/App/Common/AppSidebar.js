@@ -6,7 +6,7 @@ import {
   cilPeople,
   cilSettings,
   cilSpeedometer
-} from "@coreui/icons";
+} from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
 import {
   CNavItem,
@@ -16,19 +16,19 @@ import {
   CSidebarNav,
   CSidebarToggler
 } from '@coreui/react'
-import axios from "axios";
+import axios from 'axios'
 import React, {
   memo,
   useState
 } from 'react'
 import SimpleBar from 'simplebar-react'
 import './AppSidebar.scss'
-import {AppSidebarNav} from './AppSidebarNav'
-import * as LoadState from "../Helper/LoadState";
-import {Link} from "react-router-dom";
-import {CssHelper} from "../Helper/CssHelper";
+import { AppSidebarNav } from './AppSidebarNav'
+import * as LoadState from '../Helper/LoadState'
+import { Link } from 'react-router-dom'
+import { CssHelper } from '../Helper/CssHelper'
 
-const AppSidebar = ({isSidebarVisible, setIsSidebarVisible}) => {
+const AppSidebar = ({ isSidebarVisible, setIsSidebarVisible }) => {
   const [isSidebarUnfoldable, setIsSidebarUnfoldable] = useState(false)
   const [navItemsState, setNavItemsState] = useState(LoadState.initialize())
   React.useEffect(() => {
@@ -51,7 +51,7 @@ const AppSidebar = ({isSidebarVisible, setIsSidebarVisible}) => {
       .catch(onError)
   }
 
-  let navigation = []
+  const navigation = []
   if (navItemsState.data === null) {
     navigation.push({
       component: CNavItem,
@@ -113,7 +113,6 @@ const AppSidebar = ({isSidebarVisible, setIsSidebarVisible}) => {
         })
       }
     })
-
   }
   const onToggleUnfoldable = () => {
     setIsSidebarUnfoldable(!isSidebarUnfoldable)

@@ -14,14 +14,14 @@ import {
   CFormInput,
   CInputGroup,
   CInputGroupText,
-  CRow,
+  CRow
 } from '@coreui/react'
 import React from 'react'
-import {Link} from 'react-router-dom'
-import AppErrorMessage from "../../../App/Common/AppErrorMessage";
-import {submitForm} from "../../../App/Helper/SubmitForm";
-import * as LoadState from "../../../App/Helper/LoadState";
-import AppSwitchSectionBtn from "../../../App/Common/AppSwitchSectionBtn";
+import { Link } from 'react-router-dom'
+import AppErrorMessage from '../../../App/Common/AppErrorMessage'
+import { submitForm } from '../../../App/Helper/SubmitForm'
+import * as LoadState from '../../../App/Helper/LoadState'
+import AppSwitchSectionBtn from '../../../App/Common/AppSwitchSectionBtn'
 
 const AfterRegisterMessage = () => {
   return (
@@ -33,7 +33,7 @@ const AfterRegisterMessage = () => {
     </>
   )
 }
-const RegisterForm = ({onSubmit, state, urlLogin, formId}) => {
+const RegisterForm = ({ onSubmit, state, urlLogin, formId }) => {
   return (
     <>
       <h1>Register</h1>
@@ -95,7 +95,7 @@ const RegisterForm = ({onSubmit, state, urlLogin, formId}) => {
     </>
   )
 }
-const Register = ({onSubmit, state, urlLogin, formId}) => {
+const Register = ({ onSubmit, state, urlLogin, formId }) => {
   const isRegistered = state.registered === true
   return (
       <>
@@ -106,8 +106,9 @@ const Register = ({onSubmit, state, urlLogin, formId}) => {
                 <AppSwitchSectionBtn/>
                 <CCard>
                   <CCardBody className="p-4">
-                    {isRegistered ? <AfterRegisterMessage/>
-                        : <RegisterForm
+                    {isRegistered
+                      ? <AfterRegisterMessage/>
+                      : <RegisterForm
                             onSubmit={onSubmit}
                             urlLogin={urlLogin}
                             state={state}
@@ -121,12 +122,12 @@ const Register = ({onSubmit, state, urlLogin, formId}) => {
       </>
   )
 }
-const RegisterPage = ({urls}) => {
+const RegisterPage = ({ urls }) => {
   const [state, setState] = React.useState(LoadState.initialize())
   const onSuccess = (response) => {
-    setState({...LoadState.finishLoading(), registered: true})
+    setState({ ...LoadState.finishLoading(), registered: true })
   }
-  const formId = 'register-form';
+  const formId = 'register-form'
   const onSubmit = (event) => {
     submitForm({
       event,
@@ -134,8 +135,8 @@ const RegisterPage = ({urls}) => {
       setState,
       formId,
       url: urls.school_register,
-      onSuccess: onSuccess,
-      headers: {'Content-Type': 'multipart/form-data'}
+      onSuccess,
+      headers: { 'Content-Type': 'multipart/form-data' }
     })
   }
   return <Register urlLogin={urls.school_login} state={state} onSubmit={onSubmit} formId={formId}/>

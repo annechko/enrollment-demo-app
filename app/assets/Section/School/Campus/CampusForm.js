@@ -4,22 +4,22 @@ import {
   CFormInput,
   CFormLabel,
   CFormTextarea,
-  CSpinner,
+  CSpinner
 } from '@coreui/react'
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types'
 import React from 'react'
-import AppBackButton from "../../../App/Common/AppBackButton";
-import AppErrorMessage from "../../../App/Common/AppErrorMessage";
+import AppBackButton from '../../../App/Common/AppBackButton'
+import AppErrorMessage from '../../../App/Common/AppErrorMessage'
 
 const CampusForm = ({
-                      onSubmit,
-                      formId,
-                      isSubmitted,
-                      submitError,
-                      dataState,
-                      isUpdate = false,
-                      showSubmitBtn = true
-                    }) => {
+  onSubmit,
+  formId,
+  isSubmitted,
+  submitError,
+  dataState,
+  isUpdate = false,
+  showSubmitBtn = true
+}) => {
   const item = dataState?.data || null
   const error = submitError || dataState?.error || null
   if (isUpdate && item === null) {
@@ -37,7 +37,7 @@ const CampusForm = ({
         <div className="mb-3">
           <CFormLabel htmlFor="campusName">Campus name</CFormLabel>
           <CFormInput
-            name={formId + "[name]"}
+            name={formId + '[name]'}
             defaultValue={isUpdate ? item.name : ''}
             type="text"
             id="campusName"
@@ -48,7 +48,7 @@ const CampusForm = ({
           <CFormTextarea id="campusAddress"
             defaultValue={isUpdate ? item.address : ''}
             rows="3"
-            name={formId + "[address]"}></CFormTextarea>
+            name={formId + '[address]'}></CFormTextarea>
         </div>
         {showSubmitBtn && (
           <CButton color="success" size="sm"
@@ -71,7 +71,7 @@ CampusForm.propTypes = {
   isSubmitted: PropTypes.bool,
   submitError: PropTypes.oneOfType([
     PropTypes.string,
-    PropTypes.oneOf([null]),
+    PropTypes.oneOf([null])
   ]),
   dataState: PropTypes.shape({
     data: PropTypes.shape({
@@ -80,7 +80,7 @@ CampusForm.propTypes = {
     }),
     loading: PropTypes.bool,
     loaded: PropTypes.bool,
-    error: PropTypes.string,
-  }),
+    error: PropTypes.string
+  })
 }
 export default CampusForm

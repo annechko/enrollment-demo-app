@@ -7,5 +7,5 @@ export {
   AppFooter,
   AppHeader,
   AppHeaderDropdown,
-  AppSidebar,
+  AppSidebar
 }

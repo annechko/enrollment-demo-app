@@ -1,15 +1,15 @@
 import {
   CCard,
   CCardBody,
-  CCardHeader,
+  CCardHeader
 } from '@coreui/react'
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types'
 import React from 'react'
-import AppBackButton from "../../../App/Common/AppBackButton";
-import AppErrorMessage from "../../../App/Common/AppErrorMessage";
-import CampusForm from "./CampusForm";
+import AppBackButton from '../../../App/Common/AppBackButton'
+import AppErrorMessage from '../../../App/Common/AppErrorMessage'
+import CampusForm from './CampusForm'
 
-const CampusView = ({onSubmit, formId, dataState, isSubmitted, submitError, isUpdate = false}) => {
+const CampusView = ({ onSubmit, formId, dataState, isSubmitted, submitError, isUpdate = false }) => {
   const item = dataState?.data || null
   const error = submitError || dataState?.error || null
   if (isUpdate) {
@@ -54,7 +54,7 @@ CampusView.propTypes = {
   isSubmitted: PropTypes.bool,
   submitError: PropTypes.oneOfType([
     PropTypes.string,
-    PropTypes.oneOf([null]),
+    PropTypes.oneOf([null])
   ]),
   dataState: PropTypes.shape({
     data: PropTypes.shape({
@@ -63,7 +63,7 @@ CampusView.propTypes = {
     }),
     loading: PropTypes.bool,
     loaded: PropTypes.bool,
-    error: PropTypes.string,
-  }),
+    error: PropTypes.string
+  })
 }
 export default CampusView

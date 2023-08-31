@@ -10,8 +10,8 @@ import {
 import {
   CContainer,
   CSpinner
-} from "@coreui/react";
-import {Outlet} from "react-router-dom";
+} from '@coreui/react'
+import { Outlet } from 'react-router-dom'
 
 const DefaultLayout = () => {
   const [isSidebarVisible, setIsSidebarVisible] = useState(true)

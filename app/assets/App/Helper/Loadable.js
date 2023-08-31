@@ -1,12 +1,12 @@
-import axios from "axios";
-import PropTypes from "prop-types";
+import axios from 'axios'
+import PropTypes from 'prop-types'
 import React, {
   useEffect,
   useState
 } from 'react'
-import * as LoadState from "./LoadState";
+import * as LoadState from './LoadState'
 
-const Loadable = ({component, url, customOnLoad, config, ...options}) => {
+const Loadable = ({ component, url, customOnLoad, config, ...options }) => {
   const [dataState, setDataState] = useState(LoadState.initialize())
 
   useEffect(() => {
@@ -41,6 +41,6 @@ Loadable.propTypes = {
   component: PropTypes.elementType.isRequired,
   url: PropTypes.string.isRequired,
   config: PropTypes.object,
-  customOnLoad: PropTypes.func,
+  customOnLoad: PropTypes.func
 }
 export default React.memo(Loadable)

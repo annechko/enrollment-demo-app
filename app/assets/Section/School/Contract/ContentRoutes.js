@@ -2,21 +2,21 @@ import React from 'react'
 import {
   Navigate,
   Route
-} from "react-router-dom";
-import DefaultLayout from "../../../App/Layout";
+} from 'react-router-dom'
+import DefaultLayout from '../../../App/Layout'
 
-const LoginPage = React.lazy(() => import('../Auth/LoginPage'))
-const RegisterPage = React.lazy(() => import('../Auth/RegisterPage'))
-const CampusListPage = React.lazy(() => import('../Campus/List/CampusListPage'))
-const CampusAddPage = React.lazy(() => import('../Campus/Add/CampusAddPage'))
-const CampusEditPage = React.lazy(() => import('../Campus/Edit/CampusEditPage'))
-const CourseListPage = React.lazy(() => import('../Course/List/CourseListPage'))
-const CourseAddPage = React.lazy(() => import('../Course/Add/CourseAddPage'))
-const CourseEditPage = React.lazy(() => import('../Course/Edit/CourseEditPage'))
-const SchoolProfile = React.lazy(() => import('../Profile/SchoolProfile'))
-const ApplicationList = React.lazy(() => import('../Application/ApplicationList'))
-const ApplicationEdit = React.lazy(() => import('../Application/ApplicationEdit'))
-const StaffMemberCompleteRegister = React.lazy(() => import('../Auth/StaffMemberCompleteRegister'))
+const LoginPage = React.lazy(async () => await import('../Auth/LoginPage'))
+const RegisterPage = React.lazy(async () => await import('../Auth/RegisterPage'))
+const CampusListPage = React.lazy(async () => await import('../Campus/List/CampusListPage'))
+const CampusAddPage = React.lazy(async () => await import('../Campus/Add/CampusAddPage'))
+const CampusEditPage = React.lazy(async () => await import('../Campus/Edit/CampusEditPage'))
+const CourseListPage = React.lazy(async () => await import('../Course/List/CourseListPage'))
+const CourseAddPage = React.lazy(async () => await import('../Course/Add/CourseAddPage'))
+const CourseEditPage = React.lazy(async () => await import('../Course/Edit/CourseEditPage'))
+const SchoolProfile = React.lazy(async () => await import('../Profile/SchoolProfile'))
+const ApplicationList = React.lazy(async () => await import('../Application/ApplicationList'))
+const ApplicationEdit = React.lazy(async () => await import('../Application/ApplicationEdit'))
+const StaffMemberCompleteRegister = React.lazy(async () => await import('../Auth/StaffMemberCompleteRegister'))
 
 const urls = window.abeApp.urls
 let key = 0
@@ -42,4 +42,3 @@ export default [
     <Route exact path="/school/*" element={<Navigate to={urls.school_home} replace/>}/>
   </Route>
 ]
-

@@ -1,13 +1,13 @@
-import React, {useState} from 'react'
-import {useParams} from "react-router-dom";
-import CourseForm from "../CourseForm";
-import {submitForm} from "../../../../App/Helper/SubmitForm";
-import Loadable from "../../../../App/Helper/Loadable";
+import React, { useState } from 'react'
+import { useParams } from 'react-router-dom'
+import CourseForm from '../CourseForm'
+import { submitForm } from '../../../../App/Helper/SubmitForm'
+import Loadable from '../../../../App/Helper/Loadable'
 import {
   CToast,
   CToastBody,
   CToaster
-} from "@coreui/react";
+} from '@coreui/react'
 
 const CourseEditPage = () => {
   const params = useParams()
@@ -18,7 +18,7 @@ const CourseEditPage = () => {
   })
 
   const onSuccess = (response) => {
-    setState({...state, showSuccess: true})
+    setState({ ...state, showSuccess: true })
     setTimeout(() => {
       setState({
         loading: false,
@@ -35,7 +35,7 @@ const CourseEditPage = () => {
       formId,
       onSuccess,
       url: window.abeApp.urls.api_school_course_edit.replace(':id', params.id),
-      headers: {'Content-Type': 'multipart/form-data'}
+      headers: { 'Content-Type': 'multipart/form-data' }
     })
   }
 
@@ -49,7 +49,7 @@ const CourseEditPage = () => {
     <Loadable
       component={CourseForm}
       url={window.abeApp.urls.api_school_course}
-      config={{params: {'courseId': params.id}}}
+      config={{ params: { courseId: params.id } }}
       formId={formId}
       onSubmit={onSubmit}
       isSubmitted={state.loading}

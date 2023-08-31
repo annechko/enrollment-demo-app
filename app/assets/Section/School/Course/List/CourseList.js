@@ -11,18 +11,18 @@ import {
   CTableDataCell,
   CTableHead,
   CTableHeaderCell,
-  CTableRow,
+  CTableRow
 } from '@coreui/react'
-import PropTypes from "prop-types";
-import React from "react";
-import {Link} from "react-router-dom";
-import AppErrorMessage from "../../../../App/Common/AppErrorMessage";
-import CIcon from "@coreui/icons-react";
-import {cilPencil} from "@coreui/icons";
+import PropTypes from 'prop-types'
+import React from 'react'
+import { Link } from 'react-router-dom'
+import AppErrorMessage from '../../../../App/Common/AppErrorMessage'
+import CIcon from '@coreui/icons-react'
+import { cilPencil } from '@coreui/icons'
 
-const CourseList = ({dataState}) => {
+const CourseList = ({ dataState }) => {
   const items = dataState.data
-  let rows = []
+  const rows = []
   let key = 0
   if (dataState.error !== null) {
     return <AppErrorMessage error={dataState.error}/>
@@ -92,17 +92,17 @@ const CourseList = ({dataState}) => {
 }
 CourseList.propTypes = {
   dataState: PropTypes.shape({
-      data: PropTypes.arrayOf(
-        PropTypes.shape({
-          id: PropTypes.string.isRequired,
-          name: PropTypes.string.isRequired,
-          description: PropTypes.string,
-        })
-      ),
-      loading: PropTypes.bool,
-      loaded: PropTypes.bool,
-      error: PropTypes.string,
-    }
-  ),
+    data: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
+        description: PropTypes.string
+      })
+    ),
+    loading: PropTypes.bool,
+    loaded: PropTypes.bool,
+    error: PropTypes.string
+  }
+  )
 }
 export default React.memo(CourseList)

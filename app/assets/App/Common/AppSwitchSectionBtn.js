@@ -1,8 +1,8 @@
 import React from 'react'
-import {CButton} from "@coreui/react";
-import CIcon from "@coreui/icons-react";
-import {cilArrowLeft} from "@coreui/icons";
-import {Link} from "react-router-dom";
+import { CButton } from '@coreui/react'
+import CIcon from '@coreui/icons-react'
+import { cilArrowLeft } from '@coreui/icons'
+import { Link } from 'react-router-dom'
 
 const AppSwitchSectionBtn = () => {
   return (

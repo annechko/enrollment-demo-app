@@ -1,9 +1,9 @@
-import axios from "axios";
+import axios from 'axios'
 
-export function submitForm({event, state, setState, url, formId, onSuccess, headers}) {
+export function submitForm ({ event, state, setState, url, formId, onSuccess, headers }) {
   event.preventDefault()
   if (state.loading) {
-    return;
+    return
   }
 
   setState({
@@ -32,5 +32,5 @@ export function submitForm({event, state, setState, url, formId, onSuccess, head
         loading: false,
         error: error.response?.data?.error || 'Something went wrong'
       })
-    });
+    })
 }

@@ -7,22 +7,22 @@ import {
   CForm,
   CFormInput,
   CFormLabel,
-  CRow,
+  CRow
 } from '@coreui/react'
-import React, {useEffect} from 'react'
+import React, { useEffect } from 'react'
 import {
   Link,
   useNavigate
 } from 'react-router-dom'
-import AppErrorMessage from "../../../App/Common/AppErrorMessage";
-import {submitForm} from "../../../App/Helper/SubmitForm";
-import * as LoadState from "../../../App/Helper/LoadState";
-import {CssHelper} from "../../../App/Helper/CssHelper";
-import CIcon from "@coreui/icons-react";
-import {cilArrowLeft} from "@coreui/icons";
-import AppSwitchSectionBtn from "../../../App/Common/AppSwitchSectionBtn";
+import AppErrorMessage from '../../../App/Common/AppErrorMessage'
+import { submitForm } from '../../../App/Helper/SubmitForm'
+import * as LoadState from '../../../App/Helper/LoadState'
+import { CssHelper } from '../../../App/Helper/CssHelper'
+import CIcon from '@coreui/icons-react'
+import { cilArrowLeft } from '@coreui/icons'
+import AppSwitchSectionBtn from '../../../App/Common/AppSwitchSectionBtn'
 
-const RegisterForm = ({onSubmit, state, formId}) => {
+const RegisterForm = ({ onSubmit, state, formId }) => {
   return (
     <>
       <h3>Register as student</h3>
@@ -87,8 +87,8 @@ const AfterRegisterMessage = () => {
     Thank you! Please check your email to verify your email address.
   </>
 }
-const Register = ({onSubmit, state, formId}) => {
-  const navigate = useNavigate();
+const Register = ({ onSubmit, state, formId }) => {
+  const navigate = useNavigate()
   useEffect(() => {
     if (state?.registered === true) {
       if (state?.emailVerificationEnabled === false) {
@@ -107,8 +107,8 @@ const Register = ({onSubmit, state, formId}) => {
                 <CCard>
                   <CCardBody className="p-4">
                     {state?.emailVerificationEnabled === true
-                        ? <AfterRegisterMessage/>
-                        : <RegisterForm
+                      ? <AfterRegisterMessage/>
+                      : <RegisterForm
                             onSubmit={onSubmit}
                             state={state}
                             formId={formId}/>
@@ -125,9 +125,9 @@ const Register = ({onSubmit, state, formId}) => {
 const RegisterPage = () => {
   const [state, setState] = React.useState(LoadState.initialize())
   const onSuccess = (response) => {
-    setState({...LoadState.finishLoading(), ...response.data, registered: true})
+    setState({ ...LoadState.finishLoading(), ...response.data, registered: true })
   }
-  const formId = 'register-form';
+  const formId = 'register-form'
   const onSubmit = (event) => {
     submitForm({
       event,
@@ -135,8 +135,8 @@ const RegisterPage = () => {
       setState,
       formId,
       url: window.abeApp.urls.api_student_register,
-      onSuccess: onSuccess,
-      headers: {'Content-Type': 'multipart/form-data'}
+      onSuccess,
+      headers: { 'Content-Type': 'multipart/form-data' }
     })
   }
   return <Register state={state} onSubmit={onSubmit} formId={formId}/>

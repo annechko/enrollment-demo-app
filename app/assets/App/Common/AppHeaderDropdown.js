@@ -1,23 +1,23 @@
 import {
   cilAccountLogout,
-  cilUser,
+  cilUser
 } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
-import {CssHelper} from "../Helper/CssHelper";
+import { CssHelper } from '../Helper/CssHelper'
 import {
   CDropdown,
   CDropdownDivider,
   CDropdownHeader,
   CDropdownItem,
   CDropdownMenu,
-  CDropdownToggle,
+  CDropdownToggle
 } from '@coreui/react'
 import React, {
   memo,
   useContext
 } from 'react'
-import {UserContext} from "../Helper/Context/UserContext";
-import {OtherAccounts} from "../Helper/Context/OtherAccountsContext";
+import { UserContext } from '../Helper/Context/UserContext'
+import { OtherAccounts } from '../Helper/Context/OtherAccountsContext'
 
 const OtherProfiles = () => {
   const otherAccounts = useContext(OtherAccounts)

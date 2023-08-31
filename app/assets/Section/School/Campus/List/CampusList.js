@@ -11,17 +11,17 @@ import {
   CTableDataCell,
   CTableHead,
   CTableHeaderCell,
-  CTableRow,
+  CTableRow
 } from '@coreui/react'
-import PropTypes from "prop-types";
-import React from "react";
-import {Link} from "react-router-dom";
-import CIcon from "@coreui/icons-react";
-import {cilPencil} from "@coreui/icons";
+import PropTypes from 'prop-types'
+import React from 'react'
+import { Link } from 'react-router-dom'
+import CIcon from '@coreui/icons-react'
+import { cilPencil } from '@coreui/icons'
 
-const CampusList = ({dataState}) => {
+const CampusList = ({ dataState }) => {
   const items = dataState.data
-  let rows = []
+  const rows = []
   let key = 0
   if (dataState.error !== null) {
     return (<div>
@@ -90,17 +90,17 @@ const CampusList = ({dataState}) => {
 }
 CampusList.propTypes = {
   dataState: PropTypes.shape({
-      data: PropTypes.arrayOf(
-        PropTypes.shape({
-          id: PropTypes.string.isRequired,
-          name: PropTypes.string.isRequired,
-          address: PropTypes.string
-        })
-      ),
-      loading: PropTypes.bool,
-      loaded: PropTypes.bool,
-      error: PropTypes.string,
-    }
-  ),
+    data: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
+        address: PropTypes.string
+      })
+    ),
+    loading: PropTypes.bool,
+    loaded: PropTypes.bool,
+    error: PropTypes.string
+  }
+  )
 }
 export default CampusList

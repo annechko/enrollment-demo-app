@@ -9,18 +9,18 @@ import {
   CSpinner,
   CToast,
   CToastBody,
-  CToaster,
+  CToaster
 } from '@coreui/react'
 import React from 'react'
-import AppBackButton from "../../../App/Common/AppBackButton";
-import AppErrorMessage from "../../../App/Common/AppErrorMessage";
-import Loadable from "../../../App/Helper/Loadable";
-import {submitForm} from "../../../App/Helper/SubmitForm";
+import AppBackButton from '../../../App/Common/AppBackButton'
+import AppErrorMessage from '../../../App/Common/AppErrorMessage'
+import Loadable from '../../../App/Helper/Loadable'
+import { submitForm } from '../../../App/Helper/SubmitForm'
 
 const SchoolProfileForm = ({
-                             formId,
-                             dataState,
-                           }) => {
+  formId,
+  dataState
+}) => {
   const [showSuccess, setShowSuccess] = React.useState(false)
   const [submitState, setSubmitState] = React.useState({
     loading: false,
@@ -52,14 +52,14 @@ const SchoolProfileForm = ({
       event,
       state: submitState,
       setState: setSubmitState,
-      url: url,
+      url,
       formId,
       onSuccess,
-      headers: {'Content-Type': 'multipart/form-data'}
+      headers: { 'Content-Type': 'multipart/form-data' }
     })
   }
   return <>
-    <CToaster push={showSuccess === true &&
+    <CToaster push={showSuccess &&
       <CToast autohide visible color="success">
         <CToastBody>School was updated!</CToastBody>
       </CToast>
@@ -71,7 +71,7 @@ const SchoolProfileForm = ({
         <CFormLabel className="mb-0" htmlFor="name">Name</CFormLabel>
         <CFormInput
           id="name"
-          name={formId + "[name]"}
+          name={formId + '[name]'}
           defaultValue={school.name}
           type="text"
         />
@@ -81,7 +81,7 @@ const SchoolProfileForm = ({
         <CButton color="success"
           size="sm"
           className={isSubmitted ? 'disabled' : ''}
-          disabled={isSubmitted === true}
+          disabled={isSubmitted}
           type="submit">
           {isSubmitted && <CSpinner className="me-1" component="span" size="sm" aria-hidden="true"/>}
           Save

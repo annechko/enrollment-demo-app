@@ -1,26 +1,26 @@
-import * as React from 'react';
-import {useState} from 'react';
+import * as React from 'react'
+import { useState } from 'react'
 import {
   CButton,
   CCard,
   CCardBody,
   CCardHeader,
   CSpinner
-} from "@coreui/react";
-import AppErrorMessage from "../../../App/Common/AppErrorMessage";
-import * as LoadState from "../../../App/Helper/LoadState";
-import * as Api from "../../../App/Helper/Api";
-import AppBackButton from "../../../App/Common/AppBackButton";
-import {Link} from "react-router-dom";
+} from '@coreui/react'
+import AppErrorMessage from '../../../App/Common/AppErrorMessage'
+import * as LoadState from '../../../App/Helper/LoadState'
+import * as Api from '../../../App/Helper/Api'
+import AppBackButton from '../../../App/Common/AppBackButton'
+import { Link } from 'react-router-dom'
 
-const ApplicationFirstStep = React.lazy(() => import('./ApplicationFirstStep'))
-const ApplicationSecondStep = React.lazy(() => import('./ApplicationSecondStep'))
+const ApplicationFirstStep = React.lazy(async () => await import('./ApplicationFirstStep'))
+const ApplicationSecondStep = React.lazy(async () => await import('./ApplicationSecondStep'))
 
-export default function Application() {
-  const [currentStep, setCurrentStep] = React.useState(0);
-  const [applicationSubmitted, setApplicationSubmitted] = React.useState(false);
-  const [nextStepButtonDisabled, setNextStepButtonDisabled] = React.useState(true);
-  const [applicationData, setApplicationData] = React.useState({});
+export default function Application () {
+  const [currentStep, setCurrentStep] = React.useState(0)
+  const [applicationSubmitted, setApplicationSubmitted] = React.useState(false)
+  const [nextStepButtonDisabled, setNextStepButtonDisabled] = React.useState(true)
+  const [applicationData, setApplicationData] = React.useState({})
   const [applicationSubmitState, setApplicationSubmitState] = useState(LoadState.initialize())
 
   const error = applicationSubmitState.error ?? null
@@ -38,12 +38,12 @@ export default function Application() {
     setNextStepButtonDisabled(false)
   }
   const setStepData = (stepState) => {
-    const newData = {...applicationData}
+    const newData = { ...applicationData }
     newData[currentStep] = stepState
     setApplicationData(newData)
   }
   const submitApplication = () => {
-    let data = {}
+    const data = {}
     Object.values(applicationData).map(i => {
       Object.keys(i).map(j => {
         data[j] = i[j].formValue
@@ -54,7 +54,7 @@ export default function Application() {
       state: applicationSubmitState,
       setState: setApplicationSubmitState,
       url: window.abeApp.urls.api_student_application,
-      data: data,
+      data,
       onSuccess: () => {
         setApplicationSubmitted(true)
       }
@@ -63,7 +63,7 @@ export default function Application() {
   const onNextScreenClick = () => {
     const nextStep = currentStep + 1
     if (nextStepButtonDisabled) {
-      return;
+      return
     }
     if (nextStep >= steps.length) {
       submitApplication()
@@ -74,7 +74,7 @@ export default function Application() {
   }
   const onPreviousScreenClick = () => {
     if (currentStep <= 0) {
-      return;
+      return
     }
     setNextStepButtonDisabled(true)
     const newStep = currentStep - 1
@@ -95,9 +95,9 @@ export default function Application() {
       <CCardBody>
         <AppErrorMessage error={error}/>
         {
-          applicationSubmitted ?
-            <SuccessSubmitMessage/> :
-            <>
+          applicationSubmitted
+            ? <SuccessSubmitMessage/>
+            : <>
               <StepComponent
                 stepData={stepData}
                 setStepData={setStepData}
@@ -118,8 +118,8 @@ export default function Application() {
                 className=" pl-1 pr-1"
                 onClick={onNextScreenClick}
               >
-                {applicationSubmitState.loading === true
-                  && <CSpinner className="me-1" component="span" size="sm" aria-hidden="true"/>}
+                {applicationSubmitState.loading === true &&
+                  <CSpinner className="me-1" component="span" size="sm" aria-hidden="true"/>}
                 {currentStep < steps.length - 1 ? 'Next' : 'Submit'}
               </CButton>
             </>

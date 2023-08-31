@@ -1,31 +1,31 @@
-import * as React from 'react';
-import {useEffect} from 'react';
+import * as React from 'react'
+import { useEffect } from 'react'
 import {
   CFormInput,
   CFormLabel
-} from "@coreui/react";
+} from '@coreui/react'
 
-function isStepDataReady(updatedState) {
-  return updatedState.passportNumber
-    && updatedState.dateOfBirth
-    && updatedState.fullName
-    && updatedState.passportExpiry
+function isStepDataReady (updatedState) {
+  return updatedState.passportNumber &&
+    updatedState.dateOfBirth &&
+    updatedState.fullName &&
+    updatedState.passportExpiry
 }
 
-export default function ApplicationSecondStep({finishStep, blockStep, stepData, setStepData}) {
+export default function ApplicationSecondStep ({ finishStep, blockStep, stepData, setStepData }) {
   useEffect(() => {
     if (isStepDataReady(stepData)) {
       finishStep()
     }
   }, [this])
   const addData = (fieldName, title, value) => {
-    const updatedState = {...stepData}
+    const updatedState = { ...stepData }
     delete updatedState[fieldName]
     if (value) {
       updatedState[fieldName] = {
         formValue: value,
-        value: value,
-        title: title
+        value,
+        title
       }
     }
     setStepData(updatedState)
@@ -106,5 +106,4 @@ export default function ApplicationSecondStep({finishStep, blockStep, stepData, 
       </div>
     </div>
   </>
-
 }

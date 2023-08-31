@@ -10,24 +10,24 @@ import {
   CCol,
   CRow,
   CSpinner
-} from "@coreui/react";
-import Chart from 'chart.js/auto';
-import * as LoadState from "../../../App/Helper/LoadState";
-import * as Api from "../../../App/Helper/Api";
-import AppErrorMessage from "../../../App/Common/AppErrorMessage";
+} from '@coreui/react'
+import Chart from 'chart.js/auto'
+import * as LoadState from '../../../App/Helper/LoadState'
+import * as Api from '../../../App/Helper/Api'
+import AppErrorMessage from '../../../App/Common/AppErrorMessage'
 
-const Report = ({reportRequestType, label, color}) => {
-  const reportRef = useRef(null);
+const Report = ({ reportRequestType, label, color }) => {
+  const reportRef = useRef(null)
   const [state, setState] = useState(LoadState.initialize())
   const [loading, setLoading] = useState(true)
   const statsUrl = window.abeApp.urls.api_admin_stats
   useEffect(() => {
     if (LoadState.needLoading(state)) {
       Api.submitData({
-        state: state,
-        setState: setState,
+        state,
+        setState,
         url: statsUrl,
-        data: {type: reportRequestType},
+        data: { type: reportRequestType },
         onSuccess: (response) => {
           setLoading(false)
           new Chart(reportRef.current, {
@@ -36,11 +36,11 @@ const Report = ({reportRequestType, label, color}) => {
               labels: response.data.labels,
               datasets: [
                 {
-                  label: label,
+                  label,
                   backgroundColor: color,
-                  data: response.data.data,
-                },
-              ],
+                  data: response.data.data
+                }
+              ]
             },
             options: {
               scales: {
@@ -52,7 +52,7 @@ const Report = ({reportRequestType, label, color}) => {
                 }
               }
             }
-          });
+          })
         }
       })
     }
@@ -64,12 +64,11 @@ const Report = ({reportRequestType, label, color}) => {
     <canvas ref={reportRef}/>
   </>
 }
-const ReportLoading = ({color = 'info'}) => {
+const ReportLoading = ({ color = 'info' }) => {
   return <CSpinner className="me-1" color={color} component="span" aria-hidden="true"/>
 }
 
 const HomeDashboard = () => {
-
   return <>
     <h4 className="mt-3">Last month</h4>
     <CRow className="mt-3">

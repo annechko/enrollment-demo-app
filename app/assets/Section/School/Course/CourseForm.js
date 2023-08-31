@@ -7,22 +7,22 @@ import {
   CFormInput,
   CFormLabel,
   CFormTextarea,
-  CSpinner,
+  CSpinner
 } from '@coreui/react'
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types'
 import React from 'react'
-import AppBackButton from "../../../App/Common/AppBackButton";
-import AppErrorMessage from "../../../App/Common/AppErrorMessage";
-import IntakeList from "./IntakeList";
+import AppBackButton from '../../../App/Common/AppBackButton'
+import AppErrorMessage from '../../../App/Common/AppErrorMessage'
+import IntakeList from './IntakeList'
 
 const CourseForm = ({
-                      onSubmit,
-                      formId,
-                      dataState,
-                      isSubmitted,
-                      submitError,
-                      isUpdate = false
-                    }) => {
+  onSubmit,
+  formId,
+  dataState,
+  isSubmitted,
+  submitError,
+  isUpdate = false
+}) => {
   const data = dataState?.data || null
   const course = data?.course || null
   const error = submitError || dataState?.error || null
@@ -54,7 +54,7 @@ const CourseForm = ({
               <CFormLabel className="mb-0" htmlFor="courseName">Course name</CFormLabel>
               <CFormInput
                 id="courseName"
-                name={formId + "[name]"}
+                name={formId + '[name]'}
                 defaultValue={isUpdate ? course.name : ''}
                 type="text"
               />
@@ -64,7 +64,7 @@ const CourseForm = ({
               <CFormTextarea id="campusDescr"
                 defaultValue={isUpdate ? course.description : ''}
                 rows="3"
-                name={formId + "[description]"}></CFormTextarea>
+                name={formId + '[description]'}></CFormTextarea>
             </div>
             <div>
               <CButton color="success"
@@ -90,19 +90,19 @@ CourseForm.propTypes = {
   isSubmitted: PropTypes.bool,
   submitError: PropTypes.oneOfType([
     PropTypes.string,
-    PropTypes.oneOf([null]),
+    PropTypes.oneOf([null])
   ]),
   dataState: PropTypes.shape({
     data: PropTypes.shape({
       course: PropTypes.shape({
         id: PropTypes.string,
         name: PropTypes.string,
-        description: PropTypes.string,
-      }),
+        description: PropTypes.string
+      })
     }),
     loading: PropTypes.bool,
     loaded: PropTypes.bool,
-    error: PropTypes.string,
-  }),
+    error: PropTypes.string
+  })
 }
 export default React.memo(CourseForm)

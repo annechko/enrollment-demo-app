@@ -2,10 +2,10 @@ import React from 'react'
 import {
   useNavigate,
   useParams
-} from "react-router-dom";
-import CampusView from "../CampusView";
-import {submitForm} from "../../../../App/Helper/SubmitForm";
-import Loadable from "../../../../App/Helper/Loadable";
+} from 'react-router-dom'
+import CampusView from '../CampusView'
+import { submitForm } from '../../../../App/Helper/SubmitForm'
+import Loadable from '../../../../App/Helper/Loadable'
 
 const CampusEditPage = () => {
   const params = useParams()
@@ -14,7 +14,7 @@ const CampusEditPage = () => {
     error: null
   })
 
-  const navigate = useNavigate();
+  const navigate = useNavigate()
   const onSuccess = (response) => {
     navigate(-1)
   }
@@ -27,7 +27,7 @@ const CampusEditPage = () => {
       formId,
       onSuccess,
       url: window.abeApp.urls.api_school_campus_edit.replace(':id', params.id),
-      headers: {'Content-Type': 'multipart/form-data'}
+      headers: { 'Content-Type': 'multipart/form-data' }
     })
   }
 

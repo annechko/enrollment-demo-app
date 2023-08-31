@@ -1,4 +1,4 @@
-import {cilLockLocked, cilUser} from '@coreui/icons'
+import { cilLockLocked, cilUser } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
 import {
   CButton,
@@ -11,17 +11,17 @@ import {
   CFormInput,
   CInputGroup,
   CInputGroupText,
-  CRow,
+  CRow
 } from '@coreui/react'
-import React, {useRef} from 'react'
-import {useNavigate} from 'react-router-dom'
-import {submitForm} from "../../../App/Helper/SubmitForm";
-import AppErrorMessage from "../../../App/Common/AppErrorMessage";
-import AppSwitchSectionBtn from "../../../App/Common/AppSwitchSectionBtn";
+import React, { useRef } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { submitForm } from '../../../App/Helper/SubmitForm'
+import AppErrorMessage from '../../../App/Common/AppErrorMessage'
+import AppSwitchSectionBtn from '../../../App/Common/AppSwitchSectionBtn'
 
-const Login = ({onSubmit, state, formId}) => {
-  const emailInputRef = useRef(null);
-  const passInputRef = useRef(null);
+const Login = ({ onSubmit, state, formId }) => {
+  const emailInputRef = useRef(null)
+  const passInputRef = useRef(null)
   const defaultUserEmail = 'admin@example.com'
   const defaultUserPass = 'admin'
 
@@ -100,9 +100,9 @@ const LoginPage = () => {
   }
   const [state, setState] = React.useState(initialState)
 
-  const navigate = useNavigate();
+  const navigate = useNavigate()
   const onSuccess = (response) => {
-    navigate(response.data?.redirect || '/');
+    navigate(response.data?.redirect || '/')
   }
   const formId = 'login-form'
   const onSubmit = (event) => {
@@ -112,7 +112,7 @@ const LoginPage = () => {
       setState,
       formId,
       url: window.abeApp.urls.admin_login,
-      onSuccess: onSuccess
+      onSuccess
     })
   }
 

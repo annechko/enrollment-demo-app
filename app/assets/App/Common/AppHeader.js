@@ -2,15 +2,15 @@ import {
   CContainer,
   CHeader,
   CHeaderNav,
-  CHeaderToggler,
+  CHeaderToggler
 } from '@coreui/react'
-import React, {useContext} from 'react'
-import {AppHeaderDropdown} from "./index";
-import {CurrentSectionContext} from "../Helper/Context/CurrentSectionContext";
-import CIcon from "@coreui/icons-react";
-import {cilMenu} from "@coreui/icons";
+import React, { useContext } from 'react'
+import { AppHeaderDropdown } from './index'
+import { CurrentSectionContext } from '../Helper/Context/CurrentSectionContext'
+import CIcon from '@coreui/icons-react'
+import { cilMenu } from '@coreui/icons'
 
-const AppHeader = ({toggleSidebarVisible}) => {
+const AppHeader = ({ toggleSidebarVisible }) => {
   const currentSection = useContext(CurrentSectionContext)
   let sectionName = ''
   if (currentSection === 'admin') {

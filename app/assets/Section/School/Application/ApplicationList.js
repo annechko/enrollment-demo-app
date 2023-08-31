@@ -1,8 +1,8 @@
-import * as React from 'react';
+import * as React from 'react'
 import {
   useEffect,
   useState
-} from 'react';
+} from 'react'
 import {
   CBadge,
   CButton,
@@ -16,13 +16,13 @@ import {
   CTableHead,
   CTableHeaderCell,
   CTableRow
-} from "@coreui/react";
-import * as LoadState from "../../../App/Helper/LoadState";
-import * as Api from "../../../App/Helper/Api";
-import AppErrorMessage from "../../../App/Common/AppErrorMessage";
-import {Link} from "react-router-dom";
+} from '@coreui/react'
+import * as LoadState from '../../../App/Helper/LoadState'
+import * as Api from '../../../App/Helper/Api'
+import AppErrorMessage from '../../../App/Common/AppErrorMessage'
+import { Link } from 'react-router-dom'
 
-export default function ApplicationList() {
+export default function ApplicationList () {
   const [applicationsState, setApplicationsState] = useState(LoadState.initialize())
   const applicationsUrl = window.abeApp.urls.api_school_application_list
   const loadApplications = Api.loadData(applicationsUrl, setApplicationsState)
@@ -31,7 +31,6 @@ export default function ApplicationList() {
       loadApplications()
     }
   }, [applicationsState])
-
 
   return (
     <CCard className="mb-4 mt-4">
@@ -47,16 +46,16 @@ export default function ApplicationList() {
   )
 }
 
-const ApplicationStatus = ({value}) => {
+const ApplicationStatus = ({ value }) => {
   if (value === 'NEW') {
     return <CBadge color="success" shape="rounded-pill">New</CBadge>
   }
-  return <></>;
+  return <></>
 }
 
 const ApplicationsRows = ({
-                            applicationsState,
-                          }) => {
+  applicationsState
+}) => {
   const applications = applicationsState.data
 
   let key = 0
@@ -90,8 +89,7 @@ const ApplicationsRows = ({
 
   return <>
     {applicationsRows.length > 0
-      ?
-      <CTable hover bordered>
+      ? <CTable hover bordered>
         <CTableHead>
           <CTableRow key={key++}>
             <CTableHeaderCell scope="col">Id</CTableHeaderCell>

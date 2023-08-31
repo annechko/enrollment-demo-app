@@ -14,26 +14,26 @@ import {
   CTableDataCell,
   CTableHead,
   CTableHeaderCell,
-  CTableRow,
+  CTableRow
 } from '@coreui/react'
 import React, {
   useEffect,
   useState
 } from 'react'
-import CIcon from "@coreui/icons-react";
+import CIcon from '@coreui/icons-react'
 import {
   cilCheck,
   cilX
-} from "@coreui/icons";
-import AppErrorMessage from "../../../App/Common/AppErrorMessage";
-import PropTypes from "prop-types";
-import * as LoadState from "../../../App/Helper/LoadState";
-import * as Api from "../../../App/Helper/Api";
-import {submitForm} from "../../../App/Helper/SubmitForm";
+} from '@coreui/icons'
+import AppErrorMessage from '../../../App/Common/AppErrorMessage'
+import PropTypes from 'prop-types'
+import * as LoadState from '../../../App/Helper/LoadState'
+import * as Api from '../../../App/Helper/Api'
+import { submitForm } from '../../../App/Helper/SubmitForm'
 
 const SchoolList = () => {
-  const [confirmState, setConfirmState] = React.useState({modalVisible: false, school: {}})
-  const [deleteState, setDeleteState] = React.useState({modalVisible: false, school: {}})
+  const [confirmState, setConfirmState] = React.useState({ modalVisible: false, school: {} })
+  const [deleteState, setDeleteState] = React.useState({ modalVisible: false, school: {} })
 
   const [schoolsState, setSchoolsState] = useState(LoadState.initialize())
   const schoolsUrl = window.abeApp.urls.api_admin_school_list
@@ -46,7 +46,7 @@ const SchoolList = () => {
 
   const formId = 'confirm'
   const onConfirmSuccess = () => {
-    setConfirmState({modalVisible: false, school: {}})
+    setConfirmState({ modalVisible: false, school: {} })
     loadSchools()
   }
   const confirm = (schoolId) => {
@@ -63,7 +63,7 @@ const SchoolList = () => {
     }
   }
   const onDeleteSuccess = () => {
-    setDeleteState({modalVisible: false, school: {}})
+    setDeleteState({ modalVisible: false, school: {} })
     loadSchools()
   }
   const deleteSchool = (schoolId) => {
@@ -73,7 +73,7 @@ const SchoolList = () => {
         state: deleteState,
         setState: setDeleteState,
         url,
-        data: {schoolId: schoolId},
+        data: { schoolId },
         onSuccess: onDeleteSuccess
       })
     }
@@ -96,13 +96,13 @@ const SchoolList = () => {
     </CCard>
   )
 }
-const DeleteModal = ({state, setState, callback}) => {
+const DeleteModal = ({ state, setState, callback }) => {
   return <CModal visible={state.modalVisible}
     onClose={() => {
-      setState({modalVisible: false, school: {}})
+      setState({ modalVisible: false, school: {} })
     }}>
     <CModalHeader onClose={() => {
-      setState({modalVisible: false, school: {}})
+      setState({ modalVisible: false, school: {} })
     }}>
       <CModalTitle>Confirm school's delete</CModalTitle>
     </CModalHeader>
@@ -122,21 +122,20 @@ const DeleteModal = ({state, setState, callback}) => {
         disabled={state.loading === true}
         onClick={callback(state.school.id)}>
 
-        {state.loading === true
-          && <CSpinner className="me-1" component="span" size="sm" aria-hidden="true"/>}
+        {state.loading === true &&
+          <CSpinner className="me-1" component="span" size="sm" aria-hidden="true"/>}
         Confirm
       </CButton>
     </CModalFooter>
   </CModal>
-
 }
-const ConfirmModal = ({confirmState, setConfirmState, confirm}) => {
+const ConfirmModal = ({ confirmState, setConfirmState, confirm }) => {
   return <CModal visible={confirmState.modalVisible}
     onClose={() => {
-      setConfirmState({modalVisible: false, school: {}})
+      setConfirmState({ modalVisible: false, school: {} })
     }}>
     <CModalHeader onClose={() => {
-      setConfirmState({modalVisible: false, school: {}})
+      setConfirmState({ modalVisible: false, school: {} })
     }}>
       <CModalTitle>Confirm school's registration</CModalTitle>
     </CModalHeader>
@@ -155,18 +154,18 @@ const ConfirmModal = ({confirmState, setConfirmState, confirm}) => {
         disabled={confirmState.loading === true}
         onClick={confirm(confirmState.school.id)}>
 
-        {confirmState.loading === true
-          && <CSpinner className="me-1" component="span" size="sm" aria-hidden="true"/>}
+        {confirmState.loading === true &&
+          <CSpinner className="me-1" component="span" size="sm" aria-hidden="true"/>}
         Confirm
       </CButton>
     </CModalFooter>
   </CModal>
 }
 const SchoolsRows = ({
-                       schoolsState,
-                       setConfirmState,
-                       setDeleteState,
-                     }) => {
+  schoolsState,
+  setConfirmState,
+  setDeleteState
+}) => {
   const schools = schoolsState.data
 
   let key = 0
@@ -193,8 +192,8 @@ const SchoolsRows = ({
               onClick={() => {
                 setConfirmState({
                   modalVisible: true,
-                  school: {name: item.name, id: item.id}
-                });
+                  school: { name: item.name, id: item.id }
+                })
               }}
               size="sm" variant="outline">
               <CIcon icon={cilCheck}/>
@@ -205,8 +204,8 @@ const SchoolsRows = ({
               onClick={() => {
                 setDeleteState({
                   modalVisible: true,
-                  school: {name: item.name, id: item.id}
-                });
+                  school: { name: item.name, id: item.id }
+                })
               }}
               size="sm" variant="outline">
               <CIcon icon={cilX}/>
@@ -217,8 +216,7 @@ const SchoolsRows = ({
   )
 
   return <>
-    {schoolsRows.length > 0
-      &&
+    {schoolsRows.length > 0 &&
       <CTable hover bordered>
         <CTableHead>
           <CTableRow key={key++}>
@@ -250,9 +248,9 @@ SchoolsRows.propTypes = {
         canBeDeleted: PropTypes.bool,
         email: PropTypes.string,
         invitationDate: PropTypes.string,
-        createdAt: PropTypes.string,
+        createdAt: PropTypes.string
       })
-    ),
-  }),
+    )
+  })
 }
 export default React.memo(SchoolList)

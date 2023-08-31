@@ -1,19 +1,19 @@
-import {useContext} from "react";
-import {CurrentSectionContext} from "./Context/CurrentSectionContext";
+import { useContext } from 'react'
+import { CurrentSectionContext } from './Context/CurrentSectionContext'
 
 class CssHelper {
-  static getCurrentSectionBgColor() {
+  static getCurrentSectionBgColor () {
     const currentSection = useContext(CurrentSectionContext)
     return this.getSectionBgColor(currentSection)
   }
 
-  static getSectionTextColor(section) {
-    return 'app-text-' + section;
+  static getSectionTextColor (section) {
+    return 'app-text-' + section
   }
 
-  static getSectionBgColor(section) {
-    return 'app-bg-' + section;
+  static getSectionBgColor (section) {
+    return 'app-bg-' + section
   }
 }
 
-export {CssHelper}
+export { CssHelper }

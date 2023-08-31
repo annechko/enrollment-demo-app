@@ -1,8 +1,8 @@
-import {useParams} from "react-router-dom";
-import React, {useState} from "react";
-import Loadable from "../../../App/Helper/Loadable";
-import AppBackButton from "../../../App/Common/AppBackButton";
-import AppErrorMessage from "../../../App/Common/AppErrorMessage";
+import { useParams } from 'react-router-dom'
+import React, { useState } from 'react'
+import Loadable from '../../../App/Helper/Loadable'
+import AppBackButton from '../../../App/Common/AppBackButton'
+import AppErrorMessage from '../../../App/Common/AppErrorMessage'
 import {
   CButton,
   CCard,
@@ -11,8 +11,8 @@ import {
   CFormInput,
   CFormLabel,
   CSpinner
-} from "@coreui/react";
-import * as LoadState from "../../../App/Helper/LoadState";
+} from '@coreui/react'
+import * as LoadState from '../../../App/Helper/LoadState'
 
 const ApplicationEdit = () => {
   const params = useParams()
@@ -22,7 +22,7 @@ const ApplicationEdit = () => {
     url={window.abeApp.urls.api_school_application.replace(':applicationId', params.applicationId)}
   />
 }
-const ApplicationView = ({dataState}) => {
+const ApplicationView = ({ dataState }) => {
   const [acceptRequestState, setAcceptRequestState] = useState(LoadState.initialize)
   const [declineRequestState, setDeclineRequestState] = useState(LoadState.initialize)
 

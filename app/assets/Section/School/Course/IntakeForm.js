@@ -4,22 +4,22 @@ import {
   CFormInput,
   CFormLabel,
   CFormSelect,
-  CSpinner,
+  CSpinner
 } from '@coreui/react'
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types'
 import React from 'react'
-import AppErrorMessage from "../../../App/Common/AppErrorMessage";
-import {submitForm} from "../../../App/Helper/SubmitForm";
+import AppErrorMessage from '../../../App/Common/AppErrorMessage'
+import { submitForm } from '../../../App/Helper/SubmitForm'
 
 const IntakeForm = ({
-                      formId,
-                      dataState,
-                      campusOptions,
-                      onSuccess,
-                      courseId,
-                      isUpdate = false,
-                      showSubmitBtn = true
-                    }) => {
+  formId,
+  dataState,
+  campusOptions,
+  onSuccess,
+  courseId,
+  isUpdate = false,
+  showSubmitBtn = true
+}) => {
   const [submitState, setSubmitState] = React.useState({
     loading: false,
     error: null
@@ -48,10 +48,10 @@ const IntakeForm = ({
       event,
       state: submitState,
       setState: setSubmitState,
-      url: url,
+      url,
       formId,
       onSuccess,
-      headers: {'Content-Type': 'multipart/form-data'}
+      headers: { 'Content-Type': 'multipart/form-data' }
     })
   }
   return (
@@ -61,7 +61,7 @@ const IntakeForm = ({
         <div className="mb-3">
           <CFormLabel htmlFor="intakeName">Intake name</CFormLabel>
           <CFormInput
-            name={formId + "[name]"}
+            name={formId + '[name]'}
             defaultValue={isUpdate ? item.name : ''}
             type="text"
             id="intakeName"
@@ -70,7 +70,7 @@ const IntakeForm = ({
         <div className="mb-3">
           <CFormLabel htmlFor="startDate">Start date</CFormLabel>
           <CFormInput id="startDate"
-            name={formId + "[startDate]"}
+            name={formId + '[startDate]'}
             defaultValue={isUpdate ? item.startDate : ''}
             type="date"
           />
@@ -78,7 +78,7 @@ const IntakeForm = ({
         <div className="mb-3">
           <CFormLabel htmlFor="endDate">End date</CFormLabel>
           <CFormInput id="endDate"
-            name={formId + "[endDate]"}
+            name={formId + '[endDate]'}
             defaultValue={isUpdate ? item.endDate : ''}
             type="date"
           />
@@ -89,7 +89,7 @@ const IntakeForm = ({
           <CFormSelect id="campus" aria-label="Choose campus"
             defaultValue={isUpdate ? item.campus : null}
             options={campusOptions}
-            name={formId + "[campusId]"}
+            name={formId + '[campusId]'}
           >
           </CFormSelect>
         </div>
@@ -99,12 +99,12 @@ const IntakeForm = ({
             type="number"
             defaultValue={isUpdate ? item.classSize : ''}
             rows="3"
-            name={formId + "[classSize]"}></CFormInput>
+            name={formId + '[classSize]'}></CFormInput>
         </div>
         {showSubmitBtn && (
           <CButton color="success" size="sm"
             className={'px-4' + (isSubmitted ? ' disabled' : '')}
-            disabled={isSubmitted === true}
+            disabled={isSubmitted}
             type="submit">
             {isSubmitted && <CSpinner className="me-1" component="span" size="sm" aria-hidden="true"/>}
             Save
@@ -123,7 +123,7 @@ IntakeForm.propTypes = {
   campusOptions: PropTypes.arrayOf(
     PropTypes.shape({
       value: PropTypes.string.isRequired,
-      label: PropTypes.string.isRequired,
+      label: PropTypes.string.isRequired
     })
   ),
   dataState: PropTypes.shape({
@@ -133,11 +133,11 @@ IntakeForm.propTypes = {
       campus: PropTypes.string,
       startDate: PropTypes.string,
       endDate: PropTypes.string,
-      classSize: PropTypes.number,
+      classSize: PropTypes.number
     }),
     loading: PropTypes.bool,
     loaded: PropTypes.bool,
-    error: PropTypes.string,
-  }),
+    error: PropTypes.string
+  })
 }
 export default IntakeForm
