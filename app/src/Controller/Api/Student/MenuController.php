@@ -20,18 +20,15 @@ class MenuController extends AbstractController
         $this->denyAccessUnlessGranted(RoleEnum::STUDENT_USER->value);
 
         return new JsonResponse([
-            // todo rename, remove navItems key.
-            'navItems' => [
-                [
-                    'title' => 'Dashboard',
-                    'to' => $this->generateUrl(RouteEnum::STUDENT_HOME),
-                    'type' => 'home',
-                ],
-                [
-                    'title' => 'Application',
-                    'to' => $this->generateUrl(RouteEnum::STUDENT_APPLICATION_LIST),
-                    'type' => 'application',
-                ],
+            [
+                'title' => 'Dashboard',
+                'to' => $this->generateUrl(RouteEnum::STUDENT_HOME),
+                'type' => 'home',
+            ],
+            [
+                'title' => 'Application',
+                'to' => $this->generateUrl(RouteEnum::STUDENT_APPLICATION_LIST),
+                'type' => 'application',
             ],
         ]);
     }

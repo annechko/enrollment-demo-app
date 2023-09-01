@@ -20,17 +20,15 @@ class MenuController extends AbstractController
         $this->denyAccessUnlessGranted(RoleEnum::ADMIN_USER->value);
 
         return new JsonResponse([
-            'navItems' => [
-                [
-                    'title' => 'Dashboard',
-                    'to' => $this->generateUrl(RouteEnum::ADMIN_HOME),
-                    'type' => 'home',
-                ],
-                [
-                    'title' => 'Schools',
-                    'to' => $this->generateUrl('admin_school_list_show'),
-                    'type' => 'institution',
-                ],
+            [
+                'title' => 'Dashboard',
+                'to' => $this->generateUrl(RouteEnum::ADMIN_HOME),
+                'type' => 'home',
+            ],
+            [
+                'title' => 'Schools',
+                'to' => $this->generateUrl('admin_school_list_show'),
+                'type' => 'institution',
             ],
         ]);
     }

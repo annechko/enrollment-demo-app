@@ -38,7 +38,7 @@ const AppSidebar = ({ isSidebarVisible, setIsSidebarVisible }) => {
   }, [navItemsState])
 
   const onSuccess = (response) => {
-    setNavItemsState(LoadState.finishLoading(response.data.navItems))
+    setNavItemsState(LoadState.finishLoading(response.data))
   }
   const onError = (error) => {
     setNavItemsState(LoadState.error(error.response?.data?.error))

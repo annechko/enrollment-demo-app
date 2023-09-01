@@ -79,7 +79,9 @@ class SchoolController extends AbstractApiController
         $format = 'M d, Y';
         foreach ($applications as $item) {
             $intake = [
-                'startDate' => (new \DateTimeImmutable($item['intake_start_date']))->format($format),
+                'startDate' => (new \DateTimeImmutable($item['intake_start_date']))->format(
+                    $format
+                ),
                 'endDate' => (new \DateTimeImmutable($item['intake_end_date']))->format($format),
             ];
             $result[] = [
@@ -190,7 +192,9 @@ class SchoolController extends AbstractApiController
     ): Response {
         $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
 
-        $command = new \App\Core\School\UseCase\School\Campus\Add\Command($this->getCurrentSchoolId()->getValue());
+        $command = new \App\Core\School\UseCase\School\Campus\Add\Command(
+            $this->getCurrentSchoolId()->getValue()
+        );
 
         return $this->handleWithResponse(
             $command,
@@ -263,7 +267,9 @@ class SchoolController extends AbstractApiController
     ): Response {
         $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
 
-        $command = new \App\Core\School\UseCase\School\Course\Add\Command($this->getCurrentSchoolId()->getValue());
+        $command = new \App\Core\School\UseCase\School\Course\Add\Command(
+            $this->getCurrentSchoolId()->getValue()
+        );
 
         return $this->handleWithResponse(
             $command,
@@ -338,7 +344,10 @@ class SchoolController extends AbstractApiController
     ): Response {
         $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
 
-        $command = new \App\Core\School\UseCase\School\Course\Intake\Edit\Command($intakeId, $courseId);
+        $command = new \App\Core\School\UseCase\School\Course\Intake\Edit\Command(
+            $intakeId,
+            $courseId
+        );
 
         return $this->handleWithResponse(
             $command,
@@ -388,7 +397,10 @@ class SchoolController extends AbstractApiController
         $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
 
         try {
-            $command = new \App\Core\School\UseCase\School\Course\Intake\Remove\Command($intakeId, $courseId);
+            $command = new \App\Core\School\UseCase\School\Course\Intake\Remove\Command(
+                $intakeId,
+                $courseId
+            );
             $handler->handle($command);
         } catch (InvalidArgumentException $exception) {
             return new JsonResponse([
@@ -464,37 +476,35 @@ class SchoolController extends AbstractApiController
         $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
 
         return new JsonResponse([
-            'navItems' => [
-                [
-                    'title' => 'Dashboard',
-                    'to' => $this->generateUrl(RouteEnum::SCHOOL_HOME),
-                    'type' => 'home',
-                ],
-                [
-                    'title' => 'Courses',
-                    'to' => $this->generateUrl('school_course_list_show'),
-                    'type' => 'courses',
-                ],
-                [
-                    'title' => 'Campuses',
-                    'to' => $this->generateUrl('school_campus_list_show'),
-                    'type' => 'campuses',
-                ],
-                [
-                    'title' => 'Applications',
-                    'to' => $this->generateUrl('school_application_list_show'),
-                    'type' => 'application',
-                ],
-                [
-                    'title' => 'Students',
-                    'to' => $this->generateUrl('school_student_list_show'),
-                    'type' => 'students',
-                ],
-                [
-                    'title' => 'School profile',
-                    'to' => $this->generateUrl('school_profile_show'),
-                    'type' => 'settings',
-                ],
+            [
+                'title' => 'Dashboard',
+                'to' => $this->generateUrl(RouteEnum::SCHOOL_HOME),
+                'type' => 'home',
+            ],
+            [
+                'title' => 'Courses',
+                'to' => $this->generateUrl('school_course_list_show'),
+                'type' => 'courses',
+            ],
+            [
+                'title' => 'Campuses',
+                'to' => $this->generateUrl('school_campus_list_show'),
+                'type' => 'campuses',
+            ],
+            [
+                'title' => 'Applications',
+                'to' => $this->generateUrl('school_application_list_show'),
+                'type' => 'application',
+            ],
+            [
+                'title' => 'Students',
+                'to' => $this->generateUrl('school_student_list_show'),
+                'type' => 'students',
+            ],
+            [
+                'title' => 'School profile',
+                'to' => $this->generateUrl('school_profile_show'),
+                'type' => 'settings',
             ],
         ]);
     }
