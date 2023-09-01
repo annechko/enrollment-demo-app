@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\DbDefaultData;
 
+use App\Core\Common\DefaultUserEnum;
 use App\Core\Common\UuidGenerator;
 use App\Core\School\Entity\School\Email;
 use App\Core\School\Entity\School\InvitationToken;
@@ -17,8 +18,6 @@ use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
 
 class SchoolDefaultAccountCreator
 {
-    private const PASSWORD = 'school';
-    private const EMAIL = 'school@example.com';
     private const NAME = 'default school';
     private const ADMIN_NAME = 'school admin name';
     private const ADMIN_SURNAME = 'school admin surname';
@@ -36,7 +35,7 @@ class SchoolDefaultAccountCreator
             new Name(self::NAME),
             new StaffMemberId($this->uuidGenerator->generate()),
             new StaffMemberName(self::ADMIN_NAME, self::ADMIN_SURNAME),
-            new Email(self::EMAIL)
+            new Email(DefaultUserEnum::SCHOOL_ADMIN_EMAIL->value)
         );
         $school->confirmRegister(
             new InvitationToken(
@@ -46,7 +45,7 @@ class SchoolDefaultAccountCreator
         );
         $school->getAdmin()->confirmAccount(
             $this->hasherFactory->getPasswordHasher(StaffMember::class)
-                ->hash(self::PASSWORD)
+                ->hash(DefaultUserEnum::SCHOOL_ADMIN_PASS->value)
         );
 
         return $school;

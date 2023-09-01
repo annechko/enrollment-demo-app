@@ -25,9 +25,14 @@ class AcceptanceTester extends \Codeception\Actor
     /**
      * Define custom actions here
      */
-    public function screen(): void
+    public function screen(bool $useTimestampInName = false): void
     {
         $this->wait(2);
-        $this->makeScreenshot('screen' . (new \DateTimeImmutable)->format('y-m-d_H-i-s'));
+        if ($useTimestampInName === true) {
+            $suffix = (new \DateTimeImmutable)->format('y-m-d_H-i-s');
+        } else {
+            $suffix = '';
+        }
+        $this->makeScreenshot('screen' . $suffix);
     }
 }

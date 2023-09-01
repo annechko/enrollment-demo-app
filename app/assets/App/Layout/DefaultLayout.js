@@ -20,7 +20,7 @@ const DefaultLayout = () => {
   }
 
   return (
-    <div>
+    <div data-test-id="default-layout">
       <AppSidebar isSidebarVisible={isSidebarVisible} setIsSidebarVisible={setIsSidebarVisible}/>
       <div className="wrapper d-flex flex-column min-vh-100 bg-light">
         <AppHeader toggleSidebarVisible={toggleSidebarVisible}/>

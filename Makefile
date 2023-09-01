@@ -6,16 +6,21 @@ docker-up:
 	docker-compose -f docker-compose.yml up -d --remove-orphans
 
 app-init: app-composer-install app-assets-install app-wait-db app-migrations
+test-app-init: app-composer-install test-app-wait-db test-app-migrations test-data
 app-composer-install:
 	docker exec -d enroll-php-fpm composer i
 app-assets-install:
 	docker-compose -f docker-compose.yml run --rm enroll-node yarn install
 app-wait-db:
 	until docker-compose -f docker-compose.yml exec -T enroll-db pg_isready --timeout=0 --dbname=app ; do sleep 1 ; done
+test-app-wait-db:
+	until docker-compose -f docker-compose-test.yml exec -T test-enroll-db pg_isready --timeout=0 --dbname=app ; do sleep 1 ; done
 app-migrations:
 	docker exec -d enroll-php-fpm php bin/console doctrine:migrations:migrate --no-interaction
+test-app-migrations:
+	docker exec -d test-enroll-php-fpm php bin/console doctrine:migrations:migrate --no-interaction
 
-init: docker-down docker-build docker-up
+init: docker-down docker-build docker-up app-init
 
 ########## tests
 
@@ -26,9 +31,9 @@ test-docker-build:
 test-docker-up:
 	docker-compose -f docker-compose-test.yml up -d --remove-orphans
 
-init-tests: test-docker-down test-docker-build test-docker-up
+init-tests: test-docker-down test-docker-build test-docker-up test-app-init
 tests-a:
-	docker-compose -f docker-compose-test.yml run --rm test-enroll-php-fpm vendor/bin/codecept run Acceptance -vvv
+	docker exec -it test-enroll-php-fpm vendor/bin/codecept run Acceptance -vvv
 
 
 
@@ -42,6 +47,8 @@ users:
 	docker exec -it enroll-php-fpm bin/console doctrine:fixtures:load -n --group=user
 data:
 	docker exec -it enroll-php-fpm bin/console doctrine:fixtures:load -n
+test-data:
+	docker exec -it test-enroll-php-fpm bin/console doctrine:fixtures:load -n --group=user
 
 front-lint:
 	docker-compose -f docker-compose.yml run --rm enroll-node yarn eslint --ext .js,.jsx assets

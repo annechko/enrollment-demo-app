@@ -7,6 +7,7 @@ namespace App\Core\Common;
 enum DefaultUserEnum: string
 {
     case SCHOOL_ADMIN_EMAIL = 'school@example.com';
+    case SCHOOL_ADMIN_PASS = 'school';
 
     public static function isDefaultSchoolUser(string $email): bool
     {
