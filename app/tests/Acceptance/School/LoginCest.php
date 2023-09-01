@@ -9,10 +9,6 @@ use App\Tests\AcceptanceTester;
 
 class LoginCest
 {
-    public function _before(AcceptanceTester $I)
-    {
-    }
-
     public function login_useDefaultUser_loginSuccess(AcceptanceTester $I)
     {
         $I->amOnPage('/school/login');

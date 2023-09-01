@@ -8,10 +8,6 @@ use App\Tests\AcceptanceTester;
 
 class HomeCest
 {
-    public function _before(AcceptanceTester $I)
-    {
-    }
-
     public function testHome_seeTitle(AcceptanceTester $I)
     {
         $I->amOnPage('/');
