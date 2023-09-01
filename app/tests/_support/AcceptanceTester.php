@@ -1,7 +1,6 @@
 <?php
 
 declare(strict_types=1);
-
 namespace App\Tests;
 
 /**
@@ -15,15 +14,20 @@ namespace App\Tests;
  * @method void am($role)
  * @method void lookForwardTo($achieveValue)
  * @method void comment($description)
- * @method \Codeception\Lib\Friend haveFriend($name, $actorClass = NULL)
+ * @method \Codeception\Lib\Friend haveFriend($name, $actorClass = null)
  *
  * @SuppressWarnings(PHPMD)
-*/
-class FunctionalTester extends \Codeception\Actor
+ */
+class AcceptanceTester extends \Codeception\Actor
 {
-    use _generated\FunctionalTesterActions;
+    use _generated\AcceptanceTesterActions;
 
-   /**
-    * Define custom actions here
-    */
+    /**
+     * Define custom actions here
+     */
+    public function screen(): void
+    {
+        $this->wait(2);
+        $this->makeScreenshot('screen' . (new \DateTimeImmutable)->format('y-m-d_H-i-s'));
+    }
 }

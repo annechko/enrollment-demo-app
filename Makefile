@@ -1,48 +1,57 @@
 docker-down:
-	docker-compose down --remove-orphans
+	docker-compose -f docker-compose.yml down --remove-orphans
 docker-build:
-	docker-compose build --pull
+	docker-compose -f docker-compose.yml build --pull
 docker-up:
-	docker-compose up -d --remove-orphans
+	docker-compose -f docker-compose.yml up -d --remove-orphans
 
 app-init: app-composer-install app-assets-install app-wait-db app-migrations
 app-composer-install:
 	docker exec -d enroll-php-fpm composer i
 app-assets-install:
-	docker-compose run --rm enroll-node yarn install
+	docker-compose -f docker-compose.yml run --rm enroll-node yarn install
 app-wait-db:
-	until docker-compose exec -T enroll-db pg_isready --timeout=0 --dbname=app ; do sleep 1 ; done
+	until docker-compose -f docker-compose.yml exec -T enroll-db pg_isready --timeout=0 --dbname=app ; do sleep 1 ; done
 app-migrations:
 	docker exec -d enroll-php-fpm php bin/console doctrine:migrations:migrate --no-interaction
 
-init: docker-down docker-build docker-up app-init
+init: docker-down docker-build docker-up
 
-up: docker-up
-down: docker-down
+########## tests
+
+test-docker-down:
+	docker-compose -f docker-compose-test.yml down --remove-orphans
+test-docker-build:
+	docker-compose -f docker-compose-test.yml build --pull
+test-docker-up:
+	docker-compose -f docker-compose-test.yml up -d --remove-orphans
+
+init-tests: test-docker-down test-docker-build test-docker-up
+tests-a:
+	docker-compose -f docker-compose-test.yml run --rm test-enroll-php-fpm vendor/bin/codecept run Acceptance -vvv
+
+
 
 docker-pull:
-	docker-compose pull
-
-
-fix:
-	docker exec -it enroll-php-fpm vendor/bin/php-cs-fixer fix -v --using-cache=no --allow-risky=yes
-phpstan:
-	docker exec -it enroll-php-fpm vendor/bin/phpstan analyse --no-progress --memory-limit 1G
+	docker-compose -f docker-compose.yml pull
 
 bash:
 	docker exec -it enroll-php-fpm /bin/bash
 
 users:
 	docker exec -it enroll-php-fpm bin/console doctrine:fixtures:load -n --group=user
-
 data:
 	docker exec -it enroll-php-fpm bin/console doctrine:fixtures:load -n
 
-watch:
-	docker-compose run --rm enroll-node yarn watch
 front-lint:
-	docker-compose run --rm enroll-node yarn eslint --ext .js,.jsx assets
+	docker-compose -f docker-compose.yml run --rm enroll-node yarn eslint --ext .js,.jsx assets
+fix:
+	docker exec -it enroll-php-fpm vendor/bin/php-cs-fixer fix -v --using-cache=no --allow-risky=yes
+phpstan:
+	docker exec -it enroll-php-fpm vendor/bin/phpstan analyse --no-progress --memory-limit 1G
 
+
+####### prod
 
 prod-build: prod-build-php prod-build-nginx prod-build-db
 
