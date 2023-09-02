@@ -4,6 +4,7 @@ This project is **work in progress**.<br>
 It's not finished yet.
 
 Run `make init` to start the application.
+Run `make init-tests` (once) and then you can run `make tests-a` to start acceptance tests in dev.
 
 It starts NGINX, PHP-FPM, PostgreSQL, and some more Docker containers, builds assets, runs DB migrations, starts to listen to connections on http://localhost:8080
 
