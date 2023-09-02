@@ -12,10 +12,5 @@ class Command
     /** @var string */
     #[Assert\NotBlank()]
     #[Assert\Regex(pattern: RegexEnum::UUID_PATTERN_REG_EXP)]
-    public $id;
-
-    public function __construct(string $id)
-    {
-        $this->id = $id;
-    }
+    public $schoolId;
 }

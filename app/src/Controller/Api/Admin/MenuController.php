@@ -27,7 +27,7 @@ class MenuController extends AbstractController
             ],
             [
                 'title' => 'Schools',
-                'to' => $this->generateUrl('admin_school_list_show'),
+                'to' => $this->generateUrl(RouteEnum::ADMIN_SCHOOL_LIST),
                 'type' => 'institution',
             ],
         ]);

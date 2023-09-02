@@ -58,26 +58,4 @@ class SchoolController extends AbstractApiController
 
         return new JsonResponse($result);
     }
-
-    #[Route('/{schoolId}/confirm', name: 'api_admin_school_confirm',
-        requirements: ['schoolId' => RegexEnum::UUID_PATTERN_WITH_TEMPLATE],
-        methods: ['POST']),
-    ]
-    public function confirm(
-        string $schoolId,
-        \App\Core\School\UseCase\School\Confirm\Handler $handler
-    ): Response {
-        $this->denyAccessUnlessGranted(RoleEnum::ADMIN_USER->value);
-
-        $command = new \App\Core\School\UseCase\School\Confirm\Command($schoolId);
-        try {
-            $handler->handle($command);
-        } catch (InvalidArgumentException|\DomainException $exception) {
-            return new JsonResponse([
-                'error' => $exception->getMessage(),
-            ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
-        }
-
-        return new JsonResponse();
-    }
 }

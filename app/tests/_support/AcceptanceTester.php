@@ -3,6 +3,9 @@
 declare(strict_types=1);
 namespace App\Tests;
 
+use App\Core\Common\DefaultUserEnum;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+
 /**
  * Inherited Methods
  * @method void wantToTest($text)
@@ -34,5 +37,23 @@ class AcceptanceTester extends \Codeception\Actor
             $suffix = '';
         }
         $this->makeScreenshot('screen' . $suffix);
+    }
+
+    public function loginAsDefaultSchool(): void
+    {
+        $this->amOnPage('/school/login');
+
+        $this->fillField('[data-testid="email"]', DefaultUserEnum::SCHOOL_ADMIN_EMAIL->value);
+        $this->fillField('[data-testid="pass"]', DefaultUserEnum::SCHOOL_ADMIN_PASS->value);
+        $this->click('[data-testid="submit-btn"]');
+
+        $this->waitForElement('[data-testid="default-layout"]');
+    }
+
+    public function amOnRoute(string $routeName): void
+    {
+        /** @var UrlGeneratorInterface $generator */
+        $generator = $this->grabService(UrlGeneratorInterface::class);
+        $this->amOnPage($generator->generate($routeName));
     }
 }

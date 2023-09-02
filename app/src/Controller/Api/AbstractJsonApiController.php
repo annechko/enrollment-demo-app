@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\Api;
 
 use App\Core\Common\NotFoundException;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,6 +18,7 @@ abstract class AbstractJsonApiController extends AbstractController
     public function __construct(
         protected readonly SerializerInterface $serializer,
         private readonly ValidatorInterface $validator,
+        private readonly LoggerInterface $logger,
     ) {
     }
 
@@ -63,7 +65,7 @@ abstract class AbstractJsonApiController extends AbstractController
                 'error' => $exception->getMessage(),
             ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
         } catch (\Throwable $exception) {
-            // todo add logs
+            $this->logger->error($exception->getMessage(), ['exception' => $exception]);
             return new JsonResponse([
                 'error' => 'Something went wrong',
             ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY);

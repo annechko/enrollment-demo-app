@@ -23,7 +23,7 @@ class Handler
 
     public function handle(Command $command): void
     {
-        $school = $this->schoolRepository->get(new SchoolId($command->id));
+        $school = $this->schoolRepository->get(new SchoolId($command->schoolId));
 
         $token = $this->uuidGenerator->generate();
         $school->confirmRegister(

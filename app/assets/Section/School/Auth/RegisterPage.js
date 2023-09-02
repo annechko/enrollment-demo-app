@@ -24,12 +24,12 @@ import AppSwitchSectionBtn from '../../../App/Common/AppSwitchSectionBtn'
 
 const AfterRegisterMessage = () => {
   return (
-    <>
+    <div data-testid="success-submit">
       <h3>Thank you!</h3>
       <p className="text-medium-emphasis">We are glad to see you joined us as a school!</p>
       <p className="text-medium-emphasis">Kindly await an email containing an invitation to register.</p>
       <p className="text-medium-emphasis">After our admin user approves your registration in admin panel.</p>
-    </>
+    </div>
   )
 }
 const RegisterForm = ({ onSubmit, state, urlLogin, formId }) => {
@@ -45,6 +45,7 @@ const RegisterForm = ({ onSubmit, state, urlLogin, formId }) => {
             <CIcon icon={cilSchool}/>
           </CInputGroupText>
           <CFormInput placeholder="School name"
+            data-testid="name"
             name="register[name]"
             minLength="2"
             required={true}
@@ -53,6 +54,7 @@ const RegisterForm = ({ onSubmit, state, urlLogin, formId }) => {
         <CInputGroup className="mb-3">
           <CInputGroupText>@</CInputGroupText>
           <CFormInput placeholder="Email address of account owner"
+            data-testid="email"
             name="register[adminEmail]"
             type="email"
             required={true}
@@ -63,6 +65,7 @@ const RegisterForm = ({ onSubmit, state, urlLogin, formId }) => {
             <CIcon icon={cilUser}/>
           </CInputGroupText>
           <CFormInput
+            data-testid="admin-name"
             name="register[adminName]"
             placeholder="Admin name"
             required={true}
@@ -73,6 +76,7 @@ const RegisterForm = ({ onSubmit, state, urlLogin, formId }) => {
             <CIcon icon={cilUser}/>
           </CInputGroupText>
           <CFormInput
+            data-testid="admin-surname"
             name="register[adminSurname]"
             placeholder="Admin surname"
             required={true}
@@ -80,6 +84,7 @@ const RegisterForm = ({ onSubmit, state, urlLogin, formId }) => {
         </CInputGroup>
         <div className="d-grid">
           <CButton color="success" className="px-4"
+            data-testid="submit-btn"
             disabled={state.loading}
             type="submit">
             Create Account

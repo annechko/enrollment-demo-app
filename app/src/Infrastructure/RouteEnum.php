@@ -13,6 +13,7 @@ class RouteEnum
     public const ADMIN_HOME = 'admin_home';
     public const ADMIN_LOGIN = 'admin_login';
     public const ADMIN_LOGOUT = 'admin_logout';
+    public const ADMIN_SCHOOL_LIST = 'admin_school_list_show';
 
     public const SCHOOL_HOME = 'school_home';
     public const SCHOOL_REGISTER = 'school_register';

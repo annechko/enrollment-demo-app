@@ -57,6 +57,7 @@ const Login = ({ onSubmit, state, formId }) => {
                         </CInputGroupText>
                         <CFormInput placeholder="Email"
                           required
+                          data-testid="email"
                           ref={emailInputRef}
                           autoComplete="email"
                           name="email"
@@ -69,6 +70,7 @@ const Login = ({ onSubmit, state, formId }) => {
                         </CInputGroupText>
                         <CFormInput placeholder="Password"
                           required
+                          data-testid="pass"
                           type="password"
                           ref={passInputRef}
                           name="password"
@@ -79,6 +81,7 @@ const Login = ({ onSubmit, state, formId }) => {
                         <CCol xs={4}>
                           <CButton color="danger" className="px-4"
                             disabled={state.loading}
+                            data-testid="submit-btn"
                             type="submit">
                             Login
                           </CButton>

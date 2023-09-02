@@ -29,7 +29,6 @@ import AppErrorMessage from '../../../App/Common/AppErrorMessage'
 import PropTypes from 'prop-types'
 import * as LoadState from '../../../App/Helper/LoadState'
 import * as Api from '../../../App/Helper/Api'
-import { submitForm } from '../../../App/Helper/SubmitForm'
 
 const SchoolList = () => {
   const [confirmState, setConfirmState] = React.useState({ modalVisible: false, school: {} })
@@ -44,20 +43,18 @@ const SchoolList = () => {
     }
   }, [schoolsState])
 
-  const formId = 'confirm'
   const onConfirmSuccess = () => {
     setConfirmState({ modalVisible: false, school: {} })
     loadSchools()
   }
   const confirm = (schoolId) => {
-    return (event) => {
+    return () => {
       const url = window.abeApp.urls.api_admin_school_confirm.replace(':schoolId', schoolId)
-      submitForm({
-        event,
+      Api.submitData({
         state: confirmState,
         setState: setConfirmState,
-        formId,
         url,
+        data: { schoolId },
         onSuccess: onConfirmSuccess
       })
     }
@@ -131,6 +128,7 @@ const DeleteModal = ({ state, setState, callback }) => {
 }
 const ConfirmModal = ({ confirmState, setConfirmState, confirm }) => {
   return <CModal visible={confirmState.modalVisible}
+    data-testid="confirm-modal"
     onClose={() => {
       setConfirmState({ modalVisible: false, school: {} })
     }}>
@@ -151,6 +149,7 @@ const ConfirmModal = ({ confirmState, setConfirmState, confirm }) => {
         Close
       </CButton>
       <CButton color="primary" size="sm"
+        data-testid="confirm-modal-btn"
         disabled={confirmState.loading === true}
         onClick={confirm(confirmState.school.id)}>
 
@@ -173,7 +172,7 @@ const SchoolsRows = ({
     return <AppErrorMessage error={schoolsState.error}/>
   }
   if (schoolsState.loaded === false) {
-    return <CSpinner color="primary"/>
+    return <CSpinner color="primary" data-testid="school-list-loader"/>
   }
   let schoolsRows = []
 
@@ -188,6 +187,7 @@ const SchoolsRows = ({
         <div className="d-flex">
           {item.canBeConfirmed &&
             <CButton color="primary" role="button"
+              data-testid="confirm-btn"
               className="py-0 me-1"
               onClick={() => {
                 setConfirmState({
