@@ -62,7 +62,7 @@ services:
       - ./app:/app
       - test-build:/app/public/build/
       - enrollment-demo-app_node-cache:/usr/local/share/.cache
-    command: sh -c "yarn watch"
+    command: sh -c "rm -rf /app/public/build/; yarn watch"
     healthcheck:
       test: ["CMD-SHELL", "test -f /app/public/build/manifest.json"]
       interval: 2s
