@@ -28,8 +28,6 @@ services:
     build:
       context: app/.docker/test/
       dockerfile: db.docker
-    volumes:
-      - test-enroll-db:/var/lib/postgresql/data:rw
 
   test-enroll-nginx:
     container_name: test-enroll-nginx
@@ -71,13 +69,25 @@ services:
 
   test-enroll-selenium:
     image: selenium/standalone-chrome
+    shm_size: 2gb
+    ports:
+      # to watch what's happening inside browser while tests running
+      # http://localhost:7900/?autoconnect=1&resize=scale&password=secret
+      - "7900:7900"
+    environment:
+      # when a test fails, its connection will be closed by selenium in 30 seconds
+      # also if a test doesn't send any commands in 30sec, its connection will be closed by selenium
+      SE_NODE_SESSION_TIMEOUT: 30
+      # to be able to run another test after one fails (with hanging still open connection)
+      # we need to increase the number of sessions
+      SE_NODE_MAX_SESSIONS: 10
+      SE_NODE_OVERRIDE_MAX_SESSIONS: true
     networks:
       - test-enroll
 
 volumes:
   enrollment-demo-app_node-cache:
     external: true
-  test-enroll-db:
   test-build:
 
 networks:

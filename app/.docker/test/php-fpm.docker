@@ -15,3 +15,8 @@ RUN apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
+
+ENV COMPOSER_ALLOW_SUPERUSER 1
+RUN wget https://raw.githubusercontent.com/composer/getcomposer.org/1cf9cac9f0bed289429548be2858dbdfde448da6/web/installer -O - -q | php -- --quiet
+
+RUN mv composer.phar /usr/local/bin/composer

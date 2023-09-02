@@ -8,7 +8,7 @@ use App\Tests\AcceptanceTester;
 
 class HomeCest
 {
-    public function testHome_seeTitle(AcceptanceTester $I)
+    public function testHome_asUnauthorized_seeTitle(AcceptanceTester $I)
     {
         $I->amOnPage('/');
         $I->see('Enrollment Demo Application');

@@ -104,6 +104,9 @@
     },
     "require-dev": {
         "codeception/module-asserts": "^3.0",
+        "codeception/module-db": "^3.1",
+        "codeception/module-doctrine2": "^3.0",
+        "codeception/module-symfony": "^3.1",
         "codeception/module-webdriver": "^3.2",
         "doctrine/doctrine-fixtures-bundle": "^3.4",
         "friendsofphp/php-cs-fixer": "^3.16",

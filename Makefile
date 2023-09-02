@@ -6,9 +6,11 @@ docker-up:
 	docker-compose -f docker-compose.yml up -d --remove-orphans
 
 app-init: app-composer-install app-assets-install app-wait-db app-migrations
-test-app-init: app-composer-install test-app-wait-db test-app-migrations test-data
+test-app-init: test-app-composer-install test-app-wait-db test-app-migrations
 app-composer-install:
 	docker exec -d enroll-php-fpm composer i
+test-app-composer-install:
+	docker exec -d test-enroll-php-fpm composer i
 app-assets-install:
 	docker-compose -f docker-compose.yml run --rm enroll-node yarn install
 app-wait-db:
@@ -42,6 +44,9 @@ docker-pull:
 
 bash:
 	docker exec -it enroll-php-fpm /bin/bash
+
+bash-tests:
+	docker exec -it test-enroll-php-fpm /bin/bash
 
 users:
 	docker exec -it enroll-php-fpm bin/console doctrine:fixtures:load -n --group=user

@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 namespace App\Tests\Helper;
 
 // here you can define custom actions

@@ -1,6 +1,13 @@
 actor: AcceptanceTester
 modules:
   enabled:
+    - Symfony:
+        app_path: src
+        environment: test
+        part: services
+    - Doctrine2:
+        depends: Symfony
+        cleanup: false
     - WebDriver:
         url: http://test-enroll-nginx:80/
         browser: chrome
