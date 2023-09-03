@@ -25,6 +25,8 @@ services:
       - POSTGRES_DB=app
       - POSTGRES_USER=app
       - POSTGRES_PASSWORD=secrect
+    volumes:
+      - test-enroll-db:/var/lib/postgresql/data:rw
     build:
       context: app/.docker/test/
       dockerfile: db.docker
@@ -60,11 +62,11 @@ services:
       - ./app:/app
       - test-build:/app/public/build/
       - enrollment-demo-app_node-cache:/usr/local/share/.cache
-    command: sh -c "rm -rf /app/public/build/; yarn watch"
+    command: sh -c "rm -rf /app/public/build/*; yarn install; yarn watch"
     healthcheck:
-      test: ["CMD-SHELL", "test -f /app/public/build/manifest.json"]
+      test: [ "CMD-SHELL", "test -f /app/public/build/manifest.json" ]
       interval: 2s
-      retries: 60
+      retries: 500
     tty: true
 
   test-enroll-selenium:
@@ -89,6 +91,7 @@ volumes:
   enrollment-demo-app_node-cache:
     external: true
   test-build:
+  test-enroll-db:
 
 networks:
   test-enroll:
