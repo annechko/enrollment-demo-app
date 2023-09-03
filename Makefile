@@ -5,16 +5,15 @@ docker-build:
 docker-up:
 	docker-compose -f docker-compose.yml up -d --remove-orphans
 
-app-init: app-composer-install app-assets-install app-wait-db app-migrations
+app-init: app-composer-install app-wait-db app-migrations
 
 app-composer-install:
-	docker exec -d enroll-php-fpm composer i
-app-assets-install:
-	docker-compose -f docker-compose.yml run --rm enroll-node yarn install
+	docker exec -it enroll-php-fpm composer i
+
 app-wait-db:
 	until docker-compose -f docker-compose.yml exec -T enroll-db pg_isready --timeout=0 --dbname=app ; do sleep 1 ; done
 app-migrations:
-	docker exec -d enroll-php-fpm php bin/console doctrine:migrations:migrate --no-interaction
+	docker exec -it enroll-php-fpm php bin/console doctrine:migrations:migrate --no-interaction
 
 init: docker-down docker-build docker-up app-init
 
