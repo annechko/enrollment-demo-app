@@ -12,7 +12,7 @@ class Command
     /** @var string */
     #[Assert\NotBlank]
     #[Assert\Regex(pattern: RegexEnum::UUID_PATTERN_REG_EXP)]
-    public $id;
+    public $campusId;
 
     /** @var string */
     #[Assert\NotBlank]
@@ -25,9 +25,4 @@ class Command
     #[Assert\Type('string')]
     #[Assert\Regex(RegexEnum::ADDRESS_REG_EXP, message: 'Address is not valid.')]
     public $address;
-
-    public function __construct(string $id)
-    {
-        $this->id = $id;
-    }
 }

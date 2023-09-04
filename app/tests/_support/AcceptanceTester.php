@@ -56,4 +56,14 @@ class AcceptanceTester extends \Codeception\Actor
         $generator = $this->grabService(UrlGeneratorInterface::class);
         $this->amOnPage($generator->generate($routeName));
     }
+
+    public function waitForLoaderFinishes(): void
+    {
+        $this->waitForElementNotVisible("[data-testid=\"data-loader\"]");
+    }
+
+    public function dontSeeErrors(): void
+    {
+        $this->dontSeeElement("[data-testid=\"error-msg\"]");
+    }
 }

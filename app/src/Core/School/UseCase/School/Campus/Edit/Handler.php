@@ -18,11 +18,11 @@ class Handler
 
     public function handle(Command $command): void
     {
-        $campus = $this->campusRepository->get(new CampusId($command->id));
+        $campus = $this->campusRepository->get(new CampusId($command->campusId));
         $campus->edit($command->name, $command->address);
 
         $campusWithSameName = $this->campusRepository->findByName($command->name);
-        if ($campusWithSameName && !$campusWithSameName->getId()->isSameValue($command->id)) {
+        if ($campusWithSameName && !$campusWithSameName->getId()->isSameValue($command->campusId)) {
             throw new \DomainException("Campus with the name \"$command->name\" already exists.");
         }
         $this->flusher->flush();

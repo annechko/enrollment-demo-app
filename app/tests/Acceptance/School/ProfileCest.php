@@ -24,7 +24,7 @@ class ProfileCest extends AbstractCest
         $I->fillField($nameField, $uniqueName);
         $I->click($this->id('btn-submit'));
 
-        $I->waitForElementNotVisible($this->id('data-loader'));
+        $I->waitForLoaderFinishes();
         $I->waitForElementVisible($this->id('success-msg'));
         $I->reloadPage();
         $I->waitForElementVisible($nameField);

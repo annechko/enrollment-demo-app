@@ -5,7 +5,6 @@ import {
   CCardHeader,
   CCol,
   CRow,
-  CSpinner,
   CTable,
   CTableBody,
   CTableDataCell,
@@ -38,6 +37,7 @@ const CampusList = ({ dataState }) => {
           <CTableDataCell>
             <Link to={window.abeApp.urls.school_campus_edit.replace(':id', item.id)}>
               <CButton color="primary" role="button"
+                data-testid="btn-edit-campus"
                 className="pb-0 pt-0 pl-1 pr-1"
                 size="sm" variant="outline">
                 <CIcon icon={cilPencil}/>

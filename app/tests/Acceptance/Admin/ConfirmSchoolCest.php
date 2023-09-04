@@ -30,7 +30,7 @@ class ConfirmSchoolCest extends AbstractCest
         $I->waitForElementVisible($this->id('default-layout'));
 
         $I->amOnRoute(RouteEnum::ADMIN_SCHOOL_LIST);
-        $I->waitForElementNotVisible($this->id('school-list-loader'));
+        $I->waitForLoaderFinishes();
 
         $I->waitForElementVisible($this->id('confirm-btn'));
         $I->click($this->id('confirm-btn'));
@@ -38,9 +38,9 @@ class ConfirmSchoolCest extends AbstractCest
         $I->waitForElementVisible($this->id('confirm-modal-btn'));
         $I->click($this->id('confirm-modal-btn'));
         $I->waitForElementNotVisible($this->id('confirm-modal'));
-        $I->waitForElementNotVisible($this->id('school-list-loader'));
+        $I->waitForLoaderFinishes();
 
         $I->dontSeeElement($this->id('confirm-btn'));
-        $I->dontSeeElement($this->id('error-msg'));
+        $I->dontSeeErrors();
     }
 }

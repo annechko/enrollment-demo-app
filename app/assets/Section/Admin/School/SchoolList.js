@@ -29,6 +29,7 @@ import AppErrorMessage from '../../../App/Common/AppErrorMessage'
 import PropTypes from 'prop-types'
 import * as LoadState from '../../../App/Helper/LoadState'
 import * as Api from '../../../App/Helper/Api'
+import AppDataLoader from '../../../App/Common/AppDataLoader'
 
 const SchoolList = () => {
   const [confirmState, setConfirmState] = React.useState({ modalVisible: false, school: {} })
@@ -172,7 +173,7 @@ const SchoolsRows = ({
     return <AppErrorMessage error={schoolsState.error}/>
   }
   if (schoolsState.loaded === false) {
-    return <CSpinner color="primary" data-testid="school-list-loader"/>
+    return <AppDataLoader/>
   }
   let schoolsRows = []
 

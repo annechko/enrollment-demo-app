@@ -125,7 +125,7 @@ class SchoolController extends AbstractApiController
         ]);
     }
 
-    #[Route('/campuses/{applicationId}', name: 'api_school_application_edit',
+    #[Route('/applications/{applicationId}', name: 'api_school_application_edit',
         requirements: ['applicationId' => RegexEnum::UUID_PATTERN_WITH_TEMPLATE],
         methods: ['POST'])]
     public function applicationEdit(
@@ -135,34 +135,7 @@ class SchoolController extends AbstractApiController
     ): Response {
         $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
 
-        $command = new \App\Core\School\UseCase\School\Campus\Edit\Command($campusId);
-
-        return $this->handleWithResponse(
-            $command,
-            \App\Core\School\UseCase\School\Campus\Edit\Form::class,
-            $handler,
-            $request
-        );
-    }
-
-    #[Route('/campuses/{campusId}', name: 'api_school_campus_edit',
-        requirements: ['campusId' => RegexEnum::UUID_PATTERN_WITH_TEMPLATE],
-        methods: ['POST'])]
-    public function campusEdit(
-        Request $request,
-        string $campusId,
-        \App\Core\School\UseCase\School\Campus\Edit\Handler $handler
-    ): Response {
-        $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
-
-        $command = new \App\Core\School\UseCase\School\Campus\Edit\Command($campusId);
-
-        return $this->handleWithResponse(
-            $command,
-            \App\Core\School\UseCase\School\Campus\Edit\Form::class,
-            $handler,
-            $request
-        );
+        // todo
     }
 
     #[Route('/campuses', name: 'api_school_campus_list', methods: ['GET'])]
