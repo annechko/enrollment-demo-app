@@ -18,7 +18,7 @@ use Webmozart\Assert\InvalidArgumentException;
 #[Route('/school')]
 class SchoolController extends AbstractController
 {
-    #[Route('/register', name: 'school_register')]
+    #[Route('/register', name: RouteEnum::SCHOOL_REGISTER)]
     public function register(
         Request $request,
         \App\Core\School\UseCase\School\Register\Handler $handler
@@ -101,7 +101,7 @@ class SchoolController extends AbstractController
         return $this->render('base.html.twig');
     }
 
-    #[Route('/profile', name: 'school_profile_show', methods: ['GET'])]
+    #[Route('/profile', name: RouteEnum::SCHOOL_PROFILE, methods: ['GET'])]
     public function profileShow(): Response
     {
         $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);

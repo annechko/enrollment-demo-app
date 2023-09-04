@@ -25,10 +25,4 @@ class Command
     #[Assert\Length(min: 2, minMessage: 'Name is too short. It should have {{ limit }} characters or more.')]
     #[Assert\Type('string')]
     public $name;
-
-    public function __construct(string $schoolId, string $staffMemberId)
-    {
-        $this->schoolId = $schoolId;
-        $this->staffMemberId = $staffMemberId;
-    }
 }

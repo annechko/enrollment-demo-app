@@ -34,7 +34,7 @@ export default [
     <Route exact path={urls.school_campus_add} element={<CampusAddPage/>}/>,
     <Route exact path={urls.school_campus_edit} element={<CampusEditPage/>}/>,
     <Route exact path={urls.school_home} element={<div>school_home</div>}/>,
-    <Route exact path={urls.school_profile_show} element={<SchoolProfile/>}/>,
+    <Route exact path={urls.school_profile} element={<SchoolProfile/>}/>,
     <Route exact path={urls.school_application_list_show} element={<ApplicationList/>}/>,
     <Route exact path={urls.school_application_edit} element={<ApplicationEdit/>}/>,
     <Route exact path={urls.school_student_list_show} element={

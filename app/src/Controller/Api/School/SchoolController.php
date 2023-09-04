@@ -30,25 +30,7 @@ use Webmozart\Assert\InvalidArgumentException;
 #[Route('/api/school')]
 class SchoolController extends AbstractApiController
 {
-    #[Route('/profile', name: 'api_school_profile_edit', methods: ['POST'])]
-    public function profileEdit(
-        Request $request,
-        \App\Core\School\UseCase\School\Profile\Edit\Handler $handler
-    ): Response {
-        $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_ADMIN->value);
 
-        $command = new \App\Core\School\UseCase\School\Profile\Edit\Command(
-            $this->getCurrentSchoolId()->getValue(),
-            $this->getCurrentUser()->id
-        );
-
-        return $this->handleWithResponse(
-            $command,
-            \App\Core\School\UseCase\School\Profile\Edit\Form::class,
-            $handler,
-            $request
-        );
-    }
 
     #[Route('/profile', name: 'api_school_profile', methods: ['GET'])]
     public function profileGet(
@@ -503,7 +485,7 @@ class SchoolController extends AbstractApiController
             ],
             [
                 'title' => 'School profile',
-                'to' => $this->generateUrl('school_profile_show'),
+                'to' => $this->generateUrl(RouteEnum::SCHOOL_PROFILE),
                 'type' => 'settings',
             ],
         ]);

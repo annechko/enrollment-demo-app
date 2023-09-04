@@ -6,7 +6,11 @@ namespace App\Controller\Api\School;
 
 use App\Controller\Api\AbstractJsonApiController;
 use App\Core\Common\RegexEnum;
+use App\Core\School\Common\RoleEnum;
+use App\Core\School\Entity\School\SchoolId;
 use App\Core\School\UseCase\Member;
+use App\Core\School\UseCase\School;
+use App\Security\School\SchoolStaffMemberReadModel;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -39,5 +43,38 @@ class SchoolApiController extends AbstractJsonApiController
                 $command->invitationToken = $invitationToken;
             }
         );
+    }
+
+    #[Route('/profile', name: 'api_school_profile_edit', methods: ['POST'])]
+    public function profileEdit(
+        Request $request,
+        School\Profile\Edit\Handler $handler
+    ): Response {
+        $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_ADMIN->value);
+
+        return $this->handleWithResponse(
+            School\Profile\Edit\Command::class,
+            $handler,
+            $request,
+            commandCallback: function (School\Profile\Edit\Command $command
+            ) {
+                $command->schoolId = $this->getCurrentUser()->schoolId;
+                $command->staffMemberId = $this->getCurrentUser()->id;
+            }
+        );
+    }
+
+    private function getCurrentUser(): SchoolStaffMemberReadModel
+    {
+        if (!$this->getUser() instanceof SchoolStaffMemberReadModel) {
+            throw new \LogicException();
+        }
+
+        return $this->getUser();
+    }
+
+    private function getCurrentSchoolId(): SchoolId
+    {
+        return new SchoolId($this->getCurrentUser()->schoolId);
     }
 }
