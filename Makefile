@@ -1,9 +1,9 @@
 docker-down:
-	COMPOSE_PROJECT_NAME=enrollment-app docker-compose -f docker-compose.yml down --remove-orphans
+	COMPOSE_PROJECT_NAME=enrollment-demo-app docker-compose -f docker-compose.yml down --remove-orphans
 docker-build:
-	COMPOSE_PROJECT_NAME=enrollment-app docker-compose -f docker-compose.yml build --pull
+	COMPOSE_PROJECT_NAME=enrollment-demo-app docker-compose -f docker-compose.yml build --pull
 docker-up:
-	COMPOSE_PROJECT_NAME=enrollment-app docker-compose -f docker-compose.yml up -d --remove-orphans
+	COMPOSE_PROJECT_NAME=enrollment-demo-app docker-compose -f docker-compose.yml up -d --remove-orphans
 
 app-init: app-composer-install app-wait-db app-migrations
 
@@ -15,11 +15,11 @@ app-wait-db:
 app-migrations:
 	docker exec -it enroll-php-fpm php bin/console doctrine:migrations:migrate --no-interaction
 
-init: docker-down docker-build docker-up app-init
+init: docker-down docker-build create-cache-volume docker-up app-init
 
 ########## tests
 
-tests-init: tests-docker-down tests-docker-build tests-docker-up tests-app-init tests-clean
+tests-init: tests-docker-down tests-docker-build create-cache-volume tests-docker-up tests-app-init tests-clean
 
 tests-docker-down:
 	COMPOSE_PROJECT_NAME=test-enroll docker-compose -f docker-compose-test.yml down --remove-orphans
@@ -27,6 +27,8 @@ tests-docker-build:
 	COMPOSE_PROJECT_NAME=test-enroll docker-compose -f docker-compose-test.yml build
 tests-docker-up:
 	COMPOSE_PROJECT_NAME=test-enroll docker-compose -f docker-compose-test.yml up -d --remove-orphans
+create-cache-volume:
+	docker volume create enrollment-demo-app_node-cache
 
 tests-app-init: tests-app-composer-install tests-app-wait-db tests-app-migrations
 
@@ -51,7 +53,7 @@ tests-a:
 
 
 docker-pull:
-	COMPOSE_PROJECT_NAME=enrollment-app docker-compose -f docker-compose.yml pull
+	COMPOSE_PROJECT_NAME=enrollment-demo-app docker-compose -f docker-compose.yml pull
 
 bash:
 	docker exec -it enroll-php-fpm /bin/bash

@@ -50,7 +50,7 @@ services:
     volumes:
       - ./app:/app
       - test-build:/app/public/build/
-      - enrollment-app_node-cache:/usr/local/share/.cache
+      - enrollment-demo-app_node-cache:/usr/local/share/.cache
     command: sh -c "rm -rf /app/public/build/*; yarn install; yarn watch"
     healthcheck:
       test: [ "CMD-SHELL", "test -f /app/public/build/manifest.json" ]
@@ -75,7 +75,7 @@ services:
       SE_NODE_OVERRIDE_MAX_SESSIONS: 'true'
 
 volumes:
-  enrollment-app_node-cache:
+  enrollment-demo-app_node-cache:
     external: true
   test-build:
   test-enroll-db:
