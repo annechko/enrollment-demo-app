@@ -1,17 +1,14 @@
-FROM php:8.1-fpm
+FROM php:8.1-fpm-buster
 
-RUN apt-get update && apt-get install -y unzip wget
+RUN apt-get update \
+    && apt-get install -y unzip libzip-dev zip wget libpq-dev libicu-dev
 
-RUN apt-get install -y libpq-dev \
+RUN docker-php-ext-configure zip \
+    && docker-php-ext-install zip \
     && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
     && docker-php-ext-install pdo_pgsql \
-    && apt-get install -y libicu-dev \
     && docker-php-ext-configure intl \
     && docker-php-ext-install intl
-
-RUN apt-get install -y libzip-dev zip
-RUN docker-php-ext-configure zip \
-    && docker-php-ext-install zip
 
 RUN apt-get clean \
     && apt-get autoclean \

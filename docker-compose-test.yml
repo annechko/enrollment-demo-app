@@ -1,11 +1,8 @@
 version: '3.8'
-name: test-enroll
 services:
 
   test-enroll-php-fpm:
     container_name: test-enroll-php-fpm
-    networks:
-      - test-enroll
     build:
       context: app/.docker/test/
       dockerfile: php-fpm.docker
@@ -19,8 +16,6 @@ services:
 
   test-enroll-db:
     container_name: test-enroll-db
-    networks:
-      - test-enroll
     environment:
       - POSTGRES_DB=app
       - POSTGRES_USER=app
@@ -33,8 +28,6 @@ services:
 
   test-enroll-nginx:
     container_name: test-enroll-nginx
-    networks:
-      - test-enroll
     build:
       context: app/.docker/test/
       dockerfile: nginx.docker
@@ -49,19 +42,15 @@ services:
 
   test-enroll-mailer:
     image: mailhog/mailhog
-    networks:
-      - test-enroll
 
   test-enroll-front-watcher:
     container_name: test-enroll-front-watcher
     image: node:19.8-alpine3.17
-    networks:
-      - test-enroll
     working_dir: /app
     volumes:
       - ./app:/app
       - test-build:/app/public/build/
-      - enrollment-demo-app_node-cache:/usr/local/share/.cache
+      - enrollment-app_node-cache:/usr/local/share/.cache
     command: sh -c "rm -rf /app/public/build/*; yarn install; yarn watch"
     healthcheck:
       test: [ "CMD-SHELL", "test -f /app/public/build/manifest.json" ]
@@ -83,15 +72,10 @@ services:
       # to be able to run another test after one fails (with hanging still open connection)
       # we need to increase the number of sessions
       SE_NODE_MAX_SESSIONS: 10
-      SE_NODE_OVERRIDE_MAX_SESSIONS: true
-    networks:
-      - test-enroll
+      SE_NODE_OVERRIDE_MAX_SESSIONS: 'true'
 
 volumes:
-  enrollment-demo-app_node-cache:
+  enrollment-app_node-cache:
     external: true
   test-build:
   test-enroll-db:
-
-networks:
-  test-enroll:

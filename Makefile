@@ -1,9 +1,9 @@
 docker-down:
-	docker-compose -f docker-compose.yml down --remove-orphans
+	COMPOSE_PROJECT_NAME=enrollment-app docker-compose -f docker-compose.yml down --remove-orphans
 docker-build:
-	docker-compose -f docker-compose.yml build --pull
+	COMPOSE_PROJECT_NAME=enrollment-app docker-compose -f docker-compose.yml build --pull
 docker-up:
-	docker-compose -f docker-compose.yml up -d --remove-orphans
+	COMPOSE_PROJECT_NAME=enrollment-app docker-compose -f docker-compose.yml up -d --remove-orphans
 
 app-init: app-composer-install app-wait-db app-migrations
 
@@ -19,22 +19,26 @@ init: docker-down docker-build docker-up app-init
 
 ########## tests
 
-tests-init: tests-docker-down tests-docker-build tests-docker-up tests-app-init
+tests-init: tests-docker-down tests-docker-build tests-docker-up tests-app-init tests-clean
 
 tests-docker-down:
-	docker-compose -f docker-compose-test.yml down --remove-orphans
+	COMPOSE_PROJECT_NAME=test-enroll docker-compose -f docker-compose-test.yml down --remove-orphans
 tests-docker-build:
-	docker-compose -f docker-compose-test.yml build --pull
+	COMPOSE_PROJECT_NAME=test-enroll docker-compose -f docker-compose-test.yml build
 tests-docker-up:
-	docker-compose -f docker-compose-test.yml up -d --remove-orphans
+	COMPOSE_PROJECT_NAME=test-enroll docker-compose -f docker-compose-test.yml up -d --remove-orphans
 
 tests-app-init: tests-app-composer-install tests-app-wait-db tests-app-migrations
+
 tests-app-migrations:
 	docker exec -it test-enroll-php-fpm php bin/console doctrine:migrations:migrate --no-interaction
 tests-app-wait-db:
 	until docker exec -it test-enroll-db pg_isready --timeout=0 --dbname=app ; do sleep 1 ; done
 tests-app-composer-install:
 	docker exec -it test-enroll-php-fpm composer i
+tests-clean:
+	docker exec -it test-enroll-php-fpm vendor/bin/codecept clean
+
 tests-data:
 	docker exec -it test-enroll-php-fpm bin/console doctrine:fixtures:load -n --group=user
 tests-bash:
@@ -47,7 +51,7 @@ tests-a:
 
 
 docker-pull:
-	docker-compose -f docker-compose.yml pull
+	COMPOSE_PROJECT_NAME=enrollment-app docker-compose -f docker-compose.yml pull
 
 bash:
 	docker exec -it enroll-php-fpm /bin/bash
@@ -59,7 +63,7 @@ data:
 	docker exec -it enroll-php-fpm bin/console doctrine:fixtures:load -n
 
 front-lint:
-	docker-compose -f docker-compose.yml run --rm enroll-node yarn eslint --ext .js,.jsx assets
+	docker exec -it enroll-node yarn eslint --ext .js,.jsx assets
 fix:
 	docker exec -it enroll-php-fpm vendor/bin/php-cs-fixer fix -v --using-cache=no --allow-risky=yes
 phpstan:
