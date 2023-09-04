@@ -27,7 +27,7 @@ http://localhost:8080/school/register
 Or log in as existed user for School - with email and password:
 http://localhost:8080/school/login
 
-school@school.school<br>
+school@example.com<br>
 school
 
 ## Student
@@ -37,14 +37,14 @@ http://localhost:8080/student/register
 Or log in as existed user for School - with email and password:
 http://localhost:8080/student/login
 
-student@student.student<br>
+student@example.com<br>
 student
 
 ## Admin
 You can sign in as Admin user here<br>
 http://localhost:8080/admin/login
 
-_Email: admin@admin.admin<br>
+_Email: admin@example.com<br>
 Pass: admin_
 
 Then you'll see all schools applications and you can confirm their registrations<br>
@@ -86,12 +86,12 @@ on application create - delete all drafts by userId
 
 ## Back
 
-1. Add emails
+~~1. Add emails~~
 1. ~~Add logs~~
 1. ~~Add GA~~
-1. Add HTTPS
-1. Add fake data - generate schools, courses, intakes, students, applications
-1. Add fake data prod clean and run
+~~1. Add HTTPS~~
+~~1. Add fake data - generate schools, courses, intakes, students, applications~~
+~~1. Add fake data prod clean and run~~
 1. Remove all forms, use serialization
 
 # Known issues
