@@ -45,7 +45,7 @@ class AcceptanceTester extends \Codeception\Actor
 
         $this->fillField('[data-testid="email"]', DefaultUserEnum::SCHOOL_ADMIN_EMAIL->value);
         $this->fillField('[data-testid="pass"]', DefaultUserEnum::SCHOOL_ADMIN_PASS->value);
-        $this->click('[data-testid="submit-btn"]');
+        $this->click('[data-testid="btn-submit"]');
 
         $this->waitForElement('[data-testid="default-layout"]');
     }

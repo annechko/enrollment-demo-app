@@ -81,7 +81,7 @@ const Login = ({ onSubmit, state, formId }) => {
                         <CCol xs={4}>
                           <CButton color="danger" className="px-4"
                             disabled={state.loading}
-                            data-testid="submit-btn"
+                            data-testid="btn-submit"
                             type="submit">
                             Login
                           </CButton>

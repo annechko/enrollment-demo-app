@@ -30,7 +30,7 @@ export default [
     <Route exact path={urls.school_course_list_show} element={<CourseListPage/>}/>,
     <Route exact path={urls.school_course_add} element={<CourseAddPage/>}/>,
     <Route exact path={urls.school_course_edit} element={<CourseEditPage/>}/>,
-    <Route exact path={urls.school_campus_list_show} element={<CampusListPage/>}/>,
+    <Route exact path={urls.school_campus_list} element={<CampusListPage/>}/>,
     <Route exact path={urls.school_campus_add} element={<CampusAddPage/>}/>,
     <Route exact path={urls.school_campus_edit} element={<CampusEditPage/>}/>,
     <Route exact path={urls.school_home} element={<div>school_home</div>}/>,

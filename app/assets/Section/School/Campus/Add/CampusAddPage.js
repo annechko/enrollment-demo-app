@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import CampusView from '../CampusView'
-import { submitForm } from '../../../../App/Helper/SubmitForm'
+import { submitData } from '../../../../App/Helper/Api'
 
 const CampusAddPage = () => {
   const navigate = useNavigate()
@@ -13,19 +13,17 @@ const CampusAddPage = () => {
   const onSuccess = (response) => {
     navigate(-1)
   }
-  const formId = 'campus'
-  const onSubmit = (event) => {
-    submitForm({
-      event,
+
+  const onSubmit = (data) => {
+    submitData({
       state,
       setState,
-      formId,
-      onSuccess,
       url: window.abeApp.urls.api_school_campus_add,
-      headers: { 'Content-Type': 'multipart/form-data' }// todo should be json
+      data,
+      onSuccess,
     })
   }
-  return <CampusView formId={formId} onSubmit={onSubmit}
+  return <CampusView onSubmit={onSubmit}
     submitError={state.error}
     isSubmitted={state.loading}
   />

@@ -9,7 +9,7 @@ import AppBackButton from '../../../App/Common/AppBackButton'
 import AppErrorMessage from '../../../App/Common/AppErrorMessage'
 import CampusForm from './CampusForm'
 
-const CampusView = ({ onSubmit, formId, dataState, isSubmitted, submitError, isUpdate = false }) => {
+const CampusView = ({ onSubmit, dataState, isSubmitted, submitError, isUpdate = false }) => {
   const item = dataState?.data || null
   const error = submitError || dataState?.error || null
   if (isUpdate) {
@@ -39,7 +39,7 @@ const CampusView = ({ onSubmit, formId, dataState, isSubmitted, submitError, isU
         </CCardHeader>
         <CCardBody className="overflow-y-scroll">
           <AppErrorMessage error={error}/>
-          <CampusForm formId={formId} onSubmit={onSubmit} isSubmitted={isSubmitted}
+          <CampusForm onSubmit={onSubmit} isSubmitted={isSubmitted}
             submitError={submitError} isUpdate={isUpdate} dataState={dataState}
           />
         </CCardBody>
@@ -50,7 +50,6 @@ const CampusView = ({ onSubmit, formId, dataState, isSubmitted, submitError, isU
 CampusView.propTypes = {
   isUpdate: PropTypes.bool,
   onSubmit: PropTypes.func.isRequired,
-  formId: PropTypes.string.isRequired,
   isSubmitted: PropTypes.bool,
   submitError: PropTypes.oneOfType([
     PropTypes.string,

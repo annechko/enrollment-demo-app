@@ -20,13 +20,13 @@ class ConfirmSchoolCest extends AbstractCest
         $I->fillField($this->id('email'), 'test@example.com');
         $I->fillField($this->id('admin-name'), 'Admin');
         $I->fillField($this->id('admin-surname'), 'Adminsurname');
-        $I->click($this->id('submit-btn'));
+        $I->click($this->id('btn-submit'));
         $I->waitForElement($this->id('success-submit'));
 
         $I->amOnRoute(RouteEnum::ADMIN_LOGIN);
         $I->fillField($this->id('email'), DefaultUserEnum::ADMIN_EMAIL->value);
         $I->fillField($this->id('pass'), DefaultUserEnum::ADMIN_PASS->value);
-        $I->click($this->id('submit-btn'));
+        $I->click($this->id('btn-submit'));
         $I->waitForElementVisible($this->id('default-layout'));
 
         $I->amOnRoute(RouteEnum::ADMIN_SCHOOL_LIST);

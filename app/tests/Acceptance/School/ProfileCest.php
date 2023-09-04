@@ -22,9 +22,9 @@ class ProfileCest extends AbstractCest
         $I->dontSeeElement($this->id('success-msg'));
 
         $I->fillField($nameField, $uniqueName);
-        $I->click($this->id('submit-btn'));
+        $I->click($this->id('btn-submit'));
 
-        $I->waitForElementNotVisible($this->id('btn-loader'));
+        $I->waitForElementNotVisible($this->id('data-loader'));
         $I->waitForElementVisible($this->id('success-msg'));
         $I->reloadPage();
         $I->waitForElementVisible($nameField);

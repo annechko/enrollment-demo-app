@@ -14,7 +14,7 @@ import React, { useRef } from 'react'
 import AppBackButton from '../../../App/Common/AppBackButton'
 import AppErrorMessage from '../../../App/Common/AppErrorMessage'
 import Loadable from '../../../App/Helper/Loadable'
-import AppSpinnerBtn from '../../../App/Common/AppSpinnerBtn'
+import AppDataLoader from '../../../App/Common/AppDataLoader'
 import { submitData } from '../../../App/Helper/Api'
 
 const SchoolProfileForm = ({
@@ -81,12 +81,12 @@ const SchoolProfileForm = ({
       <div>
         <CButton color="success"
           onClick={onSubmit}
-          data-testid="submit-btn"
+          data-testid="btn-submit"
           size="sm"
           className={isSubmitted ? 'disabled' : ''}
           disabled={isSubmitted}
           type="submit">
-          {isSubmitted && <AppSpinnerBtn/>}
+          {isSubmitted && <AppDataLoader/>}
           Save
         </CButton>
       </div>

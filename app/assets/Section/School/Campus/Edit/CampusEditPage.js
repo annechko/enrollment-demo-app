@@ -4,8 +4,8 @@ import {
   useParams
 } from 'react-router-dom'
 import CampusView from '../CampusView'
-import { submitForm } from '../../../../App/Helper/SubmitForm'
 import Loadable from '../../../../App/Helper/Loadable'
+import { submitData } from '../../../../App/Helper/Api'
 
 const CampusEditPage = () => {
   const params = useParams()
@@ -18,23 +18,19 @@ const CampusEditPage = () => {
   const onSuccess = (response) => {
     navigate(-1)
   }
-  const formId = 'campus'
-  const onSubmit = (event) => {
-    submitForm({
-      event,
+  const onSubmit = (data) => {
+    submitData({
       state,
       setState,
-      formId,
+      data,
       onSuccess,
       url: window.abeApp.urls.api_school_campus_edit.replace(':id', params.id),
-      headers: { 'Content-Type': 'multipart/form-data' }
     })
   }
 
   return <Loadable
     component={CampusView}
     url={window.abeApp.urls.api_school_campus.replace(':id', params.id)}
-    formId={formId}
     onSubmit={onSubmit}
     isSubmitted={state.loading}
     submitError={state.error}

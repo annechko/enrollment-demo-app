@@ -18,6 +18,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import CIcon from '@coreui/icons-react'
 import { cilPencil } from '@coreui/icons'
+import AppDataLoader from '../../../../App/Common/AppDataLoader'
 
 const CampusList = ({ dataState }) => {
   const items = dataState.data
@@ -49,7 +50,7 @@ const CampusList = ({ dataState }) => {
   } else {
     rows.push((
       <CTableRow key={key++} className="app-loading">
-        <CTableHeaderCell scope="row"><CSpinner color="primary"/></CTableHeaderCell>
+        <CTableHeaderCell scope="row"><AppDataLoader/></CTableHeaderCell>
         <CTableDataCell></CTableDataCell>
         <CTableDataCell></CTableDataCell>
       </CTableRow>
@@ -66,7 +67,7 @@ const CampusList = ({ dataState }) => {
           <CCardBody className="overflow-y-scroll">
             <p>The buildings, structures, and outdoor areas available for use by children attending the school.</p>
             <Link to={window.abeApp.urls.school_campus_add}>
-              <CButton color="primary" role="button" className="mb-3" size="sm">
+              <CButton color="primary" role="button" className="mb-3" size="sm" data-testid="btn-add-campus">
                 New
               </CButton>
             </Link>

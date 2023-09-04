@@ -24,9 +24,4 @@ class Command
     #[Assert\NotBlank(message: 'SchoolId should not be blank.')]
     #[Assert\Regex(pattern: RegexEnum::UUID_PATTERN_REG_EXP)]
     public $schoolId;
-
-    public function __construct(string $schoolId)
-    {
-        $this->schoolId = $schoolId;
-    }
 }

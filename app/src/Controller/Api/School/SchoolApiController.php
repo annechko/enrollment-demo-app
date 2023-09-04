@@ -64,6 +64,24 @@ class SchoolApiController extends AbstractJsonApiController
         );
     }
 
+    #[Route('/campuses', name: 'api_school_campus_add', methods: ['POST'])]
+    public function campusAdd(
+        Request $request,
+        School\Campus\Add\Handler $handler
+    ): Response {
+        $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_ADMIN->value);
+
+        return $this->handleWithResponse(
+            School\Campus\Add\Command::class,
+            $handler,
+            $request,
+            commandCallback: function (School\Campus\Add\Command $command
+            ) {
+                $command->schoolId = $this->getCurrentUser()->schoolId;
+            }
+        );
+    }
+
     private function getCurrentUser(): SchoolStaffMemberReadModel
     {
         if (!$this->getUser() instanceof SchoolStaffMemberReadModel) {

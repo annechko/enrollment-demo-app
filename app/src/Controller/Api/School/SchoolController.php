@@ -30,8 +30,6 @@ use Webmozart\Assert\InvalidArgumentException;
 #[Route('/api/school')]
 class SchoolController extends AbstractApiController
 {
-
-
     #[Route('/profile', name: 'api_school_profile', methods: ['GET'])]
     public function profileGet(
         SchoolRepository $schoolRepository,
@@ -162,25 +160,6 @@ class SchoolController extends AbstractApiController
         return $this->handleWithResponse(
             $command,
             \App\Core\School\UseCase\School\Campus\Edit\Form::class,
-            $handler,
-            $request
-        );
-    }
-
-    #[Route('/campuses', name: 'api_school_campus_add', methods: ['POST'])]
-    public function campusAdd(
-        Request $request,
-        \App\Core\School\UseCase\School\Campus\Add\Handler $handler
-    ): Response {
-        $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
-
-        $command = new \App\Core\School\UseCase\School\Campus\Add\Command(
-            $this->getCurrentSchoolId()->getValue()
-        );
-
-        return $this->handleWithResponse(
-            $command,
-            \App\Core\School\UseCase\School\Campus\Add\Form::class,
             $handler,
             $request
         );
@@ -470,7 +449,7 @@ class SchoolController extends AbstractApiController
             ],
             [
                 'title' => 'Campuses',
-                'to' => $this->generateUrl('school_campus_list_show'),
+                'to' => $this->generateUrl(RouteEnum::SCHOOL_CAMPUS_LIST),
                 'type' => 'campuses',
             ],
             [

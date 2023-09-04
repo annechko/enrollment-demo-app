@@ -84,7 +84,7 @@ const RegisterForm = ({ onSubmit, state, urlLogin, formId }) => {
         </CInputGroup>
         <div className="d-grid">
           <CButton color="success" className="px-4"
-            data-testid="submit-btn"
+            data-testid="btn-submit"
             disabled={state.loading}
             type="submit">
             Create Account

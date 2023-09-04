@@ -67,7 +67,7 @@ class SchoolController extends AbstractController
         return $this->render('base.html.twig');
     }
 
-    #[Route('/campuses', name: 'school_campus_list_show', methods: ['GET'])]
+    #[Route('/campuses', name: RouteEnum::SCHOOL_CAMPUS_LIST, methods: ['GET'])]
     public function campusListShow(): Response
     {
         $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
