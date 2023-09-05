@@ -10,10 +10,13 @@ modules:
         cleanup: false
     - WebDriver:
         url: http://test-enroll-nginx:80/
-        browser: chrome
         host: test-enroll-selenium
         start: true
         connection_timeout: 5
         debug_log_entries: 5
         log_js_errors: true
+        browser: chrome
+        capabilities:
+          chromeOptions:
+            args: [ "--headless", "--disable-gpu", "--no-sandbox" ]
     - \App\Tests\Helper\Acceptance

@@ -73,6 +73,7 @@ services:
       # we need to increase the number of sessions
       SE_NODE_MAX_SESSIONS: 10
       SE_NODE_OVERRIDE_MAX_SESSIONS: 'true'
+      START_XVFB: 'false'
 
 volumes:
   enrollment-demo-app_node-cache:
