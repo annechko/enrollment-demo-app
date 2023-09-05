@@ -104,10 +104,10 @@ deploy:
 
 ################## CI experiments
 ci-code-style-check-php:
-	docker compose run --rm enroll-php-fpm vendor/bin/php-cs-fixer fix --dry-run -v --using-cache=no --allow-risky=yes
+	docker compose run --rm ${REGISTRY}:demo-php-fpm-${IMAGE_TAG} vendor/bin/php-cs-fixer fix --dry-run -v --using-cache=no --allow-risky=yes
 
 ci-validate-composer:
-	docker compose run --rm enroll-php-fpm composer validate
+	docker compose run --rm ${REGISTRY}:demo-php-fpm-${IMAGE_TAG} composer validate
 
 
 ci-build:
@@ -122,8 +122,8 @@ ci-up:
 	docker-compose -f docker-compose-ci.yml up -d
 
 ci-db:
-	until docker exec enroll-db pg_isready --timeout=0 --dbname=app ; do sleep 1 ; done
-	docker-compose -f docker-compose-ci.yml exec enroll-php-fpm php bin/console doctrine:migrations:migrate --no-interaction
+	until docker exec -t enroll-db pg_isready --timeout=0 --dbname=app ; do sleep 1 ; done
+	docker exec -t enroll-php-fpm php bin/console doctrine:migrations:migrate --no-interaction
 
 ci-tests-a:
-	docker exec enroll-php-fpm vendor/bin/codecept run Acceptance -vvv
+	docker exec -t enroll-php-fpm vendor/bin/codecept run Acceptance -vvv
