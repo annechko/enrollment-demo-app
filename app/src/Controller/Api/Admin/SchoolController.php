@@ -6,7 +6,6 @@ namespace App\Controller\Api\Admin;
 
 use App\Controller\Api\AbstractApiController;
 use App\Core\Common\DefaultUserEnum;
-use App\Core\Common\RegexEnum;
 use App\Core\School\Common\RoleEnum;
 use App\Core\School\Entity\School\School;
 use App\ReadModel\Admin\School\Filter;
@@ -15,7 +14,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Webmozart\Assert\InvalidArgumentException;
 
 #[Route('/api/admin/school')]
 class SchoolController extends AbstractApiController

@@ -31,7 +31,7 @@ class Campus
         SchoolId $schoolId,
         CampusId $id,
         string $name,
-        ?string $address = null,
+        string $address = null,
     ) {
         $this->schoolId = $schoolId;
         $this->id = $id;
@@ -56,7 +56,7 @@ class Campus
 
     public function edit(
         string $name,
-        ?string $address = null,
+        string $address = null,
     ): self {
         $this->name = $name;
         $this->address = $address;

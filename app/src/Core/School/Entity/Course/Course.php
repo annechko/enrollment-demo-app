@@ -54,8 +54,8 @@ class Course
         SchoolId $schoolId,
         CourseId $id,
         string $name,
-        ?string $description = null,
-        ?\DateTimeImmutable $createdAt = null,
+        string $description = null,
+        \DateTimeImmutable $createdAt = null,
     ) {
         $this->schoolId = $schoolId;
         $this->id = $id;
@@ -82,7 +82,7 @@ class Course
 
     public function edit(
         string $name,
-        ?string $description = null,
+        string $description = null,
     ): self {
         $this->name = $name;
         $this->description = $description;
@@ -94,10 +94,10 @@ class Course
         IntakeId $id,
         \DateTimeImmutable $startDate,
         \DateTimeImmutable $endDate,
-        ?string $name = null,
-        ?int $classSize = null,
-        ?Campus $campus = null,
-        ?\DateTimeImmutable $createdAt = null,
+        string $name = null,
+        int $classSize = null,
+        Campus $campus = null,
+        \DateTimeImmutable $createdAt = null,
     ): Intake {
         $intake = new Intake(
             $this,

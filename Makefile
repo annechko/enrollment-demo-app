@@ -103,5 +103,8 @@ deploy:
 	ssh -o StrictHostKeyChecking=no -t ${PROD_HOST} 'cd ${HOME_DIR} && sudo docker compose run --rm enroll-php-fpm php bin/console doctrine:migrations:migrate --no-interaction'
 
 ################## CI experiments
-validate:
-	docker run --rm -v ${PWD}/app:/app -w /app composer:latest composer validate
+ci-code-style-check-php:
+	docker exec test-enroll-php-fpm vendor/bin/php-cs-fixer fix --dry-run -v --using-cache=no --allow-risky=yes
+
+ci-validate-composer:
+	docker exec test-enroll-php-fpm composer validate

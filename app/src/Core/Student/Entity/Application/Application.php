@@ -73,7 +73,7 @@ class Application
         \DateTimeImmutable $dateOfBirth,
         string $fullName,
         ?string $preferredName,
-        ?\DateTimeImmutable $createdAt = null,
+        \DateTimeImmutable $createdAt = null,
     ) {
         $this->id = $id;
         $this->school = $school;

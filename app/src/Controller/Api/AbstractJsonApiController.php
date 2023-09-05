@@ -26,7 +26,7 @@ abstract class AbstractJsonApiController extends AbstractController
         string $commandClass,
         object $handler,
         Request $request,
-        ?callable $commandCallback = null,
+        callable $commandCallback = null,
     ) {
         $command = $this->serializer->deserialize(
             $request->getContent(),
@@ -52,8 +52,8 @@ abstract class AbstractJsonApiController extends AbstractController
         string $commandClass,
         object $handler,
         Request $request,
-        ?callable $responseSuccessBuilder = null,
-        ?callable $commandCallback = null,
+        callable $responseSuccessBuilder = null,
+        callable $commandCallback = null,
     ): JsonResponse {
         try {
             $result = $this->handle($commandClass, $handler, $request, $commandCallback);
@@ -66,6 +66,7 @@ abstract class AbstractJsonApiController extends AbstractController
             ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
         } catch (\Throwable $exception) {
             $this->logger->error($exception->getMessage(), ['exception' => $exception]);
+
             return new JsonResponse([
                 'error' => 'Something went wrong',
             ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
