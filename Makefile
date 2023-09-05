@@ -109,10 +109,8 @@ ci-code-style-check-php:
 ci-validate-composer:
 	docker run --rm ${REGISTRY}:demo-php-fpm-${IMAGE_TAG} composer validate
 
-
 ci-build:
-	docker build --file=app/.docker/ci/php-fpm.docker --tag ${REGISTRY}:demo-php-fpm-${IMAGE_TAG} app
-	docker build --file=app/.docker/ci/nginx.docker --tag ${REGISTRY}:demo-nginx-${IMAGE_TAG} app
+	docker-compose -f docker-compose-ci.yml build
 
 ci-push:
 	docker push ${REGISTRY}:demo-php-fpm-${IMAGE_TAG}
