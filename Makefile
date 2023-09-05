@@ -33,21 +33,21 @@ create-cache-volume:
 tests-app-init: tests-app-composer-install tests-app-wait-db tests-app-migrations
 
 tests-app-migrations:
-	docker exec -it test-enroll-php-fpm php bin/console doctrine:migrations:migrate --no-interaction
+	docker exec test-enroll-php-fpm php bin/console doctrine:migrations:migrate --no-interaction
 tests-app-wait-db:
-	until docker exec -it test-enroll-db pg_isready --timeout=0 --dbname=app ; do sleep 1 ; done
+	until docker exec test-enroll-db pg_isready --timeout=0 --dbname=app ; do sleep 1 ; done
 tests-app-composer-install:
-	docker exec -it test-enroll-php-fpm composer i
+	docker exec test-enroll-php-fpm composer i
 tests-clean:
-	docker exec -it test-enroll-php-fpm vendor/bin/codecept clean
+	docker exec test-enroll-php-fpm vendor/bin/codecept clean
 
 tests-data:
-	docker exec -it test-enroll-php-fpm bin/console doctrine:fixtures:load -n --group=user
+	docker exec test-enroll-php-fpm bin/console doctrine:fixtures:load -n --group=user
 tests-bash:
 	docker exec -it test-enroll-php-fpm /bin/bash
 
 tests-a:
-	docker exec -it test-enroll-php-fpm vendor/bin/codecept run Acceptance -vvv
+	docker exec test-enroll-php-fpm vendor/bin/codecept run Acceptance -vvv
 
 ########## end tests
 
