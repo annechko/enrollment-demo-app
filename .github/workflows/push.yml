@@ -32,7 +32,7 @@ jobs:
           composer-
 
     - name: Cache node packages
-      id: composer-cache
+      id: node-cache
       uses: actions/cache@v3
       with:
         path: app/node_modules
