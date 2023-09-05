@@ -40,8 +40,13 @@ services:
 
   test-enroll-selenium:
     image: selenium/standalone-firefox:4.12.1-20230904
-    shm_size: 2gb
+    shm_size: 1gb
     environment:
+      SE_NODE_SESSION_TIMEOUT: 30
+      # to be able to run another test after one fails (with hanging still open connection)
+      # we need to increase the number of sessions
+      SE_NODE_MAX_SESSIONS: 10
+      SE_NODE_OVERRIDE_MAX_SESSIONS: 'true'
       # for CI should be false
       START_XVFB: 'false'
 
