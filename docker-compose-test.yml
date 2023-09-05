@@ -74,7 +74,7 @@ services:
       SE_NODE_MAX_SESSIONS: 10
       SE_NODE_OVERRIDE_MAX_SESSIONS: 'true'
       # for CI should be false
-      START_XVFB: '${TEST_START_XVFB:-true}'
+      START_XVFB: 'false'
 
 volumes:
   enrollment-demo-app_node-cache:
