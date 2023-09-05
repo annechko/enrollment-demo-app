@@ -16,7 +16,7 @@ jobs:
     - name: Validate composer files
       run: make validate
     - name: Init
-      run: TEST_START_XVFB=false make tests-init
+      run: make tests-init
     - name: Run acceptance tests
-      run: TEST_HEADLESS=-headless make tests-a
+      run: make tests-a
 
