@@ -47,7 +47,8 @@ const SchoolProfileForm = ({
       setShowSuccess(false)
     }, 1000)
   }
-  const onSubmit = () => {
+  const onSubmit = (e) => {
+    e.preventDefault()
     submitData({
       state: submitState,
       setState: setSubmitState,
@@ -66,7 +67,7 @@ const SchoolProfileForm = ({
       placement="top-end"/>
 
     <AppErrorMessage error={error}/>
-    <CForm method="post">
+    <CForm>
       <div className="mb-2">
         <CFormLabel className="mb-0" htmlFor="name">Name</CFormLabel>
         <CFormInput
@@ -85,7 +86,7 @@ const SchoolProfileForm = ({
           size="sm"
           className={isSubmitted ? 'disabled' : ''}
           disabled={isSubmitted}
-          type="submit">
+        >
           {isSubmitted && <AppDataLoader/>}
           Save
         </CButton>
