@@ -40,27 +40,19 @@ jobs:
           node-
     - name: Create cache dirs
       run: mkdir -p app/node_modules app/vendor && sudo chown -R 1000:1000 app/node_modules app/vendor
-    - name: build
+    - name: Build
       run: make ci-build
-    - name: push
-      run: make ci-push
-
-  tests:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - uses: actions/checkout@v3
-      - name: Up
-        run: make ci-up
-      - name: Init
-        run: make ci-init
-      - name: Validate composer files
-        run: make ci-validate-composer
-      - name: Validate php code style
-        run: make ci-code-style-check-php
-      - name: Db
-        run: make ci-db
-      - name: Run acceptance tests
-        run: make ci-tests-a
+    - name: Up
+      run: make ci-up
+    - name: Init
+      run: make ci-init
+    - name: Validate composer files
+      run: make ci-validate-composer
+    - name: Validate php code style
+      run: make ci-code-style-check-php
+    - name: Db
+      run: make ci-db
+    - name: Run acceptance tests
+      run: make ci-tests-a
 
 
