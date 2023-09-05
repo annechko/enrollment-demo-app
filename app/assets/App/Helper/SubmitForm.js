@@ -2,6 +2,7 @@ import axios from 'axios'
 
 export function submitForm ({ event, state, setState, url, formId, onSuccess, headers }) {
   event.preventDefault()
+  event.stopPropagation()
   if (state.loading) {
     return
   }
