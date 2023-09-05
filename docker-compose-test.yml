@@ -59,7 +59,7 @@ services:
     tty: true
 
   test-enroll-selenium:
-    image: selenium/standalone-chrome
+    image: selenium/standalone-firefox:4.12.1-20230904
     shm_size: 2gb
     ports:
       # to watch what's happening inside browser while tests running
@@ -73,7 +73,8 @@ services:
       # we need to increase the number of sessions
       SE_NODE_MAX_SESSIONS: 10
       SE_NODE_OVERRIDE_MAX_SESSIONS: 'true'
-      START_XVFB: 'false'
+      # for CI should be false
+      START_XVFB: '${TEST_START_XVFB:-true}'
 
 volumes:
   enrollment-demo-app_node-cache:

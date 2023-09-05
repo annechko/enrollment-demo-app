@@ -15,8 +15,8 @@ modules:
         connection_timeout: 5
         debug_log_entries: 5
         log_js_errors: true
-        browser: chrome
+        browser: firefox
         capabilities:
-          chromeOptions:
-            args: [ "--headless", "--disable-gpu", "--no-sandbox" ]
+          moz:firefoxOptions:
+            args: [ "%TEST_HEADLESS%" ]
     - \App\Tests\Helper\Acceptance
