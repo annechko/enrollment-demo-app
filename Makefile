@@ -104,10 +104,10 @@ deploy:
 
 ################## CI experiments
 ci-code-style-check-php:
-	docker compose run --rm ${REGISTRY}:demo-php-fpm-${IMAGE_TAG} vendor/bin/php-cs-fixer fix --dry-run -v --using-cache=no --allow-risky=yes
+	docker run --rm ${REGISTRY}:demo-php-fpm-${IMAGE_TAG} vendor/bin/php-cs-fixer fix --dry-run -v --using-cache=no --allow-risky=yes
 
 ci-validate-composer:
-	docker compose run --rm ${REGISTRY}:demo-php-fpm-${IMAGE_TAG} composer validate
+	docker run --rm ${REGISTRY}:demo-php-fpm-${IMAGE_TAG} composer validate
 
 
 ci-build:

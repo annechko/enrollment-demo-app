@@ -10,6 +10,9 @@ services:
       APP_ENV: test
       APP_DEBUG: 0
       DATABASE_URL: pgsql://app:secrect@enroll-db:5432/app
+    volumes:
+      - ./app/tests:/app/tests/
+      - ./app/codeception.yml:/app/codeception.yml
     depends_on:
       - enroll-db
       - test-enroll-selenium
