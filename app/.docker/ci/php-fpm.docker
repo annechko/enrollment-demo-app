@@ -1,0 +1,60 @@
+FROM php:8.1-fpm AS php-builder
+
+RUN apt-get update && apt-get install -y unzip wget
+
+RUN wget https://raw.githubusercontent.com/composer/getcomposer.org/1cf9cac9f0bed289429548be2858dbdfde448da6/web/installer -O - -q | php -- --quiet
+
+RUN mv composer.phar /usr/local/bin/composer
+
+WORKDIR /app
+
+COPY ./composer.json ./composer.lock ./
+
+RUN composer install --no-scripts --prefer-dist --optimize-autoloader
+
+######################
+
+FROM node:19.8-alpine3.17 AS node-builder
+
+WORKDIR /app
+
+COPY ./package.json ./yarn.lock ./
+
+RUN yarn install
+
+COPY ./ ./
+
+RUN yarn build
+
+######################
+
+FROM php:8.1-fpm
+
+RUN apt-get update && apt-get install -y libpq-dev \
+    && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
+    && docker-php-ext-install pdo_pgsql opcache \
+    && apt-get install -y libicu-dev \
+    && docker-php-ext-configure intl \
+    && docker-php-ext-install intl
+
+RUN mv $PHP_INI_DIR/php.ini-production $PHP_INI_DIR/php.ini
+
+COPY ./.docker/prod/php/default.ini /usr/local/etc/php/conf.d/default.ini
+
+WORKDIR /app
+
+COPY --from=php-builder /app ./
+COPY --from=node-builder /app/public/build/entrypoints.json ./public/build/entrypoints.json
+COPY --from=node-builder /app/public/build/manifest.json ./public/build/manifest.json
+COPY ./ ./
+
+RUN rm -rf ./assets
+
+ENV APP_ENV test
+
+RUN php bin/console assets:install
+
+RUN rm -rf ./.docker
+
+RUN php bin/console cache:warmup \
+    && chown -R www-data:www-data ./var
