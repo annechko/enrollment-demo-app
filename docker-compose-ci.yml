@@ -3,18 +3,17 @@ version: '3.8'
 services:
 
   enroll-php-fpm:
-    image: ${REGISTRY}:demo-php-fpm-${IMAGE_TAG}
     container_name: enroll-php-fpm
+    build:
+      context: app/.docker/ci/
+      dockerfile: php-fpm.docker
     restart: always
     environment:
       APP_ENV: test
       APP_DEBUG: 0
       DATABASE_URL: pgsql://app:secrect@enroll-db:5432/app
     volumes:
-      - ./app/tests:/app/tests
-      - ./app/vendor:/app/vendor
-      - ./app/node_modules:/app/node_modules
-      - ./app/codeception.yml:/app/codeception.yml
+      - ./app:/app
     depends_on:
       - enroll-db
       - test-enroll-selenium
@@ -29,12 +28,13 @@ services:
       - POSTGRES_PASSWORD=secrect
 
   test-enroll-nginx:
-    image: ${REGISTRY}:demo-nginx-${IMAGE_TAG}
+    build:
+      context: app/.docker/ci/
+      dockerfile: nginx.docker
     container_name: test-enroll-nginx
     restart: always
     volumes:
-      - ./app/vendor:/app/vendor
-      - ./app/node_modules:/app/node_modules
+      - ./app:/app
     depends_on:
       - enroll-php-fpm
 
@@ -44,6 +44,12 @@ services:
     environment:
       # for CI should be false
       START_XVFB: 'false'
+
+  enroll-node:
+    image: node:19.8-alpine3.17
+    volumes:
+      - ./app:/app
+    working_dir: /app
 
   test-enroll-mail:
     image: mailhog/mailhog
