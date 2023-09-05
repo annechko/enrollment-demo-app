@@ -45,7 +45,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Validate composer files
-      run: make ci-validate
+      run: make ci-validate-composer
     - name: Validate php code style
       run: make ci-code-style-check-php
 

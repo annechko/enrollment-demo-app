@@ -122,7 +122,7 @@ ci-up:
 	docker-compose -f docker-compose-ci.yml up -d
 
 ci-db:
-	until docker-compose -f docker-compose-ci.yml exec enroll-db pg_isready --timeout=0 --dbname=app ; do sleep 1 ; done
+	until docker exec enroll-db pg_isready --timeout=0 --dbname=app ; do sleep 1 ; done
 	docker-compose -f docker-compose-ci.yml exec enroll-php-fpm php bin/console doctrine:migrations:migrate --no-interaction
 
 ci-tests-a:
