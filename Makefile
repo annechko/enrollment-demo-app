@@ -118,11 +118,10 @@ ci-push:
 
 ci-up:
 	docker-compose -f docker-compose-ci.yml up -d
-	sleep 10
 ci-init:
 	docker exec -t enroll-php-fpm composer i --prefer-dist
-	docker exec -t enroll-node yarn install
-	docker exec -t enroll-node yarn build
+	docker compose run --rm enroll-node yarn install
+	docker compose run --rm enroll-node yarn build
 ci-db:
 	until docker exec -t enroll-db pg_isready --timeout=0 --dbname=app ; do sleep 1 ; done
 	docker exec -t enroll-php-fpm php bin/console doctrine:migrations:migrate --no-interaction
