@@ -11,7 +11,9 @@ services:
       APP_DEBUG: 0
       DATABASE_URL: pgsql://app:secrect@enroll-db:5432/app
     volumes:
-      - ./app/tests:/app/tests/
+      - ./app/tests:/app/tests
+      - ./app/vendor:/app/vendor
+      - ./app/node_modules:/app/node_modules
       - ./app/codeception.yml:/app/codeception.yml
     depends_on:
       - enroll-db
@@ -28,8 +30,11 @@ services:
 
   test-enroll-nginx:
     image: ${REGISTRY}:demo-nginx-${IMAGE_TAG}
-    container_name: enroll-nginx
+    container_name: test-enroll-nginx
     restart: always
+    volumes:
+      - ./app/vendor:/app/vendor
+      - ./app/node_modules:/app/node_modules
     depends_on:
       - enroll-php-fpm
 
@@ -37,13 +42,6 @@ services:
     image: selenium/standalone-firefox:4.12.1-20230904
     shm_size: 2gb
     environment:
-      # when a test fails, its connection will be closed by selenium in 30 seconds
-      # also if a test doesn't send any commands in 30sec, its connection will be closed by selenium
-      SE_NODE_SESSION_TIMEOUT: 30
-      # to be able to run another test after one fails (with hanging still open connection)
-      # we need to increase the number of sessions
-      SE_NODE_MAX_SESSIONS: 10
-      SE_NODE_OVERRIDE_MAX_SESSIONS: 'true'
       # for CI should be false
       START_XVFB: 'false'
 
