@@ -13,7 +13,7 @@ services:
     volumes:
       - ./app:/app
     depends_on:
-      - enroll-db
+      - test-enroll-db
       - test-enroll-selenium
 
   test-enroll-db:
