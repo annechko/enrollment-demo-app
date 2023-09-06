@@ -16,6 +16,7 @@ modules:
         debug_log_entries: 5
         log_js_errors: true
         browser: firefox
+        wait: 2
         capabilities:
           moz:firefoxOptions:
             args: [ "-headless" ]

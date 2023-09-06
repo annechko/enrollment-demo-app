@@ -45,7 +45,7 @@ const Login = ({ onSubmit, state, urlRegister, formId }) => {
               <CCardGroup>
                 <CCard className="p-4">
                   <CCardBody>
-                    <CForm id={formId} onSubmit={onSubmit}>
+                    <CForm id={formId}>
                       <h1>Login</h1>
                       <p className="text-medium-emphasis">Sign in to your <b>school</b> account or
                       </p>
@@ -83,6 +83,7 @@ const Login = ({ onSubmit, state, urlRegister, formId }) => {
                         <CCol xs={6}>
                           <CButton color="primary" className="px-4"
                             disabled={state.loading}
+                            onClick={onSubmit}
                             data-testid="btn-submit"
                             >
                             Login

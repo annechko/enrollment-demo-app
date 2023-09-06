@@ -43,7 +43,7 @@ const Login = ({ onSubmit, state, formId }) => {
               <CCardGroup>
                 <CCard className="p-4">
                   <CCardBody>
-                    <CForm method="post" id={formId} onSubmit={onSubmit}>
+                    <CForm method="post" id={formId}>
                       <h1>Login</h1>
                       <p className="text-medium-emphasis">You can not register a new <b>admin</b> account.</p>
                       <CButton color="light" className="px-4 mb-4"
@@ -80,6 +80,7 @@ const Login = ({ onSubmit, state, formId }) => {
                       <CRow>
                         <CCol xs={4}>
                           <CButton color="danger" className="px-4"
+                            onClick={onSubmit}
                             disabled={state.loading}
                             data-testid="btn-submit"
                             >

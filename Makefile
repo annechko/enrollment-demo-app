@@ -37,9 +37,9 @@ tests-app-migrations:
 tests-app-wait-db:
 	until docker exec test-enroll-db pg_isready --timeout=0 --dbname=app ; do sleep 1 ; done
 tests-app-composer-install:
-	docker exec test-enroll-php-fpm composer i
+	docker exec -t test-enroll-php-fpm composer i
 tests-clean:
-	docker exec test-enroll-php-fpm vendor/bin/codecept clean
+	docker exec -t test-enroll-php-fpm vendor/bin/codecept clean
 
 tests-data:
 	docker exec test-enroll-php-fpm bin/console doctrine:fixtures:load -n --group=user
