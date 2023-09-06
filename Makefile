@@ -5,13 +5,11 @@ docker-build:
 docker-up:
 	COMPOSE_PROJECT_NAME=enrollment-demo-app docker-compose -f docker-compose.yml up -d --remove-orphans
 
-app-init: app-composer-install app-wait-db app-migrations
+app-init: app-composer-install app-migrations
 
 app-composer-install:
 	docker exec -it enroll-php-fpm composer i
 
-app-wait-db:
-	until docker-compose -f docker-compose.yml exec -T enroll-db pg_isready --timeout=0 --dbname=app ; do sleep 1 ; done
 app-migrations:
 	docker exec -it enroll-php-fpm php bin/console doctrine:migrations:migrate --no-interaction
 
@@ -121,7 +119,6 @@ ci-init:
 	docker-compose -f docker-compose-ci.yml run --rm enroll-node yarn install
 	docker-compose -f docker-compose-ci.yml run --rm enroll-node yarn build
 ci-db:
-	until docker exec -t enroll-db pg_isready --timeout=0 --dbname=app ; do sleep 1 ; done
 	docker exec -t enroll-php-fpm php bin/console doctrine:migrations:migrate --no-interaction
 
 ci-tests-a:
