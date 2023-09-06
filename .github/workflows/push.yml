@@ -27,17 +27,13 @@ jobs:
       uses: actions/cache@v3
       with:
         path: app/vendor
-        key: composer-${{ hashFiles('app/composer.lock') }}
-        restore-keys: |
-          composer-
+        key: composer_${{ hashFiles('app/composer.lock') }}
     - name: Cache node packages
       id: node-cache
       uses: actions/cache@v3
       with:
         path: app/node_modules
-        key: node-${{ hashFiles('app/yarn.lock') }}
-        restore-keys: |
-          node-
+        key: node_${{ hashFiles('app/yarn.lock') }}
     - name: Create cache dirs
       run: mkdir -p app/node_modules app/vendor && sudo chown -R 1000:1000 app/node_modules app/vendor
     - name: Build
