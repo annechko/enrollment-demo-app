@@ -9,7 +9,8 @@ services:
       dockerfile: php-fpm.docker
     restart: always
     environment:
-      APP_ENV: dev
+      APP_ENV: test
+      APP_DEBUG: 0
       DATABASE_URL: pgsql://app:secrect@enroll-db:5432/app
     volumes:
       - ./app:/app
