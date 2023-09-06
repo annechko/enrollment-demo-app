@@ -13,13 +13,17 @@ services:
     volumes:
       - ./app:/app
     depends_on:
-      - enroll-db
-      - test-enroll-selenium
+      test-enroll-selenium:
+        condition: service_healthy
+      test-enroll-db:
+        condition: service_healthy
 
   test-enroll-db:
     image: postgres:15-alpine
     container_name: test-enroll-db
     restart: always
+    healthcheck:
+      test: "pg_isready --timeout=0 --dbname=app"
     environment:
       - POSTGRES_DB=app
       - POSTGRES_USER=app

@@ -30,12 +30,10 @@ tests-docker-up:
 create-cache-volume:
 	docker volume create enrollment-demo-app_node-cache
 
-tests-app-init: tests-app-composer-install tests-app-wait-db tests-app-migrations
+tests-app-init: tests-app-composer-install tests-app-migrations
 
 tests-app-migrations:
 	docker exec test-enroll-php-fpm php bin/console doctrine:migrations:migrate --no-interaction
-tests-app-wait-db:
-	until docker exec test-enroll-db pg_isready --timeout=0 --dbname=app ; do sleep 1 ; done
 tests-app-composer-install:
 	docker exec -t test-enroll-php-fpm composer i
 tests-clean:
