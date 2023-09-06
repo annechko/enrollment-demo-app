@@ -41,7 +41,7 @@ services:
       - enroll-php-fpm
 
   test-enroll-selenium:
-    image: selenium/standalone-firefox:4.12.1-20230904
+    image: selenium/standalone-firefox:117.0-geckodriver-0.33
     shm_size: 1gb
     healthcheck:
       test: "/opt/bin/check-grid.sh --host 0.0.0.0 --port 4444"
