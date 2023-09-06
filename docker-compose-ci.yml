@@ -46,7 +46,7 @@ services:
     healthcheck:
       test: "/opt/bin/check-grid.sh --host 0.0.0.0 --port 4444"
     environment:
-      SE_NODE_SESSION_TIMEOUT: 15
+      SE_NODE_SESSION_TIMEOUT: 30
       SE_NODE_MAX_SESSIONS: 5
       SE_NODE_OVERRIDE_MAX_SESSIONS: 'true'
       # for CI should be false
