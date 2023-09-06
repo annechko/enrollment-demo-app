@@ -19,5 +19,5 @@ modules:
         wait: 2
         capabilities:
           moz:firefoxOptions:
-            args: [ "%TEST_HEADLESS%" ]
+            args: [ "-headless" ]
     - \App\Tests\Helper\Acceptance
