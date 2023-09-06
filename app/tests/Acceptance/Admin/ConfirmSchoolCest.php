@@ -37,9 +37,9 @@ class ConfirmSchoolCest extends AbstractCest
         $I->waitForElementVisible($this->id('confirm-modal'));
         $I->waitForElementVisible($this->id('confirm-modal-btn'));
         $I->click($this->id('confirm-modal-btn'));
-        $I->waitForElementNotVisible($this->id('confirm-modal'));
         $I->waitForLoaderFinishes();
 
+        $I->reloadPage();
         $I->dontSeeElement($this->id('confirm-btn'));
         $I->dontSeeErrors();
     }

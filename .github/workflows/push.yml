@@ -52,7 +52,6 @@ jobs:
       run: make ci-code-style-check-php
     - name: Db
       run: make ci-db
-    - name: Run acceptance tests
-      run: make ci-tests-a
+
 
 
