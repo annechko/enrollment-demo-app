@@ -21,6 +21,7 @@ import { useNavigate } from 'react-router-dom'
 import { submitForm } from '../../../App/Helper/SubmitForm'
 import AppErrorMessage from '../../../App/Common/AppErrorMessage'
 import AppSwitchSectionBtn from '../../../App/Common/AppSwitchSectionBtn'
+import AppDataLoader from '../../../App/Common/AppDataLoader'
 
 const Login = ({ onSubmit, state, formId }) => {
   const emailInputRef = useRef(null)
@@ -83,7 +84,7 @@ const Login = ({ onSubmit, state, formId }) => {
                             onClick={onSubmit}
                             disabled={state.loading}
                             data-testid="btn-submit"
-                            >
+                            >{state.loading && <AppDataLoader/>}
                             Login
                           </CButton>
                         </CCol>

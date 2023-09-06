@@ -24,6 +24,7 @@ import {
 import AppErrorMessage from '../../../App/Common/AppErrorMessage'
 import { submitForm } from '../../../App/Helper/SubmitForm'
 import AppSwitchSectionBtn from '../../../App/Common/AppSwitchSectionBtn'
+import AppDataLoader from '../../../App/Common/AppDataLoader'
 
 const Login = ({ onSubmit, state, urlRegister, formId }) => {
   const emailInputRef = useRef(null)
@@ -85,7 +86,7 @@ const Login = ({ onSubmit, state, urlRegister, formId }) => {
                             disabled={state.loading}
                             onClick={onSubmit}
                             data-testid="btn-submit"
-                            >
+                            >{state.loading && <AppDataLoader/>}
                             Login
                           </CButton>
                         </CCol>

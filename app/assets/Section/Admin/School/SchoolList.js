@@ -85,6 +85,7 @@ const SchoolList = () => {
         <SchoolsRows
           schoolsState={schoolsState}
           setConfirmState={setConfirmState}
+          confirmState={confirmState}
           setDeleteState={setDeleteState}
         />
 
@@ -164,6 +165,7 @@ const ConfirmModal = ({ confirmState, setConfirmState, confirm }) => {
 const SchoolsRows = ({
   schoolsState,
   setConfirmState,
+  confirmState,
   setDeleteState
 }) => {
   const schools = schoolsState.data
@@ -197,6 +199,7 @@ const SchoolsRows = ({
                 })
               }}
               size="sm" variant="outline">
+              {confirmState.loading && <AppDataLoader/>}
               <CIcon icon={cilCheck}/>
             </CButton>}
           {item.canBeDeleted &&
@@ -239,6 +242,7 @@ const SchoolsRows = ({
 
 SchoolsRows.propTypes = {
   setConfirmState: PropTypes.func.isRequired,
+  confirmState: PropTypes.object,
   setDeleteState: PropTypes.func.isRequired,
   schoolsState: PropTypes.shape({
     data: PropTypes.arrayOf(
