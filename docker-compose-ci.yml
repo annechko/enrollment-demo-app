@@ -46,10 +46,8 @@ services:
     healthcheck:
       test: "/opt/bin/check-grid.sh --host 0.0.0.0 --port 4444"
     environment:
-      SE_NODE_SESSION_TIMEOUT: 30
-      # to be able to run another test after one fails (with hanging still open connection)
-      # we need to increase the number of sessions
-      SE_NODE_MAX_SESSIONS: 10
+      SE_NODE_SESSION_TIMEOUT: 15
+      SE_NODE_MAX_SESSIONS: 5
       SE_NODE_OVERRIDE_MAX_SESSIONS: 'true'
       # for CI should be false
       START_XVFB: 'false'

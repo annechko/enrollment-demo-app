@@ -3,7 +3,6 @@ name: Push
 on:
   workflow_dispatch:
   push:
-    branches: [ "test-ci" ]
 
 env:
   REGISTRY_HOST: ghcr.io
