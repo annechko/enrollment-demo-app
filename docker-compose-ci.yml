@@ -9,17 +9,16 @@ services:
       dockerfile: php-fpm.docker
     restart: always
     environment:
-      APP_ENV: dev
-      DATABASE_URL: pgsql://app:secrect@enroll-db:5432/app
+      APP_ENV: test
     volumes:
       - ./app:/app
     depends_on:
       - enroll-db
       - test-enroll-selenium
 
-  enroll-db:
+  test-enroll-db:
     image: postgres:15-alpine
-    container_name: enroll-db
+    container_name: test-enroll-db
     restart: always
     environment:
       - POSTGRES_DB=app
@@ -55,6 +54,6 @@ services:
       - ./app:/app
     working_dir: /app
 
-  test-enroll-mail:
+  test-enroll-mailer:
     image: mailhog/mailhog
     container_name: test-enroll-mail
