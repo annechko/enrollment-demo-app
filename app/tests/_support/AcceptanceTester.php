@@ -46,6 +46,7 @@ class AcceptanceTester extends \Codeception\Actor
         $this->fillField('[data-testid="email"]', DefaultUserEnum::SCHOOL_ADMIN_EMAIL->value);
         $this->fillField('[data-testid="pass"]', DefaultUserEnum::SCHOOL_ADMIN_PASS->value);
         $this->click('[data-testid="btn-submit"]');
+        $this->waitForLoaderFinishes();
 
         $this->waitForElement('[data-testid="default-layout"]');
     }
@@ -60,6 +61,7 @@ class AcceptanceTester extends \Codeception\Actor
     public function waitForLoaderFinishes(): void
     {
         $this->waitForElementNotVisible("[data-testid=\"data-loader\"]");
+        $this->wait(1);
     }
 
     public function dontSeeErrors(): void
