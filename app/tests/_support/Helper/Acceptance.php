@@ -8,5 +8,8 @@ namespace App\Tests\Helper;
 
 class Acceptance extends \Codeception\Module
 {
-
+    public static function selector(string $id): string
+    {
+        return "[data-testid=\"$id\"]";
+    }
 }

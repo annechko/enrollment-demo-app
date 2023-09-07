@@ -4,6 +4,8 @@ declare(strict_types=1);
 namespace App\Tests;
 
 use App\Core\Common\DefaultUserEnum;
+use App\Infrastructure\RouteEnum;
+use App\Tests\Helper\Acceptance;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
@@ -43,12 +45,25 @@ class AcceptanceTester extends \Codeception\Actor
     {
         $this->amOnPage('/school/login');
 
-        $this->fillField('[data-testid="email"]', DefaultUserEnum::SCHOOL_ADMIN_EMAIL->value);
-        $this->fillField('[data-testid="pass"]', DefaultUserEnum::SCHOOL_ADMIN_PASS->value);
-        $this->click('[data-testid="btn-submit"]');
+        $this->fillField(Acceptance::selector('email'), DefaultUserEnum::SCHOOL_ADMIN_EMAIL->value);
+        $this->fillField(Acceptance::selector('pass'), DefaultUserEnum::SCHOOL_ADMIN_PASS->value);
+        $this->click(Acceptance::selector('btn-submit'));
         $this->waitForLoaderFinishes();
 
-        $this->waitForElement('[data-testid="default-layout"]');
+        $this->waitForElement(Acceptance::selector('default-layout'));
+    }
+
+    public function loginAsAdmin(): void
+    {
+        $this->amOnRoute(RouteEnum::ADMIN_LOGIN);
+        $this->fillField(Acceptance::selector('email'), DefaultUserEnum::ADMIN_EMAIL->value);
+        $this->fillField(Acceptance::selector('pass'), DefaultUserEnum::ADMIN_PASS->value);
+        $this->click(Acceptance::selector('btn-submit'));
+        $this->waitForLoaderFinishes();
+        $this->dontSeeErrors();
+        $this->waitForElementVisible(Acceptance::selector('default-layout'));
+        $this->waitForLoaderFinishes();
+        $this->dontSeeErrors();
     }
 
     public function amOnRoute(string $routeName): void
@@ -60,12 +75,12 @@ class AcceptanceTester extends \Codeception\Actor
 
     public function waitForLoaderFinishes(): void
     {
-        $this->waitForElementNotVisible("[data-testid=\"data-loader\"]");
+        $this->waitForElementNotVisible(Acceptance::selector('data-loader'));
         $this->wait(1);
     }
 
     public function dontSeeErrors(): void
     {
-        $this->dontSeeElement("[data-testid=\"error-msg\"]");
+        $this->dontSeeElement(Acceptance::selector('error-msg'));
     }
 }

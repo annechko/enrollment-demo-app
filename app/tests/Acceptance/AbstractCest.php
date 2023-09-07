@@ -7,6 +7,7 @@ namespace App\Tests\Acceptance;
 use App\DataFixtures\AdminUserFixtures;
 use App\DataFixtures\SchoolUserFixtures;
 use App\Tests\AcceptanceTester;
+use App\Tests\Helper\Acceptance;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
@@ -48,6 +49,6 @@ abstract class AbstractCest
 
     protected function id(string $id): string
     {
-        return "[data-testid=\"$id\"]";
+        return Acceptance::selector($id);
     }
 }

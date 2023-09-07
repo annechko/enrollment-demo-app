@@ -177,10 +177,10 @@ const SchoolsRows = ({
   let schoolsRows = []
 
   schoolsRows = schools.map((item) =>
-    <CTableRow key={key++}>
+    <CTableRow key={key++} data-testid="row">
       <CTableDataCell scope="row">{item.id.substring(32)}</CTableDataCell>
       <CTableDataCell>{item.name}</CTableDataCell>
-      <CTableDataCell>{item.email}</CTableDataCell>
+      <CTableDataCell data-testid="cell-email">{item.email}</CTableDataCell>
       <CTableDataCell>{item.createdAt}</CTableDataCell>
       <CTableDataCell>{item.invitationDate}</CTableDataCell>
       <CTableDataCell>
@@ -217,7 +217,8 @@ const SchoolsRows = ({
   )
 
   return <>
-    {schoolsRows.length > 0 &&
+    {schoolsRows.length > 0
+      ?
       <CTable hover bordered>
         <CTableHead>
           <CTableRow key={key++}>
@@ -232,7 +233,9 @@ const SchoolsRows = ({
         <CTableBody>
           {schoolsRows}
         </CTableBody>
-      </CTable>}
+      </CTable>
+      : <>There are no schools.</>
+    }
 
   </>
 }

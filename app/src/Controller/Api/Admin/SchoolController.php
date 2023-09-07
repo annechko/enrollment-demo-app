@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace App\Controller\Api\Admin;
 
-use App\Controller\Api\AbstractApiController;
+use App\Controller\Api\AbstractJsonApiController;
 use App\Core\Common\DefaultUserEnum;
+use App\Core\Common\RegexEnum;
 use App\Core\School\Common\RoleEnum;
-use App\Core\School\Entity\School\School;
+use App\Core\School\UseCase\School;
 use App\ReadModel\Admin\School\Filter;
 use App\ReadModel\Admin\School\SchoolFetcher;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -16,9 +17,45 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/api/admin/school')]
-class SchoolController extends AbstractApiController
+class SchoolController extends AbstractJsonApiController
 {
-    private const MAX_ITEMS = 20;
+    private const MAX_SCHOOL_LIST_ITEMS = 20;
+
+    #[Route('/{schoolId}/confirm', name: 'api_admin_school_confirm',
+        requirements: ['schoolId' => RegexEnum::UUID_PATTERN_WITH_TEMPLATE],
+        methods: ['POST']),
+    ]
+    public function confirm(
+        string $schoolId,
+        School\Confirm\Handler $handler,
+        Request $request
+    ): Response {
+        $this->denyAccessUnlessGranted(RoleEnum::ADMIN_USER->value);
+
+        return $this->handleWithResponse(
+            School\Confirm\Command::class,
+            $handler,
+            $request
+        );
+    }
+
+    #[Route('/{schoolId}/delete', name: 'api_admin_school_delete',
+        requirements: ['schoolId' => RegexEnum::UUID_PATTERN_WITH_TEMPLATE],
+        methods: ['POST']),
+    ]
+    public function deleteSchool(
+        string $schoolId,
+        School\Delete\Handler $handler,
+        Request $request
+    ): Response {
+        $this->denyAccessUnlessGranted(RoleEnum::ADMIN_USER->value);
+
+        return $this->handleWithResponse(
+            School\Delete\Command::class,
+            $handler,
+            $request
+        );
+    }
 
     #[Route('', name: 'api_admin_school_list')]
     public function list(Request $request, SchoolFetcher $fetcher): Response
@@ -33,7 +70,7 @@ class SchoolController extends AbstractApiController
         $pagination = $fetcher->fetch(
             $filter,
             $request->query->getInt('page', 1),
-            self::MAX_ITEMS,
+            self::MAX_SCHOOL_LIST_ITEMS,
             $request->query->get('sort', 'created_at'),
             $request->query->get('direction', 'desc')
         );
@@ -48,7 +85,7 @@ class SchoolController extends AbstractApiController
                 'email' => $school['admin_email'],
                 'invitationDate' => $school['invitation_date'],
                 'createdAt' => $school['created_at'],
-                'canBeConfirmed' => $school['status'] === School::STATUS_NEW,
+                'canBeConfirmed' => $school['status'] === \App\Core\School\Entity\School\School::STATUS_NEW,
                 'canBeDeleted' => !DefaultUserEnum::isDefaultSchoolUser($school['admin_email']),
                 // todo move logic to ValueObjects
             ];
