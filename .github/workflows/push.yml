@@ -1,0 +1,53 @@
+name: Push
+
+on:
+  workflow_dispatch:
+  push:
+
+env:
+  REGISTRY_HOST: ghcr.io
+  REGISTRY: ghcr.io/${{ github.repository }}
+  IMAGE_TAG: master-${{ github.run_number }}
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Docker login
+      uses: azure/docker-login@v1
+      with:
+        login-server: ${{ env.REGISTRY_HOST }}
+        username: ${{ github.actor }}
+        password: ${{ github.token }}
+    - name: Cache Composer packages
+      id: composer-cache
+      uses: actions/cache@v3
+      with:
+        path: app/vendor
+        key: composer_${{ hashFiles('app/composer.lock') }}
+    - name: Cache node packages
+      id: node-cache
+      uses: actions/cache@v3
+      with:
+        path: app/node_modules
+        key: node_${{ hashFiles('app/yarn.lock') }}
+    - name: Create cache dirs
+      run: mkdir -p app/node_modules app/vendor && sudo chown -R 1000:1000 app/node_modules app/vendor
+    - name: Build
+      run: make ci-build
+    - name: Up
+      run: make ci-up
+    - name: Init
+      run: make ci-init
+    - name: Validate composer files
+      run: make ci-validate-composer
+    - name: Validate php code style
+      run: make ci-code-style-check-php
+    - name: Db
+      run: make ci-db
+    - name: Run acceptance tests
+      run: make ci-tests-a
+
+

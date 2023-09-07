@@ -25,6 +25,7 @@ class SchoolJsonController extends AbstractJsonApiController
         Request $request
     ): Response {
         $this->denyAccessUnlessGranted(RoleEnum::ADMIN_USER->value);
+
         return $this->handleWithResponse(
             School\Confirm\Command::class,
             $handler,

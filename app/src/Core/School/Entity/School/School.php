@@ -54,7 +54,7 @@ class School
         StaffMemberId $adminId,
         StaffMemberName $adminName,
         Email $adminEmail,
-        ?\DateTimeImmutable $createdAt = null
+        \DateTimeImmutable $createdAt = null
     ) {
         $this->id = $id;
         $this->name = $name;
@@ -70,7 +70,7 @@ class School
         StaffMemberId $adminId,
         StaffMemberName $adminName,
         Email $adminEmail,
-        ?\DateTimeImmutable $createdAt = null
+        \DateTimeImmutable $createdAt = null
     ): self {
         return new self($id, $schoolName, $adminId, $adminName, $adminEmail, $createdAt);
     }

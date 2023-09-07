@@ -75,9 +75,9 @@ class StudentReadModel implements UserInterface, PasswordAuthenticatedUserInterf
                             === array_diff($user->roles, $this->roles);
 
         return
-            $this->id === $user->id &&
-            $this->email === $user->email &&
-            $this->passwordHash === $user->passwordHash &&
-            $areRolesEqual;
+            $this->id === $user->id
+            && $this->email === $user->email
+            && $this->passwordHash === $user->passwordHash
+            && $areRolesEqual;
     }
 }

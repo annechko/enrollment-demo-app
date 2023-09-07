@@ -8,13 +8,13 @@ import {
   CCardBody,
   CCardHeader,
   CCol,
-  CRow,
-  CSpinner
+  CRow
 } from '@coreui/react'
 import Chart from 'chart.js/auto'
 import * as LoadState from '../../../App/Helper/LoadState'
 import * as Api from '../../../App/Helper/Api'
 import AppErrorMessage from '../../../App/Common/AppErrorMessage'
+import AppDataLoader from '../../../App/Common/AppDataLoader'
 
 const Report = ({ reportRequestType, label, color }) => {
   const reportRef = useRef(null)
@@ -64,8 +64,8 @@ const Report = ({ reportRequestType, label, color }) => {
     <canvas ref={reportRef}/>
   </>
 }
-const ReportLoading = ({ color = 'info' }) => {
-  return <CSpinner className="me-1" color={color} component="span" aria-hidden="true"/>
+const ReportLoading = () => {
+  return <AppDataLoader/>
 }
 
 const HomeDashboard = () => {

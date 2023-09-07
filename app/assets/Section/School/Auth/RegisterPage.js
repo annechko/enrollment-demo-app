@@ -21,6 +21,7 @@ import AppErrorMessage from '../../../App/Common/AppErrorMessage'
 import { submitForm } from '../../../App/Helper/SubmitForm'
 import * as LoadState from '../../../App/Helper/LoadState'
 import AppSwitchSectionBtn from '../../../App/Common/AppSwitchSectionBtn'
+import AppDataLoader from '../../../App/Common/AppDataLoader'
 
 const AfterRegisterMessage = () => {
   return (
@@ -87,6 +88,7 @@ const RegisterForm = ({ onSubmit, state, urlLogin, formId }) => {
             data-testid="btn-submit"
             disabled={state.loading}
             type="submit">
+            {state.loading && <AppDataLoader/>}
             Create Account
           </CButton>
         </div>

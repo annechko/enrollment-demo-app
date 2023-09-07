@@ -56,9 +56,9 @@ class SchoolStaffMemberReadModel implements UserInterface, PasswordAuthenticated
                             === array_diff($user->roles, $this->roles);
 
         return
-            $this->id === $user->id &&
-            $this->email === $user->email &&
-            $this->passwordHash === $user->passwordHash &&
-            $areRolesEqual;
+            $this->id === $user->id
+            && $this->email === $user->email
+            && $this->passwordHash === $user->passwordHash
+            && $areRolesEqual;
     }
 }

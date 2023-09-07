@@ -5,7 +5,7 @@ const AppErrorMessage = ({ error }) => {
   return (
     <>
       {
-        (error !== null && error !== undefined)
+        (error)
           ? (
             <div className="alert alert-danger" data-testid="error-msg">
               {error}

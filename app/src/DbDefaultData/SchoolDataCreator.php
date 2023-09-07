@@ -109,7 +109,7 @@ class SchoolDataCreator
             $entities[] = $campus;
         }
 
-        for ($j = 0; $j < 20; $j++) {
+        for ($j = 0; $j < 20; ++$j) {
             $intake = $applicationsData[$j][0];
             $data = SchoolDataEnum::STUDENT_DATA[$j];
             $application = new Application(
@@ -145,6 +145,7 @@ class SchoolDataCreator
             $now->format('Y-m-') . $registerDay
         )
             ->sub(new \DateInterval("P{$registerMonth}{$subType}"));
+
         return $createdAt > $now ? clone $now : $createdAt;
     }
 }

@@ -24,6 +24,7 @@ import {
 import AppErrorMessage from '../../../App/Common/AppErrorMessage'
 import { submitForm } from '../../../App/Helper/SubmitForm'
 import AppSwitchSectionBtn from '../../../App/Common/AppSwitchSectionBtn'
+import AppDataLoader from '../../../App/Common/AppDataLoader'
 
 const Login = ({ onSubmit, state, urlRegister, formId }) => {
   const emailInputRef = useRef(null)
@@ -45,7 +46,7 @@ const Login = ({ onSubmit, state, urlRegister, formId }) => {
               <CCardGroup>
                 <CCard className="p-4">
                   <CCardBody>
-                    <CForm method="post" id={formId} onSubmit={onSubmit}>
+                    <CForm id={formId}>
                       <h1>Login</h1>
                       <p className="text-medium-emphasis">Sign in to your <b>school</b> account or
                       </p>
@@ -83,8 +84,9 @@ const Login = ({ onSubmit, state, urlRegister, formId }) => {
                         <CCol xs={6}>
                           <CButton color="primary" className="px-4"
                             disabled={state.loading}
+                            onClick={onSubmit}
                             data-testid="btn-submit"
-                            type="submit">
+                            >{state.loading && <AppDataLoader/>}
                             Login
                           </CButton>
                         </CCol>

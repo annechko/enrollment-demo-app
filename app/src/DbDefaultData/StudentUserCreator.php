@@ -24,9 +24,9 @@ class StudentUserCreator
     }
 
     public function create(
-        ?string $name = null,
-        ?string $surname = null,
-        ?string $email = null
+        string $name = null,
+        string $surname = null,
+        string $email = null
     ): Student {
         $student = Student::register(
             new StudentId($this->uuidGenerator->generate()),

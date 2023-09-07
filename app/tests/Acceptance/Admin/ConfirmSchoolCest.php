@@ -27,17 +27,24 @@ class ConfirmSchoolCest extends AbstractCest
         $I->fillField($this->id('email'), DefaultUserEnum::ADMIN_EMAIL->value);
         $I->fillField($this->id('pass'), DefaultUserEnum::ADMIN_PASS->value);
         $I->click($this->id('btn-submit'));
+        $I->waitForLoaderFinishes();
         $I->waitForElementVisible($this->id('default-layout'));
+        $I->waitForLoaderFinishes();
+        $I->dontSeeErrors();
 
         $I->amOnRoute(RouteEnum::ADMIN_SCHOOL_LIST);
         $I->waitForLoaderFinishes();
 
         $I->waitForElementVisible($this->id('confirm-btn'));
         $I->click($this->id('confirm-btn'));
+        $I->waitForLoaderFinishes();
+
         $I->waitForElementVisible($this->id('confirm-modal'));
         $I->waitForElementVisible($this->id('confirm-modal-btn'));
         $I->click($this->id('confirm-modal-btn'));
-        $I->waitForElementNotVisible($this->id('confirm-modal'));
+        $I->waitForLoaderFinishes();
+
+        $I->reloadPage();
         $I->waitForLoaderFinishes();
 
         $I->dontSeeElement($this->id('confirm-btn'));

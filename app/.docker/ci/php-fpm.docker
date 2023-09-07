@@ -1,0 +1,25 @@
+FROM php:8.1-fpm
+
+RUN apt-get update && apt-get install -y libzip-dev zip unzip wget
+
+RUN apt-get install -y libpq-dev \
+    && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
+    && docker-php-ext-install pdo_pgsql \
+    && apt-get install -y libicu-dev \
+    && docker-php-ext-configure intl \
+    && docker-php-ext-install intl \
+    && docker-php-ext-configure zip \
+    && docker-php-ext-install zip
+
+RUN mv $PHP_INI_DIR/php.ini-development $PHP_INI_DIR/php.ini
+
+RUN apt-get clean \
+    && apt-get autoclean \
+    && apt-get autoremove -y --force-yes \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+RUN wget https://raw.githubusercontent.com/composer/getcomposer.org/1cf9cac9f0bed289429548be2858dbdfde448da6/web/installer -O - -q | php -- --quiet
+
+RUN mv composer.phar /usr/local/bin/composer

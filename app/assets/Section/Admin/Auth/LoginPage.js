@@ -21,6 +21,7 @@ import { useNavigate } from 'react-router-dom'
 import { submitForm } from '../../../App/Helper/SubmitForm'
 import AppErrorMessage from '../../../App/Common/AppErrorMessage'
 import AppSwitchSectionBtn from '../../../App/Common/AppSwitchSectionBtn'
+import AppDataLoader from '../../../App/Common/AppDataLoader'
 
 const Login = ({ onSubmit, state, formId }) => {
   const emailInputRef = useRef(null)
@@ -43,7 +44,7 @@ const Login = ({ onSubmit, state, formId }) => {
               <CCardGroup>
                 <CCard className="p-4">
                   <CCardBody>
-                    <CForm method="post" id={formId} onSubmit={onSubmit}>
+                    <CForm method="post" id={formId}>
                       <h1>Login</h1>
                       <p className="text-medium-emphasis">You can not register a new <b>admin</b> account.</p>
                       <CButton color="light" className="px-4 mb-4"
@@ -80,9 +81,10 @@ const Login = ({ onSubmit, state, formId }) => {
                       <CRow>
                         <CCol xs={4}>
                           <CButton color="danger" className="px-4"
+                            onClick={onSubmit}
                             disabled={state.loading}
                             data-testid="btn-submit"
-                            type="submit">
+                            >{state.loading && <AppDataLoader/>}
                             Login
                           </CButton>
                         </CCol>

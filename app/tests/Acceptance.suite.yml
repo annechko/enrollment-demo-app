@@ -1,6 +1,7 @@
 actor: AcceptanceTester
 modules:
   enabled:
+    - \App\Tests\Helper\Acceptance
     - Symfony:
         app_path: src
         environment: test
@@ -10,10 +11,19 @@ modules:
         cleanup: false
     - WebDriver:
         url: http://test-enroll-nginx:80/
-        browser: chrome
         host: test-enroll-selenium
         start: true
         connection_timeout: 5
         debug_log_entries: 5
         log_js_errors: true
-    - \App\Tests\Helper\Acceptance
+        browser: firefox
+        wait: 2
+env:
+  ci:
+    modules:
+      config:
+        WebDriver:
+          browser: firefox
+          capabilities:
+            moz:firefoxOptions:
+              args: [ "-headless" ]

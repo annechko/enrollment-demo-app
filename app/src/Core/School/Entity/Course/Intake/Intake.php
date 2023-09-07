@@ -58,7 +58,7 @@ class Intake
         ?string $name,
         ?int $classSize,
         ?Campus $campus,
-        ?\DateTimeImmutable $createdAt = null,
+        \DateTimeImmutable $createdAt = null,
     ) {
         Assert::nullOrGreaterThanEq($classSize, 0);
 

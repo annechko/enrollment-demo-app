@@ -1,0 +1,63 @@
+version: '3.8'
+
+services:
+
+  enroll-php-fpm:
+    container_name: enroll-php-fpm
+    build:
+      context: app/.docker/ci/
+      dockerfile: php-fpm.docker
+    restart: always
+    environment:
+      APP_ENV: test
+    volumes:
+      - ./app:/app
+    depends_on:
+      test-enroll-selenium:
+        condition: service_healthy
+      test-enroll-db:
+        condition: service_healthy
+
+  test-enroll-db:
+    image: postgres:15-alpine
+    container_name: test-enroll-db
+    restart: always
+    healthcheck:
+      test: "pg_isready --timeout=0 --dbname=app"
+    environment:
+      - POSTGRES_DB=app
+      - POSTGRES_USER=app
+      - POSTGRES_PASSWORD=secrect
+
+  test-enroll-nginx:
+    build:
+      context: app/.docker/ci/
+      dockerfile: nginx.docker
+    container_name: test-enroll-nginx
+    restart: always
+    volumes:
+      - ./app:/app
+    depends_on:
+      - enroll-php-fpm
+
+  test-enroll-selenium:
+    image: selenium/standalone-firefox:117.0-geckodriver-0.33
+    shm_size: 1gb
+    healthcheck:
+      test: "/opt/bin/check-grid.sh --host 0.0.0.0 --port 4444"
+    environment:
+      SE_NODE_SESSION_TIMEOUT: 30
+      SE_NODE_MAX_SESSIONS: 10
+      SE_NODE_OVERRIDE_MAX_SESSIONS: 'true'
+      # headless
+      START_XVFB: 'false'
+
+  enroll-node:
+    image: node:19.8-alpine3.17
+    volumes:
+      - ./app:/app
+    working_dir: /app
+
+  test-enroll-mailer:
+    image: mailhog/mailhog
+    container_name: test-enroll-mail

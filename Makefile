@@ -5,13 +5,11 @@ docker-build:
 docker-up:
 	COMPOSE_PROJECT_NAME=enrollment-demo-app docker-compose -f docker-compose.yml up -d --remove-orphans
 
-app-init: app-composer-install app-wait-db app-migrations
+app-init: app-composer-install app-migrations
 
 app-composer-install:
 	docker exec -it enroll-php-fpm composer i
 
-app-wait-db:
-	until docker-compose -f docker-compose.yml exec -T enroll-db pg_isready --timeout=0 --dbname=app ; do sleep 1 ; done
 app-migrations:
 	docker exec -it enroll-php-fpm php bin/console doctrine:migrations:migrate --no-interaction
 
@@ -30,24 +28,22 @@ tests-docker-up:
 create-cache-volume:
 	docker volume create enrollment-demo-app_node-cache
 
-tests-app-init: tests-app-composer-install tests-app-wait-db tests-app-migrations
+tests-app-init: tests-app-composer-install tests-app-migrations
 
 tests-app-migrations:
-	docker exec -it test-enroll-php-fpm php bin/console doctrine:migrations:migrate --no-interaction
-tests-app-wait-db:
-	until docker exec -it test-enroll-db pg_isready --timeout=0 --dbname=app ; do sleep 1 ; done
+	docker exec test-enroll-php-fpm php bin/console doctrine:migrations:migrate --no-interaction
 tests-app-composer-install:
-	docker exec -it test-enroll-php-fpm composer i
+	docker exec -t test-enroll-php-fpm composer i
 tests-clean:
-	docker exec -it test-enroll-php-fpm vendor/bin/codecept clean
+	docker exec -t test-enroll-php-fpm vendor/bin/codecept clean
 
 tests-data:
-	docker exec -it test-enroll-php-fpm bin/console doctrine:fixtures:load -n --group=user
+	docker exec test-enroll-php-fpm bin/console doctrine:fixtures:load -n --group=user
 tests-bash:
 	docker exec -it test-enroll-php-fpm /bin/bash
 
 tests-a:
-	docker exec -it test-enroll-php-fpm vendor/bin/codecept run Acceptance -vvv
+	docker exec test-enroll-php-fpm vendor/bin/codecept run Acceptance -vvv
 
 ########## end tests
 
@@ -101,3 +97,29 @@ deploy:
 	ssh -o StrictHostKeyChecking=no -t ${PROD_HOST} 'cd ${HOME_DIR} && sudo docker compose pull'
 	ssh -o StrictHostKeyChecking=no -t ${PROD_HOST} 'cd ${HOME_DIR} && sudo docker compose up --build --remove-orphans -d'
 	ssh -o StrictHostKeyChecking=no -t ${PROD_HOST} 'cd ${HOME_DIR} && sudo docker compose run --rm enroll-php-fpm php bin/console doctrine:migrations:migrate --no-interaction'
+
+################## CI experiments
+ci-code-style-check-php:
+	docker exec -t enroll-php-fpm vendor/bin/php-cs-fixer fix --dry-run -v --using-cache=no --allow-risky=yes
+
+ci-validate-composer:
+	docker exec -t enroll-php-fpm composer validate
+
+ci-build:
+	docker-compose -f docker-compose-ci.yml build
+
+ci-push:
+	docker push ${REGISTRY}:demo-php-fpm-${IMAGE_TAG}
+	docker push ${REGISTRY}:demo-nginx-${IMAGE_TAG}
+
+ci-up:
+	docker-compose -f docker-compose-ci.yml up -d
+ci-init:
+	docker exec -t enroll-php-fpm composer i --prefer-dist
+	docker-compose -f docker-compose-ci.yml run --rm enroll-node yarn install
+	docker-compose -f docker-compose-ci.yml run --rm enroll-node yarn build
+ci-db:
+	docker exec -t enroll-php-fpm php bin/console doctrine:migrations:migrate --no-interaction
+
+ci-tests-a:
+	docker exec -t enroll-php-fpm vendor/bin/codecept run Acceptance --env ci -vvv

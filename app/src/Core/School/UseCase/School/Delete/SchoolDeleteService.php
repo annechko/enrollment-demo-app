@@ -46,7 +46,6 @@ class SchoolDeleteService
             );
     }
 
-
     private function deleteIntakes(School $school): void
     {
         $tableIntake = $this->getTableName(Intake::class);

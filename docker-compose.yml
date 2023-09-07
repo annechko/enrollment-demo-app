@@ -12,7 +12,8 @@ services:
     volumes:
       - ./app:/app
     depends_on:
-      - enroll-db
+      enroll-db:
+        condition: service_healthy
 
   enroll-db:
     container_name: enroll-db
@@ -23,6 +24,8 @@ services:
     build:
       context: app/.docker/dev/
       dockerfile: db.docker
+    healthcheck:
+      test: "pg_isready --timeout=0 --dbname=app"
     volumes:
       - ./app:/app
       - enroll-db:/var/lib/postgresql/data:rw
