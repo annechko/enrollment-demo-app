@@ -27,14 +27,12 @@ class Handler
     {
         $school = $this->schoolRepository->get(new SchoolId($command->schoolId));
 
-        $token = $this->uuidGenerator->generate();
-        $school->confirmRegister(
-            new InvitationToken($token, new \DateTimeImmutable())
-        );
+        $token = new InvitationToken($this->uuidGenerator->generate(), new \DateTimeImmutable());
+        $school->confirmRegister($token);
 
         $admin = $school->getAdmin();
         // in real life I would send emails in a separate process, with RabbitMQ for example.
-        $this->emailSender->send($admin->getEmail()->getValue(), $token, $school->getId());
+        $this->emailSender->send($admin->getEmail(), $token, $school->getId());
 
         $this->flusher->flush();
     }

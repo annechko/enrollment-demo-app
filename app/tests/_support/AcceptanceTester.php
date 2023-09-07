@@ -27,6 +27,8 @@ class AcceptanceTester extends \Codeception\Actor
 {
     use _generated\AcceptanceTesterActions;
 
+    use \Codeception\Lib\Actor\Shared\Friend;
+
     /**
      * Define custom actions here
      */
@@ -43,10 +45,18 @@ class AcceptanceTester extends \Codeception\Actor
 
     public function loginAsDefaultSchool(): void
     {
-        $this->amOnPage('/school/login');
+        $this->loginAsSchool(
+            DefaultUserEnum::SCHOOL_ADMIN_EMAIL->value,
+            DefaultUserEnum::SCHOOL_ADMIN_PASS->value
+        );
+    }
 
-        $this->fillField(Acceptance::selector('email'), DefaultUserEnum::SCHOOL_ADMIN_EMAIL->value);
-        $this->fillField(Acceptance::selector('pass'), DefaultUserEnum::SCHOOL_ADMIN_PASS->value);
+    public function loginAsSchool(string $email, string $pass): void
+    {
+        $this->amOnRoute(RouteEnum::SCHOOL_LOGIN);
+
+        $this->fillField(Acceptance::selector('email'), $email);
+        $this->fillField(Acceptance::selector('pass'), $pass);
         $this->click(Acceptance::selector('btn-submit'));
         $this->waitForLoaderFinishes();
 

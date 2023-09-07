@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace App\Core\School\Service;
 
+use App\Core\School\Entity\School\Email;
+use App\Core\School\Entity\School\InvitationToken;
 use App\Core\School\Entity\School\SchoolId;
+use App\Infrastructure\RouteEnum;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -17,18 +20,18 @@ class SchoolConfirmedEmailSender
     ) {
     }
 
-    public function send(string $toEmail, string $invitationToken, SchoolId $schoolId): void
+    public function send(Email $toEmail, InvitationToken $invitationToken, SchoolId $schoolId): void
     {
         $url = $this->urlGenerator->generate(
-            'school_member_register',
+            RouteEnum::SCHOOL_MEMBER_REGISTER,
             [
-                'invitationToken' => $invitationToken,
+                'invitationToken' => $invitationToken->getValue(),
                 'schoolId' => $schoolId->getValue(),
             ],
             UrlGeneratorInterface::ABSOLUTE_URL
         );
         $email = (new TemplatedEmail())
-            ->to($toEmail)
+            ->to($toEmail->getValue())
             ->subject('Activate your Enrollment Demo App account')
             ->htmlTemplate('email/school/invite-member.html.twig')
             ->context(

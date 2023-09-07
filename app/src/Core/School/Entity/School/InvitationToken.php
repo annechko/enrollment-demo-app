@@ -38,4 +38,9 @@ class InvitationToken
 
         return $now > $this->createdAt->add(new \DateInterval(self::MAX_LIFETIME));
     }
+
+    public function getValue(): string
+    {
+        return $this->value;
+    }
 }

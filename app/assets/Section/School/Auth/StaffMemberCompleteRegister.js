@@ -1,4 +1,7 @@
-import React, { useState } from 'react'
+import React, {
+  useRef,
+  useState
+} from 'react'
 import {
   CButton,
   CCol,
@@ -17,6 +20,7 @@ import AppErrorMessage from '../../../App/Common/AppErrorMessage'
 
 const StaffMemberCompleteRegister = () => {
   const params = useParams()
+  const refPassword = useRef(null)
   const [state, setState] = useState(LoadState.initialize)
   const [isConfirmed, setIsConfirmed] = useState(false)
 
@@ -30,7 +34,7 @@ const StaffMemberCompleteRegister = () => {
       state,
       setState,
       url,
-      data: document.getElementById('pass'),
+      data: { plainPassword: refPassword.current.value },
       onSuccess: () => {
         setIsConfirmed(true)
       }
@@ -44,7 +48,8 @@ const StaffMemberCompleteRegister = () => {
           <CCol>
             {isConfirmed
               ? <>
-                <div className="d-flex flex-column align-items-center">
+                <div className="d-flex flex-column align-items-center"
+                  data-testid="success-msg">
                   <h4>
                     Your account is ready!
                   </h4>
@@ -63,10 +68,11 @@ const StaffMemberCompleteRegister = () => {
               : <>
                 <AppErrorMessage error={state?.error}/>
 
-                <CForm id="pass" onSubmit={confirm}>
+                <CForm>
                   <div className="mb-3 text-center">
                     <h4>Set up your password</h4>
-                    <CFormInput id="passValue"
+                    <CFormInput ref={refPassword}
+                      data-testid="member-password"
                       name="plainPassword"
                       autoComplete="off"
                       type="password"
@@ -74,6 +80,7 @@ const StaffMemberCompleteRegister = () => {
                   </div>
                   <div className="mb-3 text-center btn-lg">
                     <CButton className="mb-3"
+                      data-testid="btn-submit"
                       onClick={confirm}
                       disabled={state.loading}
                     >

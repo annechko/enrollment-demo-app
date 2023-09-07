@@ -135,4 +135,14 @@ class StaffMember
     {
         return $this->schoolId->getValue() === $school->getId()->getValue();
     }
+
+    public function getInvitationToken(): ?InvitationToken
+    {
+        return $this->invitationToken;
+    }
+
+    public function getSchoolId(): SchoolId
+    {
+        return $this->schoolId;
+    }
 }
