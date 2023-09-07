@@ -49,7 +49,7 @@ services:
       SE_NODE_SESSION_TIMEOUT: 30
       SE_NODE_MAX_SESSIONS: 10
       SE_NODE_OVERRIDE_MAX_SESSIONS: 'true'
-      # for CI should be false
+      # headless
       START_XVFB: 'false'
 
   enroll-node:

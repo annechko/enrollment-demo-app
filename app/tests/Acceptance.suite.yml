@@ -1,6 +1,7 @@
 actor: AcceptanceTester
 modules:
   enabled:
+    - \App\Tests\Helper\Acceptance
     - Symfony:
         app_path: src
         environment: test
@@ -17,7 +18,12 @@ modules:
         log_js_errors: true
         browser: firefox
         wait: 2
-        capabilities:
-          moz:firefoxOptions:
-            args: [ "-headless" ]
-    - \App\Tests\Helper\Acceptance
+env:
+  ci:
+    modules:
+      config:
+        WebDriver:
+          browser: firefox
+          capabilities:
+            moz:firefoxOptions:
+              args: [ "-headless" ]

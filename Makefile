@@ -122,4 +122,4 @@ ci-db:
 	docker exec -t enroll-php-fpm php bin/console doctrine:migrations:migrate --no-interaction
 
 ci-tests-a:
-	docker exec -t enroll-php-fpm vendor/bin/codecept run Acceptance  -vvv
+	docker exec -t enroll-php-fpm vendor/bin/codecept run Acceptance --env ci -vvv
