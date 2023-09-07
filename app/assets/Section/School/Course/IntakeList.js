@@ -190,13 +190,14 @@ const IntakesRows = ({
     <CTableRow key={key++}>
       <CTableDataCell scope="row">{item.id.substring(32)}</CTableDataCell>
       <CTableDataCell data-testid="cell-intake-name">{item.name}</CTableDataCell>
-      <CTableDataCell className="text-nowrap">{item.startDate}</CTableDataCell>
-      <CTableDataCell className="text-nowrap">{item.endDate}</CTableDataCell>
+      <CTableDataCell data-testid="cell-intake-start" className="text-nowrap">{item.startDate}</CTableDataCell>
+      <CTableDataCell data-testid="cell-intake-end" className="text-nowrap">{item.endDate}</CTableDataCell>
       <CTableDataCell data-testid="cell-intake-class-size">{item.classSize}</CTableDataCell>
       <CTableDataCell>{item.campus}</CTableDataCell>
       <CTableDataCell>
         <div className="d-flex">
           <CButton color="primary" role="button"
+            data-testid="btn-edit-intake"
             className="py-0 me-1"
             onClick={() => {
               setNewIntakeModalState({ id: item.id, visible: true })

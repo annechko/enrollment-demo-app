@@ -10,7 +10,6 @@ use App\Core\Common\RegexEnum;
 use App\Core\School\Common\RoleEnum;
 use App\Core\School\Entity\Campus\CampusId;
 use App\Core\School\Entity\Course\CourseId;
-use App\Core\School\Entity\Course\Intake\IntakeId;
 use App\Core\School\Entity\School\SchoolId;
 use App\Core\School\Repository\CampusRepository;
 use App\Core\School\Repository\CourseRepository;
@@ -175,59 +174,6 @@ class SchoolController extends AbstractApiController
             $request,
             fn (CourseId $result) => ['id' => $result->getValue()]
         );
-    }
-
-    #[Route('/courses/{courseId}/intakes/{intakeId}', name: 'api_school_course_intake_edit',
-        requirements: [
-            'courseId' => RegexEnum::UUID_PATTERN_WITH_TEMPLATE,
-            'intakeId' => RegexEnum::UUID_PATTERN_WITH_TEMPLATE,
-        ],
-        methods: ['POST'])]
-    public function courseIntakeEdit(
-        Request $request,
-        string $courseId,
-        string $intakeId,
-        \App\Core\School\UseCase\School\Course\Intake\Edit\Handler $handler
-    ): Response {
-        $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
-
-        $command = new \App\Core\School\UseCase\School\Course\Intake\Edit\Command(
-            $intakeId,
-            $courseId
-        );
-
-        return $this->handleWithResponse(
-            $command,
-            \App\Core\School\UseCase\School\Course\Intake\Edit\Form::class,
-            $handler,
-            $request,
-        );
-    }
-
-    #[Route('/courses/{courseId}/intakes/{intakeId}', name: 'api_school_course_intake',
-        requirements: [
-            'courseId' => RegexEnum::UUID_PATTERN_WITH_TEMPLATE,
-            'intakeId' => RegexEnum::UUID_PATTERN_WITH_TEMPLATE,
-        ],
-        methods: ['GET'])]
-    public function courseIntakeGet(
-        string $courseId,
-        string $intakeId,
-        CourseRepository $repository,
-    ): Response {
-        $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
-        $course = $repository->get(new CourseId($courseId));
-        $intake = $course->getIntake(new IntakeId($intakeId));
-        $res = [
-            'id' => $intake->getId()->getValue(),
-            'name' => $intake->getName(),
-            'classSize' => $intake->getClassSize(),
-            'campus' => $intake->getCampus()?->getId()->getValue(),
-            'startDate' => $intake->getStartDate()->format('Y-m-d'),
-            'endDate' => $intake->getEndDate()->format('Y-m-d'),
-        ];
-
-        return new JsonResponse($res);
     }
 
     #[Route('/courses/{courseId}/intakes/{intakeId}', name: 'api_school_course_intake_remove',

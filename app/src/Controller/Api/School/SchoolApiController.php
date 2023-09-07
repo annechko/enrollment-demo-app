@@ -8,6 +8,7 @@ use App\Controller\Api\AbstractJsonApiController;
 use App\Core\Common\RegexEnum;
 use App\Core\School\Common\RoleEnum;
 use App\Core\School\Entity\Course\CourseId;
+use App\Core\School\Entity\Course\Intake\IntakeId;
 use App\Core\School\Entity\School\SchoolId;
 use App\Core\School\Repository\CampusRepository;
 use App\Core\School\Repository\CourseRepository;
@@ -189,6 +190,53 @@ class SchoolApiController extends AbstractJsonApiController
             $handler,
             $request
         );
+    }
+
+    #[Route('/courses/{courseId}/intakes/{intakeId}', name: 'api_school_course_intake_edit',
+        requirements: [
+            'courseId' => RegexEnum::UUID_PATTERN_WITH_TEMPLATE,
+            'intakeId' => RegexEnum::UUID_PATTERN_WITH_TEMPLATE,
+        ],
+        methods: ['POST'])]
+    public function courseIntakeEdit(
+        Request $request,
+        string $courseId,
+        string $intakeId,
+        School\Course\Intake\Edit\Handler $handler
+    ): Response {
+        $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
+
+        return $this->handleWithResponse(
+            School\Course\Intake\Edit\Command::class,
+            $handler,
+            $request
+        );
+    }
+
+    #[Route('/courses/{courseId}/intakes/{intakeId}', name: 'api_school_course_intake',
+        requirements: [
+            'courseId' => RegexEnum::UUID_PATTERN_WITH_TEMPLATE,
+            'intakeId' => RegexEnum::UUID_PATTERN_WITH_TEMPLATE,
+        ],
+        methods: ['GET'])]
+    public function courseIntakeGet(
+        string $courseId,
+        string $intakeId,
+        CourseRepository $repository,
+    ): Response {
+        $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
+        $course = $repository->get(new CourseId($courseId));
+        $intake = $course->getIntake(new IntakeId($intakeId));
+        $res = [
+            'id' => $intake->getId()->getValue(),
+            'name' => $intake->getName(),
+            'classSize' => $intake->getClassSize(),
+            'campus' => $intake->getCampus()?->getId()->getValue(),
+            'startDate' => $intake->getStartDate()->format('Y-m-d'),
+            'endDate' => $intake->getEndDate()->format('Y-m-d'),
+        ];
+
+        return new JsonResponse($res);
     }
 
     private function getCurrentUser(): SchoolStaffMemberReadModel
