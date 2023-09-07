@@ -239,6 +239,34 @@ class SchoolApiController extends AbstractJsonApiController
         return new JsonResponse($res);
     }
 
+    #[Route('/courses/{courseId}/intakes/{intakeId}/remove', name: 'api_school_course_intake_remove',
+        requirements: [
+            'courseId' => RegexEnum::UUID_PATTERN_WITH_TEMPLATE,
+            'intakeId' => RegexEnum::UUID_PATTERN_WITH_TEMPLATE,
+        ],
+        methods: ['POST'])]
+    public function courseIntakeRemove(
+        Request $request,
+        string $courseId,
+        string $intakeId,
+        School\Course\Intake\Remove\Handler $handler
+    ): Response {
+        $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
+
+        return $this->handleWithResponse(
+            School\Course\Intake\Remove\Command::class,
+            $handler,
+            $request,
+            commandCallback: function (School\Course\Intake\Remove\Command $command) use (
+                $courseId,
+                $intakeId
+            ) {
+                $command->courseId = $courseId;
+                $command->intakeId = $intakeId;
+            }
+        );
+    }
+
     private function getCurrentUser(): SchoolStaffMemberReadModel
     {
         if (!$this->getUser() instanceof SchoolStaffMemberReadModel) {

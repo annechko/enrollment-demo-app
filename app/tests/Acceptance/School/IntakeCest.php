@@ -170,6 +170,7 @@ class IntakeCest extends AbstractCest
 
         $I->see('2020-01-01', $this->id('cell-intake-start'));
         $I->see('2021-01-01', $this->id('cell-intake-end'));
+        $I->dontSee('school campus', $this->id('cell-intake-campus'));
 
         $I->click($this->id('btn-edit-intake'));
         $I->waitForElementVisible($this->id('intake-modal'));
@@ -180,11 +181,14 @@ class IntakeCest extends AbstractCest
 
         $I->fillField($this->id('intake-class-size'), $newSize = '11');
         $I->fillField($this->id('intake-name'), $newName = 'updated');
+        $I->selectOption($this->id('select-campus'), 'school campus');
+
         // todo add normal datepicker and remove this js.
         $I->executeJS('document.getElementById("startDate").valueAsDate = new Date("2025")');
         $I->executeJS('document.getElementById("endDate").valueAsDate = new Date("2026")');
         $I->click($this->id('btn-submit'));
         $I->waitForLoaderFinishes();
+        $I->waitForElementNotVisible($this->id('intake-modal'));
 
         $I->dontSeeErrors();
         $I->reloadPage();
@@ -193,5 +197,55 @@ class IntakeCest extends AbstractCest
         $I->see($newName, $this->id('cell-intake-name'));
         $I->see('2025', $this->id('cell-intake-start'));
         $I->see('2026', $this->id('cell-intake-end'));
+        $I->see('school campus', $this->id('cell-intake-campus'));
+    }
+
+    public function haveIntake_removeIntake_success(AcceptanceTester $I)
+    {
+        $I->loadFixtures(
+            new class extends Fixture {
+                public function load(ObjectManager $manager): void
+                {
+                    $school = $manager->getRepository(School::class)->findAll()[0];
+                    $manager->persist(
+                        $course = new Course(
+                            $school->getId(),
+                            new CourseId((new UuidGenerator())->generate()),
+                            'school course name',
+                            'school course descr',
+                        )
+                    );
+                    $course->addIntake(
+                        new IntakeId((new UuidGenerator())->generate()),
+                        new \DateTimeImmutable('2020-01-01'),
+                        new \DateTimeImmutable('2021-01-01'),
+                        'intake should be deleted'
+                    );
+                    $manager->flush();
+                }
+            }
+        );
+        $I->loginAsDefaultSchool();
+
+        $I->amOnRoute(RouteEnum::SCHOOL_COURSE_LIST);
+        $I->waitForLoaderFinishes();
+        $I->click($this->id('btn-edit-course'));
+        $I->waitForLoaderFinishes();
+
+        $I->waitForElementVisible($this->id('btn-remove-intake'));
+        $I->see('intake should be deleted');
+        $I->click($this->id('btn-remove-intake'));
+        $I->waitForElementVisible($this->id('remove-intake-modal'));
+        $I->waitForElementVisible($this->id('btn-modal-remove-intake'));
+        $I->click($this->id('btn-modal-remove-intake'));
+        $I->waitForLoaderFinishes();
+        $I->dontSeeErrors();
+        $I->waitForElementNotVisible($this->id('remove-intake-modal'));
+
+        $I->reloadPage();
+        $I->waitForLoaderFinishes();
+        $I->waitForElementVisible($this->id('btn-add-intake'));
+        $I->dontSee($this->id('cell-intake-name'));
+        $I->dontSee('intake should be deleted');
     }
 }

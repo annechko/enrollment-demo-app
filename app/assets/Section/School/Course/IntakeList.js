@@ -27,10 +27,10 @@ import {
 import Loadable from '../../../App/Helper/Loadable'
 import AppErrorMessage from '../../../App/Common/AppErrorMessage'
 import IntakeForm from './IntakeForm'
-import axios from 'axios'
 import PropTypes from 'prop-types'
 import * as LoadState from '../../../App/Helper/LoadState'
 import * as Api from '../../../App/Helper/Api'
+import { submitData } from '../../../App/Helper/Api'
 import AppDataLoader from '../../../App/Common/AppDataLoader'
 
 const IntakeList = ({ courseId }) => {
@@ -80,19 +80,21 @@ const IntakeList = ({ courseId }) => {
   const intakeToRemove = removeIntakeState.intake
   const removeIntake = (intakeId) => {
     return () => {
-      const url = window.abeApp.urls.api_school_course_intake_remove.replace(':courseId', courseId)
+      const url = window.abeApp.urls.api_school_course_intake_remove
+        .replace(':courseId', courseId)
         .replace(':intakeId', intakeId)
       setRemoveIntakeRequestState(LoadState.startLoading())
-      axios.delete(url, { headers: { 'Content-Type': 'multipart/form-data' } })
-        .then(response => {
-          setRemoveIntakeRequestState(LoadState.finishLoading())
+      submitData({
+        state: removeIntakeRequestState,
+        setState: setRemoveIntakeRequestState,
+        url,
+        data: {},
+        onSuccess: () => {
           loadIntakes()
           // todo add success alert
           setRemoveIntakeState({ modalVisible: false, intake: {} })
-        })
-        .catch((error) => {
-          setRemoveIntakeRequestState(LoadState.error(error.response?.data?.error))
-        })
+        }
+      })
     }
   }
   return (
@@ -133,7 +135,7 @@ const IntakeList = ({ courseId }) => {
           </CModalBody>
         </CModal>
 
-        <CModal visible={removeIntakeState.modalVisible}
+        <CModal visible={removeIntakeState.modalVisible} data-testid="remove-intake-modal"
           onClose={() => {
             setRemoveIntakeState({ modalVisible: false, intake: {} })
           }}>
@@ -157,6 +159,7 @@ const IntakeList = ({ courseId }) => {
               Close
             </CButton>
             <CButton color="danger" size="sm"
+              data-testid="btn-modal-remove-intake"
               disabled={removeIntakeRequestState.loading === true}
               onClick={removeIntake(intakeToRemove.id)}>
               {removeIntakeRequestState.loading === true &&
@@ -193,7 +196,7 @@ const IntakesRows = ({
       <CTableDataCell data-testid="cell-intake-start" className="text-nowrap">{item.startDate}</CTableDataCell>
       <CTableDataCell data-testid="cell-intake-end" className="text-nowrap">{item.endDate}</CTableDataCell>
       <CTableDataCell data-testid="cell-intake-class-size">{item.classSize}</CTableDataCell>
-      <CTableDataCell>{item.campus}</CTableDataCell>
+      <CTableDataCell data-testid="cell-intake-campus">{item.campus}</CTableDataCell>
       <CTableDataCell>
         <div className="d-flex">
           <CButton color="primary" role="button"
@@ -206,6 +209,7 @@ const IntakesRows = ({
             <CIcon icon={cilPencil}/>
           </CButton>
           <CButton color="danger" role="button"
+            data-testid="btn-remove-intake"
             className="py-0"
             onClick={() => {
               setRemoveIntakeState({
@@ -223,7 +227,7 @@ const IntakesRows = ({
 
   return <>
     {intakesRows.length > 0 &&
-      <CTable hover bordered>
+      <CTable hover bordered data-testid="intakes-table">
         <CTableHead>
           <CTableRow key={key++}>
             <CTableHeaderCell scope="col">Id</CTableHeaderCell>

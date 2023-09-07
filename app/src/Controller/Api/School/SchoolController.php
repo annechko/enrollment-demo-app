@@ -23,7 +23,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Constraints;
 use Symfony\Component\Validator\Validation;
-use Webmozart\Assert\InvalidArgumentException;
 
 #[Route('/api/school')]
 class SchoolController extends AbstractApiController
@@ -174,34 +173,6 @@ class SchoolController extends AbstractApiController
             $request,
             fn (CourseId $result) => ['id' => $result->getValue()]
         );
-    }
-
-    #[Route('/courses/{courseId}/intakes/{intakeId}', name: 'api_school_course_intake_remove',
-        requirements: [
-            'courseId' => RegexEnum::UUID_PATTERN_WITH_TEMPLATE,
-            'intakeId' => RegexEnum::UUID_PATTERN_WITH_TEMPLATE,
-        ],
-        methods: ['DELETE'])]
-    public function courseIntakeRemove(
-        string $courseId,
-        string $intakeId,
-        \App\Core\School\UseCase\School\Course\Intake\Remove\Handler $handler
-    ): Response {
-        $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
-
-        try {
-            $command = new \App\Core\School\UseCase\School\Course\Intake\Remove\Command(
-                $intakeId,
-                $courseId
-            );
-            $handler->handle($command);
-        } catch (InvalidArgumentException $exception) {
-            return new JsonResponse([
-                'error' => $exception->getMessage(),
-            ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
-        }
-
-        return new JsonResponse();
     }
 
     #[Route('/courses/courseData', name: 'api_school_course', methods: ['GET'])]

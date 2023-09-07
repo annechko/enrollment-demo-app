@@ -15,12 +15,7 @@ class Command
     public $intakeId;
 
     /** @var string */
+    #[Assert\NotBlank]
     #[Assert\Regex(pattern: RegexEnum::UUID_PATTERN_REG_EXP)]
     public $courseId;
-
-    public function __construct(string $intakeId, string $courseId)
-    {
-        $this->intakeId = $intakeId;
-        $this->courseId = $courseId;
-    }
 }
