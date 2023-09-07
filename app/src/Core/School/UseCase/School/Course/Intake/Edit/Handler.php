@@ -10,6 +10,7 @@ use App\Core\School\Entity\Course\CourseId;
 use App\Core\School\Entity\Course\Intake\IntakeId;
 use App\Core\School\Repository\CampusRepository;
 use App\Core\School\Repository\CourseRepository;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 class Handler
 {
@@ -20,6 +21,7 @@ class Handler
     ) {
     }
 
+    #[AsMessageHandler]
     public function handle(Command $command): void
     {
         $course = $this->courseRepository->get(new CourseId($command->courseId));

@@ -16,6 +16,7 @@ use App\Core\Student\Entity\Application\ApplicationId;
 use App\Core\Student\Entity\Student\StudentId;
 use App\Core\Student\Repository\ApplicationRepository;
 use App\Core\Student\Repository\StudentRepository;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 class Handler
 {
@@ -29,6 +30,7 @@ class Handler
     ) {
     }
 
+    #[AsMessageHandler]
     public function handle(Command $command): void
     {
         $student = $this->studentRepository->get(new StudentId($command->studentId));

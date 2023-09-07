@@ -9,6 +9,7 @@ use App\Core\School\Entity\School\SchoolId;
 use App\Core\School\Entity\School\StaffMember;
 use App\Core\School\Repository\SchoolRepository;
 use App\Core\School\Repository\SchoolStaffMemberRepository;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
 
 class Handler
@@ -21,6 +22,7 @@ class Handler
     ) {
     }
 
+    #[AsMessageHandler]
     public function handle(Command $command): void
     {
         $school = $this->schoolRepository->get(new SchoolId($command->schoolId));

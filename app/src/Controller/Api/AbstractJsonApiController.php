@@ -9,6 +9,7 @@ use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -19,12 +20,12 @@ abstract class AbstractJsonApiController extends AbstractController
         protected readonly SerializerInterface $serializer,
         private readonly ValidatorInterface $validator,
         private readonly LoggerInterface $logger,
+        private readonly MessageBusInterface $messageBus,
     ) {
     }
 
     protected function handle(
         string $commandClass,
-        object $handler,
         Request $request,
         callable $commandCallback = null,
     ) {
@@ -45,18 +46,17 @@ abstract class AbstractJsonApiController extends AbstractController
             throw new \DomainException(implode(', ', $errors));
         }
 
-        return $handler->handle($command);
+        return $this->messageBus->dispatch($command);
     }
 
     protected function handleWithResponse(
         string $commandClass,
-        object $handler,
         Request $request,
         callable $responseSuccessBuilder = null,
         callable $commandCallback = null,
     ): JsonResponse {
         try {
-            $result = $this->handle($commandClass, $handler, $request, $commandCallback);
+            $result = $this->handle($commandClass, $request, $commandCallback);
             $response = $responseSuccessBuilder ? $responseSuccessBuilder($result) : null;
 
             return new JsonResponse($response);

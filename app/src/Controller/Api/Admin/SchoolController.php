@@ -27,14 +27,12 @@ class SchoolController extends AbstractJsonApiController
     ]
     public function confirm(
         string $schoolId,
-        School\Confirm\Handler $handler,
         Request $request
     ): Response {
         $this->denyAccessUnlessGranted(RoleEnum::ADMIN_USER->value);
 
         return $this->handleWithResponse(
             School\Confirm\Command::class,
-            $handler,
             $request
         );
     }
@@ -45,14 +43,12 @@ class SchoolController extends AbstractJsonApiController
     ]
     public function deleteSchool(
         string $schoolId,
-        School\Delete\Handler $handler,
         Request $request
     ): Response {
         $this->denyAccessUnlessGranted(RoleEnum::ADMIN_USER->value);
 
         return $this->handleWithResponse(
             School\Delete\Command::class,
-            $handler,
             $request
         );
     }

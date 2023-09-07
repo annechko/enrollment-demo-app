@@ -7,6 +7,7 @@ namespace App\Core\School\UseCase\School\Campus\Edit;
 use App\Core\Common\Flusher;
 use App\Core\School\Entity\Campus\CampusId;
 use App\Core\School\Repository\CampusRepository;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 class Handler
 {
@@ -16,6 +17,7 @@ class Handler
     ) {
     }
 
+    #[AsMessageHandler]
     public function handle(Command $command): void
     {
         $campus = $this->campusRepository->get(new CampusId($command->campusId));

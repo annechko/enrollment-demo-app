@@ -182,13 +182,11 @@ class StudentController extends AbstractJsonApiController
         methods: ['POST'], format: 'json')]
     public function applicationAdd(
         Request $request,
-        \App\Core\Student\UseCase\Application\Add\Handler $handler,
     ): Response {
         $this->denyAccessUnlessGranted(RoleEnum::STUDENT_USER->value);
 
         return $this->handleWithResponse(
             \App\Core\Student\UseCase\Application\Add\Command::class,
-            $handler,
             $request,
             commandCallback: function (\App\Core\Student\UseCase\Application\Add\Command $command) {
                 $command->studentId = $this->getCurrentStudentId()->getValue();

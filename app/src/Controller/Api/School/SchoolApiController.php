@@ -32,14 +32,12 @@ class SchoolApiController extends AbstractJsonApiController
         ], methods: ['POST'])]
     public function memberRegister(
         Request $request,
-        Member\Register\Handler $handler,
         string $schoolId,
         string $invitationToken,
     ): Response {
         // todo check if token expired or logged in with account or account verified - redirect.
         return $this->handleWithResponse(
             Member\Register\Command::class,
-            $handler,
             $request,
             commandCallback: function (Member\Register\Command $command) use (
                 $schoolId,
@@ -54,13 +52,11 @@ class SchoolApiController extends AbstractJsonApiController
     #[Route('/profile', name: 'api_school_profile_edit', methods: ['POST'])]
     public function profileEdit(
         Request $request,
-        School\Profile\Edit\Handler $handler
     ): Response {
         $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_ADMIN->value);
 
         return $this->handleWithResponse(
             School\Profile\Edit\Command::class,
-            $handler,
             $request,
             commandCallback: function (School\Profile\Edit\Command $command
             ) {
@@ -73,13 +69,11 @@ class SchoolApiController extends AbstractJsonApiController
     #[Route('/campuses', name: 'api_school_campus_add', methods: ['POST'])]
     public function campusAdd(
         Request $request,
-        School\Campus\Add\Handler $handler
     ): Response {
         $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_ADMIN->value);
 
         return $this->handleWithResponse(
             School\Campus\Add\Command::class,
-            $handler,
             $request,
             commandCallback: function (School\Campus\Add\Command $command
             ) {
@@ -94,13 +88,11 @@ class SchoolApiController extends AbstractJsonApiController
     public function campusEdit(
         Request $request,
         string $campusId,
-        School\Campus\Edit\Handler $handler
     ): Response {
         $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_ADMIN->value);
 
         return $this->handleWithResponse(
             School\Campus\Edit\Command::class,
-            $handler,
             $request,
             commandCallback: function (School\Campus\Edit\Command $command
             ) use ($campusId) {
@@ -181,13 +173,11 @@ class SchoolApiController extends AbstractJsonApiController
     public function courseIntakeAdd(
         Request $request,
         string $courseId,
-        School\Course\Intake\Add\Handler $handler
     ): Response {
         $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
 
         return $this->handleWithResponse(
             School\Course\Intake\Add\Command::class,
-            $handler,
             $request
         );
     }
@@ -202,13 +192,11 @@ class SchoolApiController extends AbstractJsonApiController
         Request $request,
         string $courseId,
         string $intakeId,
-        School\Course\Intake\Edit\Handler $handler
     ): Response {
         $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
 
         return $this->handleWithResponse(
             School\Course\Intake\Edit\Command::class,
-            $handler,
             $request
         );
     }
@@ -249,13 +237,11 @@ class SchoolApiController extends AbstractJsonApiController
         Request $request,
         string $courseId,
         string $intakeId,
-        School\Course\Intake\Remove\Handler $handler
     ): Response {
         $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
 
         return $this->handleWithResponse(
             School\Course\Intake\Remove\Command::class,
-            $handler,
             $request,
             commandCallback: function (School\Course\Intake\Remove\Command $command) use (
                 $courseId,
