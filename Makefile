@@ -43,7 +43,7 @@ tests-bash:
 	docker exec -it test-enroll-php-fpm /bin/bash
 
 tests-a:
-	docker exec test-enroll-php-fpm vendor/bin/codecept run Acceptance -vvv
+	docker exec test-enroll-php-fpm vendor/bin/codecept run Acceptance -vvv $(o)
 
 ########## end tests
 
