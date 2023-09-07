@@ -6,10 +6,10 @@ import {
   CFormSelect
 } from '@coreui/react'
 import PropTypes from 'prop-types'
-import React from 'react'
+import React, { useRef } from 'react'
 import AppErrorMessage from '../../../App/Common/AppErrorMessage'
-import { submitForm } from '../../../App/Helper/SubmitForm'
 import AppDataLoader from '../../../App/Common/AppDataLoader'
+import { submitData } from '../../../App/Helper/Api'
 
 const IntakeForm = ({
   formId,
@@ -24,6 +24,12 @@ const IntakeForm = ({
     loading: false,
     error: null
   })
+  const refName = useRef(null)
+  const refStartDate = useRef(null)
+  const refEndDate = useRef(null)
+  const refCampusId = useRef(null)
+  const refClassSize = useRef(null)
+
   const isSubmitted = submitState.loading
   const item = dataState?.data || null
   const error = submitState.error || dataState?.error || null
@@ -43,26 +49,31 @@ const IntakeForm = ({
       .replace(':intakeId', item.id)
     : window.abeApp.urls.api_school_course_intake_add
       .replace(':courseId', courseId)
-  const onSubmit = (event) => {
-    submitForm({
-      event,
+  const onSubmit = () => {
+    submitData({
       state: submitState,
       setState: setSubmitState,
+      data: {
+        intakeId: item?.id,
+        name: refName.current.value,
+        startDate: refStartDate.current.value,
+        endDate: refEndDate.current.value,
+        classSize: refClassSize.current.value,
+        campusId: refCampusId.current.value,
+        courseId: courseId,
+      },
       url,
-      formId,
-      onSuccess,
-      headers: { 'Content-Type': 'multipart/form-data' }
+      onSuccess
     })
   }
   return (
     <>
-      <CForm method="post" onSubmit={onSubmit} id={formId} data-testid="intake-form">
+      <CForm data-testid="intake-form">
         <AppErrorMessage error={error}/>
         <div className="mb-3">
           <CFormLabel htmlFor="intakeName">Intake name</CFormLabel>
-          <CFormInput
+          <CFormInput ref={refName}
             data-testid="intake-name"
-            name={formId + '[name]'}
             defaultValue={isUpdate ? item.name : ''}
             type="text"
             id="intakeName"
@@ -72,7 +83,7 @@ const IntakeForm = ({
           <CFormLabel htmlFor="startDate">Start date</CFormLabel>
           <CFormInput id="startDate"
             data-testid="intake-start"
-            name={formId + '[startDate]'}
+            ref={refStartDate}
             defaultValue={isUpdate ? item.startDate : ''}
             type="date"
           />
@@ -81,7 +92,7 @@ const IntakeForm = ({
           <CFormLabel htmlFor="endDate">End date</CFormLabel>
           <CFormInput id="endDate"
             data-testid="intake-end"
-            name={formId + '[endDate]'}
+            ref={refEndDate}
             defaultValue={isUpdate ? item.endDate : ''}
             type="date"
           />
@@ -93,24 +104,25 @@ const IntakeForm = ({
             data-testid="select-campus"
             defaultValue={isUpdate ? item.campus : null}
             options={campusOptions}
-            name={formId + '[campusId]'}
+            ref={refCampusId}
           >
           </CFormSelect>
         </div>
         <div className="mb-3">
           <CFormLabel htmlFor="classSize">Class size</CFormLabel>
-          <CFormInput id="classSize"
+          <CFormInput id="classSize" data-testid="intake-class-size"
             type="number"
             defaultValue={isUpdate ? item.classSize : ''}
             rows="3"
-            name={formId + '[classSize]'}></CFormInput>
+            ref={refClassSize}></CFormInput>
         </div>
         {showSubmitBtn && (
           <CButton color="success" size="sm"
             data-testid="btn-submit"
+            onClick={onSubmit}
             className={'px-4' + (isSubmitted ? ' disabled' : '')}
             disabled={isSubmitted}
-            type="submit">
+          >
             {isSubmitted && <AppDataLoader/>}
             Save
           </CButton>)

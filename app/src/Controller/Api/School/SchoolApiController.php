@@ -7,8 +7,10 @@ namespace App\Controller\Api\School;
 use App\Controller\Api\AbstractJsonApiController;
 use App\Core\Common\RegexEnum;
 use App\Core\School\Common\RoleEnum;
+use App\Core\School\Entity\Course\CourseId;
 use App\Core\School\Entity\School\SchoolId;
 use App\Core\School\Repository\CampusRepository;
+use App\Core\School\Repository\CourseRepository;
 use App\Core\School\Repository\SchoolRepository;
 use App\Core\School\UseCase\Member;
 use App\Core\School\UseCase\School;
@@ -140,6 +142,53 @@ class SchoolApiController extends AbstractJsonApiController
         }
 
         return new JsonResponse($res);
+    }
+
+    #[Route('/courses/{courseId}/intakes', name: 'api_school_course_intake_list',
+        requirements: [
+            'courseId' => RegexEnum::UUID_PATTERN_WITH_TEMPLATE,
+        ],
+        methods: ['GET'],
+    )]
+    public function intakeListGet(
+        string $courseId,
+        CourseRepository $repository,
+    ): Response {
+        $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
+
+        $c = $repository->get(new CourseId($courseId));
+        $res = [];
+        foreach ($c->getIntakes() as $intake) {
+            $res[] = [
+                'id' => $intake->getId()->getValue(),
+                'name' => $intake->getName(),
+                'classSize' => $intake->getClassSize(),
+                'campus' => $intake->getCampus()?->getName(),
+                'startDate' => $intake->getStartDate()->format('Y-m-d'),
+                'endDate' => $intake->getEndDate()->format('Y-m-d'),
+            ];
+        }
+
+        return new JsonResponse($res);
+    }
+
+    #[Route('/courses/{courseId}/intakes', name: 'api_school_course_intake_add',
+        requirements: [
+            'courseId' => RegexEnum::UUID_PATTERN_WITH_TEMPLATE,
+        ],
+        methods: ['POST'])]
+    public function courseIntakeAdd(
+        Request $request,
+        string $courseId,
+        School\Course\Intake\Add\Handler $handler
+    ): Response {
+        $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
+
+        return $this->handleWithResponse(
+            School\Course\Intake\Add\Command::class,
+            $handler,
+            $request
+        );
     }
 
     private function getCurrentUser(): SchoolStaffMemberReadModel

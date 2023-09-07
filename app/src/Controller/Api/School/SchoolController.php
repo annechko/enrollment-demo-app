@@ -177,56 +177,6 @@ class SchoolController extends AbstractApiController
         );
     }
 
-    #[Route('/courses/{courseId}/intakes', name: 'api_school_course_intake_list',
-        requirements: [
-            'courseId' => RegexEnum::UUID_PATTERN_WITH_TEMPLATE,
-        ],
-        methods: ['GET'],
-    )]
-    public function intakeListGet(
-        string $courseId,
-        CourseRepository $repository,
-    ): Response {
-        $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
-
-        $c = $repository->get(new CourseId($courseId));
-        $res = [];
-        foreach ($c->getIntakes() as $intake) {
-            $res[] = [
-                'id' => $intake->getId()->getValue(),
-                'name' => $intake->getName(),
-                'classSize' => $intake->getClassSize(),
-                'campus' => $intake->getCampus()?->getName(),
-                'startDate' => $intake->getStartDate()->format('Y-m-d'),
-                'endDate' => $intake->getEndDate()->format('Y-m-d'),
-            ];
-        }
-
-        return new JsonResponse($res);
-    }
-
-    #[Route('/courses/{courseId}/intakes', name: 'api_school_course_intake_add',
-        requirements: [
-            'courseId' => RegexEnum::UUID_PATTERN_WITH_TEMPLATE,
-        ],
-        methods: ['POST'])]
-    public function courseIntakeAdd(
-        Request $request,
-        string $courseId,
-        \App\Core\School\UseCase\School\Course\Intake\Add\Handler $handler
-    ): Response {
-        $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
-
-        $command = new \App\Core\School\UseCase\School\Course\Intake\Add\Command($courseId);
-
-        return $this->handleWithResponse(
-            $command,
-            \App\Core\School\UseCase\School\Course\Intake\Add\Form::class,
-            $handler,
-            $request,
-        );
-    }
-
     #[Route('/courses/{courseId}/intakes/{intakeId}', name: 'api_school_course_intake_edit',
         requirements: [
             'courseId' => RegexEnum::UUID_PATTERN_WITH_TEMPLATE,

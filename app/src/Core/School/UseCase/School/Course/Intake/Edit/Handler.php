@@ -32,7 +32,7 @@ class Handler
             $command->startDate,
             $command->endDate,
             $command->name,
-            (int) $command->classSize,
+            is_numeric($command->classSize) ? (int) $command->classSize : null,
             $campus
         );
 

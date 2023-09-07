@@ -192,7 +192,7 @@ const IntakesRows = ({
       <CTableDataCell data-testid="cell-intake-name">{item.name}</CTableDataCell>
       <CTableDataCell className="text-nowrap">{item.startDate}</CTableDataCell>
       <CTableDataCell className="text-nowrap">{item.endDate}</CTableDataCell>
-      <CTableDataCell>{item.classSize}</CTableDataCell>
+      <CTableDataCell data-testid="cell-intake-class-size">{item.classSize}</CTableDataCell>
       <CTableDataCell>{item.campus}</CTableDataCell>
       <CTableDataCell>
         <div className="d-flex">

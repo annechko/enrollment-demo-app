@@ -23,9 +23,8 @@ class Command
     #[Assert\NotBlank(message: 'End date should not be blank.')]
     public $endDate;
 
-    /** @var int */
-    #[Assert\Type('integer')]
-    #[Assert\PositiveOrZero(message: 'Class size should be positive.')]
+    /** @var string */
+    #[Assert\Regex(pattern: '#[0-9\s]+#')]
     public $classSize;
 
     /** @var string */
@@ -34,10 +33,6 @@ class Command
 
     /** @var string */
     #[Assert\Regex(pattern: RegexEnum::UUID_PATTERN_REG_EXP)]
+    #[Assert\NotBlank(message: 'CourseId should not be blank.')]
     public $courseId;
-
-    public function __construct(string $courseId)
-    {
-        $this->courseId = $courseId;
-    }
 }
