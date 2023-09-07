@@ -11,7 +11,8 @@
     "sourceType": "module"
   },
   "plugins": [
-    "react"
+    "react",
+    "unused-imports"
   ],
   "settings": {
     "react": {
@@ -19,6 +20,7 @@
     }
   },
   "rules": {
-    "react/prop-types": 0
+    "react/prop-types": 0,
+    "unused-imports/no-unused-imports": 2
   }
 }

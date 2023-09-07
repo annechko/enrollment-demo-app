@@ -4,14 +4,14 @@ import {
   CButton,
   CCard,
   CCardBody,
-  CCardHeader,
-  CSpinner
+  CCardHeader
 } from '@coreui/react'
 import AppErrorMessage from '../../../App/Common/AppErrorMessage'
 import * as LoadState from '../../../App/Helper/LoadState'
 import * as Api from '../../../App/Helper/Api'
 import AppBackButton from '../../../App/Common/AppBackButton'
 import { Link } from 'react-router-dom'
+import AppDataLoader from '../../../App/Common/AppDataLoader'
 
 const ApplicationFirstStep = React.lazy(async () => await import('./ApplicationFirstStep'))
 const ApplicationSecondStep = React.lazy(async () => await import('./ApplicationSecondStep'))
@@ -119,7 +119,7 @@ export default function Application () {
                 onClick={onNextScreenClick}
               >
                 {applicationSubmitState.loading === true &&
-                  <CSpinner className="me-1" component="span" size="sm" aria-hidden="true"/>}
+                  <AppDataLoader/>}
                 {currentStep < steps.length - 1 ? 'Next' : 'Submit'}
               </CButton>
             </>

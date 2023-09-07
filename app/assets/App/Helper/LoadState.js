@@ -1,26 +1,26 @@
-export function needLoading(state) {
-  return !state.loaded && !state.loading && state.error === null;
+export function needLoading (state) {
+  return !state.loaded && !state.loading && state.error === null
 }
 
-export function error(message = null) {
+export function error (message = null) {
   return {
     data: null,
     loading: false,
     loaded: false,
     error: message || 'Something went wrong'
-  };
+  }
 }
 
-export function finishLoading(data = null) {
+export function finishLoading (data = null) {
   return {
     data: data,
     loading: false,
     loaded: true,
     error: null
-  };
+  }
 }
 
-export function startLoading() {
+export function startLoading () {
   return {
     data: null,
     loading: true,
@@ -29,7 +29,7 @@ export function startLoading() {
   }
 }
 
-export function initialize() {
+export function initialize () {
   return {
     data: null,
     loading: false,

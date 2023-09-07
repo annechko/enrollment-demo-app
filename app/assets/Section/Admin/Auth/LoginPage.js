@@ -84,7 +84,7 @@ const Login = ({ onSubmit, state, formId }) => {
                             onClick={onSubmit}
                             disabled={state.loading}
                             data-testid="btn-submit"
-                            >{state.loading && <AppDataLoader/>}
+                          >{state.loading && <AppDataLoader/>}
                             Login
                           </CButton>
                         </CCol>

@@ -9,10 +9,10 @@ import {
   CCardBody,
   CCardHeader,
   CFormInput,
-  CFormLabel,
-  CSpinner
+  CFormLabel
 } from '@coreui/react'
 import * as LoadState from '../../../App/Helper/LoadState'
+import AppDataLoader from '../../../App/Common/AppDataLoader'
 
 const ApplicationEdit = () => {
   const params = useParams()
@@ -111,7 +111,7 @@ const ApplicationView = ({ dataState }) => {
             disabled={acceptRequestState.loading}
             type="submit">
             {acceptRequestState.loading &&
-              <CSpinner className="me-1" component="span" size="sm" aria-hidden="true"/>}
+              <AppDataLoader/>}
             Accept
           </CButton>
 
@@ -121,7 +121,7 @@ const ApplicationView = ({ dataState }) => {
             disabled={declineRequestState.loading}
             type="submit">
             {declineRequestState.loading &&
-              <CSpinner className="me-1" component="span" size="sm" aria-hidden="true"/>}
+              <AppDataLoader/>}
             Decline
           </CButton>
         </CCardBody>

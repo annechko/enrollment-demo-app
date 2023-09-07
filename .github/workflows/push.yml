@@ -43,8 +43,8 @@ jobs:
       run: make ci-init
     - name: Validate composer files
       run: make ci-validate-composer
-    - name: Validate php code style
-      run: make ci-code-style-check-php
+    - name: Validate code style
+      run: make ci-code-style-check
     - name: Db
       run: make ci-db
     - name: Run acceptance tests

@@ -8,7 +8,6 @@ import {
   CModalFooter,
   CModalHeader,
   CModalTitle,
-  CSpinner,
   CTable,
   CTableBody,
   CTableDataCell,
@@ -120,9 +119,8 @@ const DeleteModal = ({ state, setState, callback }) => {
       <CButton color="danger" size="sm"
         disabled={state.loading === true}
         onClick={callback(state.school.id)}>
-
         {state.loading === true &&
-          <CSpinner className="me-1" component="span" size="sm" aria-hidden="true"/>}
+          <AppDataLoader/>}
         Confirm
       </CButton>
     </CModalFooter>
@@ -154,9 +152,8 @@ const ConfirmModal = ({ confirmState, setConfirmState, confirm }) => {
         data-testid="confirm-modal-btn"
         disabled={confirmState.loading === true}
         onClick={confirm(confirmState.school.id)}>
-
         {confirmState.loading === true &&
-          <CSpinner className="me-1" component="span" size="sm" aria-hidden="true"/>}
+          <AppDataLoader/>}
         Confirm
       </CButton>
     </CModalFooter>

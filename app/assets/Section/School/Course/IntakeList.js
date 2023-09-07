@@ -8,7 +8,6 @@ import {
   CModalFooter,
   CModalHeader,
   CModalTitle,
-  CSpinner,
   CTable,
   CTableBody,
   CTableDataCell,
@@ -32,6 +31,7 @@ import axios from 'axios'
 import PropTypes from 'prop-types'
 import * as LoadState from '../../../App/Helper/LoadState'
 import * as Api from '../../../App/Helper/Api'
+import AppDataLoader from '../../../App/Common/AppDataLoader'
 
 const IntakeList = ({ courseId }) => {
   const [newIntakeModalState, setNewIntakeModalState] = React.useState({ id: null, visible: false })
@@ -160,8 +160,7 @@ const IntakeList = ({ courseId }) => {
               disabled={removeIntakeRequestState.loading === true}
               onClick={removeIntake(intakeToRemove.id)}>
               {removeIntakeRequestState.loading === true &&
-                <CSpinner className="me-1" component="span" size="sm" aria-hidden="true"/>}
-
+                <AppDataLoader/>}
               Remove</CButton>
           </CModalFooter>
         </CModal>
@@ -183,7 +182,7 @@ const IntakesRows = ({
     return <AppErrorMessage error={intakesState.error}/>
   }
   if (intakesState.loaded === false) {
-    return <CSpinner color="primary"/>
+    return <AppDataLoader/>
   }
   let intakesRows = []
 

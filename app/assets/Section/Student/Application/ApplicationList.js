@@ -9,7 +9,6 @@ import {
   CCard,
   CCardBody,
   CCardHeader,
-  CSpinner,
   CTable,
   CTableBody,
   CTableDataCell,
@@ -21,6 +20,7 @@ import { Link } from 'react-router-dom'
 import * as LoadState from '../../../App/Helper/LoadState'
 import * as Api from '../../../App/Helper/Api'
 import AppErrorMessage from '../../../App/Common/AppErrorMessage'
+import AppDataLoader from '../../../App/Common/AppDataLoader'
 
 export default function ApplicationList () {
   return <>
@@ -74,7 +74,7 @@ const ApplicationsRows = ({
     return <AppErrorMessage error={applicationsState.error}/>
   }
   if (applicationsState.loaded === false) {
-    return <CSpinner color="primary"/>
+    return <AppDataLoader/>
   }
   let applicationsRows = []
 

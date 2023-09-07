@@ -61,9 +61,10 @@ data:
 	docker exec -it enroll-php-fpm bin/console doctrine:fixtures:load -n
 
 front-lint:
-	docker exec -it enroll-node yarn eslint --ext .js,.jsx assets
+	docker-compose -f docker-compose.yml run --rm enroll-node yarn eslint --ext .js,.jsx assets
 fix:
 	docker exec -it enroll-php-fpm vendor/bin/php-cs-fixer fix -v --using-cache=no --allow-risky=yes
+	docker-compose -f docker-compose.yml run --rm enroll-node yarn eslint --ext .js,.jsx assets --fix
 phpstan:
 	docker exec -it enroll-php-fpm vendor/bin/phpstan analyse --no-progress --memory-limit 1G
 
@@ -101,6 +102,9 @@ deploy:
 ################## CI experiments
 ci-code-style-check-php:
 	docker exec -t enroll-php-fpm vendor/bin/php-cs-fixer fix --dry-run -v --using-cache=no --allow-risky=yes
+ci-code-style-check-js:
+	docker-compose -f docker-compose-ci.yml run --rm enroll-node yarn eslint --ext .js,.jsx assets
+ci-code-style-check: ci-code-style-check-php ci-code-style-check-js
 
 ci-validate-composer:
 	docker exec -t enroll-php-fpm composer validate

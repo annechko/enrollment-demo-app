@@ -6,14 +6,14 @@ import {
   CForm,
   CFormInput,
   CFormLabel,
-  CFormTextarea,
-  CSpinner
+  CFormTextarea
 } from '@coreui/react'
 import PropTypes from 'prop-types'
 import React from 'react'
 import AppBackButton from '../../../App/Common/AppBackButton'
 import AppErrorMessage from '../../../App/Common/AppErrorMessage'
 import IntakeList from './IntakeList'
+import AppDataLoader from '../../../App/Common/AppDataLoader'
 
 const CourseForm = ({
   onSubmit,
@@ -72,7 +72,7 @@ const CourseForm = ({
                 className={isSubmitted ? 'disabled' : ''}
                 disabled={isSubmitted === true}
                 type="submit">
-                {isSubmitted && <CSpinner className="me-1" component="span" size="sm" aria-hidden="true"/>}
+                {isSubmitted && <AppDataLoader/>}
                 Save
               </CButton>
             </div>

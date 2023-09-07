@@ -5,7 +5,6 @@ import {
   CCardHeader,
   CCol,
   CRow,
-  CSpinner,
   CTable,
   CTableBody,
   CTableDataCell,
@@ -19,6 +18,7 @@ import { Link } from 'react-router-dom'
 import AppErrorMessage from '../../../../App/Common/AppErrorMessage'
 import CIcon from '@coreui/icons-react'
 import { cilPencil } from '@coreui/icons'
+import AppDataLoader from '../../../../App/Common/AppDataLoader'
 
 const CourseList = ({ dataState }) => {
   const items = dataState.data
@@ -49,7 +49,7 @@ const CourseList = ({ dataState }) => {
   } else {
     rows.push((
       <CTableRow key={key++} className="app-loading">
-        <CTableHeaderCell scope="row"><CSpinner color="primary"/></CTableHeaderCell>
+        <CTableHeaderCell scope="row"><AppDataLoader/></CTableHeaderCell>
         <CTableDataCell></CTableDataCell>
         <CTableDataCell></CTableDataCell>
         <CTableDataCell></CTableDataCell>

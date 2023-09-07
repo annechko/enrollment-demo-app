@@ -3,13 +3,13 @@ import {
   CForm,
   CFormInput,
   CFormLabel,
-  CFormSelect,
-  CSpinner
+  CFormSelect
 } from '@coreui/react'
 import PropTypes from 'prop-types'
 import React from 'react'
 import AppErrorMessage from '../../../App/Common/AppErrorMessage'
 import { submitForm } from '../../../App/Helper/SubmitForm'
+import AppDataLoader from '../../../App/Common/AppDataLoader'
 
 const IntakeForm = ({
   formId,
@@ -106,7 +106,7 @@ const IntakeForm = ({
             className={'px-4' + (isSubmitted ? ' disabled' : '')}
             disabled={isSubmitted}
             type="submit">
-            {isSubmitted && <CSpinner className="me-1" component="span" size="sm" aria-hidden="true"/>}
+            {isSubmitted && <AppDataLoader/>}
             Save
           </CButton>)
         }
