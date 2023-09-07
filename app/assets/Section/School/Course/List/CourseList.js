@@ -37,6 +37,7 @@ const CourseList = ({ dataState }) => {
           <CTableDataCell>
             <Link to={window.abeApp.urls.school_course_edit.replace(':id', item.id)}>
               <CButton color="primary" role="button"
+                data-testid="btn-edit-course"
                 className="pb-0 pt-0 pl-1 pr-1"
                 size="sm" variant="outline">
                 <CIcon icon={cilPencil}/>

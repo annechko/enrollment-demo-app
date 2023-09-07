@@ -56,11 +56,12 @@ const IntakeForm = ({
   }
   return (
     <>
-      <CForm method="post" onSubmit={onSubmit} id={formId}>
+      <CForm method="post" onSubmit={onSubmit} id={formId} data-testid="intake-form">
         <AppErrorMessage error={error}/>
         <div className="mb-3">
           <CFormLabel htmlFor="intakeName">Intake name</CFormLabel>
           <CFormInput
+            data-testid="intake-name"
             name={formId + '[name]'}
             defaultValue={isUpdate ? item.name : ''}
             type="text"
@@ -70,6 +71,7 @@ const IntakeForm = ({
         <div className="mb-3">
           <CFormLabel htmlFor="startDate">Start date</CFormLabel>
           <CFormInput id="startDate"
+            data-testid="intake-start"
             name={formId + '[startDate]'}
             defaultValue={isUpdate ? item.startDate : ''}
             type="date"
@@ -78,6 +80,7 @@ const IntakeForm = ({
         <div className="mb-3">
           <CFormLabel htmlFor="endDate">End date</CFormLabel>
           <CFormInput id="endDate"
+            data-testid="intake-end"
             name={formId + '[endDate]'}
             defaultValue={isUpdate ? item.endDate : ''}
             type="date"
@@ -87,6 +90,7 @@ const IntakeForm = ({
         <div className="mb-3">
           <CFormLabel htmlFor="campus">Main campus</CFormLabel>
           <CFormSelect id="campus" aria-label="Choose campus"
+            data-testid="select-campus"
             defaultValue={isUpdate ? item.campus : null}
             options={campusOptions}
             name={formId + '[campusId]'}
@@ -103,6 +107,7 @@ const IntakeForm = ({
         </div>
         {showSubmitBtn && (
           <CButton color="success" size="sm"
+            data-testid="btn-submit"
             className={'px-4' + (isSubmitted ? ' disabled' : '')}
             disabled={isSubmitted}
             type="submit">

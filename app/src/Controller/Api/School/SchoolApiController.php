@@ -8,9 +8,12 @@ use App\Controller\Api\AbstractJsonApiController;
 use App\Core\Common\RegexEnum;
 use App\Core\School\Common\RoleEnum;
 use App\Core\School\Entity\School\SchoolId;
+use App\Core\School\Repository\CampusRepository;
+use App\Core\School\Repository\SchoolRepository;
 use App\Core\School\UseCase\Member;
 use App\Core\School\UseCase\School;
 use App\Security\School\SchoolStaffMemberReadModel;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -101,6 +104,42 @@ class SchoolApiController extends AbstractJsonApiController
                 $command->campusId = $campusId;
             }
         );
+    }
+
+    #[Route('/profile', name: 'api_school_profile', methods: ['GET'])]
+    public function profileGet(
+        SchoolRepository $schoolRepository,
+    ): Response {
+        $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_ADMIN->value);
+
+        try {
+            $school = $schoolRepository->get($this->getCurrentSchoolId());
+        } catch (\Throwable $exception) {
+            // todo add logs.
+            return new JsonResponse([], Response::HTTP_NOT_FOUND);
+        }
+
+        return new JsonResponse([
+            'name' => $school->getName()->getValue(),
+        ]);
+    }
+
+    #[Route('/campuses', name: 'api_school_campus_list', methods: ['GET'])]
+    public function campusListGet(CampusRepository $repository): Response
+    {
+        $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
+
+        $c = $repository->findAllOrderedByName($this->getCurrentSchoolId());
+        $res = [];
+        foreach ($c as $item) {
+            $res[] = [
+                'id' => $item->getId()->getValue(),
+                'name' => $item->getName(),
+                'address' => $item->getAddress(),
+            ];
+        }
+
+        return new JsonResponse($res);
     }
 
     private function getCurrentUser(): SchoolStaffMemberReadModel

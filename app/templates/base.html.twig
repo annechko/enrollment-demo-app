@@ -54,7 +54,7 @@
                   school_register: '{{ path('school_register') }}',
                   school_course_edit: '{{ path('school_course_edit', {'courseId': ':id'}) }}',
                   school_course_add: '{{ path('school_course_add') }}',
-                  school_course_list_show: '{{ path('school_course_list_show') }}',
+                  school_course_list: '{{ path(constant('App\\Infrastructure\\RouteEnum::SCHOOL_COURSE_LIST')) }}',
                   school_campus_add: '{{ path('school_campus_add') }}',
                   school_campus_edit: '{{ path('school_campus_edit', {'campusId': ':id'}) }}',
                   school_campus_list: '{{ path(constant('App\\Infrastructure\\RouteEnum::SCHOOL_CAMPUS_LIST')) }}',

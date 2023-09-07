@@ -27,7 +27,7 @@ export default [
   <Route key={key++} exact path={urls.school_member_register} element={<StaffMemberCompleteRegister/>}/>,
 
   <Route key={key++} element={<DefaultLayout/>}>
-    <Route exact path={urls.school_course_list_show} element={<CourseListPage/>}/>,
+    <Route exact path={urls.school_course_list} element={<CourseListPage/>}/>,
     <Route exact path={urls.school_course_add} element={<CourseAddPage/>}/>,
     <Route exact path={urls.school_course_edit} element={<CourseEditPage/>}/>,
     <Route exact path={urls.school_campus_list} element={<CampusListPage/>}/>,

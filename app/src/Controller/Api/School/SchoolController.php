@@ -14,7 +14,6 @@ use App\Core\School\Entity\Course\Intake\IntakeId;
 use App\Core\School\Entity\School\SchoolId;
 use App\Core\School\Repository\CampusRepository;
 use App\Core\School\Repository\CourseRepository;
-use App\Core\School\Repository\SchoolRepository;
 use App\Core\Student\Entity\Application\ApplicationId;
 use App\Infrastructure\RouteEnum;
 use App\ReadModel\School\ApplicationFetcher;
@@ -30,24 +29,6 @@ use Webmozart\Assert\InvalidArgumentException;
 #[Route('/api/school')]
 class SchoolController extends AbstractApiController
 {
-    #[Route('/profile', name: 'api_school_profile', methods: ['GET'])]
-    public function profileGet(
-        SchoolRepository $schoolRepository,
-    ): Response {
-        $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_ADMIN->value);
-
-        try {
-            $school = $schoolRepository->get($this->getCurrentSchoolId());
-        } catch (\Throwable $exception) {
-            // todo add logs.
-            return new JsonResponse([], Response::HTTP_NOT_FOUND);
-        }
-
-        return new JsonResponse([
-            'name' => $school->getName()->getValue(),
-        ]);
-    }
-
     #[Route('/applications', name: 'api_school_application_list', methods: ['GET'])]
     public function applicationList(
         ApplicationFetcher $fetcher
@@ -136,24 +117,6 @@ class SchoolController extends AbstractApiController
         $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
 
         // todo
-    }
-
-    #[Route('/campuses', name: 'api_school_campus_list', methods: ['GET'])]
-    public function campusListGet(CampusRepository $repository): Response
-    {
-        $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
-
-        $c = $repository->findAllOrderedByName($this->getCurrentSchoolId());
-        $res = [];
-        foreach ($c as $item) {
-            $res[] = [
-                'id' => $item->getId()->getValue(),
-                'name' => $item->getName(),
-                'address' => $item->getAddress(),
-            ];
-        }
-
-        return new JsonResponse($res);
     }
 
     #[Route('/campuses/{campusId}', name: 'api_school_campus',
@@ -417,7 +380,7 @@ class SchoolController extends AbstractApiController
             ],
             [
                 'title' => 'Courses',
-                'to' => $this->generateUrl('school_course_list_show'),
+                'to' => $this->generateUrl(RouteEnum::SCHOOL_COURSE_LIST),
                 'type' => 'courses',
             ],
             [

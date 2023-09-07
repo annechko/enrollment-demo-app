@@ -21,6 +21,7 @@ class RouteEnum
     public const SCHOOL_LOGOUT = 'school_logout';
     public const SCHOOL_PROFILE = 'school_profile';
     public const SCHOOL_CAMPUS_LIST = 'school_campus_list';
+    public const SCHOOL_COURSE_LIST = 'school_course_list';
 
     public const STUDENT_HOME = 'student_home';
     public const STUDENT_REGISTER = 'student_register';

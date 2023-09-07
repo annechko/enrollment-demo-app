@@ -107,7 +107,7 @@ const IntakeList = ({ courseId }) => {
           newIntakeModalState={newIntakeModalState}
           setRemoveIntakeState={setRemoveIntakeState}
         />
-        <CModal visible={newIntakeModalState.visible} onClose={closeNewIntakeModal}>
+        <CModal visible={newIntakeModalState.visible} onClose={closeNewIntakeModal} data-testid="intake-modal">
           <CModalHeader onClose={closeNewIntakeModal}>
             <CModalTitle>{newIntakeModalState.id === null ? 'Add new intake' : 'Edit intake'}</CModalTitle>
           </CModalHeader>
@@ -189,7 +189,7 @@ const IntakesRows = ({
   intakesRows = intakes.map((item) =>
     <CTableRow key={key++}>
       <CTableDataCell scope="row">{item.id.substring(32)}</CTableDataCell>
-      <CTableDataCell>{item.name}</CTableDataCell>
+      <CTableDataCell data-testid="cell-intake-name">{item.name}</CTableDataCell>
       <CTableDataCell className="text-nowrap">{item.startDate}</CTableDataCell>
       <CTableDataCell className="text-nowrap">{item.endDate}</CTableDataCell>
       <CTableDataCell>{item.classSize}</CTableDataCell>
@@ -239,6 +239,7 @@ const IntakesRows = ({
         </CTableBody>
       </CTable>}
     <CButton color="primary" role="button" size="sm"
+      data-testid="btn-add-intake"
       onClick={() => setNewIntakeModalState({ id: null, visible: !newIntakeModalState.visible })}
     >New</CButton>
   </>
