@@ -24,7 +24,7 @@ class AdminUserCreator
             new AdminUserId($this->uuidGenerator->generate()),
             DefaultUserEnum::ADMIN_EMAIL->value,
             $this->hasherFactory->getPasswordHasher(AdminUser::class)
-                ->hash(DefaultUserEnum::ADMIN_PASS->value)
+                ->hash(DefaultUserEnum::ADMIN_PASSWORD->value)
         );
 
         return $user;

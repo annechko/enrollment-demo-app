@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\DbDefaultData;
 
+use App\Core\Common\DefaultUserEnum;
 use App\Core\Common\UuidGenerator;
 use App\Core\School\Entity\School\StaffMember;
 use App\Core\Student\Entity\Student\Student;
@@ -12,8 +13,6 @@ use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
 
 class StudentUserCreator
 {
-    private const PASSWORD = 'student';
-    private const EMAIL = 'student@example.com';
     private const NAME = 'student';
     private const SURNAME = 'student';
 
@@ -30,11 +29,11 @@ class StudentUserCreator
     ): Student {
         $student = Student::register(
             new StudentId($this->uuidGenerator->generate()),
-            $email ?? self::EMAIL,
+            $email ?? DefaultUserEnum::STUDENT_EMAIL->value,
             $name ?? self::NAME,
             $surname ?? self::SURNAME,
             $this->hasherFactory->getPasswordHasher(StaffMember::class)
-                ->hash(self::PASSWORD)
+                ->hash(DefaultUserEnum::STUDENT_PASSWORD->value)
         );
         $student->verifyEmail();
 

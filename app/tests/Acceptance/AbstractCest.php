@@ -6,6 +6,7 @@ namespace App\Tests\Acceptance;
 
 use App\DataFixtures\AdminUserFixtures;
 use App\DataFixtures\SchoolUserFixtures;
+use App\DataFixtures\StudentUserFixtures;
 use App\Tests\AcceptanceTester;
 use App\Tests\Helper\Acceptance;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -15,6 +16,7 @@ abstract class AbstractCest
 {
     protected bool $loadSchoolUser = false;
     protected bool $loadAdminUser = false;
+    protected bool $loadStudentUser = false;
 
     public function _before(AcceptanceTester $I)
     {
@@ -35,6 +37,9 @@ abstract class AbstractCest
         if ($this->loadAdminUser) {
             $this->doLoadAdminUser($I);
         }
+        if ($this->loadStudentUser) {
+            $this->doLoadStudentUser($I);
+        }
     }
 
     private function doLoadSchoolUser(AcceptanceTester $I): void
@@ -50,5 +55,10 @@ abstract class AbstractCest
     protected function id(string $id): string
     {
         return Acceptance::selector($id);
+    }
+
+    private function doLoadStudentUser(AcceptanceTester $I): void
+    {
+        $I->loadFixtures($I->grabService(StudentUserFixtures::class));
     }
 }

@@ -45,7 +45,7 @@ class SchoolDefaultAccountCreator
         );
         $school->getAdmin()->confirmAccount(
             $this->hasherFactory->getPasswordHasher(StaffMember::class)
-                ->hash(DefaultUserEnum::SCHOOL_ADMIN_PASS->value)
+                ->hash(DefaultUserEnum::SCHOOL_ADMIN_PASSWORD->value)
         );
 
         return $school;

@@ -22,20 +22,28 @@ import {
   useNavigate
 } from 'react-router-dom'
 import AppErrorMessage from '../../../App/Common/AppErrorMessage'
-import { submitForm } from '../../../App/Helper/SubmitForm'
 import { CssHelper } from '../../../App/Helper/CssHelper'
 import AppSwitchSectionBtn from '../../../App/Common/AppSwitchSectionBtn'
+import { submitData } from '../../../App/Helper/Api'
 
-const Login = ({ onSubmit, state, formId }) => {
-  const emailInputRef = useRef(null)
-  const passInputRef = useRef(null)
+const Login = ({ onSubmit, state }) => {
+  const refEmail = useRef(null)
+  const refPassword = useRef(null)
   const defaultUserEmail = 'student@example.com'
   const defaultUserPass = 'student'
 
   const fillDefaultUser = () => {
-    emailInputRef.current.value = defaultUserEmail
-    passInputRef.current.value = defaultUserPass
+    refEmail.current.value = defaultUserEmail
+    refPassword.current.value = defaultUserPass
   }
+
+  const login = () => {
+    onSubmit({
+      email: refEmail.current.value,
+      password: refPassword.current.value,
+    })
+  }
+
   return (
     <>
       <div className="bg-light min-vh-100 d-flex flex-row align-items-center">
@@ -46,7 +54,7 @@ const Login = ({ onSubmit, state, formId }) => {
               <CCardGroup>
                 <CCard className="p-4">
                   <CCardBody>
-                    <CForm method="post" id={formId} onSubmit={onSubmit}>
+                    <CForm>
                       <h1>Login</h1>
                       <p className="text-medium-emphasis">Sign in to your <b>student</b> account or</p>
                       <p className="text-medium-emphasis">
@@ -61,9 +69,9 @@ const Login = ({ onSubmit, state, formId }) => {
                           <CIcon icon={cilUser}/>
                         </CInputGroupText>
                         <CFormInput placeholder="Email"
-                          ref={emailInputRef}
+                          data-testid="email"
+                          ref={refEmail}
                           autoComplete="email"
-                          name="email"
                           type="email"
                           required
                         />
@@ -73,17 +81,18 @@ const Login = ({ onSubmit, state, formId }) => {
                           <CIcon icon={cilLockLocked}/>
                         </CInputGroupText>
                         <CFormInput placeholder="Password"
-                          ref={passInputRef}
+                          data-testid="pass"
+                          ref={refPassword}
                           type="password"
-                          name="password"
                           autoComplete="current-password" required
                         />
                       </CInputGroup>
                       <CRow>
                         <CCol xs={6}>
                           <CButton color="primary" className="px-4"
+                            data-testid="btn-submit"
                             disabled={state.loading}
-                            type="submit">
+                            onClick={login}>
                             Login
                           </CButton>
                         </CCol>
@@ -123,13 +132,12 @@ const LoginPage = () => {
   const onSuccess = (response) => {
     navigate(window.abeApp.urls.student_home)
   }
-  const formId = 'login-form'
-  const onSubmit = (event) => {
-    submitForm({
-      event,
+
+  const onSubmit = (data) => {
+    submitData({
       state,
       setState,
-      formId,
+      data,
       url: window.abeApp.urls.student_login,
       onSuccess
     })
@@ -138,7 +146,7 @@ const LoginPage = () => {
   return <Login
     onSubmit={onSubmit}
     state={state}
-    formId={formId}/>
+  />
 }
 
 export default LoginPage

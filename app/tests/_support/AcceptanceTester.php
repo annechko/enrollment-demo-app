@@ -47,7 +47,7 @@ class AcceptanceTester extends \Codeception\Actor
     {
         $this->loginAsSchool(
             DefaultUserEnum::SCHOOL_ADMIN_EMAIL->value,
-            DefaultUserEnum::SCHOOL_ADMIN_PASS->value
+            DefaultUserEnum::SCHOOL_ADMIN_PASSWORD->value
         );
     }
 
@@ -67,7 +67,7 @@ class AcceptanceTester extends \Codeception\Actor
     {
         $this->amOnRoute(RouteEnum::ADMIN_LOGIN);
         $this->fillField(Acceptance::selector('email'), DefaultUserEnum::ADMIN_EMAIL->value);
-        $this->fillField(Acceptance::selector('pass'), DefaultUserEnum::ADMIN_PASS->value);
+        $this->fillField(Acceptance::selector('pass'), DefaultUserEnum::ADMIN_PASSWORD->value);
         $this->click(Acceptance::selector('btn-submit'));
         $this->waitForLoaderFinishes();
         $this->dontSeeErrors();
