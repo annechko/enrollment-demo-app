@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/api/student')]
 class AuthController extends AbstractJsonApiController
 {
-    #[Route('/register', name: RouteEnum::API_STUDENT_REGISTER, methods: ["POST"])]
+    #[Route('/register', name: RouteEnum::API_STUDENT_REGISTER, methods: ['POST'])]
     public function register(
         Request $request,
     ): Response {

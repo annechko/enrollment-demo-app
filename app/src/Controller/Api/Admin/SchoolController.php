@@ -8,7 +8,6 @@ use App\Controller\Api\AbstractJsonApiController;
 use App\Core\Common\DefaultUserEnum;
 use App\Core\Common\RegexEnum;
 use App\Core\School\Common\RoleEnum;
-use App\Core\School\UseCase\School;
 use App\ReadModel\Admin\School\Filter;
 use App\ReadModel\Admin\School\SchoolFetcher;
 use Symfony\Component\HttpFoundation\JsonResponse;

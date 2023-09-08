@@ -43,7 +43,7 @@ tests-bash:
 	docker exec -it test-enroll-php-fpm /bin/bash
 
 tests-a:
-	docker exec test-enroll-php-fpm vendor/bin/codecept run Acceptance -vvv -d $(o)
+	COMPOSE_PROJECT_NAME=test-enroll docker-compose -f docker-compose-test.yml exec -it enroll-php-cli vendor/bin/codecept run Acceptance -vvv -d $(o)
 
 ########## end tests
 
@@ -126,4 +126,4 @@ ci-db:
 	docker exec -t enroll-php-fpm php bin/console doctrine:migrations:migrate --no-interaction
 
 ci-tests-a:
-	docker exec -t enroll-php-fpm vendor/bin/codecept run Acceptance --env ci -vvv
+	docker exec -t enroll-php-cli vendor/bin/codecept run Acceptance --env ci -vvv

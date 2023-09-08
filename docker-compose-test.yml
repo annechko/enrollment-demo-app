@@ -1,6 +1,18 @@
 version: '3.8'
 services:
 
+  enroll-php-cli:
+    container_name: enroll-php-cli
+    stdin_open: true
+    tty: true
+    env_file:
+      - app/.env.test
+    build:
+      context: app/.docker/test/
+      dockerfile: php-cli.docker
+    volumes:
+      - ./app:/app
+
   test-enroll-php-fpm:
     container_name: test-enroll-php-fpm
     build:
