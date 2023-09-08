@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Core\School\UseCase\School\Delete;
+namespace App\Core\Admin\UseCase\School\Confirm;
 
 use App\Core\Common\RegexEnum;
 use Symfony\Component\Validator\Constraints as Assert;

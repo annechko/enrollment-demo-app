@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Core\School\UseCase\School\Delete;
+namespace App\Core\Admin\UseCase\School\Delete;
 
 use App\Core\Common\Flusher;
 use App\Core\School\Entity\Campus\Campus;

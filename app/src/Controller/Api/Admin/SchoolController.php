@@ -32,7 +32,7 @@ class SchoolController extends AbstractJsonApiController
         $this->denyAccessUnlessGranted(RoleEnum::ADMIN_USER->value);
 
         return $this->handleWithResponse(
-            School\Confirm\Command::class,
+            \App\Core\Admin\UseCase\School\Confirm\Command::class,
             $request
         );
     }
@@ -48,7 +48,7 @@ class SchoolController extends AbstractJsonApiController
         $this->denyAccessUnlessGranted(RoleEnum::ADMIN_USER->value);
 
         return $this->handleWithResponse(
-            School\Delete\Command::class,
+            \App\Core\Admin\UseCase\School\Delete\Command::class,
             $request
         );
     }
