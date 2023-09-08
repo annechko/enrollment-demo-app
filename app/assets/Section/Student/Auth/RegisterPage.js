@@ -31,7 +31,8 @@ const RegisterForm = ({ onSubmit, state, formId }) => {
 
         <div className="mb-3">
           <CFormLabel htmlFor="name">Name</CFormLabel>
-          <CFormInput type="text    " id="name"
+          <CFormInput type="text" id="name"
+            data-testid="name"
             name="register[name]"
             minLength="1"
             required={true}
@@ -41,6 +42,7 @@ const RegisterForm = ({ onSubmit, state, formId }) => {
         <div className="mb-3">
           <CFormLabel htmlFor="surname">Surname</CFormLabel>
           <CFormInput type="text" id="surname"
+            data-testid="surname"
             name="register[surname]"
             minLength="1"
             required={true}
@@ -50,6 +52,7 @@ const RegisterForm = ({ onSubmit, state, formId }) => {
         <div className="mb-3">
           <CFormLabel htmlFor="email">Email</CFormLabel>
           <CFormInput type="email" id="email"
+            data-testid="email"
             name="register[email]"
             minLength="1"
             required={true}
@@ -59,6 +62,7 @@ const RegisterForm = ({ onSubmit, state, formId }) => {
         <div className="mb-3">
           <CFormLabel htmlFor="password">Password</CFormLabel>
           <CFormInput type="password" id="password"
+            data-testid="pass"
             name="register[plainPassword]"
             minLength="1"
             required={true}
@@ -68,6 +72,7 @@ const RegisterForm = ({ onSubmit, state, formId }) => {
         <div className="d-grid">
           <CButton className={'px-4 ' + CssHelper.getCurrentSectionBgColor()}
             disabled={state.loading}
+            data-testid="btn-submit"
             type="submit">
             Create Account
           </CButton>
@@ -82,9 +87,9 @@ const RegisterForm = ({ onSubmit, state, formId }) => {
   )
 }
 const AfterRegisterMessage = () => {
-  return <>
+  return <div data-testid="success-msg">
     Thank you! Please check your email to verify your email address.
-  </>
+  </div>
 }
 const Register = ({ onSubmit, state, formId }) => {
   const navigate = useNavigate()
