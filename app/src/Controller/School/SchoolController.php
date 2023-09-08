@@ -8,51 +8,15 @@ use App\Core\Common\RegexEnum;
 use App\Core\School\Common\RoleEnum;
 use App\Infrastructure\RouteEnum;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\FormError;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Webmozart\Assert\InvalidArgumentException;
 
 #[Route('/school')]
 class SchoolController extends AbstractController
 {
     #[Route('/register', name: RouteEnum::SCHOOL_REGISTER)]
-    public function register(
-        Request $request,
-        \App\Core\School\UseCase\School\Register\Handler $handler
-    ): Response {
-        $command = new \App\Core\School\UseCase\School\Register\Command();
-        $form = $this->createForm(\App\Core\School\UseCase\School\Register\Form::class, $command);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted()) {
-            if (!$form->isValid()) {
-                $violationList = $form->getErrors(true);
-                $error = 'Invalid data.';
-                foreach ($violationList as $violation) {
-                    if ($violation instanceof FormError) {
-                        $error = $violation->getMessage();
-                        break;
-                    }
-                }
-
-                return new JsonResponse([
-                    'error' => $error,
-                ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
-            }
-            try {
-                $handler->handle($command);
-
-                return new JsonResponse([]);
-            } catch (InvalidArgumentException|\InvalidArgumentException $exception) {
-                return new JsonResponse([
-                    'error' => $exception->getMessage(),
-                ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
-            }
-        }
-
+    public function register(): Response
+    {
         return $this->render('base.html.twig');
     }
 

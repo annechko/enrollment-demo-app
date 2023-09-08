@@ -15,6 +15,7 @@ use App\Core\School\Repository\CourseRepository;
 use App\Core\School\Repository\SchoolRepository;
 use App\Core\School\UseCase\Member;
 use App\Core\School\UseCase\School;
+use App\Infrastructure\RouteEnum;
 use App\Security\School\SchoolStaffMemberReadModel;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,6 +25,15 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/api/school')]
 class SchoolApiController extends AbstractJsonApiController
 {
+    #[Route('/register', name: RouteEnum::API_SCHOOL_REGISTER, methods: ['POST'])]
+    public function schoolRegister(Request $request): Response
+    {
+        return $this->handleWithResponse(
+            School\Register\Command::class,
+            $request
+        );
+    }
+
     // todo rename
     #[Route('/{schoolId}/invitation/{invitationToken}', name: 'api_school_member_register',
         requirements: [

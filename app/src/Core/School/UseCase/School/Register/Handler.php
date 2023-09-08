@@ -14,6 +14,7 @@ use App\Core\School\Entity\School\StaffMemberId;
 use App\Core\School\Entity\School\StaffMemberName;
 use App\Core\School\Repository\SchoolRepository;
 use App\Core\School\Repository\SchoolStaffMemberRepository;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 class Handler
 {
@@ -25,6 +26,7 @@ class Handler
     ) {
     }
 
+    #[AsMessageHandler]
     public function handle(Command $command): void
     {
         if ($this->staffMemberRepository->hasByEmail($command->adminEmail)) {
