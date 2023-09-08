@@ -24,6 +24,7 @@ class LoginCest extends AbstractCest
         $I->waitForLoaderFinishes();
 
         $I->seeElement($this->id('error-msg'));
+        $I->see('User not found', $this->id('error-msg'));
     }
 
     public function login_useDefaultUser_loginSuccess(AcceptanceTester $I)

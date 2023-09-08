@@ -15,6 +15,7 @@ class RegisterCest extends AbstractCest
         $I->amOnRoute(RouteEnum::STUDENT_REGISTER);
         $I->dontSeeElement($this->id('default-layout'));
         $I->dontSeeErrors();
+        $I->waitForElementClickable($this->id('btn-submit'));
         $I->fillField($this->id('email'), $email = 'not-verified-email@example.com');
         $I->fillField($this->id('pass'), $pass = 'password');
         $I->fillField($this->id('name'), 'name');

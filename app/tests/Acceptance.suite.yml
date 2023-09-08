@@ -14,7 +14,7 @@ modules:
         host: test-enroll-selenium
         start: true
         connection_timeout: 5
-        debug_log_entries: 5
+        debug_log_entries: 20
         log_js_errors: true
         browser: firefox
         wait: 2

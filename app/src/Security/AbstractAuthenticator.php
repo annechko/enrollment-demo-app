@@ -64,7 +64,7 @@ abstract class AbstractAuthenticator extends AbstractLoginFormAuthenticator
         if ($exception->getPrevious() instanceof UserNotFoundException) {
             return new JsonResponse(
                 [
-                    'error' => $exception->getPrevious()->getMessage(),
+                    'error' => 'User not found.',
                 ],
                 Response::HTTP_UNAUTHORIZED
             );

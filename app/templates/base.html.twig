@@ -1,14 +1,16 @@
 <!doctype html>
 <html lang="en" data-bs-theme="auto">
     <head>
-        <!-- Google tag (gtag.js) -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id={{ google_tag_manager_id }}"></script>
-        <script>
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-          gtag('config', '{{ google_tag_manager_id }}');
-        </script>
+        {% if app.environment == 'prod' %}
+            <!-- Google tag (gtag.js) -->
+            <script async src="https://www.googletagmanager.com/gtag/js?id={{ google_tag_manager_id }}"></script>
+            <script>
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', '{{ google_tag_manager_id }}');
+            </script>
+        {% endif %}
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{% block title %}Enrollment Demo App!{% endblock %}</title>

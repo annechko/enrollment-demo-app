@@ -12,6 +12,7 @@ use App\Core\Student\Entity\Student\Student;
 use App\Core\Student\Entity\Student\StudentId;
 use App\Core\Student\Repository\StudentRepository;
 use App\Core\Student\Service\StudentEmailVerifier;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
 
 class Handler
@@ -26,6 +27,7 @@ class Handler
     ) {
     }
 
+    #[AsMessageHandler]
     public function handle(Command $command): Student
     {
         if ($this->studentRepository->hasByEmail($command->email)) {
