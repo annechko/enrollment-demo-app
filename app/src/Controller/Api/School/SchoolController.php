@@ -117,26 +117,6 @@ class SchoolController extends AbstractApiController
         // todo
     }
 
-    #[Route('/campuses/{campusId}', name: 'api_school_campus',
-        requirements: ['campusId' => RegexEnum::UUID_PATTERN_WITH_TEMPLATE],
-        methods: ['GET'])]
-    public function campusGet(CampusRepository $repository, string $campusId): Response
-    {
-        $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
-
-        try {
-            $campus = $repository->get(new CampusId($campusId));
-        } catch (NotFoundException $exception) {
-            return new JsonResponse([], Response::HTTP_NOT_FOUND);
-        }
-
-        return new JsonResponse([
-            'id' => $campus->getId()->getValue(),
-            'name' => $campus->getName(),
-            'address' => $campus->getAddress(),
-        ]);
-    }
-
     #[Route('/courses', name: 'api_school_course_list', methods: ['GET'])]
     public function courseListGet(CourseRepository $repository): Response
     {

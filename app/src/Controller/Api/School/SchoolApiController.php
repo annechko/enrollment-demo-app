@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace App\Controller\Api\School;
 
 use App\Controller\Api\AbstractJsonApiController;
+use App\Core\Common\NotFoundException;
 use App\Core\Common\RegexEnum;
 use App\Core\School\Common\RoleEnum;
+use App\Core\School\Entity\Campus\CampusId;
 use App\Core\School\Entity\Course\CourseId;
 use App\Core\School\Entity\Course\Intake\IntakeId;
 use App\Core\School\Entity\School\SchoolId;
@@ -74,6 +76,26 @@ class SchoolApiController extends AbstractJsonApiController
                 $command->staffMemberId = $this->getCurrentUser()->id;
             }
         );
+    }
+
+    #[Route('/campuses/{campusId}', name: 'api_school_campus',
+        requirements: ['campusId' => RegexEnum::UUID_PATTERN_WITH_TEMPLATE],
+        methods: ['GET'])]
+    public function campusGet(CampusRepository $repository, string $campusId): Response
+    {
+        $this->denyAccessUnlessGranted(RoleEnum::SCHOOL_USER->value);
+
+        try {
+            $campus = $repository->get(new CampusId($campusId));
+        } catch (NotFoundException $exception) {
+            return new JsonResponse([], Response::HTTP_NOT_FOUND);
+        }
+
+        return new JsonResponse([
+            'id' => $campus->getId()->getValue(),
+            'name' => $campus->getName(),
+            'address' => $campus->getAddress(),
+        ]);
     }
 
     #[Route('/campuses', name: 'api_school_campus_add', methods: ['POST'])]

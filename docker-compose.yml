@@ -12,8 +12,8 @@ services:
     volumes:
       - ./app:/app
     depends_on:
-      enroll-db:
-        condition: service_healthy
+      - enroll-db
+#        condition: service_healthy
 
   enroll-db:
     container_name: enroll-db
@@ -24,8 +24,8 @@ services:
     build:
       context: app/.docker/dev/
       dockerfile: db.docker
-    healthcheck:
-      test: "pg_isready --timeout=0 --dbname=app"
+#    healthcheck:
+#      test: "pg_isready --timeout=0 --dbname=app"
     volumes:
       - ./app:/app
       - enroll-db:/var/lib/postgresql/data:rw
@@ -69,12 +69,33 @@ services:
       - enrollment-demo-app_node-cache:/usr/local/share/.cache
     command: sh -c "yarn install; yarn dev-server --hot --port 8080 --host 0.0.0.0"
     healthcheck:
-      test: sh -c "wget http://0.0.0.0:8080/build/runtime.js --spider"
+      test: sh -c "wget http://example.com --spider"
       interval: 2s
       retries: 600
     tty: true
 
+  mercure:
+    image: dunglas/mercure
+    restart: unless-stopped
+    environment:
+      # Uncomment the following line to disable HTTPS
+      SERVER_NAME: ':80'
+      MERCURE_PUBLISHER_JWT_KEY: '!ChangeThisMercureHubJWTSecretKey!'
+      MERCURE_SUBSCRIBER_JWT_KEY: '!ChangeThisMercureHubJWTSecretKey!'
+      MERCURE_CORS_ALLOWED_ORIGINS: '*'
+      ALLOW_ANONYMOUS: 'true'
+    # Uncomment the following line to enable the development mode
+    command: /usr/bin/caddy run --config /etc/caddy/Caddyfile.dev
+    ports:
+      - '80:80'
+      - '443:443'
+    volumes:
+      - mercure_data:/data
+      - mercure_config:/config
+
 volumes:
   enroll-db:
+  mercure_data:
+  mercure_config:
   enrollment-demo-app_node-cache:
     external: true

@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en" data-bs-theme="auto">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>{% block title %}Enrollment Demo App!{% endblock %}</title>
+        <meta name="description" content="Enrollment Demo App is a simple example of a platform that aims to simplify the application process for students and education providers created by Anna Borzenko with React, PHP, and Symfony.">
+        <meta name="og:title" content="Enrollment Demo App!">
+        <meta name="og:description" content="Enrollment Demo App is a simple example of a platform that aims to simplify the application process for students and education providers created by Anna Borzenko with React, PHP, and Symfony.">
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>AB</text></svg>">
+
+    </head>
+    <script>
+
+      const es = new EventSource('http://localhost/.well-known/mercure?topic=' + encodeURIComponent('http://localhost/books/1'));
+      es.onmessage = e => {
+        const text = document.querySelector('.js-text')
+
+        // Will be called every time an update is published by the server
+        console.log(JSON.parse(e.data));
+        text.value = text.value + ' \n'+JSON.parse(e.data).date
+      }
+    </script>
+    <body>
+        <noscript>Please enable JavaScript to run this app.</noscript>
+        <label for="root">hello</label>
+        <div>
+            <textarea id="root" class="js-text" style="width: 575px; height: 171px;"></textarea>
+
+        </div>
+    </body>
+</html>

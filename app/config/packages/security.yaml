@@ -67,6 +67,8 @@ security:
             - ROLE_USER
 
     access_control:
+        - { path: /test, roles: PUBLIC_ACCESS }
+        - { path: /test2, roles: PUBLIC_ACCESS }
         - { route: !php/const App\Infrastructure\RouteEnum::HOME, roles: PUBLIC_ACCESS }
         - { route: !php/const App\Infrastructure\RouteEnum::STUDENT_LOGIN, roles: PUBLIC_ACCESS }
         - { route: !php/const App\Infrastructure\RouteEnum::ADMIN_LOGIN, roles: PUBLIC_ACCESS }
