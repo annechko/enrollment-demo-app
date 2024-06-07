@@ -1,16 +1,17 @@
-### It is a small web app, providing schools and students help with enrollment process.<br>
+### It is a small web app, provides schools and students help with the enrollment process.<br>
 
 This project is **work in progress**.<br>
-It's not finished yet.
 
-Run `make init` to start the application.
+Run `make init` to start the application (requires Docker Compose).
+
+It starts NGINX, PHP-FPM, PostgreSQL, and other Docker containers, builds assets (ReactJS), runs DB migrations (PostgreSQL), NGINX starts to listen to connections on http://localhost:8080
+It uses Symfony PHP framework for the back end and ReactJS on the front end.
+
 
 Run `make tests-init` (once) and then you can run `make tests-a` to start acceptance tests in dev.
 
-It starts NGINX, PHP-FPM, PostgreSQL, and some more Docker containers, builds assets, runs DB migrations, starts to listen to connections on http://localhost:8080
 
-
-App functionality so far<br>
+App functionality so far (youtube video)<br>
 [![demo video preview](https://img.youtube.com/vi/6UBpKkrgT_4/0.jpg)](https://youtu.be/6UBpKkrgT_4)
 
 You have 3 main sections - each is available only for specific roles.
