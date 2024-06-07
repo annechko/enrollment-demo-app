@@ -2,13 +2,21 @@
 
 This project is **work in progress**.<br>
 
-Run `make init` to start the application (requires Docker Compose).
+Run `make init` to start the application locally (requires Docker Compose).
 
-It starts NGINX, PHP-FPM, PostgreSQL, and other Docker containers, builds assets (ReactJS), runs DB migrations (PostgreSQL), NGINX starts to listen to connections on http://localhost:8080
-It uses Symfony PHP framework for the back end and ReactJS on the front end.
+It starts NGINX, PHP-FPM, PostgreSQL, and other Docker containers, builds assets (ReactJS), runs DB migrations (PostgreSQL), NGINX starts to listen to connections on http://localhost:8080<br>
+The app is written with Symfony PHP framework for the back end and ReactJS on the front end.<br><br>
+I use GitHub Actions, on each Push into the repo it:
+- Starts a set of docker containers
+- Validate composer files (PHP code dependencies)
+- Validate code style for PHP
+- Runs migrations to set up a database
+- Runs acceptance tests (I use Selenium WebDriver and Codeception PHP Testing framework)
 
 
-Run `make tests-init` (once) and then you can run `make tests-a` to start acceptance tests in dev.
+Run `make tests-init` (once) and then you can run `make tests-a` to start acceptance tests in dev.<br>
+Here is a YouTube video to see what's going on inside the browser while running the acceptance tests (selenium container provides this feature, with noVNC you can see in your browser how the browser in your tests would look like.<br>
+[![demo video preview](https://img.youtube.com/vi/RKDiI1bUdaY/0.jpg)](https://youtu.be/RKDiI1bUdaY)
 
 
 App functionality so far (youtube video)<br>
